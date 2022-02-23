@@ -29,7 +29,7 @@ import Foundation
 
 public class LargeBodyFilter: Filter {
     let maxBodySize: Int
-    init(maxBodySize: Int = 128) {
+    init(maxBodySize: Int = 1_048_576) {
         self.maxBodySize = maxBodySize
         super.init()
         beforeRecordRequest = truncateBody
