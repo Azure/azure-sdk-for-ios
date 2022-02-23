@@ -33,6 +33,21 @@ import XCTest
 // swiftlint:disable all
 class TrouterSettingsUnitTests: XCTestCase {
     private var testSettings = TestSettings()
+    var gcchToken: String = {
+        let fakeValue =
+            "{\"skypeid\":\"gcch:c17ab671\",\"iss\":\"ACS\",\"iat\": 1608152725,\"exp\": 1739688725,\"aud\": \"\",\"sub\": \"\"}"
+                .base64EncodedString()
+        let token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9." + fakeValue + ".EMS0ExXqRuobm34WKJE8mAfZ7KppU5kEHl0OFdyree8"
+        return token
+    }()
+
+    var dodToken: String = {
+        let fakeValue =
+            "{\"skypeid\":\"dod:c17ab671\",\"iss\":\"ACS\",\"iat\": 1608152725,\"exp\": 1739688725,\"aud\": \"\",\"sub\": \"\"}"
+                .base64EncodedString()
+        let token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9." + fakeValue + ".EMS0ExXqRuobm34WKJE8mAfZ7KppU5kEHl0OFdyree8"
+        return token
+    }()
 
     func test_GetTrouterSettings_ReturnDefault() {
         do {
@@ -46,7 +61,7 @@ class TrouterSettingsUnitTests: XCTestCase {
 
     func test_GetTrouterSettings_ReturnGcch() {
         do {
-            let settings = try getTrouterSettings(token: testSettings.gcchToken)
+            let settings = try getTrouterSettings(token: gcchToken)
             XCTAssertEqual(settings.trouterHostname, gcchTrouterHostname)
             XCTAssertEqual(settings.registrarHostnameAndBasePath, gcchRegistrarHostnameAndBasePath)
         } catch {
@@ -56,7 +71,7 @@ class TrouterSettingsUnitTests: XCTestCase {
 
     func test_GetTrouterSettings_ReturnDod() {
         do {
-            let settings = try getTrouterSettings(token: testSettings.dodToken)
+            let settings = try getTrouterSettings(token: dodToken)
             XCTAssertEqual(settings.trouterHostname, dodTrouterHostname)
             XCTAssertEqual(settings.registrarHostnameAndBasePath, dodRegistrarHostnameAndBasePath)
         } catch {

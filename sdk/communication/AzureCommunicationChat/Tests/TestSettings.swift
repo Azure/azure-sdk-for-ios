@@ -38,21 +38,5 @@ class TestSettings: TestSettingsProtocol {
         return token
     }()
 
-    var gcchToken: String = {
-        let fakeValue =
-            "{\"skypeid\":\"gcch:c17ab671\",\"iss\":\"ACS\",\"iat\": 1608152725,\"exp\": 1739688725,\"aud\": \"\",\"sub\": \"\"}"
-                .base64EncodedString()
-        let token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9." + fakeValue + ".EMS0ExXqRuobm34WKJE8mAfZ7KppU5kEHl0OFdyree8"
-        return token
-    }()
-
-    var dodToken: String = {
-        let fakeValue =
-            "{\"skypeid\":\"dod:c17ab671\",\"iss\":\"ACS\",\"iat\": 1608152725,\"exp\": 1739688725,\"aud\": \"\",\"sub\": \"\"}"
-                .base64EncodedString()
-        let token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9." + fakeValue + ".EMS0ExXqRuobm34WKJE8mAfZ7KppU5kEHl0OFdyree8"
-        return token
-    }()
-
     required init() {}
 }
