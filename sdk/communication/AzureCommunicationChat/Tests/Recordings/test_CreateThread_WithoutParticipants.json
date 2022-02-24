@@ -1,5 +1,4 @@
 {
-  "name" : "test_CreateThread_WithoutParticipants",
   "interactions" : [
     {
       "response" : {
@@ -46,5 +45,6 @@
       },
       "recorded_at" : 1645660515.11057
     }
-  ]
+  ],
+  "name" : "test_CreateThread_WithoutParticipants"
 }
