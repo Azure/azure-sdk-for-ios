@@ -79,8 +79,8 @@ open class RecordableXCTestCase<SettingsType: TestSettingsProtocol>: XCTestCase 
             return
         }
         if let path = Bundle(for: SettingsType.self).path(forResource: "test-settings", ofType: "plist"),
-           let xml = FileManager.default.contents(atPath: path),
-           let settings = try? PropertyListDecoder().decode(SettingsType.self, from: xml) {
+            let xml = FileManager.default.contents(atPath: path),
+            let settings = try? PropertyListDecoder().decode(SettingsType.self, from: xml) {
             self.settings = settings
         }
     }

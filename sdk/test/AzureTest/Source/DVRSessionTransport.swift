@@ -93,7 +93,9 @@ public class DVRSessionTransport: TransportStage {
             "operation-location": .remove,
             "azure-asyncoperation": .remove,
             "www-authenticate": .remove,
-            "access_token": .remove
+            "access_token": .remove,
+            "X-Skypetoken": .remove,
+            "Date": .remove
         ]
 
         session = Session(outputDirectory: outputDirectory, cassetteName: cassetteName)
