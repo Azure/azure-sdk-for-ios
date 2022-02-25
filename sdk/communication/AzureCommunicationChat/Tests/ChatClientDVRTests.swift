@@ -142,6 +142,7 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
                     switch result {
                     case let .success(response):
                         XCTAssertEqual(response?.statusCode, RegistrarStatusCode.success.rawValue)
+                        expectation.fulfill()
                     case .failure:
                         XCTFail("Stop push notifications failed.")
                     }
@@ -149,8 +150,6 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
             case .failure:
                 XCTFail("Start push notifications failed.")
             }
-
-            expectation.fulfill()
         }
 
         waitForExpectations(timeout: 10.0) { error in
