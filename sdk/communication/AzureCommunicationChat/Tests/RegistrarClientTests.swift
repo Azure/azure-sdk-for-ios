@@ -33,31 +33,34 @@ import OHHTTPStubs.Swift
 import XCTest
 
 class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
+    private var mode = environmentVariable(forKey: "TEST_MODE", default: "playback")
+
+    private var registrarEndpoint: String!
+
     /*
-     private var mode = environmentVariable(forKey: "TEST_MODE", default: "playback")
-
-     private var registrarEndpoint: String!
-
      private var registrarClient: RegistrarClient!
      */
 
     // RegistrarClient initialied in setup
     private var registrarClient: RegistrarClient!
 
-    // add URLfilter in refactoring
-    private var urlFilter: RequestURLFilter {
-        let defaults = TestSettings()
-        let textFilter = RequestURLFilter()
-        textFilter.register(replacement: defaults.endpoint, for: settings.endpoint)
-        return textFilter
-    }
+    /*  Question: Is the URLFilter a must in every E2E test?
+     // add URLfilter in refactoring
+     private var urlFilter: RequestURLFilter {
+         let defaults = TestSettings()
+         let textFilter = RequestURLFilter()
+         textFilter.register(replacement: defaults.endpoint, for: settings.endpoint)
+         return textFilter
+     }
+      */
 
     override func setUpTestWithError() throws {
-        /*
-         registrarEndpoint = (mode != "playback") ? RegistrarSettings.endpoint : "https://endpoint/registrations"
-         */
-        add(filter: urlFilter)
-        let registrarEndpoint = settings.endpoint
+        /* registrarEndpoint = (mode != "playback") ? RegistrarSettings.endpoint : "https://endpoint/registrations" */
+
+        /* add(filter: urlFilter) */
+        /* let registrarEndpoint = settings.endpoint */
+        registrarEndpoint = (mode != "playback") ? RegistrarSettings
+            .endpoint : "https://edge.skype.com/registrar/prod/v2/registrations"
         let settings = TestSettings()
         let token = settings.token
         let credential = try CommunicationTokenCredential(token: token)
@@ -168,51 +171,53 @@ class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
         }
     }
 
-    func test_deleteRegistration_ReturnsSuccess() {
-        let expectation = self.expectation(description: "Delete Registration")
+    /*
+        func test_deleteRegistration_ReturnsSuccess() {
+            let expectation = self.expectation(description: "Delete Registration")
 
-        let clientDescription = RegistrarClientDescription(
-            appId: RegistrarSettings.appId,
-            languageId: RegistrarSettings.languageId,
-            platform: RegistrarSettings.platform,
-            platformUIVersion: RegistrarSettings.platformUIVersion,
-            templateKey: RegistrarSettings.templateKey
-        )
+            let clientDescription = RegistrarClientDescription(
+                appId: RegistrarSettings.appId,
+                languageId: RegistrarSettings.languageId,
+                platform: RegistrarSettings.platform,
+                platformUIVersion: RegistrarSettings.platformUIVersion,
+                templateKey: RegistrarSettings.templateKey
+            )
 
-        let transport = RegistrarTransport(
-            ttl: 100,
-            path: "mockDeviceToken",
-            context: RegistrarSettings.context
-        )
+            let transport = RegistrarTransport(
+                ttl: 100,
+                path: "mockDeviceToken",
+                context: RegistrarSettings.context
+            )
 
-        registrarClient.setRegistration(
-            with: clientDescription,
-            for: [transport]
-        ) { result in
-            switch result {
-            case let .success(response):
-                if response?.statusCode == RegistrarStatusCode.success.rawValue {
-                    self.registrarClient.deleteRegistration { result in
-                        switch result {
-                        case let .success(response):
-                            XCTAssertEqual(response?.statusCode, RegistrarStatusCode.success.rawValue)
-                        case let .failure(error):
-                            XCTFail("Create thread failed with error: \(error)")
+            registrarClient.setRegistration(
+                with: clientDescription,
+                for: [transport]
+            ) { result in
+                switch result {
+                case let .success(response):
+                    if response?.statusCode == RegistrarStatusCode.success.rawValue {
+                        self.registrarClient.deleteRegistration { result in
+                            switch result {
+                            case let .success(response):
+                                XCTAssertEqual(response?.statusCode, RegistrarStatusCode.success.rawValue)
+                            case let .failure(error):
+                                XCTFail("Create thread failed with error: \(error)")
+                            }
                         }
+                    } else {
+                        XCTFail("Failed to set registration.")
                     }
-                } else {
-                    XCTFail("Failed to set registration.")
+                case let .failure(error):
+                    XCTFail("Create thread failed with error: \(error)")
                 }
-            case let .failure(error):
-                XCTFail("Create thread failed with error: \(error)")
-            }
-            expectation.fulfill()
+                expectation.fulfill()
 
-            self.waitForExpectations(timeout: 10.0) { error in
-                if let error = error {
-                    XCTFail("Delete registration timed out: \(error)")
+                self.waitForExpectations(timeout: 10.0) { error in
+                    if let error = error {
+                        XCTFail("Delete registration timed out: \(error)")
+                    }
                 }
             }
         }
-    }
+     */
 }

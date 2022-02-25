@@ -1,0 +1,47 @@
+{
+  "name" : "test_deleteRegistration_ReturnsSuccess",
+  "interactions" : [
+    {
+      "request" : {
+        "body" : {
+          "clientDescription" : {
+            "appId" : "AcsIos",
+            "platformUIVersion" : "3619\/0.0.0.0\/",
+            "languageId" : "",
+            "templateKey" : "AcsIos.AcsNotify_Chat_1.0",
+            "platform" : "iOS"
+          },
+          "transports" : {
+            "APNS" : [
+              {
+                "ttl" : 100,
+                "path" : "mockDeviceToken",
+                "context" : ""
+              }
+            ]
+          },
+          "registrationId" : "D91E3081-C776-4AFC-8568-83A313B253D2",
+          "nodeId" : ""
+        },
+        "headers" : {
+          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.3.0; xctest:13.2 -> iOS 9.0; en_US)",
+          "X-Skypetoken" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBQ1MiLCJpYXQiOiAxNjA4MTUyNzI1LCJleHAiOiAxNzM5Njg4NzI1LCJhdWQiOiAiIiwic3ViIjogIiJ9.EMS0ExXqRuobm34WKJE8mAfZ7KppU5kEHl0OFdyree8",
+          "Date" : "Fri, 25 Feb 2022 03:44:10 GMT",
+          "Content-Type" : "application\/json"
+        },
+        "method" : "POST",
+        "url" : "https:\/\/endpoint\/"
+      },
+      "response" : {
+        "body" : "PGgyPk91ciBzZXJ2aWNlcyBhcmVuJ3QgYXZhaWxhYmxlIHJpZ2h0IG5vdzwvaDI+PHA+V2UncmUgd29ya2luZyB0byByZXN0b3JlIGFsbCBzZXJ2aWNlcyBhcyBzb29uIGFzIHBvc3NpYmxlLiBQbGVhc2UgY2hlY2sgYmFjayBzb29uLjwvcD4wbDFBWVlnQUFBQUROaEtuSnBrYkxRN0RzKzdNUEZCcFhXVlpTTXpFeE1EQXdNVEUyTURNekFFVmtaMlU9",
+        "status" : 400,
+        "headers" : {
+          "x-msedge-ref" : "0l1AYYgAAAADNhKnJpkbLQ7Ds+7MPFBpXWVZSMzExMDAwMTE2MDMzAEVkZ2U=",
+          "Date" : "Fri, 25 Feb 2022 03:44:22 GMT"
+        },
+        "url" : "https:\/\/acs-gnygqibv4wh32.communication.azure.com\/"
+      },
+      "recorded_at" : 1645760662.9725089
+    }
+  ]
+}

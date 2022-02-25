@@ -72,7 +72,7 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
             expectation.fulfill()
         }
 
-        waitForExpectations(timeout: 30.0) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Create thread timed out: \(error)")
             }
@@ -129,56 +129,56 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
             }
         }
     }
+    
+     func test_StopPushNotifications_ReturnsSuccess() {
+         let expectation = self.expectation(description: "Stop push notifications")
 
-    func test_StopPushNotifications_ReturnsSuccess() {
-        let expectation = self.expectation(description: "Stop push notifications")
+         // Start notifications first
+         chatClient.startPushNotifications(deviceToken: "mockDeviceToken") { result in
+             switch result {
+             case .success:
+                 // Stop notifications
+                 self.chatClient.stopPushNotifications { result in
+                     switch result {
+                     case let .success(response):
+                         XCTAssertEqual(response?.statusCode, RegistrarStatusCode.success.rawValue)
+                     case .failure:
+                         XCTFail("Stop push notifications failed.")
+                     }
+                 }
+             case .failure:
+                 XCTFail("Start push notifications failed.")
+             }
 
-        // Start notifications first
-        chatClient.startPushNotifications(deviceToken: "mockDeviceToken") { result in
-            switch result {
-            case .success:
-                // Stop notifications
-                self.chatClient.stopPushNotifications { result in
-                    switch result {
-                    case let .success(response):
-                        XCTAssertEqual(response?.statusCode, RegistrarStatusCode.success.rawValue)
-                    case .failure:
-                        XCTFail("Stop push notifications failed.")
-                    }
-                }
-            case .failure:
-                XCTFail("Start push notifications failed.")
-            }
+             expectation.fulfill()
+         }
 
-            expectation.fulfill()
-        }
+         waitForExpectations(timeout: 10.0) { error in
+             if let error = error {
+                 XCTFail("Stop push notifications timed out: \(error)")
+             }
+         }
+     }
 
-        waitForExpectations(timeout: 10.0) { error in
-            if let error = error {
-                XCTFail("Stop push notifications timed out: \(error)")
-            }
-        }
-    }
+     func test_StopPushNotifications_ReturnsFailure() {
+         let expectation = self.expectation(description: "Stop push notifications")
 
-    func test_StopPushNotifications_ReturnsFailure() {
-        let expectation = self.expectation(description: "Stop push notifications")
+         // Stop notifications without starting them
+         chatClient.stopPushNotifications { result in
+             switch result {
+             case .success:
+                 XCTFail("Push notifications should not be enabled.")
+             case let .failure(error):
+                 XCTAssertNotNil(error)
+             }
 
-        // Stop notifications without starting them
-        chatClient.stopPushNotifications { result in
-            switch result {
-            case .success:
-                XCTFail("Push notifications should not be enabled.")
-            case let .failure(error):
-                XCTAssertNotNil(error)
-            }
+             expectation.fulfill()
+         }
 
-            expectation.fulfill()
-        }
-
-        waitForExpectations(timeout: 10.0) { error in
-            if let error = error {
-                XCTFail("Stop push notifications timed out: \(error)")
-            }
-        }
-    }
+         waitForExpectations(timeout: 10.0) { error in
+             if let error = error {
+                 XCTFail("Stop push notifications timed out: \(error)")
+             }
+         }
+     }
 }
