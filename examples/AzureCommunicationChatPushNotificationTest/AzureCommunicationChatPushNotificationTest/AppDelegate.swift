@@ -31,7 +31,7 @@ import AzureCommunicationCommon
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    let token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjEwM19pbnQiLCJ4NXQiOiJlU0t5M1lPd2FzazIxN3ZKWmVWZFhOcDBSNm8iLCJ0eXAiOiJKV1QifQ.eyJza3lwZWlkIjoiYWNzOjE4OGQ0Y2VhLTBhOWItNDg0MC04ZmRjLTdhNWM3MWZlOWJkMF8wMDAwMDAwZi1hNGYyLWExNDYtMGY5Yy0wOTQ4MjIwMDExNGEiLCJzY3AiOjE3OTIsImNzaSI6IjE2NDUwNTc1MjMiLCJleHAiOjE2NDUxNDM5MjMsImFjc1Njb3BlIjoiY2hhdCIsInJlc291cmNlSWQiOiIxODhkNGNlYS0wYTliLTQ4NDAtOGZkYy03YTVjNzFmZTliZDAiLCJpYXQiOjE2NDUwNTc1MjN9.aZMQRQPmGCUEG4NLT-4JtY0qY8wFMKy8qrZFk9WnRXIF198BLTA4m1ir41yLkHiSxGPhM0gvlLBXvFBiWFPRRkGioxY2UnH9L7lR0bZTCJvrbqzMISo-jWTZh5yjZ2BspiF_vvKqeiV0wo0xb_hNOhpY-VUJkx66UUpuicu-xHtJti3-jJ2nCtpLURCoRYG8JIZb9f4Z6-mRbWfEyh3gTUKlTvexCI8B4ISlM-zl9ryp_rhyRm2n15Sh0QEET4eKvMozjHDtGTFLa5bfDGKBg95BVn_ugW9LdEwu4Pi1wswpDm3eNhZRN_nVDZdj8rw32jWUg1uitWP00jiLnqOH4g"
+    let token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjEwM19pbnQiLCJ4NXQiOiJlU0t5M1lPd2FzazIxN3ZKWmVWZFhOcDBSNm8iLCJ0eXAiOiJKV1QifQ.eyJza3lwZWlkIjoiYWNzOjE4OGQ0Y2VhLTBhOWItNDg0MC04ZmRjLTdhNWM3MWZlOWJkMF8wMDAwMDAwZi1kZGQxLWM2NGYtZjk5NC0wOTQ4MjIwMDRiYjIiLCJzY3AiOjE3OTIsImNzaSI6IjE2NDYwMTk4NjkiLCJleHAiOjE2NDYxMDYyNjksImFjc1Njb3BlIjoiY2hhdCIsInJlc291cmNlSWQiOiIxODhkNGNlYS0wYTliLTQ4NDAtOGZkYy03YTVjNzFmZTliZDAiLCJpYXQiOjE2NDYwMTk4Njl9.g1GEVs5zKM3uc88G7DpOFbvbJh_1CVIz7uZe6n8G6CxnQ4B2wuqTRI5uXwAdvw7M-qjHf62GUt1dt_DYz7E-HBbj3maZzORlsa6XV6Lut3anSHy8G2DE3HeN1AyXaIahXgHf4tlsC-zpDhNrskr-WYTMMTLBkizXfNjVqPWGhhJxyWtyJSEOSSh-kDWdmWVnyP5jAy1XLC96_NDkIzBsY59BnBlpwuI6EF_rnBZwlKZ-EnFx8c2AgkwWpGp-EHEdPK785i4tl21RSQ8LUhMxwfgQDPhpvbvwu8SJRvzufMwc_OOYZnXmA5kAs8_GkQ8hJqtpU0cp62pF684zEV62bQ"
     
     let endpoint = "https://chat-int-runner.int.communication.azure.net"
 
@@ -153,6 +153,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     func pushHandler(event: PushNotificationEvent?, error: Error?) {
         // Handle notifications
+        if(event != nil) {
+            switch event {
+            case .chatMessageReceivedEvent:
+                print("Push Notification chatMessageReceived")
+            case .typingIndicatorReceived:
+                print("Push Notification typingIndicatorReceived")
+            case .readReceiptReceived:
+                print("Push Notification readReceiptReceived")
+            case .chatMessageEdited:
+                print("Push Notification chatMessageEdited")
+            case .chatMessageDeleted:
+                print("Push Notification chatMessageDeleted")
+            case .chatThreadCreated:
+                print("Push Notification chatThreadCreated")
+            case .chatThreadPropertiesUpdated:
+                print("Push Notification chatThreadPropertiesUpdated")
+            case .chatThreadDeleted:
+                print("Push Notification chatThreadDeleted")
+            case .participantsAdded:
+                print("Push Notification participantsAdded")
+            case .participantsRemoved:
+                print("Push Notification participantsRemoved")
+            default:
+                print("Push Notification There is an error in event payload")
+            }
+        } else {
+            print("No event received")
+        }
     }
 }
 

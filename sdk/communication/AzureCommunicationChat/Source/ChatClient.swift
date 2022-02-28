@@ -105,11 +105,11 @@ public class ChatClient {
     // MARK: Private Methods
 
     /*
-    /// Return unique registration id for push notifications.
-    private func getRegistrationId() -> String {
-        return UUID().uuidString
-    }
-    */
+     /// Return unique registration id for push notifications.
+     private func getRegistrationId() -> String {
+         return UUID().uuidString
+     }
+     */
 
     /// Converts [ChatParticipant] to [ChatParticipantInternal] for internal use.
     /// - Parameter chatParticipants: The array of ChatParticipants.
@@ -351,7 +351,7 @@ public class ChatClient {
             completionHandler(.failure(AzureError.client("Push notifications already started.")))
             return
         }
-        
+
         // Internal options do not use the CommunicationSignalingErrorHandler
         let internalOptions = AzureCommunicationChatClientOptionsInternal(
             apiVersion: AzureCommunicationChatClientOptionsInternal.ApiVersion(options.apiVersion),
@@ -371,7 +371,7 @@ public class ChatClient {
             registrationId: UUID().uuidString,
             authPolicy: authPolicy,
             withOptions: internalOptions
-        )else {
+        ) else {
             completionHandler(.failure(AzureError.client("Failed to enable push notifications.")))
             return
         }
@@ -404,7 +404,6 @@ public class ChatClient {
                 completionHandler(.failure(AzureError.client("Failed to start push notifications", error)))
             }
         }
-        
     }
 
     /// Stop push notifications.
@@ -417,7 +416,7 @@ public class ChatClient {
             return
         }
 
-        //Recreate the registrarClient if it doesn't exist
+        // Recreate the registrarClient if it doesn't exist
         if registrarClient == nil {
             // Internal options do not use the CommunicationSignalingErrorHandler
             let internalOptions = AzureCommunicationChatClientOptionsInternal(
@@ -438,11 +437,14 @@ public class ChatClient {
                 registrationId: UUID().uuidString,
                 authPolicy: authPolicy,
                 withOptions: internalOptions
-            )else {
-                completionHandler(.failure(AzureError.client("Failed to stop push notifications. Fail to find or create registrarClient.")))
+            ) else {
+                completionHandler(.failure(
+                    AzureError
+                        .client("Failed to stop push notifications. Fail to find or create registrarClient.")
+                ))
                 return
             }
-            
+
             registrarClient = tempRegistrarClient
         }
 

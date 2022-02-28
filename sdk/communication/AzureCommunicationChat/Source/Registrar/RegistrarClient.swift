@@ -195,7 +195,7 @@ internal class RegistrarClient: PipelineClient {
         self.request(request, context: context) { result, httpResponse in
             switch result {
             case .success:
-                guard (httpResponse?.statusCode) != nil else {
+                guard (httpResponse?.statusCode) == 202 else {
                     let invalidStatusCodeError = AzureError.client("Didn't find a valid status code.")
                     dispatchQueue.async {
                         completionHandler(.failure(invalidStatusCodeError))

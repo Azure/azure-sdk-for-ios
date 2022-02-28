@@ -59,7 +59,7 @@ enum JwtTokenParser {
             .appending(String(repeating: "=", count: (4 - (base64Url.count % 4)) % 4))
 
         guard let base64Data = Data(base64Encoded: base64Url),
-            let base64AsString = String(data: base64Data, encoding: .utf8)
+              let base64AsString = String(data: base64Data, encoding: .utf8)
         else {
             throw NSError(
                 domain: "AzureCommunicationCommon.JwtTokenParser.convertFromBase64Url",
