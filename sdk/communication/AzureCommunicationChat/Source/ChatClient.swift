@@ -111,7 +111,7 @@ public class ChatClient {
             return nil
         }
 
-        return try participants.map { (participant) -> ChatParticipantInternal in
+        return try participants.map { participant -> ChatParticipantInternal in
             let identifierModel = try IdentifierSerializer.serialize(identifier: participant.id)
             return ChatParticipantInternal(
                 communicationIdentifier: identifierModel,
