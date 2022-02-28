@@ -1,6 +1,10 @@
 # Release History
 
-## 1.0.0-beta.14 (Unreleased)
+## 1.0.0-beta.15 (Unreleased)
+### Bugs Fixed
+- Fixed issue where pipeline calls multiple callback if a bad status code was received.
+
+## 1.0.0-beta.14 (2022-02-10)
 
 ### Bugs Fixed
 - Fixed issue where certain system errors would be swallowed by AzureCore instead of passed
