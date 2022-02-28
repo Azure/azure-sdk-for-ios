@@ -35,6 +35,7 @@ public class ChatClient {
     private let credential: CommunicationTokenCredential
     private let options: AzureCommunicationChatClientOptions
     private var registrarClient: RegistrarClient?
+    internal var registrationId: String
     private let service: Chat
     private var signalingClient: CommunicationSignalingClient?
     private var signalingClientStarted: Bool = false
@@ -54,6 +55,7 @@ public class ChatClient {
     ) throws {
         self.endpoint = endpoint
         self.credential = credential
+        self.registrationId = UUID().uuidString
 
         guard let endpointUrl = URL(string: endpoint) else {
             throw AzureError.client("Unable to form base URL.")
@@ -368,7 +370,7 @@ public class ChatClient {
         guard let registrarClient = try? RegistrarClient(
             endpoint: RegistrarSettings.endpoint,
             credential: credential,
-            registrationId: UUID().uuidString,
+            registrationId: registrationId,
             authPolicy: authPolicy,
             withOptions: internalOptions
         ) else {
@@ -434,7 +436,7 @@ public class ChatClient {
             guard let tempRegistrarClient = try? RegistrarClient(
                 endpoint: RegistrarSettings.endpoint,
                 credential: credential,
-                registrationId: UUID().uuidString,
+                registrationId: registrationId,
                 authPolicy: authPolicy,
                 withOptions: internalOptions
             ) else {

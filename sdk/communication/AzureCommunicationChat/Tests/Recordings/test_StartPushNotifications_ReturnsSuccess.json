@@ -1,22 +1,28 @@
 {
+  "name" : "test_StartPushNotifications_ReturnsSuccess",
   "interactions" : [
     {
       "response" : {
         "headers" : {
-          "Content-Length" : "0",
+          "Content-Type" : "application\/json",
+          "x-msedge-ref" : "Ref A: E2DC0CD5CCFC4222A36D266A64743F4C Ref B: YVR311000111023 Ref C: 2022-02-28T20:35:23Z",
+          "ms-cv" : "zXK4f8gm6UCutHvFUwhS8g.0",
           "x-cache" : "CONFIG_NOCACHE",
           "x-content-type-options" : "nosniff",
-          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
-          "x-msedge-ref" : "Ref A: 1D9232232C7A4F92BCB9576BB20D89D4 Ref B: WSTEDGE0614 Ref C: 2022-02-25T20:27:28Z",
-          "ms-cv" : "AxFrQtiFbUydr+3wACF65Q.0"
+          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains"
         },
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
-        "body" : "",
-        "status" : 202
+        "body" : {
+          "Message" : "Unhandled exception in server pipeline"
+        },
+        "status" : 500,
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations"
       },
       "request" : {
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
         "method" : "POST",
+        "headers" : {
+          "Content-Type" : "application\/json",
+          "User-Agent" : "azsdk-ios-AzureCommunicationChat\/1.1.0-beta.2 (MacBookPro16,1 - 21.3.0; xctest:13.2 -> iOS 9.0; en_US)"
+        },
         "body" : {
           "clientDescription" : {
             "appId" : "AcsIos",
@@ -34,16 +40,12 @@
               }
             ]
           },
-          "registrationId" : "92A1896B-1A18-421E-BE4A-50ED3A22D61F",
+          "registrationId" : "B8751141-A9C3-4DD8-A3F9-98A6024491A7",
           "nodeId" : ""
         },
-        "headers" : {
-          "User-Agent" : "azsdk-ios-AzureCommunicationChat\/1.1.0-beta.2 (MacBookPro17,1 - 21.3.0; xctest:13.2 -> iOS 9.0; en_US)",
-          "Content-Type" : "application\/json"
-        }
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations"
       },
-      "recorded_at" : 1645820848.2112751
+      "recorded_at" : 1646080523.7219071
     }
-  ],
-  "name" : "test_StartPushNotifications_ReturnsSuccess"
+  ]
 }

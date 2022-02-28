@@ -24,7 +24,7 @@
 //
 // --------------------------------------------------------------------------
 
-import AzureCommunicationChat
+@testable import AzureCommunicationChat
 import AzureCommunicationCommon
 import AzureCore
 import AzureTest
@@ -39,6 +39,7 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
         let defaults = TestSettings()
         let textFilter = RequestURLFilter()
         textFilter.register(replacement: defaults.endpoint, for: settings.endpoint)
+        textFilter.register(replacement: defaults.registrationId, for: settings.registrationId)
         return textFilter
     }
 
@@ -116,14 +117,13 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
             switch result {
             case let .success(response):
                 XCTAssertEqual(response?.statusCode, RegistrarStatusCode.success.rawValue)
+                expectation.fulfill()
             case .failure:
                 XCTFail("Start push notifications failed.")
             }
-
-            expectation.fulfill()
         }
 
-        waitForExpectations(timeout: 10.0) { error in
+        waitForExpectations(timeout: 10) { error in
             if let error = error {
                 XCTFail("Start push notifications timed out: \(error)")
             }

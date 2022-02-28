@@ -37,34 +37,23 @@ class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
 
     private var registrarEndpoint: String!
 
-    /*
-     private var registrarClient: RegistrarClient!
-     */
-
     // RegistrarClient initialied in setup
     private var registrarClient: RegistrarClient!
 
-    /*  Question: Is the URLFilter a must in every E2E test?
-     // add URLfilter in refactoring
-     private var urlFilter: RequestURLFilter {
-         let defaults = TestSettings()
-         let textFilter = RequestURLFilter()
-         textFilter.register(replacement: defaults.endpoint, for: settings.endpoint)
-         return textFilter
-     }
-      */
+    // add URLfilter in refactoring
+    private var urlFilter: RequestURLFilter {
+        let defaults = TestSettings()
+        let textFilter = RequestURLFilter()
+        textFilter.register(replacement: defaults.endpoint, for: settings.endpoint)
+        return textFilter
+    }
 
     override func setUpTestWithError() throws {
-        /* registrarEndpoint = (mode != "playback") ? RegistrarSettings.endpoint : "https://endpoint/registrations" */
-
-        /* add(filter: urlFilter) */
-        /* let registrarEndpoint = settings.endpoint */
         registrarEndpoint = (mode != "playback") ? RegistrarSettings
-            .endpoint : "https://edge.skype.com/registrar/prod/v2/registrations"
+            .endpoint : "https://endpoint/registrations"
         let settings = TestSettings()
         let token = settings.token
         let credential = try CommunicationTokenCredential(token: token)
-
         let registrationId = UUID().uuidString
 
         // add these in refactoring
@@ -104,34 +93,7 @@ class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
             authPolicy: authPolicy,
             withOptions: internalOptions
         )
-
-        /*
-         // Register stubs
-         if mode == "playback" {
-             let bundle = Bundle(for: type(of: self))
-             let path = bundle.path(forResource: "noContent", ofType: "json") ?? ""
-             stub(condition: isMethodPOST() && pathEndsWith("/registrations")) { _ in
-                 fixture(filePath: path, status: 202, headers: nil)
-             }
-             stub(condition: isMethodDELETE() && pathMatches("/registrations")) { _ in
-                 fixture(filePath: path, status: 202, headers: nil)
-             }
-         }
-         */
     }
-
-    /*
-     override func tearDown() {
-         // Delete any registrations that were created by tests
-         if mode != "playback" {
-             registrarClient.deleteRegistration { response, error in
-                 if (error != nil) || (response?.statusCode != 202) {
-                     print("Failed to delete test registration.")
-                 }
-             }
-         }
-     }
-      */
 
     // Question：Can I use the actual RegistrarSettings?
     func test_setRegistration_ReturnsSuccess() {
