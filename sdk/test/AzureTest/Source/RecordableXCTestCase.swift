@@ -48,7 +48,7 @@ open class RecordableXCTestCase<SettingsType: TestSettingsProtocol>: XCTestCase 
     override public final func setUpWithError() throws {
         let fullname = name
         var testName = fullname.split(separator: " ")[1]
-        loadSettingsFromPlist()
+        try loadSettingsFromPlist()
         testName.removeLast()
         if mode != "live" {
             let dvrTransport = DVRSessionTransport(cassetteName: String(testName))
@@ -73,15 +73,27 @@ open class RecordableXCTestCase<SettingsType: TestSettingsProtocol>: XCTestCase 
     open func tearDownTestWithError() throws {}
 
     /// attempts to load settings from plist if not in playback mode
-    internal func loadSettingsFromPlist() {
+    internal func loadSettingsFromPlist() throws {
         // if in playback mode, don't load from plist
         guard mode != "playback" else {
             return
         }
-        if let path = Bundle(for: SettingsType.self).path(forResource: "test-settings", ofType: "plist"),
-            let xml = FileManager.default.contents(atPath: path),
-            let settings = try? PropertyListDecoder().decode(SettingsType.self, from: xml) {
-            self.settings = settings
+        guard let path = Bundle(for: SettingsType.self).path(forResource: "test-settings", ofType: "plist") else {
+            throw AzureError.client(
+                "Unable to find test-settings.plist. Ensure it is included in the Bundle and part of the test target.",
+                nil
+            )
+        }
+        guard let xml = FileManager.default.contents(atPath: path) else {
+            throw AzureError.client("Unable to decode test-settings.plist as XML.", nil)
+        }
+        do {
+            settings = try PropertyListDecoder().decode(SettingsType.self, from: xml)
+        } catch {
+            throw AzureError.client(
+                "Unable to decode test-settings.plist to \(type(of: settings)).Ensure that test-settings.plist contains a value for all properties in `\(type(of: settings)).swift`.",
+                error
+            )
         }
     }
 }
