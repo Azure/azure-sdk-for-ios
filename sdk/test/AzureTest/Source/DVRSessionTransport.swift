@@ -94,8 +94,8 @@ public class DVRSessionTransport: TransportStage {
             "azure-asyncoperation": .remove,
             "www-authenticate": .remove,
             "access_token": .remove,
-            "X-Skypetoken": .remove,
-            "Date": .remove
+            "Date": .remove,
+            "X-Skypetoken": .remove
         ]
 
         session = Session(outputDirectory: outputDirectory, cassetteName: cassetteName)
@@ -181,6 +181,7 @@ public class DVRSessionTransport: TransportStage {
                 // do not add the inner error, as it may require decoding from XML.
                 let error = AzureError.service("Service returned invalid status code [\(statusCode)].", nil)
                 completionHandler(.failure(error), httpResponse)
+                return
             }
 
             let pipelineResponse = PipelineResponse(

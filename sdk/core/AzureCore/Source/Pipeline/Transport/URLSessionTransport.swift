@@ -118,6 +118,7 @@ public class URLSessionTransport: TransportStage {
                 // do not add the inner error, as it may require decoding from XML.
                 let error = AzureError.service("Service returned invalid status code [\(statusCode)]", nil)
                 completionHandler(.failure(error), httpResponse)
+                return
             }
 
             let pipelineResponse = PipelineResponse(
