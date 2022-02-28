@@ -38,7 +38,5 @@ class TestSettings: TestSettingsProtocol {
         return token
     }()
 
-    var registrationId = "0E0F0BE0-0000-00C0-B000-A00A00E00BD0"
-
     required init() {}
 }

@@ -39,7 +39,6 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
         let defaults = TestSettings()
         let textFilter = RequestURLFilter()
         textFilter.register(replacement: defaults.endpoint, for: settings.endpoint)
-        textFilter.register(replacement: defaults.registrationId, for: settings.registrationId)
         return textFilter
     }
 
@@ -50,6 +49,7 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
         let credential = try CommunicationTokenCredential(token: token)
         let options = AzureCommunicationChatClientOptions(transportOptions: transportOptions)
         chatClient = try ChatClient(endpoint: endpoint, credential: credential, withOptions: options)
+        chatClient.registrationId = "0E0F0BE0-0000-00C0-B000-A00A00E00BD0"
     }
 
     func test_CreateThread_WithoutParticipants() {
