@@ -35,17 +35,17 @@ internal struct RegistrarRequestBody: Codable {
     /// Client description
     internal let clientDescription: RegistrarClientDescription
     /// Transports
-    internal let transports: [String: [RegistrarTransport]]
+    internal let registrarTransportSettings: [String: [RegistrarTransportSettings]]
 
     internal init(
         registrationId: String,
         nodeId: String,
         clientDescription: RegistrarClientDescription,
-        transports: [String: [RegistrarTransport]]
+        registrarTransportSettings: [String: [RegistrarTransportSettings]]
     ) {
         self.registrationId = registrationId
         self.nodeId = nodeId
         self.clientDescription = clientDescription
-        self.transports = transports
+        self.registrarTransportSettings = registrarTransportSettings
     }
 }

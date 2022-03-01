@@ -106,13 +106,6 @@ public class ChatClient {
 
     // MARK: Private Methods
 
-    /*
-     /// Return unique registration id for push notifications.
-     private func getRegistrationId() -> String {
-         return UUID().uuidString
-     }
-     */
-
     /// Converts [ChatParticipant] to [ChatParticipantInternal] for internal use.
     /// - Parameter chatParticipants: The array of ChatParticipants.
     /// - Returns: An array of ChatParticipants.
@@ -388,7 +381,7 @@ public class ChatClient {
         )
 
         // Path is device token
-        let transport = RegistrarTransport(
+        let transport = RegistrarTransportSettings(
             ttl: RegistrarSettings.ttl,
             path: deviceToken,
             context: RegistrarSettings.context

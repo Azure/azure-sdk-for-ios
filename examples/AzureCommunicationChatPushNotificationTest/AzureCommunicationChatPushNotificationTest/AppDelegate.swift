@@ -31,9 +31,8 @@ import AzureCommunicationCommon
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    let token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjEwNCIsIng1dCI6IlJDM0NPdTV6UENIWlVKaVBlclM0SUl4Szh3ZyIsInR5cCI6IkpXVCJ9.eyJza3lwZWlkIjoiYWNzOjdkMjY4MzJkLTRhOGItNDM3Yy04OTlkLTgxNmE1MTQxMTM0NF8wMDAwMDAwZi1kMzIzLWVjY2EtN2JmYS01NTNhMGQwMDUxMjQiLCJzY3AiOjE3OTIsImNzaSI6IjE2NDU4MzI0NTYiLCJleHAiOjE2NDU5MTg4NTYsImFjc1Njb3BlIjoiY2hhdCIsInJlc291cmNlSWQiOiI3ZDI2ODMyZC00YThiLTQzN2MtODk5ZC04MTZhNTE0MTEzNDQiLCJpYXQiOjE2NDU4MzI0NTZ9.DIz1W4SW1Fwzg0qoodoMEbg513fm4NreO9gh92GveZGLYz9wDW3uPXkYAhLltYi5oI53nIBgIiKZc_if6ja7iF1TheXOv2z0bpVHitAMIGWAte3OiQu-so1Wz-HVlZ18_ZfrF8MY-PtOvt7AWOla8aoh3hRNCn50s-1lycAI3FYoeGryYk5hHpWe0zIs9m7VDqI1FBgZYGHCMXoj4Gzz6e3tGf4Sh8DfqfGKrFd7Tj1Iyl6vphAzqaUKlkfDcncjC3FCAhM8zDs64k85HBSlBcrsDmyHt2xmQR1jO0I-CHXfH9kiJ0jIBxz442QNo2U3JiNa8HiNCMMzpO-Wyqczsw"
-    
-    let endpoint = "https://chat-int-runner.int.communication.azure.net"
+    let token = ""
+    let endpoint = ""
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.

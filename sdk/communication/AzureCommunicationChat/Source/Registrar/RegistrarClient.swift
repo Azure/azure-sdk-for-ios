@@ -84,14 +84,14 @@ internal class RegistrarClient: PipelineClient {
     ///   - transports: RegistrarTransports which are added to the body, transport contains APNS push token as the path.
     private func createPostData(
         with clientDescription: RegistrarClientDescription,
-        for transports: [RegistrarTransport]
+        for registrarTransportSettings: [RegistrarTransportSettings]
     ) -> Data? {
         let data = RegistrarRequestBody(
             registrationId: registrationId,
             nodeId: RegistrarSettings.nodeId,
             clientDescription: clientDescription,
-            transports: [
-                RegistrarSettings.pushNotificationTransport: transports
+            registrarTransportSettings: [
+                RegistrarSettings.pushNotificationTransport: registrarTransportSettings
             ]
         )
 
@@ -105,10 +105,10 @@ internal class RegistrarClient: PipelineClient {
     ///   - completionHandler: Returns the POST request.
     private func createPostRequest(
         with clientDescription: RegistrarClientDescription,
-        for transports: [RegistrarTransport],
+        for registrarTransportSettings: [RegistrarTransportSettings],
         completionHandler: @escaping (HTTPRequest?, AzureError?) -> Void
     ) {
-        guard let data = createPostData(with: clientDescription, for: transports) else {
+        guard let data = createPostData(with: clientDescription, for: registrarTransportSettings) else {
             completionHandler(nil, AzureError.client("Failed to serialize POST request body."))
             return
         }
@@ -222,10 +222,10 @@ internal class RegistrarClient: PipelineClient {
     ///   - completionHandler: Returns the response. Success indicates the registration was received.
     internal func setRegistration(
         with clientDescription: RegistrarClientDescription,
-        for transports: [RegistrarTransport],
+        for registrarTransportSettings: [RegistrarTransportSettings],
         completionHandler: @escaping (Result<HTTPResponse?, AzureError>) -> Void
     ) {
-        createPostRequest(with: clientDescription, for: transports) { request, error in
+        createPostRequest(with: clientDescription, for: registrarTransportSettings) { request, error in
             guard let request = request else {
                 completionHandler(.failure(AzureError.client("Failed to create POST request.", error)))
                 return

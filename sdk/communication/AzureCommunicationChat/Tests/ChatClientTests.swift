@@ -242,7 +242,7 @@ class ChatClientTests: XCTestCase {
             result in
             switch result {
             case let .success(response):
-                XCTAssertEqual(response?.statusCode, RegistrarStatusCode.success.rawValue)
+                XCTAssertEqual(response?.statusCode, 202)
             case .failure:
                 XCTFail("Start push notifications failed.")
             }
@@ -269,7 +269,7 @@ class ChatClientTests: XCTestCase {
                 self.chatClient.stopPushNotifications { result in
                     switch result {
                     case let .success(response):
-                        XCTAssertEqual(response?.statusCode, RegistrarStatusCode.success.rawValue)
+                        XCTAssertEqual(response?.statusCode, 202)
                     case .failure:
                         XCTFail("Stop push notifications failed.")
                     }

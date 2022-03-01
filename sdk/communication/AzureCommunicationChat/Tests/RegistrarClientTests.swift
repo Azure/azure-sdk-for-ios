@@ -33,28 +33,15 @@ import OHHTTPStubs.Swift
 import XCTest
 
 class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
-    private var mode = environmentVariable(forKey: "TEST_MODE", default: "playback")
-
-    private var registrarEndpoint: String!
+    private var registrarEndpoint: String = "https://edge.skype.com/registrar/prod/v2/registrations"
 
     // RegistrarClient initialied in setup
     private var registrarClient: RegistrarClient!
 
-    // add URLfilter in refactoring
-    private var urlFilter: RequestURLFilter {
-        let defaults = TestSettings()
-        let textFilter = RequestURLFilter()
-        textFilter.register(replacement: defaults.endpoint, for: settings.endpoint)
-        return textFilter
-    }
-
     override func setUpTestWithError() throws {
-        registrarEndpoint = (mode != "playback") ? RegistrarSettings
-            .endpoint : "https://endpoint/registrations"
-        let settings = TestSettings()
         let token = settings.token
         let credential = try CommunicationTokenCredential(token: token)
-        let registrationId = UUID().uuidString
+        let registrationId = "0E0F0BE0-0000-00C0-B000-A00A00E00BD0"
 
         // add these in refactoring
         let communicationCredential = TokenCredentialAdapter(credential)
@@ -95,7 +82,6 @@ class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
         )
     }
 
-    // Question：Can I use the actual RegistrarSettings?
     func test_setRegistration_ReturnsSuccess() {
         let expectation = self.expectation(description: "Set Registration")
 
@@ -107,7 +93,7 @@ class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
             templateKey: RegistrarSettings.templateKey
         )
 
-        let transport = RegistrarTransport(
+        let registrarTransportSettings = RegistrarTransportSettings(
             ttl: 10,
             path: "mockDeviceToken",
             context: RegistrarSettings.context
@@ -115,71 +101,69 @@ class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
 
         registrarClient.setRegistration(
             with: clientDescription,
-            for: [transport]
+            for: [registrarTransportSettings]
         ) { result in
             switch result {
             case let .success(response):
-                XCTAssertEqual(response?.statusCode, RegistrarStatusCode.success.rawValue)
+                XCTAssertEqual(response?.statusCode, 202)
             case let .failure(error):
                 XCTFail("Create thread failed with error: \(error)")
             }
             expectation.fulfill()
         }
 
-        waitForExpectations(timeout: 10.0) { error in
+        waitForExpectations(timeout: 10) { error in
             if let error = error {
                 XCTFail("Set registration timed out: \(error)")
             }
         }
     }
 
-    /*
-        func test_deleteRegistration_ReturnsSuccess() {
-            let expectation = self.expectation(description: "Delete Registration")
+    func test_deleteRegistration_ReturnsSuccess() {
+        let expectation = self.expectation(description: "Delete Registration")
 
-            let clientDescription = RegistrarClientDescription(
-                appId: RegistrarSettings.appId,
-                languageId: RegistrarSettings.languageId,
-                platform: RegistrarSettings.platform,
-                platformUIVersion: RegistrarSettings.platformUIVersion,
-                templateKey: RegistrarSettings.templateKey
-            )
+        let clientDescription = RegistrarClientDescription(
+            appId: RegistrarSettings.appId,
+            languageId: RegistrarSettings.languageId,
+            platform: RegistrarSettings.platform,
+            platformUIVersion: RegistrarSettings.platformUIVersion,
+            templateKey: RegistrarSettings.templateKey
+        )
 
-            let transport = RegistrarTransport(
-                ttl: 100,
-                path: "mockDeviceToken",
-                context: RegistrarSettings.context
-            )
+        let registrarTransportSettings = RegistrarTransportSettings(
+            ttl: 100,
+            path: "mockDeviceToken",
+            context: RegistrarSettings.context
+        )
 
-            registrarClient.setRegistration(
-                with: clientDescription,
-                for: [transport]
-            ) { result in
-                switch result {
-                case let .success(response):
-                    if response?.statusCode == RegistrarStatusCode.success.rawValue {
-                        self.registrarClient.deleteRegistration { result in
-                            switch result {
-                            case let .success(response):
-                                XCTAssertEqual(response?.statusCode, RegistrarStatusCode.success.rawValue)
-                            case let .failure(error):
-                                XCTFail("Create thread failed with error: \(error)")
-                            }
+        registrarClient.setRegistration(
+            with: clientDescription,
+            for: [registrarTransportSettings]
+        ) { result in
+            switch result {
+            case let .success(response):
+                if response?.statusCode == 202 {
+                    self.registrarClient.deleteRegistration { result in
+                        switch result {
+                        case let .success(response):
+                            XCTAssertEqual(response?.statusCode, 202)
+                        case let .failure(error):
+                            XCTFail("Create thread failed with error: \(error)")
                         }
-                    } else {
-                        XCTFail("Failed to set registration.")
+                        // expectation.fulfill()
                     }
-                case let .failure(error):
-                    XCTFail("Create thread failed with error: \(error)")
+                } else {
+                    XCTFail("Failed to set registration.")
                 }
-                expectation.fulfill()
-
-                self.waitForExpectations(timeout: 10.0) { error in
-                    if let error = error {
-                        XCTFail("Delete registration timed out: \(error)")
-                    }
+            case let .failure(error):
+                XCTFail("Create thread failed with error: \(error)")
+            }
+            expectation.fulfill()
+            self.waitForExpectations(timeout: 10.0) { error in
+                if let error = error {
+                    XCTFail("Delete registration timed out: \(error)")
                 }
             }
         }
-     */
+    }
 }

@@ -26,32 +26,30 @@
 
 import Foundation
 
-internal enum RegistrarSettings {
-    static let endpoint = "https://edge.skype.com/registrar/prod/v2/registrations"
-    // Node id is unused but we are required to send it
-    static let nodeId = ""
+/// Registrar transport.
+internal struct RegistrarTransportSettings: Codable {
+    /// TTL in seconds. Maximum value is 15552000.
+    internal let ttl: Int
+    /// APNS device token.
+    internal let path: String
+    /// Optional context.
+    internal let context: String
+    /// Creation time as RFC 1123 formatted date.
+    internal let creationTime: String?
+    /// Snooze time in seconds. Maximum value is 15552000.
+    internal let snoozeSeconds: Int?
 
-    // ClientDescription Settings
-    static let appId = "AcsIos"
-    static let languageId = ""
-    static let platform = "iOS"
-    static let platformUIVersion = "3619/0.0.0.0/"
-    static let templateKey = "AcsIos.AcsNotify_Chat_1.0"
-
-    // Transport Settings
-    static let pushNotificationTransport = "APNS"
-    // Max TTL is 180 days
-    static let ttl = 15_552_000
-    static let context = ""
-}
-
-internal enum RegistrarHeader: String {
-    /// Content-type header.
-    case contentType = "Content-Type"
-    /// Skype token for authentication.
-    case skypeTokenHeader = "X-Skypetoken"
-}
-
-internal enum RegistrarMimeType: String {
-    case json = "application/json"
+    internal init(
+        ttl: Int,
+        path: String,
+        context: String,
+        creationTime: String? = nil,
+        snoozeSeconds: Int? = nil
+    ) {
+        self.ttl = ttl
+        self.path = path
+        self.context = context
+        self.creationTime = creationTime
+        self.snoozeSeconds = snoozeSeconds
+    }
 }
