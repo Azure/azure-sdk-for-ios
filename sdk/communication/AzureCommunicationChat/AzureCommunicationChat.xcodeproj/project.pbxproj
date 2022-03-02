@@ -145,6 +145,7 @@
 		E0A6DF5D27CEE6880024904B /* RegistrarTransportSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A6DF5B27CEACFE0024904B /* RegistrarTransportSettings.swift */; };
 		E0A6DF5F27CEEC820024904B /* test-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = E0A6DF5E27CEEC820024904B /* test-settings.plist */; };
 		E0E3C0C127CF1BB10044C30F /* test_setRegistration_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E0E3C0C027CF1BB10044C30F /* test_setRegistration_ReturnsSuccess.json */; };
+		E0E3C0C327CFDEF10044C30F /* test_deleteRegistration_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E0E3C0C227CFDEF10044C30F /* test_deleteRegistration_ReturnsSuccess.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -339,6 +340,7 @@
 		E0A6DF5B27CEACFE0024904B /* RegistrarTransportSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrarTransportSettings.swift; sourceTree = "<group>"; };
 		E0A6DF5E27CEEC820024904B /* test-settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "test-settings.plist"; sourceTree = "<group>"; };
 		E0E3C0C027CF1BB10044C30F /* test_setRegistration_ReturnsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_setRegistration_ReturnsSuccess.json; sourceTree = "<group>"; };
+		E0E3C0C227CFDEF10044C30F /* test_deleteRegistration_ReturnsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_deleteRegistration_ReturnsSuccess.json; sourceTree = "<group>"; };
 		FCF18D210ADF02D5CBA71786 /* Pods-AzureCommunicationChatUnitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationChatUnitTests.release.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationChatUnitTests/Pods-AzureCommunicationChatUnitTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -407,6 +409,7 @@
 				0A6A5453268BAB8B001006AF /* test_CreateThread_WithoutParticipants.json */,
 				0A6A5454268BAB8B001006AF /* test_ListThreads_ReturnsChatThreadItems.json */,
 				E0E3C0C027CF1BB10044C30F /* test_setRegistration_ReturnsSuccess.json */,
+				E0E3C0C227CFDEF10044C30F /* test_deleteRegistration_ReturnsSuccess.json */,
 			);
 			path = Recordings;
 			sourceTree = "<group>";
@@ -868,6 +871,7 @@
 				D1CD93C4258D6E7300409613 /* createThread.json in Resources */,
 				D1CD93D8258D6ECD00409613 /* removeParticipant.json in Resources */,
 				E06DC2FC27BF366E0074CD45 /* test_StopPushNotifications_ReturnsSuccess.json in Resources */,
+				E0E3C0C327CFDEF10044C30F /* test_deleteRegistration_ReturnsSuccess.json in Resources */,
 				D1CD93DC258D6EDA00409613 /* sendMessage.json in Resources */,
 				E06DC30627BF60B00074CD45 /* test_CreateThread_WithoutParticipants.json in Resources */,
 				E0E3C0C127CF1BB10044C30F /* test_setRegistration_ReturnsSuccess.json in Resources */,

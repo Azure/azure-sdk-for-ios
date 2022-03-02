@@ -146,6 +146,7 @@ class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
                         switch result {
                         case let .success(response):
                             XCTAssertEqual(response?.statusCode, 202)
+                            expectation.fulfill()
                         case let .failure(error):
                             XCTFail("Create thread failed with error: \(error)")
                         }
@@ -156,7 +157,6 @@ class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
             case let .failure(error):
                 XCTFail("Create thread failed with error: \(error)")
             }
-            expectation.fulfill()
         }
 
         waitForExpectations(timeout: 10.0) { error in
