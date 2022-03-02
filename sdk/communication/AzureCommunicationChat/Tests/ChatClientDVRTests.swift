@@ -123,7 +123,7 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
             }
         }
 
-        waitForExpectations(timeout: 10) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Start push notifications timed out: \(error)")
             }

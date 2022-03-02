@@ -29,7 +29,6 @@ import AzureCommunicationCommon
 import AzureCore
 import AzureTest
 import DVR
-import OHHTTPStubs.Swift
 import XCTest
 
 class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
@@ -112,7 +111,7 @@ class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
             expectation.fulfill()
         }
 
-        waitForExpectations(timeout: 10) { error in
+        waitForExpectations(timeout: 100_000_000) { error in
             if let error = error {
                 XCTFail("Set registration timed out: \(error)")
             }

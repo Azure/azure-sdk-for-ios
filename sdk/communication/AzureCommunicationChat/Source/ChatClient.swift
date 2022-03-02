@@ -443,10 +443,19 @@ public class ChatClient {
             registrarClient = tempRegistrarClient
         }
 
-        registrarClient!.deleteRegistration { result in
+        guard let registrarClient = registrarClient else {
+            completionHandler(.failure(
+                AzureError
+                    .client("Failed to stop push notifications. Fail to find or create registrarClient.")
+            ))
+            return
+        }
+
+        registrarClient.deleteRegistration { result in
             switch result {
             case let .success(response):
                 self.pushNotificationsStarted = false
+                self.registrationId = UUID().uuidString
                 completionHandler(.success(response))
             case let .failure(error):
                 self.options.logger.error("Failed to stop push notifications with error: \(error.localizedDescription)")

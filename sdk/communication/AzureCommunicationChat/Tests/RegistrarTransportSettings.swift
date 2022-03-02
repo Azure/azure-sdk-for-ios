@@ -26,26 +26,30 @@
 
 import Foundation
 
-/// POST request body.
-internal struct RegistrarRequestBody: Codable {
-    /// The registration id.
-    internal let registrationId: String
-    /// Node id.
-    internal let nodeId: String
-    /// Client description
-    internal let clientDescription: RegistrarClientDescription
-    /// Transports
-    internal let transports: [String: [RegistrarTransportSettings]]
+/// Registrar transport.
+internal struct RegistrarTransportSettings: Codable {
+    /// TTL in seconds. Maximum value is 15552000.
+    internal let ttl: Int
+    /// APNS device token.
+    internal let path: String
+    /// Optional context.
+    internal let context: String
+    /// Creation time as RFC 1123 formatted date.
+    internal let creationTime: String?
+    /// Snooze time in seconds. Maximum value is 15552000.
+    internal let snoozeSeconds: Int?
 
     internal init(
-        registrationId: String,
-        nodeId: String,
-        clientDescription: RegistrarClientDescription,
-        registrarTransportSettings: [String: [RegistrarTransportSettings]]
+        ttl: Int,
+        path: String,
+        context: String,
+        creationTime: String? = nil,
+        snoozeSeconds: Int? = nil
     ) {
-        self.registrationId = registrationId
-        self.nodeId = nodeId
-        self.clientDescription = clientDescription
-        self.transports = registrarTransportSettings
+        self.ttl = ttl
+        self.path = path
+        self.context = context
+        self.creationTime = creationTime
+        self.snoozeSeconds = snoozeSeconds
     }
 }
