@@ -34,7 +34,7 @@ public protocol DataStringConvertible {
 
 public extension DataStringConvertible {
     func text(encoding: String.Encoding = .utf8) -> String? {
-        guard let data = self.data else { return nil }
+        guard let data = data else { return nil }
         return String(data: data, encoding: encoding)
     }
 }

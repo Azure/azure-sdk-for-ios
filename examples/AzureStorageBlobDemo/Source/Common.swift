@@ -42,7 +42,7 @@ struct AppConstants {
     static let authority = "https://login.microsoftonline.com/7e6c9611-413e-47e4-a054-a389854dd732"
 }
 
-struct AppState {
+enum AppState {
     static var application: MSALPublicClientApplication?
 
     static var account: MSALAccount?
@@ -116,7 +116,7 @@ class ActivtyViewController: UIViewController {
 }
 
 extension UIViewController {
-    internal func showAlert(error: Error?) {
+    func showAlert(error: Error?) {
         guard presentedViewController == nil else { return }
         var errorString: String
         if let err = error {
@@ -140,7 +140,7 @@ extension UIViewController {
         present(alertController, animated: true)
     }
 
-    internal func showAlert(message: String) {
+    func showAlert(message: String) {
         guard presentedViewController == nil else { return }
         let alertController = UIAlertController(title: "Blob Contents", message: message, preferredStyle: .alert)
         let defaultAction = UIAlertAction(title: "Close", style: .default, handler: nil)
@@ -149,8 +149,8 @@ extension UIViewController {
     }
 }
 
-extension TransferState {
-    public var color: UIColor {
+public extension TransferState {
+    var color: UIColor {
         switch self {
         case .pending:
             return UIColor(red: 222.0 / 255.0, green: 222.0 / 255.0, blue: 222.0 / 255.0, alpha: 1.0)

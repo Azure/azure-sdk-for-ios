@@ -34,7 +34,7 @@ import Foundation
         // MARK: - Properties
 
         public var networkReachabilityStatus: NetworkReachabilityStatus {
-            guard let flags = self.flags else { return .unknown }
+            guard let flags = flags else { return .unknown }
             return networkReachabilityStatusForFlags(flags)
         }
 

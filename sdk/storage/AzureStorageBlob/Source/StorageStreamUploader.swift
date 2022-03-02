@@ -294,7 +294,7 @@ internal class BlobStreamUploader: BlobUploader {
     ///   - completionHandler: A completion handler called when the download completes.
     public func complete(inGroup group: DispatchGroup? = nil, completionHandler: @escaping () -> Void) throws {
         guard !isComplete else {
-            if let delegate = self.delegate {
+            if let delegate = delegate {
                 delegate.uploaderDidComplete(self)
             } else {
                 completionHandler()
