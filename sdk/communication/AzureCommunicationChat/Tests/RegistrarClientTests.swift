@@ -105,13 +105,13 @@ class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
             switch result {
             case let .success(response):
                 XCTAssertEqual(response?.statusCode, 202)
+                expectation.fulfill()
             case let .failure(error):
                 XCTFail("Create thread failed with error: \(error)")
             }
-            expectation.fulfill()
         }
 
-        waitForExpectations(timeout: 100_000_000) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Set registration timed out: \(error)")
             }
@@ -149,7 +149,6 @@ class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
                         case let .failure(error):
                             XCTFail("Create thread failed with error: \(error)")
                         }
-                        // expectation.fulfill()
                     }
                 } else {
                     XCTFail("Failed to set registration.")
@@ -158,10 +157,11 @@ class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
                 XCTFail("Create thread failed with error: \(error)")
             }
             expectation.fulfill()
-            self.waitForExpectations(timeout: 10.0) { error in
-                if let error = error {
-                    XCTFail("Delete registration timed out: \(error)")
-                }
+        }
+
+        waitForExpectations(timeout: 10.0) { error in
+            if let error = error {
+                XCTFail("Delete registration timed out: \(error)")
             }
         }
     }
