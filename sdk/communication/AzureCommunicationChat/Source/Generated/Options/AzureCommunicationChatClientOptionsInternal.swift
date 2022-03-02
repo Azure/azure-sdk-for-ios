@@ -31,27 +31,27 @@ internal struct AzureCommunicationChatClientOptionsInternal: ClientOptions {
     internal enum ApiVersion: RequestStringConvertible {
         /// Custom value for unrecognized enum values
         case custom(String)
-        /// API version "2021-04-05-preview6"
-        case v20210405preview6
+        /// API version "2021-09-07"
+        case v20210907
 
         /// The most recent API version of the
-        public static var latest: ApiVersion {
-            return .v20210405preview6
+        internal static var latest: ApiVersion {
+            return .v20210907
         }
 
         internal var requestString: String {
             switch self {
             case let .custom(val):
                 return val
-            case .v20210405preview6:
-                return "2021-04-05-preview6"
+            case .v20210907:
+                return "2021-09-07"
             }
         }
 
         internal init(_ val: String) {
             switch val.lowercased() {
-            case "2021-04-05-preview6":
-                self = .v20210405preview6
+            case "2021-09-07":
+                self = .v20210907
             default:
                 self = .custom(val)
             }

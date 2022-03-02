@@ -1,5 +1,8 @@
 # Release History
 
+## 1.1.0 (Unreleased)
+Updated service API version to 2021-09-07.
+
 ## 1.1.0-beta.2 (2021-09-30)
 ### Bugs Fixed
 - Fix missing AzureTest dependency in Package.swift
