@@ -144,6 +144,7 @@
 		E0A6DF5C27CEACFE0024904B /* RegistrarTransportSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A6DF5B27CEACFE0024904B /* RegistrarTransportSettings.swift */; };
 		E0A6DF5D27CEE6880024904B /* RegistrarTransportSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A6DF5B27CEACFE0024904B /* RegistrarTransportSettings.swift */; };
 		E0A6DF5F27CEEC820024904B /* test-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = E0A6DF5E27CEEC820024904B /* test-settings.plist */; };
+		E0E3C0C127CF1BB10044C30F /* test_setRegistration_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E0E3C0C027CF1BB10044C30F /* test_setRegistration_ReturnsSuccess.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -337,6 +338,7 @@
 		E09423C127B23A84006DBEE8 /* PushNotificationEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationEvent.swift; sourceTree = "<group>"; };
 		E0A6DF5B27CEACFE0024904B /* RegistrarTransportSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrarTransportSettings.swift; sourceTree = "<group>"; };
 		E0A6DF5E27CEEC820024904B /* test-settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "test-settings.plist"; sourceTree = "<group>"; };
+		E0E3C0C027CF1BB10044C30F /* test_setRegistration_ReturnsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_setRegistration_ReturnsSuccess.json; sourceTree = "<group>"; };
 		FCF18D210ADF02D5CBA71786 /* Pods-AzureCommunicationChatUnitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationChatUnitTests.release.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationChatUnitTests/Pods-AzureCommunicationChatUnitTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -404,6 +406,7 @@
 				E06DC2F927BF328D0074CD45 /* test_StartPushNotifications_ReturnsSuccess.json */,
 				0A6A5453268BAB8B001006AF /* test_CreateThread_WithoutParticipants.json */,
 				0A6A5454268BAB8B001006AF /* test_ListThreads_ReturnsChatThreadItems.json */,
+				E0E3C0C027CF1BB10044C30F /* test_setRegistration_ReturnsSuccess.json */,
 			);
 			path = Recordings;
 			sourceTree = "<group>";
@@ -867,6 +870,7 @@
 				E06DC2FC27BF366E0074CD45 /* test_StopPushNotifications_ReturnsSuccess.json in Resources */,
 				D1CD93DC258D6EDA00409613 /* sendMessage.json in Resources */,
 				E06DC30627BF60B00074CD45 /* test_CreateThread_WithoutParticipants.json in Resources */,
+				E0E3C0C127CF1BB10044C30F /* test_setRegistration_ReturnsSuccess.json in Resources */,
 				E06DC30727BF60B60074CD45 /* test_ListThreads_ReturnsChatThreadItems.json in Resources */,
 				E06DC2FA27BF328D0074CD45 /* test_StartPushNotifications_ReturnsSuccess.json in Resources */,
 				D13CE65125BFB6D700415467 /* listReadReceipts.json in Resources */,

@@ -30,7 +30,7 @@
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "TEST_MODE"
-            value = "record"
+            value = "playback"
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
@@ -45,7 +45,7 @@
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "SDK_REPO_ROOT"
-            value = "/Users/ningxinlan/Desktop/Dev/azure-sdk-for-ios"
+            value = "/Users/ningxinlan/Desktop/dev/azure-sdk-for-ios"
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>

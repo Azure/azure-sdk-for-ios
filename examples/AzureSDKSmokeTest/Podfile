@@ -41,7 +41,7 @@ end
 # determine if running on CI or not and populate local directory
 is_ci = ENV.key?('IS_CI')
 local_path = ENV['PODSPEC_DIR']
-branch = (ENV['PODSPEC_BRANCH'] || 'master')
+branch = (ENV['PODSPEC_BRANCH'] || 'main')
 
 target 'AzureSDKSmokeTest' do
   if is_ci
