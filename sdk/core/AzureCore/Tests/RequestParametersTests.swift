@@ -121,7 +121,7 @@ class QueryParametersTests: XCTestCase {
     }
 
     func test_QueryParameters_WithDouble() throws {
-        let val = 5.0
+        let val: Double = 5.0
         let query = RequestParameters(
             (.query, "var1", val, .encode)
         )
