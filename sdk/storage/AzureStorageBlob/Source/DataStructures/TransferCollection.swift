@@ -121,18 +121,18 @@ public struct TransferCollection {
 
         if let localUrl = localUrl {
             guard let url = transfer.transferType == .download ? transfer.destination : transfer.source,
-                url == localUrl.rawUrl else { return false }
+                  url == localUrl.rawUrl else { return false }
         }
 
         if let blobName = blobName {
             guard let url = transfer.transferType == .download ? transfer.source : transfer.destination,
-                url.path.hasSuffix(blobName) else { return false }
+                  url.path.hasSuffix(blobName) else { return false }
         }
 
         if var containerName = containerName {
             containerName = containerName.hasPrefix("/") ? containerName : "/\(containerName)"
             guard let url = transfer.transferType == .download ? transfer.source : transfer.destination,
-                url.path.hasPrefix(containerName) else { return false }
+                  url.path.hasPrefix(containerName) else { return false }
         }
         return true
     }

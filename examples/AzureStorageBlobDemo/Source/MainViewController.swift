@@ -67,8 +67,9 @@ class TestResultTableViewCell: UITableViewCell {
 
     @IBAction func didPressRun(_ sender: AnyObject) {
         guard let cell = sender.superview?.superview as? TestResultTableViewCell,
-            let tableView = cell.superview as? UITableView,
-            let indexPath = tableView.indexPath(for: cell) else {
+              let tableView = cell.superview as? UITableView,
+              let indexPath = tableView.indexPath(for: cell)
+        else {
             fatalError()
         }
         var data = dataSource[indexPath.row]

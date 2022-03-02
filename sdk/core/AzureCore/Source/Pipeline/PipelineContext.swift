@@ -55,7 +55,7 @@ public protocol PipelineContextSupporting {
 
 public extension PipelineContextSupporting {
     mutating func add(value: AnyObject, forKey key: AnyHashable) {
-        if let context = self.context {
+        if let context = context {
             return context.add(value: value, forKey: key)
         } else {
             context = PipelineContext.of(keyValues: [key: value])
@@ -63,7 +63,7 @@ public extension PipelineContextSupporting {
     }
 
     mutating func add(value: AnyObject, forKey key: ContextKey) {
-        if let context = self.context {
+        if let context = context {
             return context.add(value: value, forKey: key)
         } else {
             context = PipelineContext.of(keyValues: [key.rawValue: value])

@@ -135,7 +135,7 @@ public class UserAgentPolicy: PipelineStage {
 
     public func on(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
         if let currentUserAgent = request.httpRequest.headers[.userAgent],
-            !currentUserAgent.contains(UserAgentPolicy.defaultUserAgent) {
+           !currentUserAgent.contains(UserAgentPolicy.defaultUserAgent) {
             request.httpRequest.headers[.userAgent] = "\(userAgent) \(currentUserAgent)"
         } else {
             request.httpRequest.headers[.userAgent] = userAgent
