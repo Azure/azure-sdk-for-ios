@@ -1052,4 +1052,18 @@ class TrouterEventUtilTests: XCTestCase {
             XCTFail("Failed to create ParticipantsAddedEvent: \(error)")
         }
     }
+
+    func test_getCommunicationIdentifier_withAcsGcchUserRawId() {
+        let userId = "8:gcch-acs:user"
+        let result = TrouterEventUtil.getIdentifier(from: userId)
+        XCTAssertTrue(result is CommunicationUserIdentifier)
+        XCTAssertEqual(userId, (result as? CommunicationUserIdentifier)?.identifier)
+    }
+
+    func test_getCommunicationIdentifier_withAcsDodUserRawId() {
+        let userId = "8:dod-acs:user"
+        let result = TrouterEventUtil.getIdentifier(from: userId)
+        XCTAssertTrue(result is CommunicationUserIdentifier)
+        XCTAssertEqual(userId, (result as? CommunicationUserIdentifier)?.identifier)
+    }
 }

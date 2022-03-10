@@ -52,6 +52,8 @@ internal enum TrouterEventUtil {
         let phoneNumberPrefix = "4:"
         let acsUserPrefix = "8:acs:"
         let spoolUserPrefix = "8:spool:"
+        let dodAcsUserPrefix = "8:dod-acs:"
+        let gcchAcsUserPrefix = "8:gcch-acs:"
 
         if id.starts(with: publicTeamsUserPrefix) {
             return MicrosoftTeamsUserIdentifier(
@@ -84,7 +86,8 @@ internal enum TrouterEventUtil {
                 phoneNumber: parse(id: id, prefix: phoneNumberPrefix),
                 rawId: id
             )
-        } else if id.starts(with: acsUserPrefix) || id.starts(with: spoolUserPrefix) {
+        } else if id.starts(with: acsUserPrefix) || id.starts(with: spoolUserPrefix) || id
+            .starts(with: dodAcsUserPrefix) || id.starts(with: gcchAcsUserPrefix) {
             return CommunicationUserIdentifier(id)
         } else {
             return UnknownIdentifier(id)
