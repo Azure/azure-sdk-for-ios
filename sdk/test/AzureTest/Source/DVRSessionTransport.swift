@@ -139,7 +139,7 @@ public class DVRSessionTransport: TransportStage {
         completionHandler: @escaping PipelineStageResultHandler
     ) {
         open()
-        guard let session = self.session else {
+        guard let session = session else {
             pipelineRequest.logger.error("Invalid session.")
             return
         }
