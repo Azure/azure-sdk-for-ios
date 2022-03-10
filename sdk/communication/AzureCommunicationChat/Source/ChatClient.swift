@@ -466,29 +466,51 @@ public class ChatClient {
 
     /// Handle the data payload for an incoming push notification.
     /// - Parameters:
-    ///   - notification: The APNS push notification.
-    ///   - completionHandler: Receives the PushNotificationEvent from the push notification payload.
+    ///   - notification: The APNS push notification payload ( including "aps" and "data" )
+    ///   - completionHandler:The event handler to handle the PushNotificationEvent
     public func handlePush(
         notification: [AnyHashable: Any],
         completionHandler: PushNotificationEventHandler
     ) {
-        guard let payload = notification["data"] as? [String: AnyObject] else {
+        // Retrieve the "data" part from the APNS push notification payload
+        guard let dataPayload = notification["data"] as? [String: AnyObject] else {
             options.logger.error("Push notification does not contain data payload.")
             completionHandler(nil, AzureError.client("Push notification does not contain data payload."))
             return
         }
 
         do {
-            let data = try JSONSerialization.data(withJSONObject: payload)
+            let data = try JSONSerialization.data(withJSONObject: dataPayload)
 
-            // Determine the event type from the eventId
-            let basePayload = try JSONDecoder().decode(BasePayload.self, from: data)
-            let chatEventId = try ChatEventId(forCode: basePayload.eventId)
-            let chatEvent = try PushNotificationEvent(chatEventId: chatEventId, from: data)
+            // Determine the chat eventType
+            let pushNotificationBasePayload = try JSONDecoder().decode(PushNotificationBasePayload.self, from: data)
+            let chatEventType = try PushNotificationChatEventType(forCode: pushNotificationBasePayload.eventId)
 
-            completionHandler(chatEvent, nil)
+            // Create PushNotificationChatEvent using eventType and event payload data
+            let pushNotificationEvent = try PushNotificationEvent(chatEventType: chatEventType, from: data)
+
+            // Pass the PushNotificationChatEvent into the user-defined event handler
+            completionHandler(pushNotificationEvent, nil)
+
+            // Catch the errors in the above decoding process
+        } catch let DecodingError.dataCorrupted(context) {
+            print(context)
+            completionHandler(nil, AzureError.client("decoding error"))
+        } catch let DecodingError.keyNotFound(key, context) {
+            print("Key '\(key)' not found:", context.debugDescription)
+            print("codingPath:", context.codingPath)
+            completionHandler(nil, AzureError.client("decoding error"))
+        } catch let DecodingError.valueNotFound(value, context) {
+            print("Value '\(value)' not found:", context.debugDescription)
+            print("codingPath:", context.codingPath)
+            completionHandler(nil, AzureError.client("decoding error"))
+        } catch let DecodingError.typeMismatch(type, context) {
+            print("Type '\(type)' mismatch:", context.debugDescription)
+            print("codingPath:", context.codingPath)
+            completionHandler(nil, AzureError.client("decoding error"))
         } catch {
-            options.logger.error("Failed to handle push notification: \(error.localizedDescription)")
+            print("error: ", error)
+            // Pass the error into the contoso event handler
             completionHandler(nil, error)
         }
     }

@@ -32,51 +32,46 @@ public typealias PushNotificationEventHandler = (_ response: PushNotificationEve
 
 /// PushNotificationEvents.
 public enum PushNotificationEvent {
-    case chatMessageReceivedEvent(ChatMessageReceivedEvent)
-    case typingIndicatorReceived(TypingIndicatorReceivedEvent)
-    case readReceiptReceived(ReadReceiptReceivedEvent)
-    case chatMessageEdited(ChatMessageEditedEvent)
-    case chatMessageDeleted(ChatMessageDeletedEvent)
-    case chatThreadCreated(ChatThreadCreatedEvent)
-    case chatThreadPropertiesUpdated(ChatThreadPropertiesUpdatedEvent)
-    case chatThreadDeleted(ChatThreadDeletedEvent)
-    case participantsAdded(ParticipantsAddedEvent)
-    case participantsRemoved(ParticipantsRemovedEvent)
+    case chatMessageReceivedEvent(PNChatMessageReceivedEvent)
+    case chatMessageEditedEvent(PNChatMessageEditedEvent)
+    case chatMessageDeletedEvent(PNChatMessageDeletedEvent)
+    case chatThreadCreatedEvent(PNChatThreadCreatedEvent)
+    case chatThreadPropertiesUpdatedEvent(PNChatThreadPropertiesUpdatedEvent)
+    case chatThreadDeletedEvent(PNChatThreadDeletedEvent)
+    case participantsAddedEvent(PNChatParticipantsAddedEvent)
+    case participantsRemovedEvent(PNChatParticipantsRemovedEvent)
 
-    /// Initialize a PushNotificationEvent given the ChatEventId and the event payload data.
+    /// Initialize a PushNotificationEvent given the ChatEventType and the event payload data.
     /// - Parameters:
     ///   - chatEventId: The ChatEventId.
     ///   - data: The payload Data.
-    init(chatEventId: ChatEventId, from data: Data) throws {
-        switch chatEventId {
-        case ChatEventId.chatMessageReceived:
-            let event = try ChatMessageReceivedEvent(from: data)
+    init(chatEventType: PushNotificationChatEventType, from data: Data) throws {
+        switch chatEventType {
+        case .chatMessageReceived:
+            let event = try PNChatMessageReceivedEvent(from: data)
             self = .chatMessageReceivedEvent(event)
         case .chatMessageEdited:
-            let event = try ChatMessageEditedEvent(from: data)
-            self = .chatMessageEdited(event)
+            let event = try PNChatMessageEditedEvent(from: data)
+            self = .chatMessageEditedEvent(event)
         case .chatMessageDeleted:
-            let event = try ChatMessageDeletedEvent(from: data)
-            self = .chatMessageDeleted(event)
+            let event = try PNChatMessageDeletedEvent(from: data)
+            self = .chatMessageDeletedEvent(event)
         case .chatThreadCreated:
-            let event = try ChatThreadCreatedEvent(from: data)
-            self = .chatThreadCreated(event)
+            let event = try PNChatThreadCreatedEvent(from: data)
+            self = .chatThreadCreatedEvent(event)
         case .chatThreadPropertiesUpdated:
-            let event = try ChatThreadPropertiesUpdatedEvent(from: data)
-            self = .chatThreadPropertiesUpdated(event)
+            let event = try PNChatThreadPropertiesUpdatedEvent(from: data)
+            self = .chatThreadPropertiesUpdatedEvent(event)
         case .chatThreadDeleted:
-            let event = try ChatThreadDeletedEvent(from: data)
-            self = .chatThreadDeleted(event)
+            let event = try PNChatThreadDeletedEvent(from: data)
+            self = .chatThreadDeletedEvent(event)
         case .participantsAdded:
-            let event = try ParticipantsAddedEvent(from: data)
-            self = .participantsAdded(event)
+            let event = try PNChatParticipantsAddedEvent(from: data)
+            self = .participantsAddedEvent(event)
         case .participantsRemoved:
-            let event = try ParticipantsRemovedEvent(from: data)
-            self = .participantsRemoved(event)
-        case .readReceiptReceived:
-            throw AzureError.client("Event 'readReceiptReceived' is unsupported")
-        case .typingIndicatorReceived:
-            throw AzureError.client("Event 'typingIndicatorReceived' is unsupported")
+            let event = try PNChatParticipantsRemovedEvent(from: data)
+            self = .participantsRemovedEvent(event)
         }
     }
 }
+

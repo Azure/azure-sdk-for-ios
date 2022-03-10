@@ -140,10 +140,13 @@
 		E06DC2FC27BF366E0074CD45 /* test_StopPushNotifications_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E06DC2FB27BF366E0074CD45 /* test_StopPushNotifications_ReturnsSuccess.json */; };
 		E06DC30627BF60B00074CD45 /* test_CreateThread_WithoutParticipants.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A6A5453268BAB8B001006AF /* test_CreateThread_WithoutParticipants.json */; };
 		E06DC30727BF60B60074CD45 /* test_ListThreads_ReturnsChatThreadItems.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A6A5454268BAB8B001006AF /* test_ListThreads_ReturnsChatThreadItems.json */; };
-		E09423C227B23A84006DBEE8 /* PushNotificationEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09423C127B23A84006DBEE8 /* PushNotificationEvent.swift */; };
 		E0A6DF5C27CEACFE0024904B /* RegistrarTransportSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A6DF5B27CEACFE0024904B /* RegistrarTransportSettings.swift */; };
 		E0A6DF5D27CEE6880024904B /* RegistrarTransportSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A6DF5B27CEACFE0024904B /* RegistrarTransportSettings.swift */; };
 		E0A6DF5F27CEEC820024904B /* test-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = E0A6DF5E27CEEC820024904B /* test-settings.plist */; };
+		E0BE207E27D8825A008AC5DB /* PushNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0BE207D27D8825A008AC5DB /* PushNotificationPayload.swift */; };
+		E0BE208027D8827A008AC5DB /* PushNotificationBaseEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0BE207F27D8827A008AC5DB /* PushNotificationBaseEvent.swift */; };
+		E0BE208227D8829C008AC5DB /* PushNotificationEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0BE208127D8829C008AC5DB /* PushNotificationEvent.swift */; };
+		E0BE208427D88340008AC5DB /* PushNotificationChatEventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0BE208327D88340008AC5DB /* PushNotificationChatEventType.swift */; };
 		E0E3C0C127CF1BB10044C30F /* test_setRegistration_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E0E3C0C027CF1BB10044C30F /* test_setRegistration_ReturnsSuccess.json */; };
 		E0E3C0C327CFDEF10044C30F /* test_deleteRegistration_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E0E3C0C227CFDEF10044C30F /* test_deleteRegistration_ReturnsSuccess.json */; };
 /* End PBXBuildFile section */
@@ -336,9 +339,12 @@
 		D1D829BD25D1FFD700AC3CF3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		E06DC2F927BF328D0074CD45 /* test_StartPushNotifications_ReturnsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_StartPushNotifications_ReturnsSuccess.json; sourceTree = "<group>"; };
 		E06DC2FB27BF366E0074CD45 /* test_StopPushNotifications_ReturnsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_StopPushNotifications_ReturnsSuccess.json; sourceTree = "<group>"; };
-		E09423C127B23A84006DBEE8 /* PushNotificationEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationEvent.swift; sourceTree = "<group>"; };
 		E0A6DF5B27CEACFE0024904B /* RegistrarTransportSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrarTransportSettings.swift; sourceTree = "<group>"; };
 		E0A6DF5E27CEEC820024904B /* test-settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "test-settings.plist"; sourceTree = "<group>"; };
+		E0BE207D27D8825A008AC5DB /* PushNotificationPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationPayload.swift; sourceTree = "<group>"; };
+		E0BE207F27D8827A008AC5DB /* PushNotificationBaseEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationBaseEvent.swift; sourceTree = "<group>"; };
+		E0BE208127D8829C008AC5DB /* PushNotificationEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationEvent.swift; sourceTree = "<group>"; };
+		E0BE208327D88340008AC5DB /* PushNotificationChatEventType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationChatEventType.swift; sourceTree = "<group>"; };
 		E0E3C0C027CF1BB10044C30F /* test_setRegistration_ReturnsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_setRegistration_ReturnsSuccess.json; sourceTree = "<group>"; };
 		E0E3C0C227CFDEF10044C30F /* test_deleteRegistration_ReturnsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_deleteRegistration_ReturnsSuccess.json; sourceTree = "<group>"; };
 		FCF18D210ADF02D5CBA71786 /* Pods-AzureCommunicationChatUnitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationChatUnitTests.release.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationChatUnitTests/Pods-AzureCommunicationChatUnitTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -596,7 +602,6 @@
 				D1D6177B26B317F70022231D /* ChatEvent.swift */,
 				D1D6177C26B317F70022231D /* TrouterEvent.swift */,
 				D1D6177D26B317F70022231D /* TrouterEventUtil.swift */,
-				E09423C127B23A84006DBEE8 /* PushNotificationEvent.swift */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -696,6 +701,17 @@
 			path = Token;
 			sourceTree = "<group>";
 		};
+		E0BE207C27D881E7008AC5DB /* PushNotification */ = {
+			isa = PBXGroup;
+			children = (
+				E0BE207D27D8825A008AC5DB /* PushNotificationPayload.swift */,
+				E0BE208327D88340008AC5DB /* PushNotificationChatEventType.swift */,
+				E0BE207F27D8827A008AC5DB /* PushNotificationBaseEvent.swift */,
+				E0BE208127D8829C008AC5DB /* PushNotificationEvent.swift */,
+			);
+			path = PushNotification;
+			sourceTree = "<group>";
+		};
 		OBJ_113 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -727,6 +743,7 @@
 			children = (
 				D1565C70256DB74900AF45F8 /* ChatClient.swift */,
 				D1565C73256DB76C00AF45F8 /* ChatThreadClient.swift */,
+				E0BE207C27D881E7008AC5DB /* PushNotification */,
 				D1D6178026B317F70022231D /* Generated */,
 				D15E98C925B7C80C00E63DB2 /* Models */,
 				D10A75352703B02900E39F47 /* Options */,
@@ -1069,6 +1086,7 @@
 				D1D617EF26B3198B0022231D /* RemoveChatParticipantOptions.swift in Sources */,
 				D10A75372703B02900E39F47 /* AzureCommunicationChatClientOptions.swift in Sources */,
 				D1D617F026B3198B0022231D /* SendChatReadReceiptOptions.swift in Sources */,
+				E0BE208027D8827A008AC5DB /* PushNotificationBaseEvent.swift in Sources */,
 				D1D617F226B3198B0022231D /* ListChatParticipantsOptions.swift in Sources */,
 				D1D617F326B3198B0022231D /* ListChatMessagesOptions.swift in Sources */,
 				D1D617F426B3198B0022231D /* SendTypingNotificationOptions.swift in Sources */,
@@ -1079,7 +1097,9 @@
 				D1D617F826B3198B0022231D /* DeleteChatMessageOptions.swift in Sources */,
 				D1D617F926B3198B0022231D /* DeleteChatThreadOptions.swift in Sources */,
 				D1D617FA26B3198B0022231D /* GetChatMessageOptions.swift in Sources */,
+				E0BE208427D88340008AC5DB /* PushNotificationChatEventType.swift in Sources */,
 				D1D617FB26B3198B0022231D /* ListChatReadReceiptsOptions.swift in Sources */,
+				E0BE208227D8829C008AC5DB /* PushNotificationEvent.swift in Sources */,
 				D1D617FC26B3198B0022231D /* UpdateChatThreadPropertiesOptions.swift in Sources */,
 				D1D617FD26B3198B0022231D /* CreateChatThreadOptions.swift in Sources */,
 				D1D617FE26B3198B0022231D /* ListChatThreadsOptions.swift in Sources */,
@@ -1097,7 +1117,6 @@
 				D1D6180826B3198B0022231D /* CommunicationErrorResponse.swift in Sources */,
 				D1D6180926B3198B0022231D /* AddChatParticipantsRequestInternal.swift in Sources */,
 				D1D6180A26B3198B0022231D /* Enumerations.swift in Sources */,
-				E09423C227B23A84006DBEE8 /* PushNotificationEvent.swift in Sources */,
 				D10A75392703B0A400E39F47 /* AzureCommunicationChatClientOptionsInternal.swift in Sources */,
 				D1D6180B26B3198B0022231D /* PhoneNumberIdentifierModel.swift in Sources */,
 				D1D6180C26B3198B0022231D /* AddChatParticipantsResult.swift in Sources */,
@@ -1116,6 +1135,7 @@
 				D1D6181926B3198C0022231D /* ChatParticipantsCollection.swift in Sources */,
 				D1D6181A26B3198C0022231D /* ChatMessageContentInternal.swift in Sources */,
 				D1D6181B26B3198C0022231D /* ChatThread.swift in Sources */,
+				E0BE207E27D8825A008AC5DB /* PushNotificationPayload.swift in Sources */,
 				D1D6181C26B3198C0022231D /* ChatClientInternal.swift in Sources */,
 				D1D6181D26B3198C0022231D /* ChatMessage.swift in Sources */,
 				D1D6181E26B3198C0022231D /* ChatMessageContent.swift in Sources */,
