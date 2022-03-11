@@ -42,7 +42,7 @@ let package = Package(
         .package(
             name: "AzureCommunicationCommon",
             url: "https://github.com/Azure/SwiftPM-AzureCommunicationCommon.git",
-            from: "1.0.2"
+            from: "1.0.3"
         ),
         .package(url: "https://github.com/AliSoftware/OHHTTPStubs.git", from: "9.1.0"),
         .package(
