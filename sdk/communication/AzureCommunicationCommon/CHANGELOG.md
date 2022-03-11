@@ -1,5 +1,10 @@
 # Release History
 
+## 1.0.3 (2022-03-10)
+### New Features
+- Update `AzureCore` dependency to beta 15.
+
+
 ## 1.0.2 (2021-07-30)
 ### New Features
 - Fix dependency in `Package.swift`.
