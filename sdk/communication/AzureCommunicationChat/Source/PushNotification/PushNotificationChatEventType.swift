@@ -24,8 +24,8 @@
 //
 // --------------------------------------------------------------------------
 
-import Foundation
 import AzureCore
+import Foundation
 
 /// PushNotificationChatEventType representing the different events for push notifications
 public enum PushNotificationChatEventType: String {

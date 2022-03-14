@@ -42,9 +42,11 @@ class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
         let credential = try CommunicationTokenCredential(token: token)
         let registrationId = "0E0F0BE0-0000-00C0-B000-A00A00E00BD0"
 
-        // add these in refactoring
-        let communicationCredential = TokenCredentialAdapter(credential)
-        let authPolicy = BearerTokenCredentialPolicy(credential: communicationCredential, scopes: [])
+        let httpHeaders = [
+            RegistrarHeader.contentType.rawValue: RegistrarMimeType.json.rawValue,
+            RegistrarHeader.skypeTokenHeader.rawValue: token
+        ]
+        let headersPolicy = HeadersPolicy(addingHeaders: httpHeaders)
         let userOptions = AzureCommunicationChatClientOptions(transportOptions: transportOptions)
         var options = userOptions
         if userOptions.telemetryOptions.applicationId == nil {
@@ -76,7 +78,7 @@ class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
             endpoint: registrarEndpoint,
             credential: credential,
             registrationId: registrationId,
-            authPolicy: authPolicy,
+            headersPolicy: headersPolicy,
             withOptions: internalOptions
         )
     }

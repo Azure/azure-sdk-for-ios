@@ -356,18 +356,33 @@ public class ChatClient {
             dispatchQueue: options.dispatchQueue
         )
 
-        let communicationCredential = TokenCredentialAdapter(credential)
-        let authPolicy = BearerTokenCredentialPolicy(credential: communicationCredential, scopes: [])
+        // Prepare headers policy
+        var httpHeaders: HTTPHeaders = [:]
+        credential.token { accessToken, _ in
+            // Get token from CommunicationTokenCredential to set the authentication header
+            guard let skypeToken = accessToken?.token else {
+                completionHandler(
+                    .failure(AzureError.client("Failed to get token from CommunicationTokenCredential."))
+                )
+                return
+            }
+
+            httpHeaders = [
+                RegistrarHeader.contentType.rawValue: RegistrarMimeType.json.rawValue,
+                RegistrarHeader.skypeTokenHeader.rawValue: skypeToken
+            ]
+        }
+        let headersPolicy = HeadersPolicy(addingHeaders: httpHeaders)
 
         // Initialize the RegistrarClient
         guard let registrarClient = try? RegistrarClient(
             endpoint: RegistrarSettings.endpoint,
             credential: credential,
             registrationId: registrationId,
-            authPolicy: authPolicy,
+            headersPolicy: headersPolicy,
             withOptions: internalOptions
         ) else {
-            completionHandler(.failure(AzureError.client("Failed to enable push notifications.")))
+            completionHandler(.failure(AzureError.client("Failed to initialize the RegistrarClient.")))
             return
         }
 
@@ -422,20 +437,40 @@ public class ChatClient {
                 dispatchQueue: options.dispatchQueue
             )
 
-            let communicationCredential = TokenCredentialAdapter(credential)
-            let authPolicy = BearerTokenCredentialPolicy(credential: communicationCredential, scopes: [])
+            // Prepare headers policy
+            var httpHeaders: HTTPHeaders = [:]
+            credential.token { accessToken, _ in
+                // Get token from CommunicationTokenCredential to set the authentication header
+                guard let skypeToken = accessToken?.token else {
+                    completionHandler(
+                        .failure(
+                            AzureError
+                                .client(
+                                    "Failed to stop push notifications. Failed to find registrarClient. Failed to get token from CommunicationTokenCredential to recreate registrarClient."
+                                )
+                        )
+                    )
+                    return
+                }
+
+                httpHeaders = [
+                    RegistrarHeader.contentType.rawValue: RegistrarMimeType.json.rawValue,
+                    RegistrarHeader.skypeTokenHeader.rawValue: skypeToken
+                ]
+            }
+            let headersPolicy = HeadersPolicy(addingHeaders: httpHeaders)
 
             // Initialize the RegistrarClient
             guard let tempRegistrarClient = try? RegistrarClient(
                 endpoint: RegistrarSettings.endpoint,
                 credential: credential,
                 registrationId: registrationId,
-                authPolicy: authPolicy,
+                headersPolicy: headersPolicy,
                 withOptions: internalOptions
             ) else {
                 completionHandler(.failure(
                     AzureError
-                        .client("Failed to stop push notifications. Fail to find or create registrarClient.")
+                        .client("Failed to stop push notifications. Fail to find or recreate registrarClient.")
                 ))
                 return
             }

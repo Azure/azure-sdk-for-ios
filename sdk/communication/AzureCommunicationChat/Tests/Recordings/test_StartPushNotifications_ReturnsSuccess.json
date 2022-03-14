@@ -1,23 +1,7 @@
 {
-  "name" : "test_StartPushNotifications_ReturnsSuccess",
   "interactions" : [
     {
-      "response" : {
-        "body" : "",
-        "status" : 202,
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
-        "headers" : {
-          "x-cache" : "CONFIG_NOCACHE",
-          "x-content-type-options" : "nosniff",
-          "ms-cv" : "ZHv3yQT5u0qHW7BtI11uvA.0",
-          "Content-Length" : "0",
-          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
-          "x-msedge-ref" : "Ref A: E75B25AA8486485CABD024C7CC6BB1B4 Ref B: YVR311000110047 Ref C: 2022-03-02T03:23:06Z"
-        }
-      },
-      "recorded_at" : 1646191386.9514198,
       "request" : {
-        "method" : "POST",
         "body" : {
           "clientDescription" : {
             "appId" : "AcsIos",
@@ -38,12 +22,28 @@
           "registrationId" : "0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
           "nodeId" : ""
         },
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
         "headers" : {
-          "User-Agent" : "azsdk-ios-AzureCommunicationChat\/1.1.0-beta.2 (MacBookPro16,1 - 21.3.0; xctest:13.2 -> iOS 9.0; en_US)",
-          "Content-Type" : "application\/json"
+          "Content-Type" : "application\/json",
+          "User-Agent" : "azsdk-ios-AzureCommunicationChat\/1.1.0-beta.2 (MacBookPro16,1 - 21.3.0; xctest:13.2 -> iOS 9.0; en_US)"
         },
+        "method" : "POST"
+      },
+      "recorded_at" : 1647292058.038584,
+      "response" : {
+        "status" : 202,
+        "headers" : {
+          "Content-Length" : "0",
+          "x-content-type-options" : "nosniff",
+          "x-msedge-ref" : "Ref A: BBEE960DCC9843E5900967A2CF2CDC6E Ref B: CO1EDGE1322 Ref C: 2022-03-14T21:07:37Z",
+          "ms-cv" : "skNgJORjm0Sc4SMD9Ou42A.0",
+          "x-cache" : "CONFIG_NOCACHE",
+          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains"
+        },
+        "body" : "",
         "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations"
       }
     }
-  ]
+  ],
+  "name" : "test_StartPushNotifications_ReturnsSuccess"
 }

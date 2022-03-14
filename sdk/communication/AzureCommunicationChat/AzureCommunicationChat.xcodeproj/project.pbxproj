@@ -136,13 +136,13 @@
 		D1FDDBE82672B73700F9D0B0 /* RegistrarSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10D5581266AB3F6009504FA /* RegistrarSettings.swift */; };
 		D1FDDBE92672B73A00F9D0B0 /* RegistrarRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A0C36B26703FE900D6780A /* RegistrarRequestBody.swift */; };
 		D1FDDBEA2672B73D00F9D0B0 /* RegistrarClientDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A0C36726703D5200D6780A /* RegistrarClientDescription.swift */; };
+		E0130F6827DFDC16005DA385 /* test-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = E0130F6727DFDC16005DA385 /* test-settings.plist */; };
 		E06DC2FA27BF328D0074CD45 /* test_StartPushNotifications_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E06DC2F927BF328D0074CD45 /* test_StartPushNotifications_ReturnsSuccess.json */; };
 		E06DC2FC27BF366E0074CD45 /* test_StopPushNotifications_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E06DC2FB27BF366E0074CD45 /* test_StopPushNotifications_ReturnsSuccess.json */; };
 		E06DC30627BF60B00074CD45 /* test_CreateThread_WithoutParticipants.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A6A5453268BAB8B001006AF /* test_CreateThread_WithoutParticipants.json */; };
 		E06DC30727BF60B60074CD45 /* test_ListThreads_ReturnsChatThreadItems.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A6A5454268BAB8B001006AF /* test_ListThreads_ReturnsChatThreadItems.json */; };
 		E0A6DF5C27CEACFE0024904B /* RegistrarTransportSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A6DF5B27CEACFE0024904B /* RegistrarTransportSettings.swift */; };
 		E0A6DF5D27CEE6880024904B /* RegistrarTransportSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A6DF5B27CEACFE0024904B /* RegistrarTransportSettings.swift */; };
-		E0A6DF5F27CEEC820024904B /* test-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = E0A6DF5E27CEEC820024904B /* test-settings.plist */; };
 		E0BE207E27D8825A008AC5DB /* PushNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0BE207D27D8825A008AC5DB /* PushNotificationPayload.swift */; };
 		E0BE208027D8827A008AC5DB /* PushNotificationBaseEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0BE207F27D8827A008AC5DB /* PushNotificationBaseEvent.swift */; };
 		E0BE208227D8829C008AC5DB /* PushNotificationEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0BE208127D8829C008AC5DB /* PushNotificationEvent.swift */; };
@@ -337,10 +337,10 @@
 		D1D617B226B317F70022231D /* ChatClientInternal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatClientInternal.swift; sourceTree = "<group>"; };
 		D1D617B426B317F70022231D /* TokenCredentialAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenCredentialAdapter.swift; sourceTree = "<group>"; };
 		D1D829BD25D1FFD700AC3CF3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		E0130F6727DFDC16005DA385 /* test-settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "test-settings.plist"; sourceTree = "<group>"; };
 		E06DC2F927BF328D0074CD45 /* test_StartPushNotifications_ReturnsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_StartPushNotifications_ReturnsSuccess.json; sourceTree = "<group>"; };
 		E06DC2FB27BF366E0074CD45 /* test_StopPushNotifications_ReturnsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_StopPushNotifications_ReturnsSuccess.json; sourceTree = "<group>"; };
 		E0A6DF5B27CEACFE0024904B /* RegistrarTransportSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrarTransportSettings.swift; sourceTree = "<group>"; };
-		E0A6DF5E27CEEC820024904B /* test-settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "test-settings.plist"; sourceTree = "<group>"; };
 		E0BE207D27D8825A008AC5DB /* PushNotificationPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationPayload.swift; sourceTree = "<group>"; };
 		E0BE207F27D8827A008AC5DB /* PushNotificationBaseEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationBaseEvent.swift; sourceTree = "<group>"; };
 		E0BE208127D8829C008AC5DB /* PushNotificationEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationEvent.swift; sourceTree = "<group>"; };
@@ -493,7 +493,7 @@
 				0A9207EC26839B3100469608 /* Recordings */,
 				D1CD93AB258D6C0300409613 /* Util */,
 				D1B7EAFC257F03A1004F384A /* Info.plist */,
-				E0A6DF5E27CEEC820024904B /* test-settings.plist */,
+				E0130F6727DFDC16005DA385 /* test-settings.plist */,
 				0AE5BA06267D25AD006B93B7 /* TestSettings.swift */,
 				D10F55FC26E1873600742727 /* TrouterEventUtilTests.swift */,
 				8840448725D5DD7900A194DC /* IdentifierSerializerTests.swift */,
@@ -892,6 +892,7 @@
 				D1CD93DC258D6EDA00409613 /* sendMessage.json in Resources */,
 				E06DC30627BF60B00074CD45 /* test_CreateThread_WithoutParticipants.json in Resources */,
 				E0E3C0C127CF1BB10044C30F /* test_setRegistration_ReturnsSuccess.json in Resources */,
+				E0130F6827DFDC16005DA385 /* test-settings.plist in Resources */,
 				E06DC30727BF60B60074CD45 /* test_ListThreads_ReturnsChatThreadItems.json in Resources */,
 				E06DC2FA27BF328D0074CD45 /* test_StartPushNotifications_ReturnsSuccess.json in Resources */,
 				D13CE65125BFB6D700415467 /* listReadReceipts.json in Resources */,
@@ -902,7 +903,6 @@
 				D1CD93E4258D6EF700409613 /* sendTypingNotification.json in Resources */,
 				D1CD93E0258D6EEA00409613 /* sendReadReceipt.json in Resources */,
 				D1CD93E8258D6F0600409613 /* updateMessage.json in Resources */,
-				E0A6DF5F27CEEC820024904B /* test-settings.plist in Resources */,
 				D1CD93BE258D6E6200409613 /* addParticipants.json in Resources */,
 				D1FDDBE42672B6FA00F9D0B0 /* NoContent.json in Resources */,
 				D10C3BD425A660AF00A181E3 /* listMessages.json in Resources */,

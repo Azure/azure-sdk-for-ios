@@ -49,7 +49,7 @@ internal class RegistrarClient: PipelineClient {
         credential: CommunicationTokenCredential,
         registrationId: String,
         sessionConfiguration: URLSessionConfiguration? = nil,
-        authPolicy: Authenticating,
+        headersPolicy: HeadersPolicy,
         withOptions options: ClientOptions
 
     ) throws {
@@ -68,7 +68,7 @@ internal class RegistrarClient: PipelineClient {
                 UserAgentPolicy(for: RegistrarClient.self, telemetryOptions: options.telemetryOptions),
                 RequestIdPolicy(),
                 AddDatePolicy(),
-                authPolicy,
+                headersPolicy,
                 LoggingPolicy()
             ],
             logger: options.logger,
@@ -120,7 +120,7 @@ internal class RegistrarClient: PipelineClient {
             return
         }
 
-        setRequestHeader(on: request, completionHandler: completionHandler)
+        completionHandler(request, nil)
     }
 
     /// Create a Registrar DELETE request.
@@ -136,46 +136,7 @@ internal class RegistrarClient: PipelineClient {
             return
         }
 
-        setRequestHeader(on: request, completionHandler: completionHandler)
-    }
-
-    /// Sets the header on a Registrar request.
-    /// - Parameters:
-    ///   - request: The  HTTP request.
-    ///   - completionHandler: Returns the request, or an error if the request header failed to be created or added
-    private func setRequestHeader(
-        on request: HTTPRequest,
-        completionHandler: @escaping (HTTPRequest?, AzureError?) -> Void
-    ) {
-        credential.token { accessToken, error in
-            do {
-                // Get token from CommunicationTokenCredential to set the authentication header
-                guard let skypeToken = accessToken?.token else {
-                    completionHandler(
-                        nil,
-                        AzureError.client("Failed to get token from CommunicationTokenCredential.", error)
-                    )
-                    return
-                }
-
-                let httpHeaders: HTTPHeaders = [
-                    RegistrarHeader.contentType.rawValue: RegistrarMimeType.json.rawValue,
-                    RegistrarHeader.skypeTokenHeader.rawValue: skypeToken
-                ]
-
-                let httpRequest = try HTTPRequest(
-                    method: request.httpMethod,
-                    url: request.url,
-                    headers: httpHeaders,
-                    data: request.data
-                )
-
-                completionHandler(httpRequest, nil)
-            } catch {
-                let azureError = AzureError.client("Failed to add headers to the Register request.", error)
-                completionHandler(nil, azureError)
-            }
-        }
+        completionHandler(request, nil)
     }
 
     /// Sends an HTTP request to Registrar.

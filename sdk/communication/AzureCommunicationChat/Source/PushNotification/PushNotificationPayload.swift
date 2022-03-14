@@ -47,7 +47,7 @@ struct PushNotificationMessageReceivedPayload: Decodable {
     let originalArrivalTime: String
     let priority: String
     let version: String
-    
+
     // TODO: add the below field after PNH template is modified
     // let acsChatMessageMetadata: String
 }
@@ -65,7 +65,7 @@ struct PushNotificationMessageEditedPayload: Decodable {
     let edittime: String
     let messageType: String
     let originalArrivalTime: String
-    
+
     // TODO: add the field after PNH template is modified
     // let acsChatMessageMetadata: String
 }

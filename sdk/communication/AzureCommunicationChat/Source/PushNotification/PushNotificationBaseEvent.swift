@@ -529,5 +529,3 @@ public class PNChatMessageDeletedEvent: PNBaseChatMessageEvent {
         )
     }
 }
-
-
