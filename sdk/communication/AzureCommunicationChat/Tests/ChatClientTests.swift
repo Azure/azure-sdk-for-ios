@@ -28,7 +28,6 @@ import AzureCommunicationChat
 import AzureCommunicationCommon
 import AzureCore
 import AzureTest
-import OHHTTPStubs.Swift
 import XCTest
 
 class ChatClientTests: XCTestCase {
@@ -42,7 +41,7 @@ class ChatClientTests: XCTestCase {
     override class func setUp() {
         let mode = environmentVariable(forKey: "TEST_MODE", default: "playback")
         if mode == "playback" {
-            // Register stubs for recordings
+            // Register stubs for playback mode
             Recorder.registerStubs()
         }
     }
@@ -54,18 +53,6 @@ class ChatClientTests: XCTestCase {
         let options = AzureCommunicationChatClientOptions()
 
         chatClient = try ChatClient(endpoint: endpoint, credential: credential, withOptions: options)
-
-        // Registration stubs
-        if mode == "playback" {
-            let bundle = Bundle(for: type(of: self))
-            let path = bundle.path(forResource: "noContent", ofType: "json") ?? ""
-            stub(condition: isMethodPOST() && pathEndsWith("/registrations")) { _ in
-                fixture(filePath: path, status: 202, headers: nil)
-            }
-            stub(condition: isMethodDELETE() && pathMatches("/registrations")) { _ in
-                fixture(filePath: path, status: 202, headers: nil)
-            }
-        }
     }
 
     func test_CreateThread_WithoutParticipants() {
@@ -231,82 +218,6 @@ class ChatClientTests: XCTestCase {
         waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("List threads timed out: \(error)")
-            }
-        }
-    }
-
-    func test_StartPushNotifications_ReturnsSuccess() {
-        let expectation = self.expectation(description: "Start push notifications")
-
-        chatClient.startPushNotifications(deviceToken: "mockDeviceToken") {
-            result in
-            switch result {
-            case let .success(response):
-                XCTAssertEqual(response?.statusCode, 202)
-            case .failure:
-                XCTFail("Start push notifications failed.")
-            }
-
-            expectation.fulfill()
-        }
-
-        waitForExpectations(timeout: 10000.0) { error in
-            if let error = error {
-                XCTFail("Start push notifications timed out: \(error)")
-            }
-        }
-    }
-
-    func test_StopPushNotifications_ReturnsSuccess() {
-        let expectation = self.expectation(description: "Stop push notifications")
-
-        // Start notifications first
-        chatClient.startPushNotifications(deviceToken: "mockDeviceToken") {
-            result in
-            switch result {
-            case .success:
-                // Stop notifications
-                self.chatClient.stopPushNotifications { result in
-                    switch result {
-                    case let .success(response):
-                        XCTAssertEqual(response?.statusCode, 202)
-                    case .failure:
-                        XCTFail("Stop push notifications failed.")
-                    }
-
-                    expectation.fulfill()
-                }
-            case .failure:
-                XCTFail("Start push notifications failed.")
-                expectation.fulfill()
-            }
-        }
-
-        waitForExpectations(timeout: 100.0) { error in
-            if let error = error {
-                XCTFail("Stop push notifications timed out: \(error)")
-            }
-        }
-    }
-
-    func test_StopPushNotifications_ReturnsFailure() {
-        let expectation = self.expectation(description: "Stop push notifications")
-
-        // Stop notifications without starting them
-        chatClient.stopPushNotifications { result in
-            switch result {
-            case .success:
-                XCTFail("Push notifications should not be enabled.")
-            case let .failure(error):
-                XCTAssertNotNil(error)
-            }
-
-            expectation.fulfill()
-        }
-
-        waitForExpectations(timeout: 100.0) { error in
-            if let error = error {
-                XCTFail("Stop push notifications timed out: \(error)")
             }
         }
     }

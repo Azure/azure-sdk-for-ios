@@ -156,19 +156,12 @@ internal class RegistrarClient: PipelineClient {
         self.request(request, context: context) { result, httpResponse in
             switch result {
             case .success:
-                guard (httpResponse?.statusCode) == 202 else {
-                    let invalidStatusCodeError = AzureError.client("Didn't find a valid status code.")
-                    dispatchQueue.async {
-                        completionHandler(.failure(invalidStatusCodeError))
-                    }
-                    return
-                }
                 dispatchQueue.async {
                     completionHandler(.success(httpResponse))
                 }
-            case .failure:
+            case let .failure(error):
                 dispatchQueue.async {
-                    completionHandler(.failure(AzureError.client("Registration request failed.")))
+                    completionHandler(.failure(AzureError.client("Registration request failed.", error)))
                 }
             }
         }

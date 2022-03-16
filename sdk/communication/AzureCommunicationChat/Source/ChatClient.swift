@@ -358,6 +358,7 @@ public class ChatClient {
 
         // Prepare headers policy
         var httpHeaders: HTTPHeaders = [:]
+        var token = ""
         credential.token { accessToken, _ in
             // Get token from CommunicationTokenCredential to set the authentication header
             guard let skypeToken = accessToken?.token else {
@@ -371,12 +372,20 @@ public class ChatClient {
                 RegistrarHeader.contentType.rawValue: RegistrarMimeType.json.rawValue,
                 RegistrarHeader.skypeTokenHeader.rawValue: skypeToken
             ]
+
+            token = skypeToken
         }
         let headersPolicy = HeadersPolicy(addingHeaders: httpHeaders)
 
+        // Get Registrar Service Url
+        guard let registrarServiceUrl = try? getRegistrarServiceUrl(token: token) else {
+            completionHandler(.failure(AzureError.client("Failed to get Registrar Service URL.")))
+            return
+        }
+        
         // Initialize the RegistrarClient
         guard let registrarClient = try? RegistrarClient(
-            endpoint: RegistrarSettings.endpoint,
+            endpoint: registrarServiceUrl,
             credential: credential,
             registrationId: registrationId,
             headersPolicy: headersPolicy,
@@ -439,6 +448,7 @@ public class ChatClient {
 
             // Prepare headers policy
             var httpHeaders: HTTPHeaders = [:]
+            var token = ""
             credential.token { accessToken, _ in
                 // Get token from CommunicationTokenCredential to set the authentication header
                 guard let skypeToken = accessToken?.token else {
@@ -457,12 +467,20 @@ public class ChatClient {
                     RegistrarHeader.contentType.rawValue: RegistrarMimeType.json.rawValue,
                     RegistrarHeader.skypeTokenHeader.rawValue: skypeToken
                 ]
+
+                token = skypeToken
             }
             let headersPolicy = HeadersPolicy(addingHeaders: httpHeaders)
 
+            // Get Registrar Service Url
+            guard let registrarServiceUrl = try? getRegistrarServiceUrl(token: token) else {
+                completionHandler(.failure(AzureError.client("Failed to get Registrar Service URL.")))
+                return
+            }
+
             // Initialize the RegistrarClient
             guard let tempRegistrarClient = try? RegistrarClient(
-                endpoint: RegistrarSettings.endpoint,
+                endpoint: registrarServiceUrl,
                 credential: credential,
                 registrationId: registrationId,
                 headersPolicy: headersPolicy,

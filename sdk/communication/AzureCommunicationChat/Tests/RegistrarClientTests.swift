@@ -32,8 +32,6 @@ import DVR
 import XCTest
 
 class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
-    private var registrarEndpoint: String = "https://edge.skype.com/registrar/prod/v2/registrations"
-
     // RegistrarClient initialied in setup
     private var registrarClient: RegistrarClient!
 
@@ -41,6 +39,7 @@ class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
         let token = settings.token
         let credential = try CommunicationTokenCredential(token: token)
         let registrationId = "0E0F0BE0-0000-00C0-B000-A00A00E00BD0"
+        let registrarServiceUrl = try getRegistrarServiceUrl(token: token)
 
         let httpHeaders = [
             RegistrarHeader.contentType.rawValue: RegistrarMimeType.json.rawValue,
@@ -75,7 +74,7 @@ class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
         )
 
         registrarClient = try RegistrarClient(
-            endpoint: registrarEndpoint,
+            endpoint: registrarServiceUrl,
             credential: credential,
             registrationId: registrationId,
             headersPolicy: headersPolicy,

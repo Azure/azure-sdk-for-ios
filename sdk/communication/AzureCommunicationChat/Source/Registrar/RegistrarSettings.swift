@@ -27,7 +27,6 @@
 import Foundation
 
 internal enum RegistrarSettings {
-    static let endpoint = "https://edge.skype.com/registrar/prod/v2/registrations"
     // Node id is unused but we are required to send it
     static let nodeId = ""
 
