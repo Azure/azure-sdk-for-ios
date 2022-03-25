@@ -76,69 +76,6 @@ internal class RegistrarClient: PipelineClient {
         )
     }
 
-    // MARK: Private Methods
-
-    /// Create the data for the a Registrar POST request body.
-    /// - Parameters:
-    ///   - clientDescription: RegistrarClientDescription which is added to the request body.
-    ///   - transports: RegistrarTransports which are added to the body, transport contains APNS push token as the path.
-    private func createPostData(
-        with clientDescription: RegistrarClientDescription,
-        for registrarTransportSettings: [RegistrarTransportSettings]
-    ) -> Data? {
-        let data = RegistrarRequestBody(
-            registrationId: registrationId,
-            nodeId: RegistrarSettings.nodeId,
-            clientDescription: clientDescription,
-            registrarTransportSettings: [
-                RegistrarSettings.pushNotificationTransport: registrarTransportSettings
-            ]
-        )
-
-        return try? JSONEncoder().encode(data)
-    }
-
-    /// Create a Registrar POST request.
-    /// - Parameters:
-    ///   - clientDescription: RegistrarClientDescription.
-    ///   - transports: RegistrarTranports, a transport contains the APNS token as the path.
-    ///   - completionHandler: Returns the POST request.
-    private func createPostRequest(
-        with clientDescription: RegistrarClientDescription,
-        for registrarTransportSettings: [RegistrarTransportSettings],
-        completionHandler: @escaping (HTTPRequest?, AzureError?) -> Void
-    ) {
-        guard let data = createPostData(with: clientDescription, for: registrarTransportSettings) else {
-            completionHandler(nil, AzureError.client("Failed to serialize POST request body."))
-            return
-        }
-
-        guard let request =
-            try? HTTPRequest(method: HTTPMethod.post, url: url, data: data)
-        else {
-            completionHandler(nil, AzureError.client("Failed to create POST request in registration process."))
-            return
-        }
-
-        completionHandler(request, nil)
-    }
-
-    /// Create a Registrar DELETE request.
-    private func createDeleteRequest(
-        completionHandler: @escaping (HTTPRequest?, AzureError?) -> Void
-    ) {
-        let url = self.url.appendingPathComponent("/\(registrationId)")
-
-        guard let request =
-            try? HTTPRequest(method: HTTPMethod.delete, url: url)
-        else {
-            completionHandler(nil, AzureError.client("Failed to create DELETE request in registration process."))
-            return
-        }
-
-        completionHandler(request, nil)
-    }
-
     /// Sends an HTTP request to Registrar.
     /// - Parameters:
     ///   - request: The HTTP request.
@@ -179,19 +116,31 @@ internal class RegistrarClient: PipelineClient {
         for registrarTransportSettings: [RegistrarTransportSettings],
         completionHandler: @escaping (Result<HTTPResponse?, AzureError>) -> Void
     ) {
-        createPostRequest(with: clientDescription, for: registrarTransportSettings) { request, error in
-            guard let request = request else {
-                completionHandler(.failure(AzureError.client("Failed to create POST request.", error)))
-                return
-            }
+        let registrarRequestBody = RegistrarRequestBody(
+            registrationId: registrationId,
+            nodeId: RegistrarSettings.nodeId,
+            clientDescription: clientDescription,
+            registrarTransportSettings: [
+                RegistrarSettings.pushNotificationTransport: registrarTransportSettings
+            ]
+        )
 
-            self.sendHttpRequest(request) { result in
-                switch result {
-                case let .success(response):
-                    completionHandler(.success(response))
-                case let .failure(error):
-                    completionHandler(.failure(AzureError.client("Registration request failed.", error)))
-                }
+        guard let data = try? JSONEncoder().encode(registrarRequestBody) else {
+            completionHandler(.failure(AzureError.client("Failed to serialize POST request body.")))
+            return
+        }
+
+        guard let request = try? HTTPRequest(method: HTTPMethod.post, url: url, data: data) else {
+            completionHandler(.failure(AzureError.client("Failed to create POST request in registration process.")))
+            return
+        }
+
+        sendHttpRequest(request) { result in
+            switch result {
+            case let .success(response):
+                completionHandler(.success(response))
+            case let .failure(error):
+                completionHandler(.failure(AzureError.client("Registration request failed.", error)))
             }
         }
     }
@@ -202,19 +151,19 @@ internal class RegistrarClient: PipelineClient {
     internal func deleteRegistration(
         completionHandler: @escaping (Result<HTTPResponse?, AzureError>) -> Void
     ) {
-        createDeleteRequest { request, error in
-            guard let request = request else {
-                completionHandler(.failure(AzureError.client("Failed to create DELETE request.", error)))
-                return
-            }
+        let url = self.url.appendingPathComponent("/\(registrationId)")
 
-            self.sendHttpRequest(request) { result in
-                switch result {
-                case let .success(response):
-                    completionHandler(.success(response))
-                case let .failure(error):
-                    completionHandler(.failure(AzureError.client("Registration request failed.", error)))
-                }
+        guard let request = try? HTTPRequest(method: HTTPMethod.delete, url: url) else {
+            completionHandler(.failure(AzureError.client("Failed to create DELETE request in registration process.")))
+            return
+        }
+
+        sendHttpRequest(request) { result in
+            switch result {
+            case let .success(response):
+                completionHandler(.success(response))
+            case let .failure(error):
+                completionHandler(.failure(AzureError.client("Registration request failed.", error)))
             }
         }
     }

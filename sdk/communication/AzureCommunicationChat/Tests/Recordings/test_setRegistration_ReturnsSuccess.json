@@ -2,23 +2,7 @@
   "name" : "test_setRegistration_ReturnsSuccess",
   "interactions" : [
     {
-      "recorded_at" : 1647408395.027216,
-      "response" : {
-        "body" : "",
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
-        "status" : 202,
-        "headers" : {
-          "x-cache" : "CONFIG_NOCACHE",
-          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
-          "x-msedge-ref" : "Ref A: 0391DD48A40C4CAA93DC9D184AC0D3CD Ref B: YVR311000108047 Ref C: 2022-03-16T05:26:34Z",
-          "x-content-type-options" : "nosniff",
-          "Content-Length" : "0",
-          "ms-cv" : "oRbY2R6KrEeFiAPMqvIhoQ.0"
-        }
-      },
       "request" : {
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
-        "method" : "POST",
         "body" : {
           "clientDescription" : {
             "appId" : "AcsIos",
@@ -39,11 +23,27 @@
           "registrationId" : "0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
           "nodeId" : ""
         },
+        "method" : "POST",
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
         "headers" : {
-          "Content-Type" : "application\/json",
-          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.3.0; xctest:13.2 -> iOS 9.0; en_US)"
+          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.3.0; xctest:13.2 -> iOS 9.0; en_US)",
+          "Content-Type" : "application\/json"
         }
-      }
+      },
+      "response" : {
+        "body" : "",
+        "headers" : {
+          "x-cache" : "CONFIG_NOCACHE",
+          "x-content-type-options" : "nosniff",
+          "ms-cv" : "5XLlT3gIZU2\/UzF6ZnYD6g.0",
+          "Content-Length" : "0",
+          "x-msedge-ref" : "Ref A: FD14725565474687A095E58E5E34F0F6 Ref B: YVR311000110045 Ref C: 2022-03-17T05:06:48Z",
+          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains"
+        },
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
+        "status" : 202
+      },
+      "recorded_at" : 1647493609.0927439
     }
   ]
 }
