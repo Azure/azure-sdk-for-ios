@@ -168,3 +168,57 @@ internal class RegistrarClient: PipelineClient {
         }
     }
 }
+
+internal func createRegistrarClient(
+    credential: CommunicationTokenCredential,
+    options: AzureCommunicationChatClientOptions,
+    registrationId: String,
+    completionHandler: @escaping (Result<RegistrarClient, AzureError>) -> Void
+) {
+    // Internal options do not use the CommunicationSignalingErrorHandler
+    let internalOptions = AzureCommunicationChatClientOptionsInternal(
+        apiVersion: AzureCommunicationChatClientOptionsInternal.ApiVersion(options.apiVersion),
+        logger: options.logger,
+        telemetryOptions: options.telemetryOptions,
+        transportOptions: options.transportOptions,
+        dispatchQueue: options.dispatchQueue
+    )
+
+    // Get skypeToken from CommunicationTokenCredential
+    credential.token { accessToken, _ in
+        guard let token = accessToken?.token else {
+            completionHandler(
+                .failure(AzureError.client("Failed to get token from CommunicationTokenCredential."))
+            )
+            return
+        }
+
+        // Use skypeToken to set authentication header and create headersPolicy
+        let httpHeaders = [
+            RegistrarHeader.contentType.rawValue: RegistrarMimeType.json.rawValue,
+            RegistrarHeader.skypeTokenHeader.rawValue: token
+        ]
+
+        let headersPolicy = HeadersPolicy(addingHeaders: httpHeaders)
+
+        // Use skypeToken to get the Registrar Service Url
+        guard let registrarServiceUrl = try? getRegistrarServiceUrl(token: token) else {
+            completionHandler(.failure(AzureError.client("Failed to get Registrar Service URL.")))
+            return
+        }
+
+        // Initialize the RegistrarClient
+        guard let registrarClient = try? RegistrarClient(
+            endpoint: registrarServiceUrl,
+            credential: credential,
+            registrationId: registrationId,
+            headersPolicy: headersPolicy,
+            withOptions: internalOptions
+        ) else {
+            completionHandler(.failure(AzureError.client("Failed to initialize the RegistrarClient.")))
+            return
+        }
+
+        completionHandler(.success(registrarClient))
+    }
+}

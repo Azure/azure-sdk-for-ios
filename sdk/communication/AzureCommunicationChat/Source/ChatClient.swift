@@ -347,82 +347,54 @@ public class ChatClient {
             return
         }
 
-        // Internal options do not use the CommunicationSignalingErrorHandler
-        let internalOptions = AzureCommunicationChatClientOptionsInternal(
-            apiVersion: AzureCommunicationChatClientOptionsInternal.ApiVersion(options.apiVersion),
-            logger: options.logger,
-            telemetryOptions: options.telemetryOptions,
-            transportOptions: options.transportOptions,
-            dispatchQueue: options.dispatchQueue
-        )
-
-        // Prepare headers policy
-        var httpHeaders: HTTPHeaders = [:]
-        var token = ""
-        credential.token { accessToken, _ in
-            // Get token from CommunicationTokenCredential to set the authentication header
-            guard let skypeToken = accessToken?.token else {
-                completionHandler(
-                    .failure(AzureError.client("Failed to get token from CommunicationTokenCredential."))
-                )
-                return
-            }
-
-            httpHeaders = [
-                RegistrarHeader.contentType.rawValue: RegistrarMimeType.json.rawValue,
-                RegistrarHeader.skypeTokenHeader.rawValue: skypeToken
-            ]
-
-            token = skypeToken
-        }
-        let headersPolicy = HeadersPolicy(addingHeaders: httpHeaders)
-
-        // Get Registrar Service Url
-        guard let registrarServiceUrl = try? getRegistrarServiceUrl(token: token) else {
-            completionHandler(.failure(AzureError.client("Failed to get Registrar Service URL.")))
-            return
-        }
-        
-        // Initialize the RegistrarClient
-        guard let registrarClient = try? RegistrarClient(
-            endpoint: registrarServiceUrl,
+        // Create RegistrarClient
+        createRegistrarClient(
             credential: credential,
+            options: options,
             registrationId: registrationId,
-            headersPolicy: headersPolicy,
-            withOptions: internalOptions
-        ) else {
-            completionHandler(.failure(AzureError.client("Failed to initialize the RegistrarClient.")))
-            return
-        }
+            completionHandler: { result in
+                switch result {
+                case let .success(createdRegistrarClient):
+                    // Create RegistrarClientDescription (It should match valid APNS templates)
+                    self.registrarClient = createdRegistrarClient
 
-        // Client description should match valid APNS templates
-        let clientDescription = RegistrarClientDescription(
-            appId: RegistrarSettings.appId,
-            languageId: RegistrarSettings.languageId,
-            platform: RegistrarSettings.platform,
-            platformUIVersion: RegistrarSettings.platformUIVersion,
-            templateKey: RegistrarSettings.templateKey
-        )
+                    let clientDescription = RegistrarClientDescription(
+                        appId: RegistrarSettings.appId,
+                        languageId: RegistrarSettings.languageId,
+                        platform: RegistrarSettings.platform,
+                        platformUIVersion: RegistrarSettings.platformUIVersion,
+                        templateKey: RegistrarSettings.templateKey
+                    )
 
-        // Path is device token
-        let transport = RegistrarTransportSettings(
-            ttl: RegistrarSettings.ttl,
-            path: deviceToken,
-            context: RegistrarSettings.context
-        )
+                    // Create RegistrarTransportSettings (Path is device token)
+                    let transport = RegistrarTransportSettings(
+                        ttl: RegistrarSettings.ttl,
+                        path: deviceToken,
+                        context: RegistrarSettings.context
+                    )
 
-        // Register for push notifications
-        registrarClient.setRegistration(with: clientDescription, for: [transport]) { result in
-            switch result {
-            case let .success(response):
-                self.pushNotificationsStarted = true
-                completionHandler(.success(response))
-            case let .failure(error):
-                self.options.logger
-                    .error("Failed to start push notifications with error: \(error.localizedDescription)")
-                completionHandler(.failure(AzureError.client("Failed to start push notifications", error)))
+                    // Register for push notifications
+                    guard let registrarClient = self.registrarClient else {
+                        completionHandler(.failure(AzureError.client("Failed to start push notifications")))
+                        return
+                    }
+
+                    registrarClient.setRegistration(with: clientDescription, for: [transport]) { result in
+                        switch result {
+                        case let .success(response):
+                            self.pushNotificationsStarted = true
+                            completionHandler(.success(response))
+                        case let .failure(error):
+                            self.options.logger
+                                .error("Failed to start push notifications with error: \(error.localizedDescription)")
+                            completionHandler(.failure(AzureError.client("Failed to start push notifications", error)))
+                        }
+                    }
+                case let .failure(error):
+                    completionHandler(.failure(AzureError.client("Failed to initialize the RegistrarClient.", error)))
+                }
             }
-        }
+        )
     }
 
     /// Stop push notifications.
@@ -435,75 +407,18 @@ public class ChatClient {
             return
         }
 
-        // Recreate the registrarClient if it doesn't exist
-        if registrarClient == nil {
-            // Internal options do not use the CommunicationSignalingErrorHandler
-            let internalOptions = AzureCommunicationChatClientOptionsInternal(
-                apiVersion: AzureCommunicationChatClientOptionsInternal.ApiVersion(options.apiVersion),
-                logger: options.logger,
-                telemetryOptions: options.telemetryOptions,
-                transportOptions: options.transportOptions,
-                dispatchQueue: options.dispatchQueue
-            )
-
-            // Prepare headers policy
-            var httpHeaders: HTTPHeaders = [:]
-            var token = ""
-            credential.token { accessToken, _ in
-                // Get token from CommunicationTokenCredential to set the authentication header
-                guard let skypeToken = accessToken?.token else {
-                    completionHandler(
-                        .failure(
-                            AzureError
-                                .client(
-                                    "Failed to stop push notifications. Failed to find registrarClient. Failed to get token from CommunicationTokenCredential to recreate registrarClient."
-                                )
-                        )
-                    )
-                    return
-                }
-
-                httpHeaders = [
-                    RegistrarHeader.contentType.rawValue: RegistrarMimeType.json.rawValue,
-                    RegistrarHeader.skypeTokenHeader.rawValue: skypeToken
-                ]
-
-                token = skypeToken
-            }
-            let headersPolicy = HeadersPolicy(addingHeaders: httpHeaders)
-
-            // Get Registrar Service Url
-            guard let registrarServiceUrl = try? getRegistrarServiceUrl(token: token) else {
-                completionHandler(.failure(AzureError.client("Failed to get Registrar Service URL.")))
-                return
-            }
-
-            // Initialize the RegistrarClient
-            guard let tempRegistrarClient = try? RegistrarClient(
-                endpoint: registrarServiceUrl,
-                credential: credential,
-                registrationId: registrationId,
-                headersPolicy: headersPolicy,
-                withOptions: internalOptions
-            ) else {
-                completionHandler(.failure(
-                    AzureError
-                        .client("Failed to stop push notifications. Fail to find or recreate registrarClient.")
-                ))
-                return
-            }
-
-            registrarClient = tempRegistrarClient
-        }
-
+        // Report an error if registrarClient doesn't exist
         guard let registrarClient = registrarClient else {
             completionHandler(.failure(
                 AzureError
-                    .client("Failed to stop push notifications. Fail to find or create registrarClient.")
+                    .client(
+                        "RegistrarClient is not initialized, cannot stop push notificaitons. Ensure startNotifications() is called first."
+                    )
             ))
             return
         }
 
+        // Unregister for Push Notifications
         registrarClient.deleteRegistration { result in
             switch result {
             case let .success(response):

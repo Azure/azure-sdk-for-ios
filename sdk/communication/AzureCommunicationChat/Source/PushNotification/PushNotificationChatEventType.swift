@@ -30,32 +30,11 @@ import Foundation
 /// PushNotificationChatEventType representing the different events for push notifications
 public enum PushNotificationChatEventType: String {
     case chatMessageReceived
-    case chatMessageEdited
-    case chatMessageDeleted
-    case chatThreadCreated
-    case chatThreadPropertiesUpdated
-    case chatThreadDeleted
-    case participantsAdded
-    case participantsRemoved
 
     init(forCode code: Int) throws {
         switch code {
         case 200:
             self = .chatMessageReceived
-        case 247:
-            self = .chatMessageEdited
-        case 248:
-            self = .chatMessageDeleted
-        case 257:
-            self = .chatThreadCreated
-        case 258:
-            self = .chatThreadPropertiesUpdated
-        case 259:
-            self = .chatThreadDeleted
-        case 260:
-            self = .participantsAdded
-        case 261:
-            self = .participantsRemoved
         default:
             throw AzureError.client("Event id: \(code) is unsupported")
         }

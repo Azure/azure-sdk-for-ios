@@ -23,7 +23,6 @@
 // IN THE SOFTWARE.
 //
 // --------------------------------------------------------------------------
-
 import AzureCore
 import Foundation
 
@@ -32,14 +31,7 @@ public typealias PushNotificationEventHandler = (_ response: PushNotificationEve
 
 /// PushNotificationEvents.
 public enum PushNotificationEvent {
-    case chatMessageReceivedEvent(PNChatMessageReceivedEvent)
-    case chatMessageEditedEvent(PNChatMessageEditedEvent)
-    case chatMessageDeletedEvent(PNChatMessageDeletedEvent)
-    case chatThreadCreatedEvent(PNChatThreadCreatedEvent)
-    case chatThreadPropertiesUpdatedEvent(PNChatThreadPropertiesUpdatedEvent)
-    case chatThreadDeletedEvent(PNChatThreadDeletedEvent)
-    case participantsAddedEvent(PNChatParticipantsAddedEvent)
-    case participantsRemovedEvent(PNChatParticipantsRemovedEvent)
+    case chatMessageReceivedEvent(PushNotificationChatMessageReceivedEvent)
 
     /// Initialize a PushNotificationEvent given the ChatEventType and the event payload data.
     /// - Parameters:
@@ -48,29 +40,8 @@ public enum PushNotificationEvent {
     init(chatEventType: PushNotificationChatEventType, from data: Data) throws {
         switch chatEventType {
         case .chatMessageReceived:
-            let event = try PNChatMessageReceivedEvent(from: data)
+            let event = try PushNotificationChatMessageReceivedEvent(from: data)
             self = .chatMessageReceivedEvent(event)
-        case .chatMessageEdited:
-            let event = try PNChatMessageEditedEvent(from: data)
-            self = .chatMessageEditedEvent(event)
-        case .chatMessageDeleted:
-            let event = try PNChatMessageDeletedEvent(from: data)
-            self = .chatMessageDeletedEvent(event)
-        case .chatThreadCreated:
-            let event = try PNChatThreadCreatedEvent(from: data)
-            self = .chatThreadCreatedEvent(event)
-        case .chatThreadPropertiesUpdated:
-            let event = try PNChatThreadPropertiesUpdatedEvent(from: data)
-            self = .chatThreadPropertiesUpdatedEvent(event)
-        case .chatThreadDeleted:
-            let event = try PNChatThreadDeletedEvent(from: data)
-            self = .chatThreadDeletedEvent(event)
-        case .participantsAdded:
-            let event = try PNChatParticipantsAddedEvent(from: data)
-            self = .participantsAddedEvent(event)
-        case .participantsRemoved:
-            let event = try PNChatParticipantsRemovedEvent(from: data)
-            self = .participantsRemovedEvent(event)
         }
     }
 }
