@@ -90,9 +90,8 @@ public class PushNotificationChatMessageReceivedEvent: PushNotificationChatMessa
     /// The content of the message.
     public var message: String
 
-    // TODO: Add it after PNH template modification
     /// The message metadata.
-    // public var metadata: [String: String?]?
+    public var metadata: [String: String?]?
 
     // MARK: Initializers
 
@@ -104,13 +103,11 @@ public class PushNotificationChatMessageReceivedEvent: PushNotificationChatMessa
 
         self.message = pushNotificationMessageReceivedPayload.messageBody
 
-        /*
-         if messageReceivedPayload.acsChatMessageMetadata != "null" {
-             if let acsChatMetadata = messageReceivedPayload.acsChatMessageMetadata.data(using: .utf8) {
-                 self.metadata = try JSONDecoder().decode([String: String?].self, from: acsChatMetadata)
-             }
-         }
-         */
+        if pushNotificationMessageReceivedPayload.acsChatMessageMetadata != "null" {
+            if let acsChatMetadata = pushNotificationMessageReceivedPayload.acsChatMessageMetadata.data(using: .utf8) {
+                self.metadata = try JSONDecoder().decode([String: String?].self, from: acsChatMetadata)
+            }
+        }
 
         super.init(
             messageId: pushNotificationMessageReceivedPayload.messageId,

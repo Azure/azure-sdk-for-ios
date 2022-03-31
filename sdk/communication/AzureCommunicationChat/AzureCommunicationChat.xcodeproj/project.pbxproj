@@ -209,7 +209,6 @@
 		E0075D1A27F020990010E652 /* ChatParticipantsCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D617AF26B317F70022231D /* ChatParticipantsCollection.swift */; };
 		E0075D1B27F0209E0010E652 /* ChatMessageContentInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D617B026B317F70022231D /* ChatMessageContentInternal.swift */; };
 		E0075D1C27F021BB0010E652 /* ChatThreadClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1565C73256DB76C00AF45F8 /* ChatThreadClient.swift */; };
-		E0075D1E27F0485C0010E652 /* test-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = E0075D1D27F0485C0010E652 /* test-settings.plist */; };
 		E047A92C27E1A61C007D3CCA /* URLSettingsUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = E047A92B27E1A61C007D3CCA /* URLSettingsUtil.swift */; };
 		E047A92E27E1A67E007D3CCA /* RegistrarURLSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E047A92D27E1A67E007D3CCA /* RegistrarURLSettings.swift */; };
 		E06DC2FA27BF328D0074CD45 /* test_StartPushNotifications_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E06DC2F927BF328D0074CD45 /* test_StartPushNotifications_ReturnsSuccess.json */; };
@@ -412,7 +411,6 @@
 		D1D617B226B317F70022231D /* ChatClientInternal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatClientInternal.swift; sourceTree = "<group>"; };
 		D1D617B426B317F70022231D /* TokenCredentialAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenCredentialAdapter.swift; sourceTree = "<group>"; };
 		D1D829BD25D1FFD700AC3CF3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		E0075D1D27F0485C0010E652 /* test-settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "test-settings.plist"; sourceTree = "<group>"; };
 		E047A92B27E1A61C007D3CCA /* URLSettingsUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSettingsUtil.swift; sourceTree = "<group>"; };
 		E047A92D27E1A67E007D3CCA /* RegistrarURLSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrarURLSettings.swift; sourceTree = "<group>"; };
 		E06DC2F927BF328D0074CD45 /* test_StartPushNotifications_ReturnsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_StartPushNotifications_ReturnsSuccess.json; sourceTree = "<group>"; };
@@ -572,7 +570,6 @@
 				0A9207EC26839B3100469608 /* Recordings */,
 				D1CD93AB258D6C0300409613 /* Util */,
 				D1B7EAFC257F03A1004F384A /* Info.plist */,
-				E0075D1D27F0485C0010E652 /* test-settings.plist */,
 				0AE5BA06267D25AD006B93B7 /* TestSettings.swift */,
 				D10F55FC26E1873600742727 /* TrouterEventUtilTests.swift */,
 				8840448725D5DD7900A194DC /* IdentifierSerializerTests.swift */,
@@ -980,7 +977,6 @@
 				D1CD93DC258D6EDA00409613 /* sendMessage.json in Resources */,
 				E06DC30627BF60B00074CD45 /* test_CreateThread_WithoutParticipants.json in Resources */,
 				E0E3C0C127CF1BB10044C30F /* test_setRegistration_ReturnsSuccess.json in Resources */,
-				E0075D1E27F0485C0010E652 /* test-settings.plist in Resources */,
 				E06DC30727BF60B60074CD45 /* test_ListThreads_ReturnsChatThreadItems.json in Resources */,
 				E06DC2FA27BF328D0074CD45 /* test_StartPushNotifications_ReturnsSuccess.json in Resources */,
 				D13CE65125BFB6D700415467 /* listReadReceipts.json in Resources */,
