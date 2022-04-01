@@ -209,6 +209,10 @@
 		E0075D1A27F020990010E652 /* ChatParticipantsCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D617AF26B317F70022231D /* ChatParticipantsCollection.swift */; };
 		E0075D1B27F0209E0010E652 /* ChatMessageContentInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D617B026B317F70022231D /* ChatMessageContentInternal.swift */; };
 		E0075D1C27F021BB0010E652 /* ChatThreadClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1565C73256DB76C00AF45F8 /* ChatThreadClient.swift */; };
+		E013B5ED27F655EA00BBAC27 /* PushNotificationClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E013B5EC27F655EA00BBAC27 /* PushNotificationClient.swift */; };
+		E013B5EE27F655EA00BBAC27 /* PushNotificationClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E013B5EC27F655EA00BBAC27 /* PushNotificationClient.swift */; };
+		E013B5F027F6CB2F00BBAC27 /* test-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = E013B5EF27F6CB2F00BBAC27 /* test-settings.plist */; };
+		E013B5F127F6CB2F00BBAC27 /* test-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = E013B5EF27F6CB2F00BBAC27 /* test-settings.plist */; };
 		E047A92C27E1A61C007D3CCA /* URLSettingsUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = E047A92B27E1A61C007D3CCA /* URLSettingsUtil.swift */; };
 		E047A92E27E1A67E007D3CCA /* RegistrarURLSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E047A92D27E1A67E007D3CCA /* RegistrarURLSettings.swift */; };
 		E06DC2FA27BF328D0074CD45 /* test_StartPushNotifications_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E06DC2F927BF328D0074CD45 /* test_StartPushNotifications_ReturnsSuccess.json */; };
@@ -411,6 +415,8 @@
 		D1D617B226B317F70022231D /* ChatClientInternal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatClientInternal.swift; sourceTree = "<group>"; };
 		D1D617B426B317F70022231D /* TokenCredentialAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenCredentialAdapter.swift; sourceTree = "<group>"; };
 		D1D829BD25D1FFD700AC3CF3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		E013B5EC27F655EA00BBAC27 /* PushNotificationClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationClient.swift; sourceTree = "<group>"; };
+		E013B5EF27F6CB2F00BBAC27 /* test-settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "test-settings.plist"; sourceTree = "<group>"; };
 		E047A92B27E1A61C007D3CCA /* URLSettingsUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSettingsUtil.swift; sourceTree = "<group>"; };
 		E047A92D27E1A67E007D3CCA /* RegistrarURLSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrarURLSettings.swift; sourceTree = "<group>"; };
 		E06DC2F927BF328D0074CD45 /* test_StartPushNotifications_ReturnsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_StartPushNotifications_ReturnsSuccess.json; sourceTree = "<group>"; };
@@ -570,6 +576,7 @@
 				0A9207EC26839B3100469608 /* Recordings */,
 				D1CD93AB258D6C0300409613 /* Util */,
 				D1B7EAFC257F03A1004F384A /* Info.plist */,
+				E013B5EF27F6CB2F00BBAC27 /* test-settings.plist */,
 				0AE5BA06267D25AD006B93B7 /* TestSettings.swift */,
 				D10F55FC26E1873600742727 /* TrouterEventUtilTests.swift */,
 				8840448725D5DD7900A194DC /* IdentifierSerializerTests.swift */,
@@ -792,6 +799,7 @@
 				E0BE208327D88340008AC5DB /* PushNotificationChatEventType.swift */,
 				E0BE207F27D8827A008AC5DB /* PushNotificationBaseEvent.swift */,
 				E0BE208127D8829C008AC5DB /* PushNotificationEvent.swift */,
+				E013B5EC27F655EA00BBAC27 /* PushNotificationClient.swift */,
 			);
 			path = PushNotification;
 			sourceTree = "<group>";
@@ -977,6 +985,7 @@
 				D1CD93DC258D6EDA00409613 /* sendMessage.json in Resources */,
 				E06DC30627BF60B00074CD45 /* test_CreateThread_WithoutParticipants.json in Resources */,
 				E0E3C0C127CF1BB10044C30F /* test_setRegistration_ReturnsSuccess.json in Resources */,
+				E013B5F127F6CB2F00BBAC27 /* test-settings.plist in Resources */,
 				E06DC30727BF60B60074CD45 /* test_ListThreads_ReturnsChatThreadItems.json in Resources */,
 				E06DC2FA27BF328D0074CD45 /* test_StartPushNotifications_ReturnsSuccess.json in Resources */,
 				D13CE65125BFB6D700415467 /* listReadReceipts.json in Resources */,
@@ -997,6 +1006,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E013B5F027F6CB2F00BBAC27 /* test-settings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1200,6 +1210,7 @@
 				D195F46826B31B4F00F66AB5 /* TestSettings.swift in Sources */,
 				E0075CEC27F01EA70010E652 /* SendChatMessageOptions.swift in Sources */,
 				E0075D1B27F0209E0010E652 /* ChatMessageContentInternal.swift in Sources */,
+				E013B5EE27F655EA00BBAC27 /* PushNotificationClient.swift in Sources */,
 				D1FDDBE52672B71900F9D0B0 /* (null) in Sources */,
 				D1CD93A2258D6BC700409613 /* ChatClientTests.swift in Sources */,
 				D195F46926B31C3F00F66AB5 /* ChatClientDVRTests.swift in Sources */,
@@ -1308,6 +1319,7 @@
 				D1D6182826B3198C0022231D /* RegistrarClientDescription.swift in Sources */,
 				D1D6182926B3198C0022231D /* IdentifierSerializer.swift in Sources */,
 				D1D6182A26B3198C0022231D /* CommunicationSignalingClient.swift in Sources */,
+				E013B5ED27F655EA00BBAC27 /* PushNotificationClient.swift in Sources */,
 				D1D6182B26B3198C0022231D /* TrouterNotificationPayload.swift in Sources */,
 				D1D6182C26B3198C0022231D /* TrouterSettings.swift in Sources */,
 				D1D6182D26B3198C0022231D /* ChatEvent.swift in Sources */,

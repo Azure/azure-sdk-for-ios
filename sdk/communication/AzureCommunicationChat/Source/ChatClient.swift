@@ -34,7 +34,7 @@ public class ChatClient {
     private let endpoint: String
     private let credential: CommunicationTokenCredential
     private let options: AzureCommunicationChatClientOptions
-    private var registrarClient: RegistrarClient?
+    private var pushNotificationClient: PushNotificationClient?
     internal var registrationId: String
     private let service: Chat
     private var signalingClient: CommunicationSignalingClient?
@@ -347,54 +347,28 @@ public class ChatClient {
             return
         }
 
-        // Create RegistrarClient
-        createRegistrarClient(
-            credential: credential,
-            options: options,
-            registrationId: registrationId,
-            completionHandler: { result in
+        do {
+            pushNotificationClient = try PushNotificationClient(
+                credential: credential,
+                options: options,
+                registrationId: registrationId,
+                deviceRegistrationToken: deviceToken
+            )
+
+            pushNotificationClient!.startPushNotifications { result in
                 switch result {
-                case let .success(createdRegistrarClient):
-                    // Create RegistrarClientDescription (It should match valid APNS templates)
-                    self.registrarClient = createdRegistrarClient
-
-                    let clientDescription = RegistrarClientDescription(
-                        appId: RegistrarSettings.appId,
-                        languageId: RegistrarSettings.languageId,
-                        platform: RegistrarSettings.platform,
-                        platformUIVersion: RegistrarSettings.platformUIVersion,
-                        templateKey: RegistrarSettings.templateKey
-                    )
-
-                    // Create RegistrarTransportSettings (Path is device token)
-                    let transport = RegistrarTransportSettings(
-                        ttl: RegistrarSettings.ttl,
-                        path: deviceToken,
-                        context: RegistrarSettings.context
-                    )
-
-                    // Register for push notifications
-                    guard let registrarClient = self.registrarClient else {
-                        completionHandler(.failure(AzureError.client("Failed to start push notifications")))
-                        return
-                    }
-
-                    registrarClient.setRegistration(with: clientDescription, for: [transport]) { result in
-                        switch result {
-                        case let .success(response):
-                            self.pushNotificationsStarted = true
-                            completionHandler(.success(response))
-                        case let .failure(error):
-                            self.options.logger
-                                .error("Failed to start push notifications with error: \(error.localizedDescription)")
-                            completionHandler(.failure(AzureError.client("Failed to start push notifications", error)))
-                        }
-                    }
+                case let .success(response):
+                    self.pushNotificationsStarted = true
+                    completionHandler(.success(response))
                 case let .failure(error):
-                    completionHandler(.failure(AzureError.client("Failed to initialize the RegistrarClient.", error)))
+                    self.options.logger
+                        .error("Failed to start push notifications with error: \(error.localizedDescription)")
+                    completionHandler(.failure(AzureError.client("Failed to start push notifications", error)))
                 }
             }
-        )
+        } catch {
+            completionHandler(.failure(AzureError.client("Fail to create pushNotificationClient.", error)))
+        }
     }
 
     /// Stop push notifications.
@@ -407,27 +381,26 @@ public class ChatClient {
             return
         }
 
-        // Report an error if registrarClient doesn't exist
-        guard let registrarClient = registrarClient else {
+        // Report an error if pushNotificationClient doesn't exist
+        if pushNotificationClient == nil {
             completionHandler(.failure(
                 AzureError
                     .client(
-                        "RegistrarClient is not initialized, cannot stop push notificaitons. Ensure startNotifications() is called first."
+                        "PushNotificationClient is not initialized, cannot stop push notificaitons. Ensure startNotifications() is called first."
                     )
             ))
-            return
-        }
-
-        // Unregister for Push Notifications
-        registrarClient.deleteRegistration { result in
-            switch result {
-            case let .success(response):
-                self.pushNotificationsStarted = false
-                self.registrationId = UUID().uuidString
-                completionHandler(.success(response))
-            case let .failure(error):
-                self.options.logger.error("Failed to stop push notifications with error: \(error.localizedDescription)")
-                completionHandler(.failure(AzureError.client("Failed to stop push notifications", error)))
+        } else {
+            pushNotificationClient!.stopPushNotifications { result in
+                switch result {
+                case let .success(response):
+                    self.pushNotificationsStarted = false
+                    self.registrationId = UUID().uuidString
+                    completionHandler(.success(response))
+                case let .failure(error):
+                    self.options.logger
+                        .error("Failed to stop push notifications with error: \(error.localizedDescription)")
+                    completionHandler(.failure(AzureError.client("Failed to stop push notifications", error)))
+                }
             }
         }
     }
