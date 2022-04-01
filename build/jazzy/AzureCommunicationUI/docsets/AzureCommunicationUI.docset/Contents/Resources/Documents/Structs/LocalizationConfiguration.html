@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>CallCompositeOptions Structure Reference</title>
+    <title>LocalizationConfiguration Structure Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Struct/CallCompositeOptions" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Struct/LocalizationConfiguration" class="dashAnchor"></a>
 
-    <a title="CallCompositeOptions Structure Reference"></a>
+    <a title="LocalizationConfiguration Structure Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">AzureCommunicationUI Reference</a>
       <img class="carat" src="../img/carat.png" alt=""/>
-      CallCompositeOptions Structure Reference
+      LocalizationConfiguration Structure Reference
     </p>
 
     <div class="content-wrapper">
@@ -98,15 +98,15 @@
 
         <section class="section">
           <div class="section-content top-matter">
-            <h1>CallCompositeOptions</h1>
+            <h1>LocalizationConfiguration</h1>
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">CallCompositeOptions</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">LocalizationConfiguration</span></code></pre>
 
                 </div>
               </div>
-            <p>User-configurable options for creating CallComposite.</p>
+            <p>Undocumented</p>
 
           </div>
         </section>
@@ -118,9 +118,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:20AzureCommunicationUI20CallCompositeOptionsV5theme12localizationAcA18ThemeConfiguration_pSg_AA012LocalizationJ0VSgtcfc"></a>
-                    <a name="//apple_ref/swift/Method/init(theme:localization:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:20AzureCommunicationUI20CallCompositeOptionsV5theme12localizationAcA18ThemeConfiguration_pSg_AA012LocalizationJ0VSgtcfc">init(theme:<wbr>localization:<wbr>)</a>
+                    <a name="/s:20AzureCommunicationUI25LocalizationConfigurationV12LanguageCodeO"></a>
+                    <a name="//apple_ref/swift/Enum/LanguageCode" class="dashAnchor"></a>
+                    <a class="token" href="#/s:20AzureCommunicationUI25LocalizationConfigurationV12LanguageCodeO">LanguageCode</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -128,15 +128,45 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Creates an instance of CallCompositeOptions with related options.</p>
+                        <p>LanguageCode enum representing the locale code.</p>
+
+                        <a href="../Structs/LocalizationConfiguration/LanguageCode.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">LanguageCode</span> <span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:20AzureCommunicationUI25LocalizationConfigurationV12languageCode19localizableFilename15layoutDirectionACSS_SS05SwiftC006LayoutK0Otcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(languageCode:localizableFilename:layoutDirection:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:20AzureCommunicationUI25LocalizationConfigurationV12languageCode19localizableFilename15layoutDirectionACSS_SS05SwiftC006LayoutK0Otcfc">init(languageCode:<wbr>localizableFilename:<wbr>layoutDirection:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates an instance of <code>LocalizationConfiguration</code> with related parameters. Allow
+overriding strings of localization keys with Localizable.strings file or other localizable filename.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">theme</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ThemeConfiguration.html">ThemeConfiguration</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-            <span class="nv">localization</span><span class="p">:</span> <span class="kt"><a href="../Structs/LocalizationConfiguration.html">LocalizationConfiguration</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">languageCode</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+            <span class="nv">localizableFilename</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"Localizable"</span><span class="p">,</span>
+            <span class="nv">layoutDirection</span><span class="p">:</span> <span class="kt">LayoutDirection</span> <span class="o">=</span> <span class="o">.</span><span class="n">leftToRight</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -147,31 +177,77 @@
                             <tr>
                               <td>
                                 <code>
-                                <em>theme</em>
+                                <em>languageCode</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>ThemeConfiguration for changing color pattern.
-Default value is <code>nil</code>.</p>
+                                  <p>String representing the language code (ie. en, fr, zh-Hant, zh-Hans, &hellip;).</p>
                                 </div>
                               </td>
                             </tr>
                             <tr>
                               <td>
                                 <code>
-                                <em>localization</em>
+                                <em>localizableFilename</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>LocalizationConfiguration for specifying
-localization customization. Default value is <code>nil</code>.</p>
+                                  <p>Filename of the <code>.strings</code> file to override predefined
+Call Composite&rsquo;s localization key or to provide translation for an custom language.
+The keys of the string should match with the keys from AzureCommunicationUI
+localization keys. Default value is <code>&quot;Localizable&quot;</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>layoutDirection</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>LayoutDirection for mirroring layout for right-to-left.
+Default value is <code>false</code>.</p>
                                 </div>
                               </td>
                             </tr>
                           </tbody>
                         </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:20AzureCommunicationUI25LocalizationConfigurationV18supportedLanguagesSaySSGvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/supportedLanguages" class="dashAnchor"></a>
+                    <a class="token" href="#/s:20AzureCommunicationUI25LocalizationConfigurationV18supportedLanguagesSaySSGvpZ">supportedLanguages</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get supported languages the AzureCommunicationUICalling has predefined translations.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">supportedLanguages</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Get supported languages the AzureCommunicationUICalling
+has predefined translations.</p>
                       </div>
                     </section>
                   </div>

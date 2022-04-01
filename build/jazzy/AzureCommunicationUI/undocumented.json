@@ -1,10 +1,10 @@
 {
   "warnings": [
     {
-      "file": "/Users/amylong/MS/Project/communication-ui-library-ios/AzureCommunicationUI/AzureCommunicationUI/CallCompositeOptions/CallCompositeOptions.swift",
-      "line": 19,
-      "symbol": "CallCompositeOptions.init()",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "file": "/Users/amylong/MS/Project/communication-ui-library-ios/AzureCommunicationUI/AzureCommunicationUI/CallCompositeOptions/LocalizationConfiguration.swift",
+      "line": 8,
+      "symbol": "LocalizationConfiguration",
+      "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     }
   ],
