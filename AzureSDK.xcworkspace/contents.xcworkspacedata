@@ -456,6 +456,9 @@
          <FileRef
             location = "group:util.py">
          </FileRef>
+         <FileRef
+            location = "group:build_api_docs.py">
+         </FileRef>
       </Group>
       <FileRef
          location = "group:CHECKENFORCER">
