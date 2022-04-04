@@ -70,13 +70,14 @@ if __name__ == '__main__':
         paths = [f"jazzy/{x}.yml" for x in args]
     for path in paths:
         try:
-            print(f"Generating docs for: {path}")
+            logging.info(f"Generating docs for: {path}")
             if not os.path.exists(path):
                 logging.warning(f"No config found for {path}. Skipping.")
                 continue
             stdout, stderr = _run(f"jazzy --config {path}")
-            print(stdout)
-            print(stderr)
+            logging.info(stdout)
+            if "RuntimeError" in stderr:
+                logging.error(f"Error generating docs.\n{stderr}")
         except Exception as err:
             if "No such file or directory: 'jazzy'" in str(err):
                 logging.error("error: Jazzy not installed. Download from https://github.com/realm/jazzy")
