@@ -235,7 +235,7 @@ chatThreadClient.getProperties { result, _ in
 Use the `listThreads` method to retrieve a list of threads.
 
 - `ListChatThreadsOptions` is the object representing the options to pass.
-- `maxPageSize`, optional, is the maximum number of messages to be returned per page. The limit can be found from https://docs.microsoft.com/en-us/azure/communication-services/concepts/service-limits.
+- `maxPageSize`, optional, is the maximum number of messages to be returned per page. The limit can be found from https://docs.microsoft.com/azure/communication-services/concepts/service-limits.
 - `startTime`, optional, is the thread start time to consider in the query.
 
 `PagedCollection<ChatThreadItem>` is the response returned from listing threads.
@@ -333,7 +333,7 @@ chatThreadClient.get(message: messageId) { result, _ in
 Use the `listMessages` method of `ChatThreadClient` to retrieve messages in a thread.
 
 - `ListChatMessagesOptions` is the optional object representing the options to pass.
-- `maxPageSize`, optional, is the maximum number of messages to be returned per page. The limit can be found from https://docs.microsoft.com/en-us/azure/communication-services/concepts/service-limits.
+- `maxPageSize`, optional, is the maximum number of messages to be returned per page. The limit can be found from https://docs.microsoft.com/azure/communication-services/concepts/service-limits.
 - `startTime`, optional, is the thread start time to consider in the query.
 
 `<PagedCollection<ChatMessage>` is the response returned from listing messages
