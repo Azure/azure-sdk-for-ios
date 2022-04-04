@@ -17,7 +17,7 @@ import Foundation
 
 /// User-configurable options for the `ListChatMessages` operation.
 public struct ListChatMessagesOptions: RequestOptions {
-    /// The maximum number of messages to be returned per page.
+    /// The maximum number of messages to be returned per page. The limit can be found from https://docs.microsoft.com/en-us/azure/communication-services/concepts/service-limits.
     public let maxPageSize: Int32?
     /// The earliest point in time to get messages up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public let startTime: Iso8601Date?
@@ -37,7 +37,7 @@ public struct ListChatMessagesOptions: RequestOptions {
 
     /// Initialize a `ListChatMessagesOptions` structure.
     /// - Parameters:
-    ///   - maxPageSize: The maximum number of messages to be returned per page.
+    ///   - maxPageSize: The maximum number of messages to be returned per page. The limit can be found from https://docs.microsoft.com/en-us/azure/communication-services/concepts/service-limits.
     ///   - startTime: The earliest point in time to get messages up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     ///   - clientRequestId: A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
     ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.
