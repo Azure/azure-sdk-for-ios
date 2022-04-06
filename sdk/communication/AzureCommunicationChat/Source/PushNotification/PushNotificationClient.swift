@@ -36,26 +36,27 @@ public class PushNotificationClient {
     private let options: AzureCommunicationChatClientOptions
     private var registrarClient: RegistrarClient?
     internal var registrationId: String
-    private let deviceRegistrationToken: String
+    internal var deviceRegistrationToken: String
 
     // MARK: Initializers
 
     internal init(
         credential: CommunicationTokenCredential,
-        options: AzureCommunicationChatClientOptions,
-        registrationId: String,
-        deviceRegistrationToken: String
-    ) throws {
+        options: AzureCommunicationChatClientOptions
+    ) {
         self.credential = credential
         self.options = options
         self.registrarClient = nil
-        self.registrationId = registrationId
-        self.deviceRegistrationToken = deviceRegistrationToken
+        self.registrationId = ""
+        self.deviceRegistrationToken = ""
     }
 
     internal func startPushNotifications(
+        deviceRegistrationToken: String,
         completionHandler: @escaping (Result<HTTPResponse?, AzureError>) -> Void
     ) {
+        self.deviceRegistrationToken = deviceRegistrationToken
+
         // Create RegistrarClient
         createRegistrarClient(
             credential: credential,

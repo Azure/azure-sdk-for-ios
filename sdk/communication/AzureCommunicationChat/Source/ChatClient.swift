@@ -34,7 +34,7 @@ public class ChatClient {
     private let endpoint: String
     private let credential: CommunicationTokenCredential
     private let options: AzureCommunicationChatClientOptions
-    private var pushNotificationClient: PushNotificationClient?
+    private var pushNotificationClient: PushNotificationClient
     internal var registrationId: String
     private let service: Chat
     private var signalingClient: CommunicationSignalingClient?
@@ -102,6 +102,10 @@ public class ChatClient {
         )
 
         self.service = client.chat
+        self.pushNotificationClient = PushNotificationClient(
+            credential: credential,
+            options: options
+        )
     }
 
     // MARK: Private Methods
@@ -347,27 +351,17 @@ public class ChatClient {
             return
         }
 
-        do {
-            pushNotificationClient = try PushNotificationClient(
-                credential: credential,
-                options: options,
-                registrationId: registrationId,
-                deviceRegistrationToken: deviceToken
-            )
-
-            pushNotificationClient!.startPushNotifications { result in
-                switch result {
-                case let .success(response):
-                    self.pushNotificationsStarted = true
-                    completionHandler(.success(response))
-                case let .failure(error):
-                    self.options.logger
-                        .error("Failed to start push notifications with error: \(error.localizedDescription)")
-                    completionHandler(.failure(AzureError.client("Failed to start push notifications", error)))
-                }
+        pushNotificationClient.registrationId = registrationId
+        pushNotificationClient.startPushNotifications(deviceRegistrationToken: deviceToken) { result in
+            switch result {
+            case let .success(response):
+                self.pushNotificationsStarted = true
+                completionHandler(.success(response))
+            case let .failure(error):
+                self.options.logger
+                    .error("Failed to start push notifications with error: \(error.localizedDescription)")
+                completionHandler(.failure(AzureError.client("Failed to start push notifications", error)))
             }
-        } catch {
-            completionHandler(.failure(AzureError.client("Fail to create pushNotificationClient.", error)))
         }
     }
 
@@ -382,25 +376,18 @@ public class ChatClient {
         }
 
         // Report an error if pushNotificationClient doesn't exist
-        if pushNotificationClient == nil {
-            completionHandler(.failure(
-                AzureError
-                    .client(
-                        "PushNotificationClient is not initialized, cannot stop push notificaitons. Ensure startNotifications() is called first."
-                    )
-            ))
-        } else {
-            pushNotificationClient!.stopPushNotifications { result in
-                switch result {
-                case let .success(response):
-                    self.pushNotificationsStarted = false
-                    self.registrationId = UUID().uuidString
-                    completionHandler(.success(response))
-                case let .failure(error):
-                    self.options.logger
-                        .error("Failed to stop push notifications with error: \(error.localizedDescription)")
-                    completionHandler(.failure(AzureError.client("Failed to stop push notifications", error)))
-                }
+        pushNotificationClient.stopPushNotifications { result in
+            switch result {
+            case let .success(response):
+                self.pushNotificationsStarted = false
+                let refreshedRegistrationId = UUID().uuidString
+                self.registrationId = refreshedRegistrationId
+                self.pushNotificationClient.registrationId = refreshedRegistrationId
+                completionHandler(.success(response))
+            case let .failure(error):
+                self.options.logger
+                    .error("Failed to stop push notifications with error: \(error.localizedDescription)")
+                completionHandler(.failure(AzureError.client("Failed to stop push notifications", error)))
             }
         }
     }

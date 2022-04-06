@@ -1,15 +1,18 @@
 {
-  "name" : "test_StartPushNotifications_ReturnsSuccess",
   "interactions" : [
     {
-      "recorded_at" : 1648793132.4323978,
       "request" : {
+        "headers" : {
+          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.4.0; xctest:13.3 -> iOS 9.0; en_US)",
+          "Content-Type" : "application\/json"
+        },
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
         "body" : {
           "clientDescription" : {
             "appId" : "AcsIos",
             "platformUIVersion" : "3619\/0.0.0.0\/",
             "languageId" : "",
-            "templateKey" : "AcsIos.AcsNotify_Chat_1.0",
+            "templateKey" : "AcsIos.AcsNotify_Chat_3.0",
             "platform" : "iOS"
           },
           "transports" : {
@@ -24,26 +27,23 @@
           "registrationId" : "0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
           "nodeId" : ""
         },
-        "headers" : {
-          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.3.0; xctest:13.2 -> iOS 9.0; en_US)",
-          "Content-Type" : "application\/json"
-        },
-        "method" : "POST",
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations"
+        "method" : "POST"
       },
+      "recorded_at" : 1649207463.88376,
       "response" : {
         "headers" : {
-          "ms-cv" : "gpvKmnw7o0y8PkFoMABr0A.0",
-          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
-          "x-content-type-options" : "nosniff",
-          "x-msedge-ref" : "Ref A: 34727411762A4854A74FC7C3178381B6 Ref B: YVR311000110049 Ref C: 2022-04-01T06:05:32Z",
           "x-cache" : "CONFIG_NOCACHE",
-          "Content-Length" : "0"
+          "ms-cv" : "xE3hnMN+hE+Z9mssOSJWpQ.0",
+          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
+          "x-msedge-ref" : "Ref A: 277E707597A84551BF822D07EBF9B623 Ref B: YVR311000108051 Ref C: 2022-04-06T01:11:03Z",
+          "Content-Length" : "0",
+          "x-content-type-options" : "nosniff"
         },
-        "body" : "",
         "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
-        "status" : 202
+        "status" : 202,
+        "body" : ""
       }
     }
-  ]
+  ],
+  "name" : "test_StartPushNotifications_ReturnsSuccess"
 }

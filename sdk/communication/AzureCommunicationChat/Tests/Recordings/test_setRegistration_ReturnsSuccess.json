@@ -1,11 +1,10 @@
 {
   "interactions" : [
     {
-      "recorded_at" : 1648793200.5983281,
+      "recorded_at" : 1649201808.1518469,
       "request" : {
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
         "headers" : {
-          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.3.0; xctest:13.2 -> iOS 9.0; en_US)",
+          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.4.0; xctest:13.3 -> iOS 9.0; en_US)",
           "Content-Type" : "application\/json"
         },
         "body" : {
@@ -13,7 +12,7 @@
             "appId" : "AcsIos",
             "platformUIVersion" : "3619\/0.0.0.0\/",
             "languageId" : "",
-            "templateKey" : "AcsIos.AcsNotify_Chat_1.0",
+            "templateKey" : "AcsIos.AcsNotify_Chat_3.0",
             "platform" : "iOS"
           },
           "transports" : {
@@ -28,19 +27,20 @@
           "registrationId" : "0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
           "nodeId" : ""
         },
-        "method" : "POST"
+        "method" : "POST",
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations"
       },
       "response" : {
-        "headers" : {
-          "x-content-type-options" : "nosniff",
-          "ms-cv" : "avNoz9iHA0+JC6n0c\/k1hw.0",
-          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
-          "x-msedge-ref" : "Ref A: CE7A7150E9A340FCB11C1C9828934D9C Ref B: YVR311000112031 Ref C: 2022-04-01T06:06:40Z",
-          "Content-Length" : "0",
-          "x-cache" : "CONFIG_NOCACHE"
-        },
         "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
         "status" : 202,
+        "headers" : {
+          "Content-Length" : "0",
+          "x-content-type-options" : "nosniff",
+          "x-cache" : "CONFIG_NOCACHE",
+          "ms-cv" : "Je0Y9YGWukCB2x+BzUop+g.0",
+          "x-msedge-ref" : "Ref A: 1A1790BE799D461A94CBC951E709DF0B Ref B: YVR311000112029 Ref C: 2022-04-05T23:36:47Z",
+          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains"
+        },
         "body" : ""
       }
     }
