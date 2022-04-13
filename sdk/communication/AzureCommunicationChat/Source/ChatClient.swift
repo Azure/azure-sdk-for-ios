@@ -38,6 +38,9 @@ public class ChatClient {
     private let service: Chat
     private var signalingClient: CommunicationSignalingClient?
     private var signalingClientStarted: Bool = false
+    private var pushNotificationClient: PushNotificationClient
+    private var pushNotificationsStarted: Bool = false
+    internal var registrationId: String
 
     // MARK: Initializers
 
@@ -53,6 +56,7 @@ public class ChatClient {
     ) throws {
         self.endpoint = endpoint
         self.credential = credential
+        self.registrationId = UUID().uuidString
 
         guard let endpointUrl = URL(string: endpoint) else {
             throw AzureError.client("Unable to form base URL.")
@@ -99,6 +103,10 @@ public class ChatClient {
         )
 
         self.service = client.chat
+        self.pushNotificationClient = PushNotificationClient(
+            credential: credential,
+            options: options
+        )
     }
 
     // MARK: Private Methods
@@ -329,5 +337,110 @@ public class ChatClient {
         }
 
         signalingClient!.off(event: event)
+    }
+
+    /// Start push notifications. Receiving of notifications can be expected ~1 second after successfully registering.
+    /// - Parameters:
+    ///   - deviceToken: APNS push token.
+    ///   - completionHandler: Success indicates request to register for notifications has been received.
+    public func startPushNotifications(
+        deviceToken: String,
+        completionHandler: @escaping (Result<HTTPResponse?, AzureError>) -> Void
+    ) {
+        guard !pushNotificationsStarted else {
+            completionHandler(.failure(AzureError.client("Push notifications already started.")))
+            return
+        }
+
+        pushNotificationClient.registrationId = registrationId
+        pushNotificationClient.startPushNotifications(deviceRegistrationToken: deviceToken) { result in
+            switch result {
+            case let .success(response):
+                self.pushNotificationsStarted = true
+                completionHandler(.success(response))
+            case let .failure(error):
+                self.options.logger
+                    .error("Failed to start push notifications with error: \(error.localizedDescription)")
+                completionHandler(.failure(AzureError.client("Failed to start push notifications", error)))
+            }
+        }
+    }
+
+    /// Stop push notifications.
+    /// - Parameter completionHandler: Success indicates push notifications have been stopped.
+    public func stopPushNotifications(
+        completionHandler: @escaping (Result<HTTPResponse?, AzureError>) -> Void
+    ) {
+        guard pushNotificationsStarted else {
+            completionHandler(.failure(AzureError.client("Push notifications are not enabled.")))
+            return
+        }
+
+        // Report an error if pushNotificationClient doesn't exist
+        pushNotificationClient.stopPushNotifications { result in
+            switch result {
+            case let .success(response):
+                self.pushNotificationsStarted = false
+                let refreshedRegistrationId = UUID().uuidString
+                self.registrationId = refreshedRegistrationId
+                self.pushNotificationClient.registrationId = refreshedRegistrationId
+                completionHandler(.success(response))
+            case let .failure(error):
+                self.options.logger
+                    .error("Failed to stop push notifications with error: \(error.localizedDescription)")
+                completionHandler(.failure(AzureError.client("Failed to stop push notifications", error)))
+            }
+        }
+    }
+
+    /// Handle the data payload for an incoming push notification.
+    /// - Parameters:
+    ///   - notification: The APNS push notification payload ( including "aps" and "data" )
+    ///   - completionHandler:The event handler to handle the PushNotificationEvent
+    public func handlePush(
+        notification: [AnyHashable: Any],
+        completionHandler: PushNotificationEventHandler
+    ) {
+        // Retrieve the "data" part from the APNS push notification payload
+        guard let dataPayload = notification["data"] as? [String: AnyObject] else {
+            options.logger.error("Push notification does not contain data payload.")
+            completionHandler(nil, AzureError.client("Push notification does not contain data payload."))
+            return
+        }
+
+        do {
+            let data = try JSONSerialization.data(withJSONObject: dataPayload)
+
+            // Determine the chat eventType
+            let pushNotificationBasePayload = try JSONDecoder().decode(PushNotificationBasePayload.self, from: data)
+            let chatEventType = try PushNotificationChatEventType(forCode: pushNotificationBasePayload.eventId)
+
+            // Create PushNotificationChatEvent using eventType and event payload data
+            let pushNotificationEvent = try PushNotificationEvent(chatEventType: chatEventType, from: data)
+
+            // Pass the PushNotificationChatEvent into the user-defined event handler
+            completionHandler(pushNotificationEvent, nil)
+
+            // Catch the errors in the above decoding process
+        } catch let DecodingError.dataCorrupted(context) {
+            print(context)
+            completionHandler(nil, AzureError.client("decoding error"))
+        } catch let DecodingError.keyNotFound(key, context) {
+            print("Key '\(key)' not found:", context.debugDescription)
+            print("codingPath:", context.codingPath)
+            completionHandler(nil, AzureError.client("decoding error"))
+        } catch let DecodingError.valueNotFound(value, context) {
+            print("Value '\(value)' not found:", context.debugDescription)
+            print("codingPath:", context.codingPath)
+            completionHandler(nil, AzureError.client("decoding error"))
+        } catch let DecodingError.typeMismatch(type, context) {
+            print("Type '\(type)' mismatch:", context.debugDescription)
+            print("codingPath:", context.codingPath)
+            completionHandler(nil, AzureError.client("decoding error"))
+        } catch {
+            print("error: ", error)
+            // Pass the error into the contoso event handler
+            completionHandler(nil, error)
+        }
     }
 }
