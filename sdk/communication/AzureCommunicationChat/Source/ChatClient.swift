@@ -102,6 +102,10 @@ public class ChatClient {
         )
 
         self.service = client.chat
+        self.pushNotificationClient = PushNotificationClient(
+            credential: credential,
+            options: options
+        )
     }
 
     // MARK: Private Methods
