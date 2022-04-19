@@ -39,6 +39,19 @@ def _run(command):
     stdout, stderr = process.communicate()
     return (stdout.decode("utf-8"), stderr.decode("utf-8"))
 
+def _clone_github_repo(path):
+
+    repo_name = os.path.split(path)[-1]
+
+    # clone repo
+    _run(f"git clone {path} {repo_name}")
+
+    # find the podfile and run pod install
+    try:
+        podfile_path = glob.glob(os.path.join(".", repo_name, "**", "Podfile"))[0]
+        _run(f"pod install {podfile_path}")
+    except:
+        _log_warning("Unable to find Podfile. Attempting to generate docs without pod install...")
 
 if __name__ == "__main__":
     usage = f"usage: python {os.path.split(__file__)[1]} ( NAME ... | all)"
@@ -62,8 +75,7 @@ if __name__ == "__main__":
                 contents = yaml.safe_load(config_file)
                 github_url = contents.get("github_url", None)
                 if not github_url.endswith("azure-sdk-for-ios"):
-                    # TODO: Clone the github repo to facilitate building
-                    print(f"\tMust clone {github_url}...")
+                    _clone_github_repo(github_url)
 
             stdout, stderr = _run(f"jazzy --config {path}")
             if "RuntimeError" in stderr:

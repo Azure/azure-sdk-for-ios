@@ -433,6 +433,18 @@
          location = "group:scripts"
          name = "scripts">
          <FileRef
+            location = "group:build_api_docs.py">
+         </FileRef>
+         <FileRef
+            location = "group:Publish-SwiftMirrorRedirectReadme.ps1">
+         </FileRef>
+         <FileRef
+            location = "group:Publish-SwiftPackage.ps1">
+         </FileRef>
+         <FileRef
+            location = "group:Update-PkgVersion.ps1">
+         </FileRef>
+         <FileRef
             location = "group:Language-Settings.ps1">
          </FileRef>
          <FileRef
@@ -455,9 +467,6 @@
          </FileRef>
          <FileRef
             location = "group:util.py">
-         </FileRef>
-         <FileRef
-            location = "group:build_api_docs.py">
          </FileRef>
       </Group>
       <FileRef
