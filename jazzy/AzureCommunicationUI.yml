@@ -3,7 +3,7 @@ author_url: https://azure.github.io/azure-sdk/
 github_url: https://github.com/Azure/communication-ui-library-ios
 module: AzureCommunicationUI
 module_version: 1.1.0-beta.1
-readme: ../README.md
+readme: ../build/communication-ui-library-ios/README.md
 skip_undocumented: false
 hide_unlisted_documentation: false
 theme: fullwidth
@@ -12,7 +12,7 @@ clean: true
 sdk: iphonesimulator
 xcodebuild_arguments:
   - "-workspace"
-  - "AzureCommunicationUI/AzureCommunicationUI.xcworkspace"
+  - "build/communication-ui-library-ios/AzureCommunicationUI/AzureCommunicationUI.xcworkspace"
   - "-scheme"
   - "AzureCommunicationUI"
   - "-sdk"

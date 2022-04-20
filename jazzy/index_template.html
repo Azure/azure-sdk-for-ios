@@ -109,20 +109,18 @@
       </div>
       <div class="category-list-container column">
         <ul class="category-list">
-          <% Dir.chdir(File.dirname(__FILE__) + "/../build/jazzy") do %>
-          <% Dir.glob('*').select { |f| File.directory? f }.sort.each do |framework| %>
+          {% for item in navigation %}
           <li class="category-list-item">
             <div class="category-list-item-elements">
-              <a href="<%= framework %>/index.html" class="category-list-item-link"><%= framework %></a>
+              <a href="{{ item }}/index.html" class="category-list-item-link">{{ item }}</a>
             </div>
           </li>
-          <% end %>
-          <% end %>
+          {% endfor %}
         </ul>
       </div>
     </div>
     <section class="footer">
-      <p>&copy; <%= Time.new.year %> <a class="link" href="https://azure.github.io/azure-sdk/" target="_blank" rel="external">Microsoft</a>. All rights reserved. </p>
+      <p>&copy; {{ copyright_year }} <a class="link" href="https://azure.github.io/azure-sdk/" target="_blank" rel="external">Microsoft</a>. All rights reserved. </p>
     </section>
   </body>
 </div>

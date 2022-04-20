@@ -14,7 +14,7 @@ xcodebuild_arguments:
   - "-workspace"
   - "AzureSDK.xcworkspace"
   - "-scheme"
-  - "AzureCommunicationCalling"
+  - "AzureCommunicationChat"
   - "-sdk"
   - "iphonesimulator"
   - "-arch"
