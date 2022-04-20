@@ -12,7 +12,7 @@ clean: true
 sdk: iphonesimulator
 xcodebuild_arguments:
   - "-workspace"
-  - "communication-ui-library-ios/AzureCommunicationUI/AzureCommunicationUI.xcworkspace"
+  - "build/communication-ui-library-ios/AzureCommunicationUI/AzureCommunicationUI.xcworkspace"
   - "-scheme"
   - "AzureCommunicationUI"
   - "-sdk"

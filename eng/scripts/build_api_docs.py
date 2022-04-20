@@ -6,7 +6,9 @@ build_api_docs.py
 Script to generate Jazzy documentation.
 """
 
+import datetime
 import glob
+from jinja2 import Template
 import logging
 import os
 import subprocess
@@ -40,18 +42,18 @@ def _run(command):
     return (stdout.decode("utf-8"), stderr.decode("utf-8"))
 
 def _clone_github_repo(path):
-
+    # clone the repo into the build folder so it can easily be removed
     repo_name = os.path.split(path)[-1]
+    _run(f"git clone {path} build/{repo_name}")
 
-    # clone repo
-    _run(f"git clone {path} {repo_name}")
-
-    # find the podfile and run pod install
     try:
-        podfile_path = glob.glob(os.path.join(".", repo_name, "**", "Podfile"))[0]
-        _run(f"pod install {podfile_path}")
+        # find the podfile and run pod install
+        podfile_path = glob.glob(os.path.abspath(os.path.join(".", "build", repo_name, "**", "Podfile")))[0]
+        podfile_dir = os.path.split(podfile_path)[0]
+        stdout, stderr = _run(f"pod install --project-directory={podfile_dir}")
+        print(stdout)
     except:
-        _log_warning("Unable to find Podfile. Attempting to generate docs without pod install...")
+        _log_warning("Podfile not found. Attempting to generate docs without pod install...")
 
 if __name__ == "__main__":
     usage = f"usage: python {os.path.split(__file__)[1]} ( NAME ... | all)"
@@ -67,7 +69,6 @@ if __name__ == "__main__":
         paths = [f"jazzy/{x}.yml" for x in args]
     for path in paths:
         try:
-            print(f"Generating docs for: {path}...")
             if not os.path.exists(path):
                 logging.warning(f"No config found for {path}. Skipping.")
                 continue
@@ -75,8 +76,10 @@ if __name__ == "__main__":
                 contents = yaml.safe_load(config_file)
                 github_url = contents.get("github_url", None)
                 if not github_url.endswith("azure-sdk-for-ios"):
+                    print(f"Cloning repo: {github_url}...")
                     _clone_github_repo(github_url)
 
+            print(f"Generating docs for: {path}...")
             stdout, stderr = _run(f"jazzy --config {path}")
             if "RuntimeError" in stderr:
                 logging.error(f"==BEGIN STDERR==.\n{stderr}\n==END STDERR==\nError generating docs.")
@@ -87,7 +90,20 @@ if __name__ == "__main__":
                 logging.error("error: Jazzy not installed. Download from https://github.com/realm/jazzy")
             else:
                 logging.error(f"error: {err}")
+
+    # load template and render index
     print("Generating index...")
-    # TODO: Must run a Python jinja template to generate the index.
-    #stdout, stderr = _run(f"erb jazzy/index.html.erb > build/jazzy/index.html")
+    module_names = sorted([os.path.split(x)[-1][:-4] for x in paths])
+    index_template_path = os.path.abspath(os.path.join(".", "jazzy", "index_template.html"))
+    with open(index_template_path) as infile:
+        template = Template(infile.read())
+        rendered = template.render(
+            copyright_year=datetime.date.today().year,
+            navigation=module_names
+        )
+
+    # write index to file
+    index_path = os.path.abspath(os.path.join(".", "jazzy", "index.html"))
+    with open(index_path, "w") as outfile:
+        outfile.write(rendered)
     sys.exit(0)
