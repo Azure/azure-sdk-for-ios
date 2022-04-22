@@ -40,7 +40,7 @@ internal class ThreadSafeRefreshableAccessTokenCache {
     private let onDemandRefreshingInterval = TimeInterval(120)
 
     private let tokenRefresher: TokenRefreshAction
-
+    let anyThreadRefreshing = DispatchSemaphore(value: 1)
     private typealias TimerAction = () -> Void
     internal typealias AccessTokenRefreshAction = (@escaping CommunicationTokenCompletionHandler) -> Void
     internal typealias TokenRefreshAction = (@escaping TokenRefreshHandler) -> Void
@@ -82,7 +82,6 @@ internal class ThreadSafeRefreshableAccessTokenCache {
         }
     }
 
-    let anyThreadRefreshing = DispatchSemaphore(value: 1)
     public func getValue(
         _ completionHandler: @escaping CommunicationTokenCompletionHandler
     ) {
@@ -91,9 +90,8 @@ internal class ThreadSafeRefreshableAccessTokenCache {
             return
         }
 
+        anyThreadRefreshing.wait()
         DispatchQueue.global(qos: .utility).async { [weak self] in
-            self?.anyThreadRefreshing.wait()
-
             guard let self = self else { return }
 
             defer { self.anyThreadRefreshing.signal() }
