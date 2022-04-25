@@ -39,7 +39,6 @@ public class ChatClient {
     private var signalingClient: CommunicationSignalingClient?
     private var signalingClientStarted: Bool = false
     private var pushNotificationClient: PushNotificationClient?
-    private var pushNotificationsStarted: Bool = false
     internal var registrationId: String
 
     // MARK: Initializers
@@ -345,8 +344,8 @@ public class ChatClient {
     ) {
         // If the PushNotification has already been started, return success to avoid unnecessary re-registration. Theoretically this "pre-validation" mechanism can only work when app is alive.
         // In the case that the app is killed and relaunched, the chatClient will be initilized again so it will inevitably perform a new registration.
-        guard !pushNotificationsStarted else {
-            options.logger.warning("PushNotification has already been started.")
+        guard self.pushNotificationClient?.pushNotificationsStarted != true else {
+            options.logger.warning("Warning: PushNotification has already been started.")
             completionHandler(.success(nil))
             return
         }
@@ -367,7 +366,6 @@ public class ChatClient {
         pushNotificationClient.startPushNotifications(deviceRegistrationToken: deviceToken) { result in
             switch result {
             case let .success(response):
-                self.pushNotificationsStarted = true
                 completionHandler(.success(response))
             case let .failure(error):
                 self.options.logger
@@ -383,8 +381,8 @@ public class ChatClient {
         completionHandler: @escaping (Result<HTTPResponse?, AzureError>) -> Void
     ) {
         // If PushNotification has already been stopped, return success and add a warning.
-        guard pushNotificationsStarted else {
-            options.logger.warning("PushNotification has already been stopped.")
+        guard self.pushNotificationClient?.pushNotificationsStarted == true else {
+            options.logger.warning("Warning: PushNotification has already been stopped.")
             completionHandler(.success(nil))
             return
         }
@@ -404,7 +402,6 @@ public class ChatClient {
         pushNotificationClient.stopPushNotifications { result in
             switch result {
             case let .success(response):
-                self.pushNotificationsStarted = false
                 let refreshedRegistrationId = UUID().uuidString
                 self.registrationId = refreshedRegistrationId
                 completionHandler(.success(response))

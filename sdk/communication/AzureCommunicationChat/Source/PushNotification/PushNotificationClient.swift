@@ -37,6 +37,7 @@ internal class PushNotificationClient {
     private var registrarClient: RegistrarClient?
     internal var registrationId: String
     internal var deviceRegistrationToken: String
+    internal var pushNotificationsStarted: Bool
 
     // MARK: Initializers
 
@@ -50,6 +51,7 @@ internal class PushNotificationClient {
         self.registrarClient = nil
         self.registrationId = registrationId
         self.deviceRegistrationToken = ""
+        self.pushNotificationsStarted = false
     }
 
     internal func startPushNotifications(
@@ -85,6 +87,7 @@ internal class PushNotificationClient {
                     registrarClient.setRegistration(with: clientDescription, for: [transport]) { result in
                         switch result {
                         case let .success(response):
+                            self.pushNotificationsStarted = true
                             completionHandler(.success(response))
                         case let .failure(error):
                             self.options.logger
@@ -115,6 +118,7 @@ internal class PushNotificationClient {
             registrarClient!.deleteRegistration { result in
                 switch result {
                 case let .success(response):
+                    self.pushNotificationsStarted = false
                     completionHandler(.success(response))
                 case let .failure(error):
                     self.options.logger

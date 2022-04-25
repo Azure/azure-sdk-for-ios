@@ -1,12 +1,22 @@
 {
+  "name" : "test_setRegistration_ReturnsSuccess",
   "interactions" : [
     {
-      "request" : {
-        "method" : "POST",
+      "recorded_at" : 1650928447.4600558,
+      "response" : {
         "headers" : {
-          "Content-Type" : "application\/json",
-          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.4.0; xctest:13.3 -> iOS 9.0; en_US)"
+          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
+          "x-content-type-options" : "nosniff",
+          "x-msedge-ref" : "Ref A: B108BD19E5AB443A8E7D45A85D1586F2 Ref B: WSTEDGE1111 Ref C: 2022-04-25T23:14:07Z",
+          "ms-cv" : "RkkLfQ0gukmUrqN1ZvT7yw.0",
+          "Content-Length" : "0",
+          "x-cache" : "CONFIG_NOCACHE"
         },
+        "status" : 202,
+        "body" : "",
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations"
+      },
+      "request" : {
         "body" : {
           "clientDescription" : {
             "appId" : "AcsIos",
@@ -27,23 +37,13 @@
           "registrationId" : "0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
           "nodeId" : ""
         },
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations"
-      },
-      "response" : {
-        "body" : "",
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
         "headers" : {
-          "Content-Length" : "0",
-          "x-msedge-ref" : "Ref A: B85409B797144144B067F4B5A36FC078 Ref B: WSTEDGE1012 Ref C: 2022-04-25T01:38:02Z",
-          "ms-cv" : "v2MfqfoHy06715Pvo5ucHA.0",
-          "x-cache" : "CONFIG_NOCACHE",
-          "x-content-type-options" : "nosniff",
-          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains"
+          "Content-Type" : "application\/json",
+          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.4.0; xctest:13.3 -> iOS 9.0; en_US)"
         },
-        "status" : 202
-      },
-      "recorded_at" : 1650850682.9767962
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
+        "method" : "POST"
+      }
     }
-  ],
-  "name" : "test_setRegistration_ReturnsSuccess"
+  ]
 }
