@@ -18,16 +18,16 @@
 # Service teams
 
 # PRLabel: %Azure.Core
-/sdk/core/                                          @tjprescott
+/sdk/core/                                          @tjprescott @mpodwysocki
 
 # PRLabel: %Storage
-/sdk/storage/                                       @tjprescott
+/sdk/storage/                                       @tjprescott @mpodwysocki
 
 # PRLabel: %Communication
-/sdk/communication/                                 @sacheu @Azure/azure-sdk-communication-code-reviewers
+/sdk/communication/                                 @Azure/azure-sdk-communication-code-reviewers
 
 # PRLabel: %Azure.Identity
-/sdk/identity/                                      @tjprescott
+/sdk/identity/                                      @tjprescott @mpodwysocki
 
 ###########
 # Eng Sys
