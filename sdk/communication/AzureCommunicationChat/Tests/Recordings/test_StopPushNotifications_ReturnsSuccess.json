@@ -2,6 +2,7 @@
   "name" : "test_StopPushNotifications_ReturnsSuccess",
   "interactions" : [
     {
+      "recorded_at" : 1650852129.739202,
       "request" : {
         "method" : "POST",
         "headers" : {

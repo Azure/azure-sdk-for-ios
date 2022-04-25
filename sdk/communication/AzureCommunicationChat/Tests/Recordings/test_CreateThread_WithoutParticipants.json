@@ -1,7 +1,7 @@
 {
-  "name" : "test_CreateThread_WithoutParticipants",
   "interactions" : [
     {
+      "recorded_at" : 1650852128.0339799,
       "request" : {
         "body" : {
           "topic" : "Test topic"
@@ -44,5 +44,6 @@
         }
       }
     }
-  ]
+  ],
+  "name" : "test_CreateThread_WithoutParticipants"
 }
