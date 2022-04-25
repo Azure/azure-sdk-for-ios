@@ -26,24 +26,6 @@
 
 import Foundation
 
-internal enum RegistrarSettings {
-    // Node id is unused but we are required to send it
-    static let nodeId = ""
-
-    // ClientDescription Settings
-    static let appId = "AcsIos"
-    static let languageId = ""
-    static let platform = "iOS"
-    static let platformUIVersion = "3619/0.0.0.0/"
-    static let templateKey = "AcsIos.AcsNotify_Chat_3.0"
-
-    // Transport Settings
-    static let pushNotificationTransport = "APNS"
-    // Max TTL is 180 days
-    static let ttl = 15_552_000
-    static let context = ""
-}
-
 internal enum RegistrarHeader: String {
     /// Content-type header.
     case contentType = "Content-Type"

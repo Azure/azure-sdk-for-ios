@@ -158,26 +158,4 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
             }
         }
     }
-
-    func test_StopPushNotifications_ReturnsFailure() {
-        let expectation = self.expectation(description: "Stop push notifications")
-
-        // Stop notifications without starting them
-        chatClient.stopPushNotifications { result in
-            switch result {
-            case .success:
-                XCTFail("Push notifications should not be enabled.")
-            case let .failure(error):
-                XCTAssertNotNil(error)
-            }
-
-            expectation.fulfill()
-        }
-
-        waitForExpectations(timeout: 10.0) { error in
-            if let error = error {
-                XCTFail("Stop push notifications timed out: \(error)")
-            }
-        }
-    }
 }

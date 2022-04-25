@@ -42,18 +42,13 @@ internal struct RegistrarClientDescription: Codable {
     internal let templateVersion: String?
 
     internal init(
-        appId: String,
-        languageId: String,
-        platform: String,
-        platformUIVersion: String,
-        templateKey: String,
         templateVersion: String? = nil
     ) {
-        self.appId = appId
-        self.languageId = languageId
-        self.platform = platform
-        self.platformUIVersion = platformUIVersion
-        self.templateKey = templateKey
+        self.appId = "AcsIos"
+        self.languageId = ""
+        self.platform = "iOS"
+        self.platformUIVersion = "3619/0.0.0.0/"
+        self.templateKey = "AcsIos.AcsNotify_Chat_3.0"
         self.templateVersion = templateVersion
     }
 }

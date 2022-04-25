@@ -29,7 +29,7 @@ import AzureCore
 import Foundation
 
 /// ChatClient class for ChatThread operations.
-public class PushNotificationClient {
+internal class PushNotificationClient {
     // MARK: Properties
 
     private let credential: CommunicationTokenCredential
@@ -42,12 +42,13 @@ public class PushNotificationClient {
 
     internal init(
         credential: CommunicationTokenCredential,
-        options: AzureCommunicationChatClientOptions
+        options: AzureCommunicationChatClientOptions,
+        registrationId: String
     ) {
         self.credential = credential
         self.options = options
         self.registrarClient = nil
-        self.registrationId = ""
+        self.registrationId = registrationId
         self.deviceRegistrationToken = ""
     }
 
@@ -68,19 +69,11 @@ public class PushNotificationClient {
                     // Create RegistrarClientDescription (It should match valid APNS templates)
                     self.registrarClient = createdRegistrarClient
 
-                    let clientDescription = RegistrarClientDescription(
-                        appId: RegistrarSettings.appId,
-                        languageId: RegistrarSettings.languageId,
-                        platform: RegistrarSettings.platform,
-                        platformUIVersion: RegistrarSettings.platformUIVersion,
-                        templateKey: RegistrarSettings.templateKey
-                    )
+                    let clientDescription = RegistrarClientDescription()
 
                     // Create RegistrarTransportSettings (Path is device token)
                     let transport = RegistrarTransportSettings(
-                        ttl: RegistrarSettings.ttl,
-                        path: self.deviceRegistrationToken,
-                        context: RegistrarSettings.context
+                        path: self.deviceRegistrationToken
                     )
 
                     // Register for push notifications
@@ -114,7 +107,7 @@ public class PushNotificationClient {
             completionHandler(.failure(
                 AzureError
                     .client(
-                        "RegistrarClient is not initialized, cannot stop push notificaitons. Ensure startNotifications() is called first."
+                        "RegistrarClient is not initialized, cannot stop push notificaitons. Ensure startPushNotifications() is called first."
                     )
             ))
         } else {

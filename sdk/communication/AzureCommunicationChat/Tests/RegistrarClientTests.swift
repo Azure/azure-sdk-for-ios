@@ -85,18 +85,10 @@ class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
     func test_setRegistration_ReturnsSuccess() {
         let expectation = self.expectation(description: "Set Registration")
 
-        let clientDescription = RegistrarClientDescription(
-            appId: RegistrarSettings.appId,
-            languageId: RegistrarSettings.languageId,
-            platform: RegistrarSettings.platform,
-            platformUIVersion: RegistrarSettings.platformUIVersion,
-            templateKey: RegistrarSettings.templateKey
-        )
+        let clientDescription = RegistrarClientDescription()
 
         let registrarTransportSettings = RegistrarTransportSettings(
-            ttl: 10,
-            path: "mockDeviceToken",
-            context: RegistrarSettings.context
+            path: "mockDeviceToken"
         )
 
         registrarClient.setRegistration(
@@ -122,18 +114,10 @@ class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
     func test_deleteRegistration_ReturnsSuccess() {
         let expectation = self.expectation(description: "Delete Registration")
 
-        let clientDescription = RegistrarClientDescription(
-            appId: RegistrarSettings.appId,
-            languageId: RegistrarSettings.languageId,
-            platform: RegistrarSettings.platform,
-            platformUIVersion: RegistrarSettings.platformUIVersion,
-            templateKey: RegistrarSettings.templateKey
-        )
+        let clientDescription = RegistrarClientDescription()
 
         let registrarTransportSettings = RegistrarTransportSettings(
-            ttl: 100,
-            path: "mockDeviceToken",
-            context: RegistrarSettings.context
+            path: "mockDeviceToken"
         )
 
         registrarClient.setRegistration(

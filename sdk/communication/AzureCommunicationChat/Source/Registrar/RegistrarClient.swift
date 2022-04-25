@@ -118,10 +118,9 @@ internal class RegistrarClient: PipelineClient {
     ) {
         let registrarRequestBody = RegistrarRequestBody(
             registrationId: registrationId,
-            nodeId: RegistrarSettings.nodeId,
             clientDescription: clientDescription,
             registrarTransportSettings: [
-                RegistrarSettings.pushNotificationTransport: registrarTransportSettings
+                "APNS": registrarTransportSettings
             ]
         )
 
