@@ -18,8 +18,6 @@
       "response" : {
         "status" : 201,
         "headers" : {
-          "ms-cv" : "KJzBAGdgi0KFy++3DmCU9g.0",
-          "x-cache" : "CONFIG_NOCACHE",
           "api-supported-versions" : "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7",
           "ms-cv" : "o4XHchX99kOcFLiK7bNt9A.0",
           "Location" : "https:\/\/acs-gnygqibv4wh32.communication.azure.com\/chat\/threads\/19%3AXj598auL4HYB-hVIvDdhjmiumtcQGSjuH5ZyhhsaB0k1@thread.v2",

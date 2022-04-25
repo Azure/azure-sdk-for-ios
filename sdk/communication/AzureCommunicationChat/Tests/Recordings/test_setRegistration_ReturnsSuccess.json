@@ -1,4 +1,5 @@
 {
+  "name" : "test_setRegistration_ReturnsSuccess",
   "interactions" : [
     {
       "recorded_at" : 1650928447.4600558,
@@ -44,6 +45,5 @@
         "method" : "POST"
       }
     }
-  ],
-  "name" : "test_setRegistration_ReturnsSuccess"
+  ]
 }
