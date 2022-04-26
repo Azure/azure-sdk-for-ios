@@ -1,5 +1,12 @@
 # Release History
 
+## 1.2.0-beta.1 (unreleased)
+### New Features
+- `ChatClient` now supports Push Notifications for Chat events
+- Following methods added to `ChatClient`:
+  - `startPushNotifications()`
+  - `stopPushNotifications()`
+
 ## 1.1.0 (2022-04-11)
 Updated service API version to 2021-09-07.
 

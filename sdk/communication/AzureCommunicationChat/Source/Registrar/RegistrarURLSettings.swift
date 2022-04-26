@@ -25,41 +25,25 @@
 // --------------------------------------------------------------------------
 
 import Foundation
-import Trouter
 
-let defaultRegistrationData: TrouterUrlRegistrationData? = TrouterUrlRegistrationData.create(
-    withApplicationId: "AcsiOS",
-    registrationId: nil,
-    platform: "SPOOL",
-    platformUiVersion: "0.0.0",
-    templateKey: "AcsiOS_Chat_1.3",
-    productContext: nil,
-    context: ""
-) as? TrouterUrlRegistrationData
-
-let defaultClientVersion: String = "1.0.0"
-let defaultTrouterHostname: String = "go.trouter.skype.com/v4/a"
-let defaultRegistrarHostnameAndBasePath: String = "edge.skype.com/registrar/prod"
+let defaultRegistrarServiceUrl: String = "https://edge.skype.com/registrar/prod/v2/registrations"
 
 // GCC High gov cloud URLs
-let gcchTrouterHostname: String = "go.trouter.gov.teams.microsoft.us/v4/a"
-let gcchRegistrarHostnameAndBasePath: String = "registrar.gov.teams.microsoft.us"
+let gcchRegistrarServiceUrl: String = "https://gov.teams.microsoft.us/v2/registrations"
 
 // DoD gov cloud URLs
-let dodTrouterHostname: String = "go.trouter.dod.teams.microsoft.us/v4/a"
-let dodRegistrarHostnameAndBasePath: String = "registrar.dod.teams.microsoft.us"
+let dodRegistrarServiceUrl: String = "https://dod.teams.microsoft.us/v2/registrations"
 
-func getTrouterSettings(token: String) throws
-    -> (trouterHostname: String, registrarHostnameAndBasePath: String) {
+func getRegistrarServiceUrl(token: String) throws -> String {
     let jwt = try decode(jwtToken: token)
     if let skypeToken = jwt["skypeid"] as? String {
         if isGcch(id: skypeToken) {
-            return (gcchTrouterHostname, gcchRegistrarHostnameAndBasePath)
+            return gcchRegistrarServiceUrl
         }
         if isDod(id: skypeToken) {
-            return (dodTrouterHostname, dodRegistrarHostnameAndBasePath)
+            return dodRegistrarServiceUrl
         }
     }
 
-    return (defaultTrouterHostname, defaultRegistrarHostnameAndBasePath)
+    return defaultRegistrarServiceUrl
 }
