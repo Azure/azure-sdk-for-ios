@@ -40,6 +40,8 @@ public class ChatClient {
     private var signalingClientStarted: Bool = false
     private var realTimeNotificationConnectedHandler: TrouterEventHandler?
     private var realTimeNotificationDisconnectedHandler: TrouterEventHandler?
+    private var pushNotificationClient: PushNotificationClient?
+    internal var registrationId: String
 
     // MARK: Initializers
 
@@ -55,6 +57,7 @@ public class ChatClient {
     ) throws {
         self.endpoint = endpoint
         self.credential = credential
+        self.registrationId = UUID().uuidString
 
         guard let endpointUrl = URL(string: endpoint) else {
             throw AzureError.client("Unable to form base URL.")
@@ -367,6 +370,85 @@ public class ChatClient {
             realTimeNotificationDisconnectedHandler = nil
         default:
             signalingClient.off(event: event)
+        }
+    }
+
+    /// Start push notifications. Receiving of notifications can be expected ~1 second after successfully registering.
+    /// - Parameters:
+    ///   - deviceToken: APNS push token.
+    ///   - completionHandler: Success indicates request to register for notifications has been received.
+    public func startPushNotifications(
+        deviceToken: String,
+        completionHandler: @escaping (Result<HTTPResponse?, AzureError>) -> Void
+    ) {
+        // If the PushNotification has already been started, return success to avoid unnecessary re-registration. Theoretically this "pre-validation" mechanism can only work when app is alive.
+        // In the case that the app is killed and relaunched, the chatClient will be initilized again so it will inevitably perform a new registration.
+        guard self.pushNotificationClient?.pushNotificationsStarted != true else {
+            options.logger.warning("Warning: PushNotification has already been started.")
+            completionHandler(.success(nil))
+            return
+        }
+
+        // Initialize the push notification client
+        self.pushNotificationClient = PushNotificationClient(
+            credential: credential,
+            options: options,
+            registrationId: registrationId
+        )
+
+        guard let pushNotificationClient = pushNotificationClient else {
+            completionHandler(.failure(AzureError.client("Failed to initialize PushNotificationClient.")))
+            return
+        }
+
+        // After successful initialization, start push notifications
+        pushNotificationClient.startPushNotifications(deviceRegistrationToken: deviceToken) { result in
+            switch result {
+            case let .success(response):
+                completionHandler(.success(response))
+            case let .failure(error):
+                self.options.logger
+                    .error("Failed to start push notifications with error: \(error.localizedDescription)")
+                completionHandler(.failure(AzureError.client("Failed to start push notifications", error)))
+            }
+        }
+    }
+
+    /// Stop push notifications.
+    /// - Parameter completionHandler: Success indicates push notifications have been stopped.
+    public func stopPushNotifications(
+        completionHandler: @escaping (Result<HTTPResponse?, AzureError>) -> Void
+    ) {
+        // If PushNotification has already been stopped, return success and add a warning.
+        guard self.pushNotificationClient?.pushNotificationsStarted == true else {
+            options.logger.warning("Warning: PushNotification has already been stopped.")
+            completionHandler(.success(nil))
+            return
+        }
+
+        // Report an error if pushNotificationClient doesn't exist
+        guard let pushNotificationClient = pushNotificationClient else {
+            completionHandler(.failure(
+                AzureError
+                    .client(
+                        "PushNotificationClient is not initialized, cannot stop push notificaitons. Ensure startPushNotifications() is called first."
+                    )
+            ))
+            return
+        }
+
+        // Stop push notification
+        pushNotificationClient.stopPushNotifications { result in
+            switch result {
+            case let .success(response):
+                let refreshedRegistrationId = UUID().uuidString
+                self.registrationId = refreshedRegistrationId
+                completionHandler(.success(response))
+            case let .failure(error):
+                self.options.logger
+                    .error("Failed to stop push notifications with error: \(error.localizedDescription)")
+                completionHandler(.failure(AzureError.client("Failed to stop push notifications", error)))
+            }
         }
     }
 }

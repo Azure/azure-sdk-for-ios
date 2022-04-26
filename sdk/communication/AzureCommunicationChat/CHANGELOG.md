@@ -1,5 +1,12 @@
 # Release History
 
+## 1.3.0-beta.1 (unreleased)
+### New Features
+- `ChatClient` now supports Push Notifications for Chat events
+- Following methods added to `ChatClient`:
+  - `startPushNotifications()`
+  - `stopPushNotifications()`
+
 ## 1.2.0 (2022-05-16)
 ### Features Added
 - Added two new events `realTimeNotificationConnected` and `realTimeNotificationDisconnected` that allow the developer to know when the connection to the real time notification server is active.
