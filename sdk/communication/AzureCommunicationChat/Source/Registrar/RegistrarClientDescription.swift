@@ -48,7 +48,7 @@ internal struct RegistrarClientDescription: Codable {
         self.languageId = ""
         self.platform = "iOS"
         self.platformUIVersion = "3619/0.0.0.0/"
-        self.templateKey = "AcsIos.AcsNotify_Chat_3.0"
+        self.templateKey = "AcsIos.AcsNotify_Chat_1.0"
         self.templateVersion = templateVersion
     }
 }
