@@ -32,6 +32,8 @@ public typealias TrouterEventHandler = (_ response: TrouterEvent) -> Void
 
 /// TrouterEvents.
 public enum TrouterEvent {
+    case realTimeNotificationConnected(RealTimeNotificationConnectedEvent)
+    case realTimeNotificationDisconnected(RealTimeNotificationDisconnectedEvent)
     case chatMessageReceivedEvent(ChatMessageReceivedEvent)
     case typingIndicatorReceived(TypingIndicatorReceivedEvent)
     case readReceiptReceived(ReadReceiptReceivedEvent)
@@ -47,37 +49,43 @@ public enum TrouterEvent {
     /// - Parameters:
     ///   - chatEventId: The ChatEventId.
     ///   - request: The TrouterRequest that contains the event data.
-    init(chatEventId: ChatEventId, from request: TrouterRequest) throws {
+    init(chatEventId: ChatEventId, from request: TrouterRequest? = nil) throws {
         switch chatEventId {
+        case ChatEventId.realTimeNotificationConnected:
+            let event = RealTimeNotificationConnectedEvent()
+            self = .realTimeNotificationConnected(event)
+        case ChatEventId.realTimeNotificationDisconnected:
+            let event = RealTimeNotificationDisconnectedEvent()
+            self = .realTimeNotificationDisconnected(event)
         case ChatEventId.chatMessageReceived:
-            let event = try ChatMessageReceivedEvent(from: request)
+            let event = try ChatMessageReceivedEvent(from: request!)
             self = .chatMessageReceivedEvent(event)
         case .typingIndicatorReceived:
-            let event = try TypingIndicatorReceivedEvent(from: request)
+            let event = try TypingIndicatorReceivedEvent(from: request!)
             self = .typingIndicatorReceived(event)
         case .readReceiptReceived:
-            let event = try ReadReceiptReceivedEvent(from: request)
+            let event = try ReadReceiptReceivedEvent(from: request!)
             self = .readReceiptReceived(event)
         case .chatMessageEdited:
-            let event = try ChatMessageEditedEvent(from: request)
+            let event = try ChatMessageEditedEvent(from: request!)
             self = .chatMessageEdited(event)
         case .chatMessageDeleted:
-            let event = try ChatMessageDeletedEvent(from: request)
+            let event = try ChatMessageDeletedEvent(from: request!)
             self = .chatMessageDeleted(event)
         case .chatThreadCreated:
-            let event = try ChatThreadCreatedEvent(from: request)
+            let event = try ChatThreadCreatedEvent(from: request!)
             self = .chatThreadCreated(event)
         case .chatThreadPropertiesUpdated:
-            let event = try ChatThreadPropertiesUpdatedEvent(from: request)
+            let event = try ChatThreadPropertiesUpdatedEvent(from: request!)
             self = .chatThreadPropertiesUpdated(event)
         case .chatThreadDeleted:
-            let event = try ChatThreadDeletedEvent(from: request)
+            let event = try ChatThreadDeletedEvent(from: request!)
             self = .chatThreadDeleted(event)
         case .participantsAdded:
-            let event = try ParticipantsAddedEvent(from: request)
+            let event = try ParticipantsAddedEvent(from: request!)
             self = .participantsAdded(event)
         case .participantsRemoved:
-            let event = try ParticipantsRemovedEvent(from: request)
+            let event = try ParticipantsRemovedEvent(from: request!)
             self = .participantsRemoved(event)
         }
     }

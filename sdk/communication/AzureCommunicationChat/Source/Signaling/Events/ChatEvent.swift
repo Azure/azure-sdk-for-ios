@@ -915,8 +915,20 @@ public class ParticipantsRemovedEvent: BaseChatThreadEvent {
     }
 }
 
+/// RealTimeNotificationConnectedEvent
+public class RealTimeNotificationConnectedEvent {
+    init() {}
+}
+
+/// RealTimeNotificationDisconnected
+public class RealTimeNotificationDisconnectedEvent {
+    init() {}
+}
+
 /// ChatEventId representing the different events for real-time notifications
 public enum ChatEventId: String {
+    case realTimeNotificationConnected
+    case realTimeNotificationDisconnected
     case chatMessageReceived
     case typingIndicatorReceived
     case readReceiptReceived
