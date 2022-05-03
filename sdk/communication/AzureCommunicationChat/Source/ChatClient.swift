@@ -99,10 +99,10 @@ public class ChatClient {
         )
 
         self.service = client.chat
-        self.signalingClient = try createSignalingClient(credential: credential)
+        self.signalingClient = createSignalingClient(credential: credential)
     }
 
-    private func createSignalingClient(credential: CommunicationTokenCredential) throws
+    private func createSignalingClient(credential: CommunicationTokenCredential)
         -> CommunicationSignalingClient? {
         var signalingClient: CommunicationSignalingClient?
         // Retrieve the access token
