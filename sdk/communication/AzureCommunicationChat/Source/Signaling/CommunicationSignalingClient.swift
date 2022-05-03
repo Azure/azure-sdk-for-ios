@@ -196,7 +196,6 @@ class CommunicationHandler: NSObject, TrouterListener {
         } catch {
             logger.error("Error: \(error)")
         }
-        logger.info("Trouter Connected")
     }
 
     func onTrouterDisconnected() {
@@ -207,7 +206,6 @@ class CommunicationHandler: NSObject, TrouterListener {
         } catch {
             logger.error("Error: \(error)")
         }
-        logger.info("Trouter Disconnected")
     }
 
     func onTrouterRequest(_ request: TrouterRequest, _ response: TrouterResponse) {
