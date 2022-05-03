@@ -281,21 +281,25 @@ public class ChatClient {
             return
         }
 
-        // After successful initialization, start notifications
+        guard let communicationSignalingClient = signalingClient else {
+            options.logger.warning("Signaling client is not initialized, realtime notifications have not been started.")
+            return
+        }
+
         signalingClientStarted = true
-        signalingClient!.start()
+        communicationSignalingClient.start()
     }
 
     /// Stop receiving realtime notifications.
     /// This function would unsubscribe to all events.
     public func stopRealTimeNotifications() {
-        if signalingClient == nil {
+        guard let communicationSignalingClient = signalingClient else {
             options.logger.warning("Signaling client is not initialized, realtime notifications have not been started.")
             return
         }
 
         signalingClientStarted = false
-        signalingClient!.stop()
+        communicationSignalingClient.stop()
     }
 
     /// Subscribe to chat events.
@@ -306,13 +310,14 @@ public class ChatClient {
         event: ChatEventId,
         handler: @escaping TrouterEventHandler
     ) {
-        if signalingClient == nil {
+        guard let communicationSignalingClient = signalingClient else {
             options.logger
                 .warning(
                     "Signaling client is not initialized, cannot register handler."
                 )
             return
         }
+
         if !signalingClientStarted,
            event != ChatEventId.realTimeNotificationConnected,
            event != ChatEventId.realTimeNotificationDisconnected {
@@ -323,7 +328,7 @@ public class ChatClient {
             return
         }
 
-        signalingClient!.on(event: event, handler: handler)
+        communicationSignalingClient.on(event: event, handler: handler)
     }
 
     /// Unsubscribe to chat events.
@@ -332,7 +337,7 @@ public class ChatClient {
     public func unregister(
         event: ChatEventId
     ) {
-        if signalingClient == nil {
+        guard let communicationSignalingClient = signalingClient else {
             options.logger
                 .warning(
                     "Signaling client is not initialized, cannot unregister handler. Ensure startRealtimeNotifications() is called first."
@@ -340,6 +345,6 @@ public class ChatClient {
             return
         }
 
-        signalingClient!.off(event: event)
+        communicationSignalingClient.off(event: event)
     }
 }
