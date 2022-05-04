@@ -191,7 +191,7 @@ class CommunicationHandler: NSObject, TrouterListener {
     func onTrouterConnected(_: String, _: TrouterConnectionInfo) {
         do {
             logger.info("Trouter Connected")
-            let chatEvent = try TrouterEventUtil.create(chatEvent: ChatEventId.realTimeNotificationConnected)
+            let chatEvent = try TrouterEventUtil.create(chatEvent: ChatEventId.realTimeNotificationConnected, from: nil)
             handler(chatEvent)
         } catch {
             logger.error("Error: \(error)")
@@ -201,7 +201,10 @@ class CommunicationHandler: NSObject, TrouterListener {
     func onTrouterDisconnected() {
         do {
             logger.info("Trouter Disconnected")
-            let chatEvent = try TrouterEventUtil.create(chatEvent: ChatEventId.realTimeNotificationDisconnected)
+            let chatEvent = try TrouterEventUtil.create(
+                chatEvent: ChatEventId.realTimeNotificationDisconnected,
+                from: nil
+            )
             handler(chatEvent)
         } catch {
             logger.error("Error: \(error)")

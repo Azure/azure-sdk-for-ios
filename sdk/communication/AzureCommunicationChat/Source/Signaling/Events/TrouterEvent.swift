@@ -50,7 +50,7 @@ public enum TrouterEvent {
     /// - Parameters:
     ///   - chatEventId: The ChatEventId.
     ///   - request: The TrouterRequest that contains the event data.
-    init(chatEventId: ChatEventId, from trouterRequest: TrouterRequest? = nil) throws {
+    init(chatEventId: ChatEventId, from trouterRequest: TrouterRequest?) throws {
         if chatEventId == ChatEventId.realTimeNotificationConnected {
             self = .realTimeNotificationConnected
             return
