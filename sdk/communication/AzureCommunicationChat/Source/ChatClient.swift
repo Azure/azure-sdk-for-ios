@@ -38,6 +38,8 @@ public class ChatClient {
     private let service: Chat
     private var signalingClient: CommunicationSignalingClient?
     private var signalingClientStarted: Bool = false
+    private var realTimeNotificationConnectedHandler: TrouterEventHandler?
+    private var realTimeNotificationDisconnectedHandler: TrouterEventHandler?
 
     // MARK: Initializers
 
@@ -99,52 +101,6 @@ public class ChatClient {
         )
 
         self.service = client.chat
-        self.signalingClient = createSignalingClient(credential: credential)
-    }
-
-    private func createSignalingClient(credential: CommunicationTokenCredential)
-        -> CommunicationSignalingClient? {
-        var signalingClient: CommunicationSignalingClient?
-        // Retrieve the access token
-        credential.token { accessToken, error in
-            do {
-                guard let token = accessToken?.token else {
-                    throw AzureError.client("Failed to get token from credential.", error)
-                }
-
-                let tokenProvider = CommunicationSkypeTokenProvider(
-                    token: token,
-                    credential: self.credential,
-                    tokenRefreshHandler: { stopSignalingClient, error in
-                        // Unable to refresh the token, stop the connection
-                        if stopSignalingClient {
-                            self.signalingClient?.stop()
-                            self.signalingClientStarted = false
-                            self.options
-                                .signalingErrorHandler?(
-                                    .failedToRefreshToken(
-                                        "Unable to get valid token for realtime-notifications, stopping notifications."
-                                    )
-                                )
-                            return
-                        }
-
-                        // Token is invalid, attempting to refresh token
-                        self.options.logger.error("Failed to get valid token. \(error ?? "")")
-                        self.options.logger.warning("Attempting to refresh token for realtime-notifications.")
-                    }
-                )
-
-                // Initialize the signaling client
-                signalingClient = try CommunicationSignalingClient(
-                    communicationSkypeTokenProvider: tokenProvider,
-                    logger: self.options.logger
-                )
-            } catch {
-                self.options.logger.error("Signaling client initialization failed.")
-            }
-        }
-        return signalingClient
     }
 
     // MARK: Private Methods
@@ -281,13 +237,64 @@ public class ChatClient {
             return
         }
 
-        guard let signalingClient = signalingClient else {
-            options.logger.warning("Signaling client is not initialized, realtime notifications have not been started.")
-            return
-        }
+        // Retrieve the access token
+        credential.token { accessToken, error in
+            do {
+                guard let token = accessToken?.token else {
+                    throw AzureError.client("Failed to get token from credential.", error)
+                }
 
-        signalingClientStarted = true
-        signalingClient.start()
+                let tokenProvider = CommunicationSkypeTokenProvider(
+                    token: token,
+                    credential: self.credential,
+                    tokenRefreshHandler: { stopSignalingClient, error in
+                        // Unable to refresh the token, stop the connection
+                        if stopSignalingClient {
+                            self.signalingClient?.stop()
+                            self.signalingClientStarted = false
+                            self.options
+                                .signalingErrorHandler?(
+                                    .failedToRefreshToken(
+                                        "Unable to get valid token for realtime-notifications, stopping notifications."
+                                    )
+                                )
+                            return
+                        }
+
+                        // Token is invalid, attempting to refresh token
+                        self.options.logger.error("Failed to get valid token. \(error ?? "")")
+                        self.options.logger.warning("Attempting to refresh token for realtime-notifications.")
+                    }
+                )
+
+                // Initialize the signaling client
+                self.signalingClient = try CommunicationSignalingClient(
+                    communicationSkypeTokenProvider: tokenProvider,
+                    logger: self.options.logger
+                )
+
+                guard let signalingClient = self.signalingClient else {
+                    throw AzureError.client("Failed to initialize signaling client")
+                }
+
+                if let handler = self.realTimeNotificationConnectedHandler {
+                    signalingClient.on(event: ChatEventId.realTimeNotificationConnected, handler: handler)
+                }
+
+                if let handler = self.realTimeNotificationDisconnectedHandler {
+                    signalingClient.on(event: ChatEventId.realTimeNotificationDisconnected, handler: handler)
+                }
+
+                // After successful initialization, start notifications
+                self.signalingClientStarted = true
+                signalingClient.start()
+
+                completionHandler(.success(()))
+            } catch {
+                let azureError = AzureError.client("Failed to start realtime notifications.", error)
+                completionHandler(.failure(azureError))
+            }
+        }
     }
 
     /// Stop receiving realtime notifications.
@@ -311,6 +318,16 @@ public class ChatClient {
         handler: @escaping TrouterEventHandler
     ) {
         guard let signalingClient = signalingClient else {
+            if event == ChatEventId.realTimeNotificationConnected {
+                realTimeNotificationConnectedHandler = handler
+                return
+            }
+
+            if event == ChatEventId.realTimeNotificationDisconnected {
+                realTimeNotificationDisconnectedHandler = handler
+                return
+            }
+
             options.logger
                 .warning(
                     "Signaling client is not initialized, cannot register handler."
@@ -337,6 +354,14 @@ public class ChatClient {
     public func unregister(
         event: ChatEventId
     ) {
+        if event == ChatEventId.realTimeNotificationConnected {
+            realTimeNotificationConnectedHandler = nil
+        }
+
+        if event == ChatEventId.realTimeNotificationDisconnected {
+            realTimeNotificationDisconnectedHandler = nil
+        }
+
         guard let signalingClient = signalingClient else {
             options.logger
                 .warning(
