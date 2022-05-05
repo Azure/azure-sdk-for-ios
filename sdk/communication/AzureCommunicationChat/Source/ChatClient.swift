@@ -354,20 +354,20 @@ public class ChatClient {
     public func unregister(
         event: ChatEventId
     ) {
-        if event == ChatEventId.realTimeNotificationConnected {
-            realTimeNotificationConnectedHandler = nil
-        }
-
-        if event == ChatEventId.realTimeNotificationDisconnected {
-            realTimeNotificationDisconnectedHandler = nil
-        }
-
         guard let signalingClient = signalingClient else {
             options.logger
                 .warning(
                     "Signaling client is not initialized, cannot unregister handler. Ensure startRealtimeNotifications() is called first."
                 )
             return
+        }
+        
+        if event == ChatEventId.realTimeNotificationConnected {
+            realTimeNotificationConnectedHandler = nil
+        }
+
+        if event == ChatEventId.realTimeNotificationDisconnected {
+            realTimeNotificationDisconnectedHandler = nil
         }
 
         signalingClient.off(event: event)
