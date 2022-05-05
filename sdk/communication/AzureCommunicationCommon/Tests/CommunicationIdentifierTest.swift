@@ -36,53 +36,92 @@ class CommunicationIdentifierTest: XCTestCase {
     let testPhoneNumber = "+12223334444"
     let testTeamsUserId = "Microsoft Teams User Id"
 
-    func test_IfIdIsOptional_EqualityOnlyTestIfPresentOnBothSide() throws {
-        XCTAssertTrue(
+    func test_CommunicationUserIdentifier_RawId_IsEqualTo_Identifier() {
+        let userIdentifier = CommunicationUserIdentifier(testRawId)
+        XCTAssertEqual(userIdentifier.rawId, userIdentifier.identifier)
+    }
+
+    func test_UnknownIdentifier_RawId_IsEqualTo_Identifier() {
+        let unknownIdentifier = UnknownIdentifier(testRawId)
+        XCTAssertEqual(unknownIdentifier.rawId, unknownIdentifier.identifier)
+    }
+
+    func test_PhoneNumberIdentifier_IfRawIdIsNull_RawIdIsGeneratedProperly() {
+        let expectedPhoneNumberRawId = "4:12223334444"
+        let phoneNumberIdentifier = PhoneNumberIdentifier(phoneNumber: testPhoneNumber)
+        XCTAssertEqual(phoneNumberIdentifier.rawId, expectedPhoneNumberRawId)
+    }
+
+    func test_MicrosoftTeamsUserIdentifier_IfRawIdIsNull_RawIdIsGeneratedProperly_AnonymousUserIsFalse() {
+        let expectedRawId = "8:orgid:User Id"
+        var teamsUserIdentifier = MicrosoftTeamsUserIdentifier(userId: testUserId)
+        XCTAssertEqual(teamsUserIdentifier.rawId, expectedRawId)
+
+        let expectedRawIdAndCloudDod = "8:dod:User Id"
+        teamsUserIdentifier = MicrosoftTeamsUserIdentifier(
+            userId: testUserId,
+            cloudEnvironment: .Dod
+        )
+        XCTAssertEqual(teamsUserIdentifier.rawId, expectedRawIdAndCloudDod)
+
+        let expectedRawIdAndCloudGcch = "8:gcch:User Id"
+        teamsUserIdentifier = MicrosoftTeamsUserIdentifier(
+            userId: testUserId,
+            cloudEnvironment: .Gcch
+        )
+        XCTAssertEqual(teamsUserIdentifier.rawId, expectedRawIdAndCloudGcch)
+
+        let expectedRawIdAndCloudPublic = "8:orgid:User Id"
+        teamsUserIdentifier = MicrosoftTeamsUserIdentifier(
+            userId: testUserId,
+            cloudEnvironment: .Public
+        )
+        XCTAssertEqual(teamsUserIdentifier.rawId, expectedRawIdAndCloudPublic)
+    }
+
+    func test_MicrosoftTeamsUserIdentifier_IfRawIdIsNull_RawIdIsGeneratedProperly_AnonymousUserIsTrue() {
+        let expectedRawId = "8:teamsvisitor:User Id"
+        let teamsUserIdentifier = MicrosoftTeamsUserIdentifier(userId: testUserId, isAnonymous: true)
+        XCTAssertEqual(teamsUserIdentifier.rawId, expectedRawId)
+    }
+
+    // swiftlint:disable function_body_length
+    func test_IfRawIdIsOptional_EqualityCheckingOnlyRawId() {
+        XCTAssertFalse(
             MicrosoftTeamsUserIdentifier(
-                userId: "user id",
+                userId: testUserId,
                 isAnonymous: true,
                 rawId: testRawId
             ) ==
                 MicrosoftTeamsUserIdentifier(
-                    userId: "user id",
+                    userId: testUserId,
                     isAnonymous: true
                 )
         )
-        XCTAssertTrue(
+        XCTAssertFalse(
             MicrosoftTeamsUserIdentifier(
-                userId: "user id",
+                userId: testUserId,
                 isAnonymous: true
             ) ==
                 MicrosoftTeamsUserIdentifier(
-                    userId: "user id",
-                    isAnonymous: true
-                )
-        )
-        XCTAssertTrue(
-            MicrosoftTeamsUserIdentifier(
-                userId: "user id",
-                isAnonymous: true
-            ) ==
-                MicrosoftTeamsUserIdentifier(
-                    userId: "user id",
+                    userId: testUserId,
                     isAnonymous: true,
                     rawId: testRawId
                 )
         )
         XCTAssertFalse(
             MicrosoftTeamsUserIdentifier(
-                userId: "user id",
+                userId: testUserId,
                 isAnonymous: true,
                 rawId: "some id"
             ) ==
                 MicrosoftTeamsUserIdentifier(
-                    userId: "user id",
+                    userId: testUserId,
                     isAnonymous: true,
                     rawId: testRawId
                 )
         )
-
-        XCTAssertTrue(
+        XCTAssertFalse(
             PhoneNumberIdentifier(
                 phoneNumber: testPhoneNumber,
                 rawId: testRawId
@@ -93,7 +132,7 @@ class CommunicationIdentifierTest: XCTestCase {
             PhoneNumberIdentifier(phoneNumber: testPhoneNumber) ==
                 PhoneNumberIdentifier(phoneNumber: testPhoneNumber)
         )
-        XCTAssertTrue(
+        XCTAssertFalse(
             PhoneNumberIdentifier(phoneNumber: testPhoneNumber) ==
                 PhoneNumberIdentifier(
                     phoneNumber: testPhoneNumber,
@@ -112,11 +151,13 @@ class CommunicationIdentifierTest: XCTestCase {
         )
     }
 
+    // swiftlint:enable function_body_length
+
     func test_MicrosoftTeamsUserIdentifier_DefaultCloudIsPublic() throws {
         XCTAssertEqual(
             CommunicationCloudEnvironment.Public,
             MicrosoftTeamsUserIdentifier(
-                userId: "user id",
+                userId: testUserId,
                 isAnonymous: true,
                 rawId: testRawId
             ).cloudEnviroment
