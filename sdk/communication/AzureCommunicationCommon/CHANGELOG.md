@@ -1,5 +1,10 @@
 # Release History
 
+## 1.0.4 (upcoming)
+### New Features
+- Introduce new `CommunicationIdentifierHelper` to create `CommunicationIdentifier` based on rawIds
+- Introduce new `rawId` getter property in the `CommunicationIdentifier` protocol 
+
 ## 1.0.3 (2022-03-10)
 ### New Features
 - Update `AzureCore` dependency to beta 15.

@@ -25,9 +25,17 @@
 // --------------------------------------------------------------------------
 
 import Foundation
-
+/**
+ Helper class to easily create CommunicationIdentifiers
+ */
 @objcMembers
 public class CommunicationIdentifierHelper: NSObject {
+    /**
+     Creates a CommunicationIdentifier from a given rawId. When storing rawIds use this function to restore the identifier that was encoded in the rawId.
+     Parameters: rawId The rawId to be translated to its identifier representation.
+     Returns: Type safe CommunicationIdentifier created. Use the `isKind(of:)` to verify  identifier type
+     SeeAlso: ` CommunicationIdentifier`
+     */
     public static func createCommunicationIdentifier(from rawId: String) -> CommunicationIdentifier {
         let phoneNumberPrefix = "4:"
         let teamUserAnonymousPrefix = "8:teamsvisitor:"
