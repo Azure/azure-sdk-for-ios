@@ -42,6 +42,10 @@ public class CommunicationIdentifierHelper: NSObject {
         let teamUserPublicCloudPrefix = "8:orgid:"
         let teamUserDODCloudPrefix = "8:dod:"
         let teamUserGCCHCloudPrefix = "8:gcch:"
+        let acsUser = "8:acs:"
+        let spoolUser = "8:spool:"
+        let dodAcsUser = "8:dod-acs:"
+        let gcchAcsUser = "8:gcch-acs:"
 
         if rawId.hasPrefix(phoneNumberPrefix) {
             let phoneNumber = "+" + rawId.dropFirst(phoneNumberPrefix.count)
@@ -80,7 +84,7 @@ public class CommunicationIdentifierHelper: NSObject {
                 rawId: rawId,
                 cloudEnvironment: .Gcch
             )
-        case "8:acs:", "8:spool:", "8:dod-acs:", "8:gcch-acs:":
+        case acsUser, spoolUser, dodAcsUser, gcchAcsUser:
             return CommunicationUserIdentifier(rawId)
         default:
             return UnknownIdentifier(rawId)
