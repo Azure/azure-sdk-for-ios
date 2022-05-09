@@ -30,6 +30,15 @@ import Foundation
  */
 @objcMembers
 public class CommunicationIdentifierHelper: NSObject {
+    private static let phoneNumberPrefix = "4:"
+    private static let teamUserAnonymousPrefix = "8:teamsvisitor:"
+    private static let teamUserPublicCloudPrefix = "8:orgid:"
+    private static let teamUserDODCloudPrefix = "8:dod:"
+    private static let teamUserGCCHCloudPrefix = "8:gcch:"
+    private static let acsUser = "8:acs:"
+    private static let spoolUser = "8:spool:"
+    private static let dodAcsUser = "8:dod-acs:"
+    private static let gcchAcsUser = "8:gcch-acs:"
     /**
      Creates a CommunicationIdentifier from a given rawId. When storing rawIds use this function to restore the identifier that was encoded in the rawId.
      Parameters: rawId The rawId to be translated to its identifier representation.
@@ -37,29 +46,16 @@ public class CommunicationIdentifierHelper: NSObject {
      SeeAlso: ` CommunicationIdentifier`
      */
     public static func createCommunicationIdentifier(from rawId: String) -> CommunicationIdentifier {
-        let phoneNumberPrefix = "4:"
-        let teamUserAnonymousPrefix = "8:teamsvisitor:"
-        let teamUserPublicCloudPrefix = "8:orgid:"
-        let teamUserDODCloudPrefix = "8:dod:"
-        let teamUserGCCHCloudPrefix = "8:gcch:"
-        let acsUser = "8:acs:"
-        let spoolUser = "8:spool:"
-        let dodAcsUser = "8:dod-acs:"
-        let gcchAcsUser = "8:gcch-acs:"
-
         if rawId.hasPrefix(phoneNumberPrefix) {
             let phoneNumber = "+" + rawId.dropFirst(phoneNumberPrefix.count)
             return PhoneNumberIdentifier(phoneNumber: phoneNumber, rawId: rawId)
         }
-
         let segments = rawId.split(separator: ":")
         if segments.count < 3 {
             return UnknownIdentifier(rawId)
         }
-
         let scope = segments[0] + ":" + segments[1] + ":"
         let suffix = String(rawId.dropFirst(scope.count))
-
         switch scope {
         case teamUserAnonymousPrefix:
             return MicrosoftTeamsUserIdentifier(userId: suffix, isAnonymous: true)
