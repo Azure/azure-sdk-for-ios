@@ -23,44 +23,27 @@
 // IN THE SOFTWARE.
 //
 // --------------------------------------------------------------------------
-
 import Foundation
 
-/// Client description for set registration requests.
-internal struct RegistrarClientDescription: Codable {
-    /// The AppId.
-    internal let appId: String
-    /// IETF Language tags.
-    internal let languageId: String
-    /// Client platform.
-    internal let platform: String
-    /// Platform ID.
-    internal let platformUIVersion: String
-    /// Template key.
-    internal let templateKey: String
-    /// Template version.
-    internal let templateVersion: String?
-    /// Crypto key.
-    internal let aesKey: String
-    /// Auth key.
-    internal let authKey: String
-    /// Crypto method.
-    internal let cryptoMethod: String
+struct PushNotificationBasePayload: Codable {
+    let eventId: String
+    let senderId: String
+    let recipientId: String
+    let groupId: String
+}
 
-    internal init(
-        templateVersion: String? = nil,
-        aesKey: String,
-        authKey: String,
-        cryptoMethod: String
-    ) {
-        self.appId = "AcsIos"
-        self.languageId = ""
-        self.platform = "iOS"
-        self.platformUIVersion = "3619/0.0.0.0/"
-        self.templateKey = "AcsIos.AcsNotify_Chat_3.0"
-        self.templateVersion = templateVersion
-        self.aesKey = aesKey
-        self.authKey = authKey
-        self.cryptoMethod = cryptoMethod
-    }
+struct PushNotificationMessageReceivedPayload: Decodable {
+    let senderId: String
+    let recipientId: String
+    let transactionId: String
+    let groupId: String
+    let messageId: String
+    let messageType: String
+    let messageBody: String
+    let senderDisplayName: String
+    let clientMessageId: String
+    let originalArrivalTime: String
+    let priority: String
+    let version: String
+    let acsChatMessageMetadata: String
 }

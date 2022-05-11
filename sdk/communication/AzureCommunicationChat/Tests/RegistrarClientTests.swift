@@ -34,6 +34,9 @@ import XCTest
 class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
     // RegistrarClient initialied in setup
     private var registrarClient: RegistrarClient!
+    private let aesKey = "0000000000000000B00000000000000000000000AES="
+    private let authKey = "0000000000000000B0000000000000000000000AUTH="
+    private let cryptoMethod = "0x70"
 
     override func setUpTestWithError() throws {
         let token = settings.token
@@ -85,7 +88,11 @@ class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
     func test_setRegistration_ReturnsSuccess() {
         let expectation = self.expectation(description: "Set Registration")
 
-        let clientDescription = RegistrarClientDescription()
+        let clientDescription = RegistrarClientDescription(
+            aesKey: aesKey,
+            authKey: authKey,
+            cryptoMethod: cryptoMethod
+        )
 
         let registrarTransportSettings = RegistrarTransportSettings(
             path: "mockDeviceToken"
@@ -114,7 +121,11 @@ class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
     func test_deleteRegistration_ReturnsSuccess() {
         let expectation = self.expectation(description: "Delete Registration")
 
-        let clientDescription = RegistrarClientDescription()
+        let clientDescription = RegistrarClientDescription(
+            aesKey: aesKey,
+            authKey: authKey,
+            cryptoMethod: cryptoMethod
+        )
 
         let registrarTransportSettings = RegistrarTransportSettings(
             path: "mockDeviceToken"

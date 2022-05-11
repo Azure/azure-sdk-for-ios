@@ -48,6 +48,7 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
         let token = settings.token
         let credential = try CommunicationTokenCredential(token: token)
         let options = AzureCommunicationChatClientOptions(transportOptions: transportOptions)
+
         chatClient = try ChatClient(endpoint: endpoint, credential: credential, withOptions: options)
         chatClient.registrationId = "0E0F0BE0-0000-00C0-B000-A00A00E00BD0"
     }
@@ -113,7 +114,11 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
     func test_StartPushNotifications_ReturnsSuccess() {
         let expectation = self.expectation(description: "Start push notifications")
 
-        chatClient.startPushNotifications(deviceToken: "mockDeviceToken") { result in
+        let encryptionKeys = [
+            "FIRST_KEY": "0000000000000000B00000000000000000000000AES=",
+            "SECOND_KEY": "0000000000000000B0000000000000000000000AUTH="
+        ]
+        chatClient.startPushNotifications(deviceToken: "mockDeviceToken", encryptionKeys: encryptionKeys) { result in
             switch result {
             case let .success(response):
                 XCTAssertEqual(response?.statusCode, 202)
@@ -133,8 +138,12 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
     func test_StopPushNotifications_ReturnsSuccess() {
         let expectation = self.expectation(description: "Stop push notifications")
 
+        let encryptionKeys = [
+            "FIRST_KEY": "0000000000000000B00000000000000000000000AES=",
+            "SECOND_KEY": "0000000000000000B0000000000000000000000AUTH="
+        ]
         // Start notifications first
-        chatClient.startPushNotifications(deviceToken: "mockDeviceToken") { result in
+        chatClient.startPushNotifications(deviceToken: "mockDeviceToken", encryptionKeys: encryptionKeys) { result in
             switch result {
             case .success:
                 // Stop notifications

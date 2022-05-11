@@ -38,6 +38,9 @@ internal class PushNotificationClient {
     internal var registrationId: String
     internal var deviceRegistrationToken: String
     internal var pushNotificationsStarted: Bool
+    private var aesKey: String
+    private var authKey: String
+    private static let cryptoMethod: String = "0x70"
 
     // MARK: Initializers
 
@@ -52,10 +55,13 @@ internal class PushNotificationClient {
         self.registrationId = registrationId
         self.deviceRegistrationToken = ""
         self.pushNotificationsStarted = false
+        self.aesKey = ""
+        self.authKey = ""
     }
 
     internal func startPushNotifications(
         deviceRegistrationToken: String,
+        encryptionKeys: [String: String],
         completionHandler: @escaping (Result<HTTPResponse?, AzureError>) -> Void
     ) {
         self.deviceRegistrationToken = deviceRegistrationToken
@@ -68,10 +74,30 @@ internal class PushNotificationClient {
             completionHandler: { result in
                 switch result {
                 case let .success(createdRegistrarClient):
-                    // Create RegistrarClientDescription (It should match valid APNS templates)
-                    self.registrarClient = createdRegistrarClient
+                    // Get encryption keys
+                    let firstKey = encryptionKeys["FIRST_KEY"]
+                    let secondKey = encryptionKeys["SECOND_KEY"]
 
-                    let clientDescription = RegistrarClientDescription()
+                    /* If the encryption keys are empty or are not in correct format, we generate random keys for a successful registration.
+                       How we define "correct format": AES256 key is a base64-encoded string with a size of 44.
+                       Since the Contoso can't access these randomply keys, it should not be able to decrypt the message payload when receiving the notification. Under this scenario the Contoso should not expect to customize the Message Title or Message Body in alert banner.
+                     */
+                    if firstKey == nil || secondKey == nil || firstKey!.count != 44 || firstKey!
+                        .count != 44 || Data(base64Encoded: firstKey!) == nil || Data(base64Encoded: secondKey!) ==
+                        nil {
+                        self.aesKey = "0000000000000000B00000000000000000000000AES="
+                        self.authKey = "0000000000000000B0000000000000000000000AUTH="
+                    } else {
+                        self.aesKey = firstKey!
+                        self.authKey = secondKey!
+                    }
+
+                    // Create RegistrarClientDescription (It should match valid APNS templates)
+                    let clientDescription = RegistrarClientDescription(
+                        aesKey: self.aesKey,
+                        authKey: self.authKey,
+                        cryptoMethod: PushNotificationClient.cryptoMethod
+                    )
 
                     // Create RegistrarTransportSettings (Path is device token)
                     let transport = RegistrarTransportSettings(
@@ -79,8 +105,13 @@ internal class PushNotificationClient {
                     )
 
                     // Register for push notifications
+                    self.registrarClient = createdRegistrarClient
+
                     guard let registrarClient = self.registrarClient else {
-                        completionHandler(.failure(AzureError.client("Failed to start push notifications")))
+                        completionHandler(.failure(
+                            AzureError
+                                .client("Failed to start push notifications. RegistrarClient is nil.")
+                        ))
                         return
                     }
 
@@ -126,6 +157,60 @@ internal class PushNotificationClient {
                     completionHandler(.failure(AzureError.client("Failed to stop push notifications", error)))
                 }
             }
+        }
+    }
+
+    internal func decryptPayload(encryptedStr: String, encryptionKeys: [[String: String]]) throws -> String {
+        do {
+            // 1.Decode the Base64 input string into [UInt8].
+            guard let decodedData = Data(base64Encoded: encryptedStr) else {
+                throw AzureError
+                    .client(
+                        "Failed to initialize a data object with the given cryptoKey. Please ensure the encryptedStr is a Base64 encoded string."
+                    )
+            }
+            let encryptedBytes = Array(decodedData)
+
+            // 2.Split [UInt8] into different blocks.
+            let iv: [UInt8] = CryptoUtils.extractInitializationVector(result: encryptedBytes)
+            let cipherText: [UInt8] = CryptoUtils.extractCipherText(result: encryptedBytes)
+            let hmac: [UInt8] = CryptoUtils.extractHmac(result: encryptedBytes)
+            let cipherModeIVCipherText: [UInt8] = CryptoUtils.extractCipherModeIVCipherText(result: encryptedBytes)
+
+            // 3.Loop over the keyPair array and find the keyPair used for encryption
+            for keyPair in encryptionKeys {
+                guard let aesKey = keyPair["FIRST_KEY"], let authKey = keyPair["SECOND_KEY"] else {
+                    throw AzureError.client("Failed to read the value of the encryption key.")
+                }
+
+                // Each auth key can be computed into a unique HMAC signature. If the computed signature matches the included signature, "verifyHMACResult" will be true.
+                let verifyHMACResult = try verifyEncryptedPayload(
+                    cipherModeIVCipherText: cipherModeIVCipherText,
+                    authKey: authKey,
+                    actualHmac: hmac
+                )
+
+                // If the "verifyHMACResult" is true, it indicates that the current keyPair is the one used by PNH for encryption.
+                if verifyHMACResult {
+                    // Here we use aesKey to decrypt the payload.
+                    let decryptedString = try decryptPushNotificationPayload(
+                        cipherText: cipherText,
+                        iv: iv,
+                        cryptoKey: aesKey
+                    )
+
+                    return decryptedString
+                }
+            }
+
+            // 4. Failed to decrypt the push notification if thre is no keyPair used for encryption.
+            throw AzureError
+                .client(
+                    "Failed to decrypt the push notification. Failed to find the keys used for encryption."
+                )
+
+        } catch {
+            throw AzureError.client("Error in decrypting the notification payload: \(error)")
         }
     }
 }

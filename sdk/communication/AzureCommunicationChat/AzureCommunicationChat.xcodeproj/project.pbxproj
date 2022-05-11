@@ -123,6 +123,17 @@
 		D1CD93E8258D6F0600409613 /* updateMessage.json in Resources */ = {isa = PBXBuildFile; fileRef = D1CD93E7258D6F0600409613 /* updateMessage.json */; };
 		D1CD93EC258D6F1300409613 /* updateTopic.json in Resources */ = {isa = PBXBuildFile; fileRef = D1CD93EB258D6F1300409613 /* updateTopic.json */; };
 		D1E4DD8726B1D1D300B7691E /* ChatClientDVRTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1E7593267003A000054F60 /* ChatClientDVRTests.swift */; };
+		E034C0E8282B4CB100E3F985 /* PushNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = E034C0E7282B4CB100E3F985 /* PushNotificationPayload.swift */; };
+		E034C0E9282B4CB100E3F985 /* PushNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = E034C0E7282B4CB100E3F985 /* PushNotificationPayload.swift */; };
+		E034C0EB282B4CD000E3F985 /* PushNotificationChatEventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E034C0EA282B4CD000E3F985 /* PushNotificationChatEventType.swift */; };
+		E034C0EC282B4CD000E3F985 /* PushNotificationChatEventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E034C0EA282B4CD000E3F985 /* PushNotificationChatEventType.swift */; };
+		E034C0EE282B4D1D00E3F985 /* PushNotificationBaseEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E034C0ED282B4D1D00E3F985 /* PushNotificationBaseEvent.swift */; };
+		E034C0EF282B4D1D00E3F985 /* PushNotificationBaseEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E034C0ED282B4D1D00E3F985 /* PushNotificationBaseEvent.swift */; };
+		E034C0F1282B4D4300E3F985 /* PushNotificationEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E034C0F0282B4D4300E3F985 /* PushNotificationEvent.swift */; };
+		E034C0F2282B4D4300E3F985 /* PushNotificationEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E034C0F0282B4D4300E3F985 /* PushNotificationEvent.swift */; };
+		E034C0F4282B4F1900E3F985 /* CryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E034C0F3282B4F1900E3F985 /* CryptoUtils.swift */; };
+		E034C0F5282B4F1900E3F985 /* CryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E034C0F3282B4F1900E3F985 /* CryptoUtils.swift */; };
+		E034C0F7282C16D700E3F985 /* test-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = E034C0F6282C16D600E3F985 /* test-settings.plist */; };
 		E03DAFC428075EE000389C43 /* URLSettingsUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03DAFC328075EE000389C43 /* URLSettingsUtil.swift */; };
 		E03DAFC528075EE800389C43 /* URLSettingsUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03DAFC328075EE000389C43 /* URLSettingsUtil.swift */; };
 		E03DAFD4280763C600389C43 /* PushNotificationClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03DAFD3280763C600389C43 /* PushNotificationClient.swift */; };
@@ -360,6 +371,12 @@
 		D1CD93E7258D6F0600409613 /* updateMessage.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = updateMessage.json; sourceTree = "<group>"; };
 		D1CD93EB258D6F1300409613 /* updateTopic.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = updateTopic.json; sourceTree = "<group>"; };
 		D1D829BD25D1FFD700AC3CF3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		E034C0E7282B4CB100E3F985 /* PushNotificationPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationPayload.swift; sourceTree = "<group>"; };
+		E034C0EA282B4CD000E3F985 /* PushNotificationChatEventType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationChatEventType.swift; sourceTree = "<group>"; };
+		E034C0ED282B4D1D00E3F985 /* PushNotificationBaseEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationBaseEvent.swift; sourceTree = "<group>"; };
+		E034C0F0282B4D4300E3F985 /* PushNotificationEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationEvent.swift; sourceTree = "<group>"; };
+		E034C0F3282B4F1900E3F985 /* CryptoUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoUtils.swift; sourceTree = "<group>"; };
+		E034C0F6282C16D600E3F985 /* test-settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "test-settings.plist"; sourceTree = "<group>"; };
 		E03DAFC328075EE000389C43 /* URLSettingsUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSettingsUtil.swift; sourceTree = "<group>"; };
 		E03DAFD3280763C600389C43 /* PushNotificationClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationClient.swift; sourceTree = "<group>"; };
 		E03DAFD72807660700389C43 /* RegistrarClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrarClient.swift; sourceTree = "<group>"; };
@@ -627,6 +644,7 @@
 				0A9207EC26839B3100469608 /* Recordings */,
 				D1CD93AB258D6C0300409613 /* Util */,
 				D1B7EAFC257F03A1004F384A /* Info.plist */,
+				E034C0F6282C16D600E3F985 /* test-settings.plist */,
 				E04440942807705C00A6DA24 /* RegistrarClientTests.swift */,
 				817A92C027BC3A7000D2268E /* TrouterSettingsUnitTest.swift */,
 				0AE5BA06267D25AD006B93B7 /* TestSettings.swift */,
@@ -677,6 +695,7 @@
 			isa = PBXGroup;
 			children = (
 				E03DAFC328075EE000389C43 /* URLSettingsUtil.swift */,
+				E034C0F3282B4F1900E3F985 /* CryptoUtils.swift */,
 			);
 			path = NotificationUtils;
 			sourceTree = "<group>";
@@ -685,6 +704,10 @@
 			isa = PBXGroup;
 			children = (
 				E03DAFD3280763C600389C43 /* PushNotificationClient.swift */,
+				E034C0E7282B4CB100E3F985 /* PushNotificationPayload.swift */,
+				E034C0EA282B4CD000E3F985 /* PushNotificationChatEventType.swift */,
+				E034C0ED282B4D1D00E3F985 /* PushNotificationBaseEvent.swift */,
+				E034C0F0282B4D4300E3F985 /* PushNotificationEvent.swift */,
 			);
 			path = PushNotification;
 			sourceTree = "<group>";
@@ -891,6 +914,7 @@
 				D1CD93E8258D6F0600409613 /* updateMessage.json in Resources */,
 				D1CD93BE258D6E6200409613 /* addParticipants.json in Resources */,
 				0A6A5457268BAC5D001006AF /* test_ListThreads_ReturnsChatThreadItems.json in Resources */,
+				E034C0F7282C16D700E3F985 /* test-settings.plist in Resources */,
 				E04440E028077C0C00A6DA24 /* test_StopPushNotifications_ReturnsSuccess.json in Resources */,
 				D10C3BD425A660AF00A181E3 /* listMessages.json in Resources */,
 			);
@@ -1065,6 +1089,7 @@
 				E04440A12807758A00A6DA24 /* AddChatParticipantsOptions.swift in Sources */,
 				E04440AC280775C800A6DA24 /* Chat.swift in Sources */,
 				E04440D7280777D300A6DA24 /* ChatEvent.swift in Sources */,
+				E034C0F5282B4F1900E3F985 /* CryptoUtils.swift in Sources */,
 				E04440C82807775600A6DA24 /* UpdateChatMessageRequest.swift in Sources */,
 				E04440952807705C00A6DA24 /* RegistrarClientTests.swift in Sources */,
 				E04440A22807758E00A6DA24 /* GetChatThreadPropertiesOptions.swift in Sources */,
@@ -1075,6 +1100,7 @@
 				E04440CA2807775D00A6DA24 /* SendReadReceiptRequest.swift in Sources */,
 				E03DAFDC2807661A00389C43 /* RegistrarSettings.swift in Sources */,
 				E04440A62807759F00A6DA24 /* GetChatMessageOptions.swift in Sources */,
+				E034C0F2282B4D4300E3F985 /* PushNotificationEvent.swift in Sources */,
 				E04440C12807773A00A6DA24 /* CommunicationErrorResponse.swift in Sources */,
 				E04440B1280775E700A6DA24 /* ChatMessageReadReceipt.swift in Sources */,
 				E04440BC2807772700A6DA24 /* ChatError.swift in Sources */,
@@ -1082,6 +1108,7 @@
 				E04440AB280775C100A6DA24 /* PatchUtil.swift in Sources */,
 				E04440CE2807776C00A6DA24 /* UpdateChatThreadRequestInternal.swift in Sources */,
 				E04440D02807777500A6DA24 /* SendChatMessageResult.swift in Sources */,
+				E034C0E9282B4CB100E3F985 /* PushNotificationPayload.swift in Sources */,
 				E04440D9280777DB00A6DA24 /* TrouterEventUtil.swift in Sources */,
 				E04440AD280775CE00A6DA24 /* ChatThread.swift in Sources */,
 				D1CD93AD258D6C2500409613 /* Util.swift in Sources */,
@@ -1102,6 +1129,7 @@
 				E044409D2807757D00A6DA24 /* SendChatReadReceiptOptions.swift in Sources */,
 				E03DAFD92807660700389C43 /* RegistrarClient.swift in Sources */,
 				E04440BA2807772000A6DA24 /* SendChatMessageRequest.swift in Sources */,
+				E034C0EF282B4D1D00E3F985 /* PushNotificationBaseEvent.swift in Sources */,
 				E04440B72807760800A6DA24 /* IdentifierSerializer.swift in Sources */,
 				E04440AA280775B200A6DA24 /* ListChatThreadsOptions.swift in Sources */,
 				E04440B3280775F000A6DA24 /* ChatThreadProperties.swift in Sources */,
@@ -1116,6 +1144,7 @@
 				E04440B4280775F300A6DA24 /* CreateChatThreadRequest.swift in Sources */,
 				E04440CB2807776100A6DA24 /* ChatThreadsItemCollection.swift in Sources */,
 				E04440A8280775A900A6DA24 /* UpdateChatThreadPropertiesOptions.swift in Sources */,
+				E034C0EC282B4CD000E3F985 /* PushNotificationChatEventType.swift in Sources */,
 				E04440C72807775200A6DA24 /* CreateChatThreadResultInternal.swift in Sources */,
 				E03DAFE52807667200389C43 /* RegistrarTransportSettings.swift in Sources */,
 			);
@@ -1137,14 +1166,17 @@
 				D17F8AAD26B0A480005648EA /* CommunicationErrorResponse.swift in Sources */,
 				D17F8AAE26B0A480005648EA /* AddChatParticipantsRequestInternal.swift in Sources */,
 				E03DAFC428075EE000389C43 /* URLSettingsUtil.swift in Sources */,
+				E034C0F4282B4F1900E3F985 /* CryptoUtils.swift in Sources */,
 				D17F8AAF26B0A480005648EA /* Enumerations.swift in Sources */,
 				D17F8AB026B0A480005648EA /* PhoneNumberIdentifierModel.swift in Sources */,
 				D17F8AB126B0A480005648EA /* AddChatParticipantsResult.swift in Sources */,
 				D17F8AB226B0A480005648EA /* ChatMessageReadReceiptsCollection.swift in Sources */,
 				D17F8AB326B0A480005648EA /* CreateChatThreadResultInternal.swift in Sources */,
+				E034C0EB282B4CD000E3F985 /* PushNotificationChatEventType.swift in Sources */,
 				D17F8AB426B0A480005648EA /* UpdateChatMessageRequest.swift in Sources */,
 				D17F8AB526B0A480005648EA /* MicrosoftTeamsUserIdentifierModel.swift in Sources */,
 				D17F8AB626B0A480005648EA /* SendReadReceiptRequest.swift in Sources */,
+				E034C0F1282B4D4300E3F985 /* PushNotificationEvent.swift in Sources */,
 				D17F8AB726B0A480005648EA /* ChatThreadsItemCollection.swift in Sources */,
 				D17F8AB826B0A480005648EA /* ChatParticipantInternal.swift in Sources */,
 				E03DAFD4280763C600389C43 /* PushNotificationClient.swift in Sources */,
@@ -1175,6 +1207,7 @@
 				D17F8A9426B0A418005648EA /* SendChatReadReceiptOptions.swift in Sources */,
 				D17F8A9126B0A411005648EA /* ChatThreadClient.swift in Sources */,
 				D17F8A9626B0A41B005648EA /* ListChatParticipantsOptions.swift in Sources */,
+				E034C0E8282B4CB100E3F985 /* PushNotificationPayload.swift in Sources */,
 				D17F8A8A26B0A3C3005648EA /* ChatThreadProperties.swift in Sources */,
 				D17F8AA426B0A445005648EA /* Chat.swift in Sources */,
 				0A2D45FC26E17A4600EEA234 /* AzureCommunicationChatClientOptionsInternal.swift in Sources */,
@@ -1196,6 +1229,7 @@
 				D17F8A8E26B0A3C3005648EA /* ChatMessageContent.swift in Sources */,
 				D17F8A9D26B0A42A005648EA /* DeleteChatThreadOptions.swift in Sources */,
 				D17F8A8926B0A3C3005648EA /* ChatMessageReadReceipt.swift in Sources */,
+				E034C0EE282B4D1D00E3F985 /* PushNotificationBaseEvent.swift in Sources */,
 				D17F8AA026B0A430005648EA /* UpdateChatThreadPropertiesOptions.swift in Sources */,
 				D17F8AA326B0A443005648EA /* PatchUtil.swift in Sources */,
 				D17F8A8F26B0A3C3005648EA /* CreateChatThreadResult.swift in Sources */,
@@ -1337,7 +1371,7 @@
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1372,7 +1406,7 @@
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1440,7 +1474,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_SWIFT_FLAGS = "$(inherited) -DXcode";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1503,7 +1537,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				OTHER_SWIFT_FLAGS = "$(inherited) -DXcode";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
