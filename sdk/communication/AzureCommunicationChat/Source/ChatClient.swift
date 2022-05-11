@@ -268,14 +268,12 @@ public class ChatClient {
                 )
 
                 // Initialize the signaling client
-                self.signalingClient = try CommunicationSignalingClient(
+                let signalingClient = try CommunicationSignalingClient(
                     communicationSkypeTokenProvider: tokenProvider,
                     logger: self.options.logger
                 )
 
-                guard let signalingClient = self.signalingClient else {
-                    throw AzureError.client("Failed to initialize signaling client")
-                }
+                self.signalingClient = signalingClient
 
                 if let handler = self.realTimeNotificationConnectedHandler {
                     signalingClient.on(event: ChatEventId.realTimeNotificationConnected, handler: handler)
@@ -361,7 +359,7 @@ public class ChatClient {
                 )
             return
         }
-        
+
         if event == ChatEventId.realTimeNotificationConnected {
             realTimeNotificationConnectedHandler = nil
         }
