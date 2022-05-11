@@ -3,6 +3,12 @@
   "interactions" : [
     {
       "request" : {
+        "headers" : {
+          "Content-Type" : "application\/json",
+          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.4.0; xctest:13.3 -> iOS 9.0; en_US)"
+        },
+        "method" : "POST",
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
         "body" : {
           "clientDescription" : {
             "templateKey" : "AcsIos.AcsNotify_Chat_3.0",
@@ -25,27 +31,21 @@
           },
           "registrationId" : "0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
           "nodeId" : ""
-        },
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
-        "headers" : {
-          "Content-Type" : "application\/json",
-          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.4.0; xctest:13.3 -> iOS 9.0; en_US)"
-        },
-        "method" : "POST"
-      },
-      "recorded_at" : 1652285387.352901,
-      "response" : {
-        "body" : "",
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
-        "status" : 202,
-        "headers" : {
-          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
-          "ms-cv" : "Ll2sT+wUV0Clsg\/+DCI4bg.0",
-          "Content-Length" : "0",
-          "x-msedge-ref" : "Ref A: A0A998A78D6545FF83FE44E2FBCB47F5 Ref B: YVR311000109027 Ref C: 2022-05-11T16:09:47Z",
-          "x-content-type-options" : "nosniff",
-          "x-cache" : "CONFIG_NOCACHE"
         }
+      },
+      "recorded_at" : 1652311540.758266,
+      "response" : {
+        "headers" : {
+          "x-cache" : "CONFIG_NOCACHE",
+          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
+          "x-content-type-options" : "nosniff",
+          "Content-Length" : "0",
+          "x-msedge-ref" : "Ref A: EBA2DB52655E481290CBA8D8B2CDB723 Ref B: YVR311000110011 Ref C: 2022-05-11T23:25:40Z",
+          "ms-cv" : "tRmmh4r8xE6znYiGIxvjAQ.0"
+        },
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
+        "body" : "",
+        "status" : 202
       }
     }
   ]
