@@ -360,14 +360,13 @@ public class ChatClient {
             return
         }
 
-        if event == ChatEventId.realTimeNotificationConnected {
+        switch event {
+        case .realTimeNotificationConnected:
             realTimeNotificationConnectedHandler = nil
-        }
-
-        if event == ChatEventId.realTimeNotificationDisconnected {
+        case .realTimeNotificationDisconnected:
             realTimeNotificationDisconnectedHandler = nil
+        default:
+            signalingClient.off(event: event)
         }
-
-        signalingClient.off(event: event)
     }
 }

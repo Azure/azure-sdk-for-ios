@@ -65,7 +65,9 @@ public enum TrouterEvent {
         }
 
         switch chatEventId {
-        case ChatEventId.chatMessageReceived:
+        case .realTimeNotificationConnected, .realTimeNotificationDisconnected:
+            throw AzureError.client("Chat Event ID should not be \(chatEventId)")
+        case .chatMessageReceived:
             let event = try ChatMessageReceivedEvent(from: request)
             self = .chatMessageReceivedEvent(event)
         case .typingIndicatorReceived:
@@ -95,8 +97,6 @@ public enum TrouterEvent {
         case .participantsRemoved:
             let event = try ParticipantsRemovedEvent(from: request)
             self = .participantsRemoved(event)
-        default:
-            throw AzureError.client("Chat Event: \(chatEventId) is unsupported")
         }
     }
 }
