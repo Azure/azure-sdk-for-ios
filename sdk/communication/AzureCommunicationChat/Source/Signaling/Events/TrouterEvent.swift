@@ -65,8 +65,10 @@ public enum TrouterEvent {
         }
 
         switch chatEventId {
-        case .realTimeNotificationConnected, .realTimeNotificationDisconnected:
-            throw AzureError.client("Chat Event ID should not be \(chatEventId)")
+        case .realTimeNotificationConnected:
+            self = .realTimeNotificationConnected
+        case .realTimeNotificationDisconnected:
+            self = .realTimeNotificationDisconnected
         case .chatMessageReceived:
             let event = try ChatMessageReceivedEvent(from: request)
             self = .chatMessageReceivedEvent(event)
