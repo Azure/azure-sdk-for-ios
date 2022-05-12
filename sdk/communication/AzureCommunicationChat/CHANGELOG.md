@@ -1,5 +1,9 @@
 # Release History
 
+## 1.2.0 (Unreleased)
+### New Features
+- Added two new events `realTimeNotificationConnected` and `realTimeNotificationDisconnected` that allow the developer to know when the connection to the real time notification server is active.
+
 ## 1.1.0 (2022-04-11)
 Updated service API version to 2021-09-07.
 
