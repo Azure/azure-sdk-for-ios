@@ -2,24 +2,11 @@
   "name" : "test_deleteRegistration_ReturnsSuccess",
   "interactions" : [
     {
-      "response" : {
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
-        "body" : "",
-        "headers" : {
-          "Content-Length" : "0",
-          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
-          "x-cache" : "CONFIG_NOCACHE",
-          "x-msedge-ref" : "Ref A: BA15AEA8C2384048A8F819C9332382D2 Ref B: YVR311000109029 Ref C: 2022-05-11T23:24:41Z",
-          "x-content-type-options" : "nosniff",
-          "ms-cv" : "cl4bjinV00ejOPbVEgkDxA.0"
-        },
-        "status" : 202
-      },
+      "recorded_at" : 1652387477.198338,
       "request" : {
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
         "headers" : {
-          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.4.0; xctest:13.3 -> iOS 9.0; en_US)",
-          "Content-Type" : "application\/json"
+          "Content-Type" : "application\/json",
+          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.4.0; xctest:13.3 -> iOS 9.0; en_US)"
         },
         "method" : "POST",
         "body" : {
@@ -44,24 +31,24 @@
           },
           "registrationId" : "0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
           "nodeId" : ""
-        }
+        },
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations"
       },
-      "recorded_at" : 1652311481.76423
-    },
-    {
       "response" : {
+        "body" : "",
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
+        "status" : 202,
         "headers" : {
           "Content-Length" : "0",
-          "x-cache" : "CONFIG_NOCACHE",
-          "ms-cv" : "7yGG3Qa3HE6SsvIbicTd9g.0",
-          "x-content-type-options" : "nosniff",
+          "x-msedge-ref" : "Ref A: E421EC89484B477793D868754FBEE8F3 Ref B: CO1EDGE1520 Ref C: 2022-05-12T20:31:17Z",
           "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
-          "x-msedge-ref" : "Ref A: AFD27BD1DD024495A62A7F01077A4C11 Ref B: YVR311000109029 Ref C: 2022-05-11T23:24:41Z"
-        },
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations\/0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
-        "status" : 202,
-        "body" : ""
-      },
+          "x-content-type-options" : "nosniff",
+          "x-cache" : "CONFIG_NOCACHE",
+          "ms-cv" : "BdVcwZqYJ0+jr3m5saz7tQ.0"
+        }
+      }
+    },
+    {
       "request" : {
         "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations\/0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
         "headers" : {
@@ -70,7 +57,20 @@
         },
         "method" : "DELETE"
       },
-      "recorded_at" : 1652311482.1287529
+      "response" : {
+        "status" : 202,
+        "body" : "",
+        "headers" : {
+          "x-msedge-ref" : "Ref A: 3B6ED893FC14499F9B05681762260B07 Ref B: CO1EDGE1520 Ref C: 2022-05-12T20:31:17Z",
+          "x-cache" : "CONFIG_NOCACHE",
+          "ms-cv" : "TKqlzgzzjkmdgb+hfk4GqA.0",
+          "Content-Length" : "0",
+          "x-content-type-options" : "nosniff",
+          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains"
+        },
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations\/0E0F0BE0-0000-00C0-B000-A00A00E00BD0"
+      },
+      "recorded_at" : 1652387477.3894448
     }
   ]
 }

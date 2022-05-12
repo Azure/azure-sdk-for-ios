@@ -4,8 +4,9 @@
 ### New Features
 - `ChatClient` now supports Push Notifications for Chat events
 - Following methods added to `ChatClient`:
-  - `startPushNotifications()`
+  - `startPushNotifications(deviceToken:encryptionKeyPair:)`
   - `stopPushNotifications()`
+  - `decryptPayload(notification:encryptionKeyPairs:)`
 
 ## 1.1.0 (2022-04-11)
 Updated service API version to 2021-09-07.

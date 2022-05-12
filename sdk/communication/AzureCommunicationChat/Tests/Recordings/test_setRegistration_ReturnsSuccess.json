@@ -2,24 +2,8 @@
   "name" : "test_setRegistration_ReturnsSuccess",
   "interactions" : [
     {
-      "response" : {
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
-        "headers" : {
-          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
-          "Content-Length" : "0",
-          "x-msedge-ref" : "Ref A: 9AA23A12C8CE40309530662B2530C375 Ref B: YVR311000109029 Ref C: 2022-05-11T23:24:42Z",
-          "x-cache" : "CONFIG_NOCACHE",
-          "ms-cv" : "TqIIrcRO9ka76c1nWbzYCA.0",
-          "x-content-type-options" : "nosniff"
-        },
-        "status" : 202,
-        "body" : ""
-      },
+      "recorded_at" : 1652387477.6144872,
       "request" : {
-        "headers" : {
-          "Content-Type" : "application\/json",
-          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.4.0; xctest:13.3 -> iOS 9.0; en_US)"
-        },
         "body" : {
           "clientDescription" : {
             "templateKey" : "AcsIos.AcsNotify_Chat_3.0",
@@ -43,10 +27,26 @@
           "registrationId" : "0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
           "nodeId" : ""
         },
+        "headers" : {
+          "Content-Type" : "application\/json",
+          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.4.0; xctest:13.3 -> iOS 9.0; en_US)"
+        },
         "method" : "POST",
         "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations"
       },
-      "recorded_at" : 1652311482.6402001
+      "response" : {
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
+        "headers" : {
+          "ms-cv" : "Q4rojLm+30SlF+Yv49Sa4A.0",
+          "Content-Length" : "0",
+          "x-msedge-ref" : "Ref A: 65EF3B6DB21D45469C58A8F13C00173E Ref B: CO1EDGE1520 Ref C: 2022-05-12T20:31:17Z",
+          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
+          "x-content-type-options" : "nosniff",
+          "x-cache" : "CONFIG_NOCACHE"
+        },
+        "body" : "",
+        "status" : 202
+      }
     }
   ]
 }

@@ -142,3 +142,16 @@ func decryptPushNotificationPayload(cipherText: [UInt8], iv: [UInt8], cryptoKey:
 
     return String(decoding: cryptData, as: UTF8.self)
 }
+
+public struct EncryptionKeyPair {
+    let firstKey: String
+    let secondKey: String
+
+    public init(
+        firstKey: String,
+        secondKey: String
+    ) {
+        self.firstKey = firstKey
+        self.secondKey = secondKey
+    }
+}

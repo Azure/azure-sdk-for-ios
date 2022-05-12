@@ -340,7 +340,7 @@ public class ChatClient {
     ///   - completionHandler: Success indicates request to register for notifications has been received.
     public func startPushNotifications(
         deviceToken: String,
-        encryptionKeys: [String: String],
+        encryptionKeyPair: EncryptionKeyPair,
         completionHandler: @escaping (Result<HTTPResponse?, AzureError>) -> Void
     ) {
         // If the PushNotification has already been started, return success to avoid unnecessary re-registration. Theoretically this "pre-validation" mechanism can only work when app is alive.
@@ -366,7 +366,7 @@ public class ChatClient {
         // After successful initialization, start push notifications
         pushNotificationClient.startPushNotifications(
             deviceRegistrationToken: deviceToken,
-            encryptionKeys: encryptionKeys
+            encryptionKeyPair: encryptionKeyPair
         ) { result in
             switch result {
             case let .success(response):
@@ -423,7 +423,7 @@ public class ChatClient {
     ///   - encryptionKeys: An array of keyPair used for verification & decryption
     public static func decryptPayload(
         notification: [AnyHashable: Any],
-        encryptionKeys: [[String: String]]
+        encryptionKeyPairs: [EncryptionKeyPair]
     ) throws -> PushNotificationEvent {
         // Retrieve the "data" part from the APNS push notification payload
         guard let dataPayload = notification["data"] as? [String: AnyObject] else {
@@ -450,7 +450,7 @@ public class ChatClient {
             // 3.Verify and decrypt the encrypted notification payload
             let decryptedPayload = try PushNotificationClient.decryptPayload(
                 encryptedStr: encryptedPayload,
-                encryptionKeys: encryptionKeys
+                encryptionKeyPairCollection: encryptionKeyPairs
             )
 
             guard let data = decryptedPayload.data(using: .utf8) else {
