@@ -1,13 +1,8 @@
 {
+  "name" : "test_StopPushNotifications_ReturnsSuccess",
   "interactions" : [
     {
-      "recorded_at" : 1652471314.4920259,
       "request" : {
-        "method" : "POST",
-        "headers" : {
-          "Content-Type" : "application\/json",
-          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.4.0; xctest:13.3 -> iOS 9.0; en_US)"
-        },
         "body" : {
           "clientDescription" : {
             "templateKey" : "AcsIos.AcsNotify_Chat_3.0",
@@ -31,46 +26,51 @@
           "registrationId" : "0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
           "nodeId" : ""
         },
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations"
-      },
-      "response" : {
+        "method" : "POST",
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
         "headers" : {
-          "ms-cv" : "7aulJBFjKECRLFbMUI6Euw.0",
-          "x-msedge-ref" : "Ref A: 401BDE13929D441E9A64282989BFEC44 Ref B: CO1EDGE1215 Ref C: 2022-05-13T19:48:34Z",
-          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
-          "x-cache" : "CONFIG_NOCACHE",
-          "x-content-type-options" : "nosniff",
-          "Content-Length" : "0"
-        },
+          "Content-Type" : "application\/json",
+          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.4.0; xctest:13.3 -> iOS 9.0; en_US)"
+        }
+      },
+      "recorded_at" : 1652477216.106132,
+      "response" : {
         "body" : "",
         "status" : 202,
+        "headers" : {
+          "x-content-type-options" : "nosniff",
+          "Content-Length" : "0",
+          "x-msedge-ref" : "Ref A: 00AC300DF7514966BC43FFD4BE54D9A1 Ref B: YVR311000112051 Ref C: 2022-05-13T21:26:55Z",
+          "x-cache" : "CONFIG_NOCACHE",
+          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
+          "ms-cv" : "IMsrJBxGaU6ILZc3Nk5b5Q.0"
+        },
         "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations"
       }
     },
     {
+      "response" : {
+        "status" : 202,
+        "headers" : {
+          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
+          "x-cache" : "CONFIG_NOCACHE",
+          "Content-Length" : "0",
+          "x-msedge-ref" : "Ref A: 16847EFE11A446719F04224D4C56E2E1 Ref B: YVR311000112051 Ref C: 2022-05-13T21:26:56Z",
+          "ms-cv" : "1cxyRK\/cIUOXJFcPTtIAmw.0",
+          "x-content-type-options" : "nosniff"
+        },
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations\/0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
+        "body" : ""
+      },
       "request" : {
         "headers" : {
-          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.4.0; xctest:13.3 -> iOS 9.0; en_US)",
-          "Content-Type" : "application\/json"
+          "Content-Type" : "application\/json",
+          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.4.0; xctest:13.3 -> iOS 9.0; en_US)"
         },
         "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations\/0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
         "method" : "DELETE"
       },
-      "recorded_at" : 1652471314.683892,
-      "response" : {
-        "body" : "",
-        "status" : 202,
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations\/0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
-        "headers" : {
-          "Content-Length" : "0",
-          "ms-cv" : "Ijn6IjRjLkqqzd4VVFyUZQ.0",
-          "x-content-type-options" : "nosniff",
-          "x-msedge-ref" : "Ref A: 8D112F868E2E4F13823E502AC76FC27C Ref B: CO1EDGE1215 Ref C: 2022-05-13T19:48:34Z",
-          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
-          "x-cache" : "CONFIG_NOCACHE"
-        }
-      }
+      "recorded_at" : 1652477216.324403
     }
-  ],
-  "name" : "test_StopPushNotifications_ReturnsSuccess"
+  ]
 }

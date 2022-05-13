@@ -135,26 +135,25 @@ internal class PushNotificationClient {
     internal func stopPushNotifications(
         completionHandler: @escaping (Result<HTTPResponse?, AzureError>) -> Void
     ) {
-        // Report an error if registrarClient doesn't exist
-        if registrarClient == nil {
+        guard let registrarClient = registrarClient else {
             completionHandler(.failure(
                 AzureError
                     .client(
                         "RegistrarClient is not initialized, cannot stop push notificaitons. Ensure startPushNotifications() is called first."
                     )
             ))
-        } else {
-            // Unregister for Push Notifications
-            registrarClient!.deleteRegistration { result in
-                switch result {
-                case let .success(response):
-                    self.pushNotificationsStarted = false
-                    completionHandler(.success(response))
-                case let .failure(error):
-                    self.options.logger
-                        .error("Failed to stop push notifications with error: \(error.localizedDescription)")
-                    completionHandler(.failure(AzureError.client("Failed to stop push notifications", error)))
-                }
+            return
+        }
+
+        registrarClient.deleteRegistration { result in
+            switch result {
+            case let .success(response):
+                self.pushNotificationsStarted = false
+                completionHandler(.success(response))
+            case let .failure(error):
+                self.options.logger
+                    .error("Failed to stop push notifications with error: \(error.localizedDescription)")
+                completionHandler(.failure(AzureError.client("Failed to stop push notifications", error)))
             }
         }
     }

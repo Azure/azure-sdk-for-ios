@@ -1,13 +1,12 @@
 {
   "interactions" : [
     {
+      "recorded_at" : 1652477215.8614712,
       "request" : {
         "headers" : {
-          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.4.0; xctest:13.3 -> iOS 9.0; en_US)",
-          "Content-Type" : "application\/json"
+          "Content-Type" : "application\/json",
+          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.4.0; xctest:13.3 -> iOS 9.0; en_US)"
         },
-        "method" : "POST",
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
         "body" : {
           "clientDescription" : {
             "templateKey" : "AcsIos.AcsNotify_Chat_3.0",
@@ -30,21 +29,22 @@
           },
           "registrationId" : "0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
           "nodeId" : ""
-        }
-      },
-      "recorded_at" : 1652471314.2147911,
-      "response" : {
-        "status" : 202,
-        "body" : "",
-        "headers" : {
-          "x-content-type-options" : "nosniff",
-          "Content-Length" : "0",
-          "ms-cv" : "XMGKwQaz0kmUO7QR+y5RuQ.0",
-          "x-cache" : "CONFIG_NOCACHE",
-          "x-msedge-ref" : "Ref A: A3D7047998324AAAB633A3A0CAFF9696 Ref B: CO1EDGE1215 Ref C: 2022-05-13T19:48:33Z",
-          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains"
         },
+        "method" : "POST",
         "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations"
+      },
+      "response" : {
+        "headers" : {
+          "x-cache" : "CONFIG_NOCACHE",
+          "ms-cv" : "qReAjryHlUGUNWIuMXPPYg.0",
+          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
+          "Content-Length" : "0",
+          "x-msedge-ref" : "Ref A: E070F9986C314D24887C03169BC40D44 Ref B: YVR311000112051 Ref C: 2022-05-13T21:26:55Z",
+          "x-content-type-options" : "nosniff"
+        },
+        "body" : "",
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
+        "status" : 202
       }
     }
   ],
