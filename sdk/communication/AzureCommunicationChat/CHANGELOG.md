@@ -1,5 +1,9 @@
 # Release History
 
+## 1.2.0 (Unreleased)
+### Features Added
+- Added two new events `realTimeNotificationConnected` and `realTimeNotificationDisconnected` that allow the developer to know when the connection to the real time notification server is active.
+
 ## 1.1.0 (2022-04-11)
 Updated service API version to 2021-09-07.
 
@@ -8,7 +12,7 @@ Updated service API version to 2021-09-07.
 - Fix missing AzureTest dependency in Package.swift
 
 ## 1.1.0-beta.1 (2021-09-30)
-### New Features
+### Features Added
 - `ChatMessage` supports metadata, provide optional metadata when sending a `ChatMessage`
 - `ChatMessageReceivedEvent` and `ChatMessageEditedEvent` also contain metadata
 - Typing notifications support sender display name, `sendTypingNotification()` accepts an optional `senderDisplayName`
@@ -23,7 +27,7 @@ Updated service API version to 2021-09-07.
 - Fixed recipient id format in events.
 
 ## 1.0.1 (2021-07-26)
-### New Features
+### Features Added
 - ChatClient sets `applicationId` to be empty by default instead of using the bundle identifier
 
 ## 1.0.0 (2021-07-20)
@@ -47,7 +51,7 @@ Updated service API version to 2021-09-07.
 - The TrouterEventUtil.create method now returns the strongly-typed enum `TrouterEvent` instead of Any.
 
 ## 1.0.0-beta.11 (2021-04-07)
-### New Features
+### Features Added
 - Swift PM user should now target the `SwiftPM-AzureCommunicationChat` repo.
 - AzureCommunicationChat can now version independently of other libraries.
 - `ChatClient` now supports Realtime Notifications for Chat events
@@ -72,7 +76,7 @@ Updated service API version to 2021-09-07.
 - Participants are now optional when creating a thread, the creator of the thread is added automatically
 
 ## 1.0.0-beta.9 (2021-03-10)
-### New Features
+### Features Added
  - Introduction of  a new struct `CommunicationIdentifierModel` to repesent a union type that is either a `communicationUser`, `phoneNumber`, or `microsoftTeamsUser`.
 
 ### Breaking Changes
@@ -81,13 +85,13 @@ Updated service API version to 2021-09-07.
 - For `Participant` renamed `user` property to `id`
 
 
-### Key Bug Fixes
+### Bugs Fixed
 - `OnCallsUpdated` event is raised when the call collection on `CallAgent` is updated for outgoing calls.
 - `Hold` and `Resume` of an active call is fixed.
 
 
 ## 1.0.0-beta.8 (2021-02-09)
-### New Features
+### Features Added
  - Introduced ChatClient and ChatThreadClient to split operations on threads and operations within a particular thread
  - Create thread sets repeatability-Request-ID for idempotency if not provided
  - Introduced MessageContent model to replace string content property
@@ -98,8 +102,7 @@ Updated service API version to 2021-09-07.
  - ChatThread renamed to Thread, uses CommunicationUserIdentifier
 
 ## 1.0.0-beta.5 (2020-11-18)
-
-### New Features
+### Features Added
 - Added Cocoapods specs for AzureCore, AzureCommunication, AzureCommunicationChat, and AzureCommunicationCalling
   libraries.
 

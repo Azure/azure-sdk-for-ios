@@ -38,6 +38,8 @@ public class ChatClient {
     private let service: Chat
     private var signalingClient: CommunicationSignalingClient?
     private var signalingClientStarted: Bool = false
+    private var realTimeNotificationConnectedHandler: TrouterEventHandler?
+    private var realTimeNotificationDisconnectedHandler: TrouterEventHandler?
 
     // MARK: Initializers
 
@@ -266,14 +268,24 @@ public class ChatClient {
                 )
 
                 // Initialize the signaling client
-                self.signalingClient = try CommunicationSignalingClient(
+                let signalingClient = try CommunicationSignalingClient(
                     communicationSkypeTokenProvider: tokenProvider,
                     logger: self.options.logger
                 )
 
+                self.signalingClient = signalingClient
+
+                if let handler = self.realTimeNotificationConnectedHandler {
+                    signalingClient.on(event: ChatEventId.realTimeNotificationConnected, handler: handler)
+                }
+
+                if let handler = self.realTimeNotificationDisconnectedHandler {
+                    signalingClient.on(event: ChatEventId.realTimeNotificationDisconnected, handler: handler)
+                }
+
                 // After successful initialization, start notifications
                 self.signalingClientStarted = true
-                self.signalingClient!.start()
+                signalingClient.start()
 
                 completionHandler(.success(()))
             } catch {
@@ -286,13 +298,13 @@ public class ChatClient {
     /// Stop receiving realtime notifications.
     /// This function would unsubscribe to all events.
     public func stopRealTimeNotifications() {
-        if signalingClient == nil {
+        guard let signalingClient = signalingClient else {
             options.logger.warning("Signaling client is not initialized, realtime notifications have not been started.")
             return
         }
 
         signalingClientStarted = false
-        signalingClient!.stop()
+        signalingClient.stop()
     }
 
     /// Subscribe to chat events.
@@ -303,15 +315,35 @@ public class ChatClient {
         event: ChatEventId,
         handler: @escaping TrouterEventHandler
     ) {
-        if signalingClient == nil {
+        guard let signalingClient = signalingClient else {
+            if event == ChatEventId.realTimeNotificationConnected {
+                realTimeNotificationConnectedHandler = handler
+                return
+            }
+
+            if event == ChatEventId.realTimeNotificationDisconnected {
+                realTimeNotificationDisconnectedHandler = handler
+                return
+            }
+
             options.logger
                 .warning(
-                    "Signaling client is not initialized, cannot register handler. Ensure startRealtimeNotifications() is called first."
+                    "Signaling client is not initialized, cannot register handler."
                 )
             return
         }
 
-        signalingClient!.on(event: event, handler: handler)
+        if !signalingClientStarted,
+           event != ChatEventId.realTimeNotificationConnected,
+           event != ChatEventId.realTimeNotificationDisconnected {
+            options.logger
+                .warning(
+                    "Signaling client is not started, cannot register handler. Ensure startRealtimeNotifications() is called first."
+                )
+            return
+        }
+
+        signalingClient.on(event: event, handler: handler)
     }
 
     /// Unsubscribe to chat events.
@@ -320,7 +352,7 @@ public class ChatClient {
     public func unregister(
         event: ChatEventId
     ) {
-        if signalingClient == nil {
+        guard let signalingClient = signalingClient else {
             options.logger
                 .warning(
                     "Signaling client is not initialized, cannot unregister handler. Ensure startRealtimeNotifications() is called first."
@@ -328,6 +360,13 @@ public class ChatClient {
             return
         }
 
-        signalingClient!.off(event: event)
+        switch event {
+        case .realTimeNotificationConnected:
+            realTimeNotificationConnectedHandler = nil
+        case .realTimeNotificationDisconnected:
+            realTimeNotificationDisconnectedHandler = nil
+        default:
+            signalingClient.off(event: event)
+        }
     }
 }

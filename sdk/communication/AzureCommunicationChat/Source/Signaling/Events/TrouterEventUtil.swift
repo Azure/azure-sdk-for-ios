@@ -112,7 +112,7 @@ internal enum TrouterEventUtil {
     /// - Returns: A TrouterEvent.
     internal static func create(
         chatEvent chatEventId: ChatEventId,
-        from request: TrouterRequest
+        from request: TrouterRequest?
     ) throws -> TrouterEvent {
         return try TrouterEvent(chatEventId: chatEventId, from: request)
     }

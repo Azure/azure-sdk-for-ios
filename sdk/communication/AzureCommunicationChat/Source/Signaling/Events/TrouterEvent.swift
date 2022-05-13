@@ -24,6 +24,7 @@
 //
 // --------------------------------------------------------------------------
 
+import AzureCore
 import Foundation
 import Trouter
 
@@ -32,6 +33,8 @@ public typealias TrouterEventHandler = (_ response: TrouterEvent) -> Void
 
 /// TrouterEvents.
 public enum TrouterEvent {
+    case realTimeNotificationConnected
+    case realTimeNotificationDisconnected
     case chatMessageReceivedEvent(ChatMessageReceivedEvent)
     case typingIndicatorReceived(TypingIndicatorReceivedEvent)
     case readReceiptReceived(ReadReceiptReceivedEvent)
@@ -47,9 +50,26 @@ public enum TrouterEvent {
     /// - Parameters:
     ///   - chatEventId: The ChatEventId.
     ///   - request: The TrouterRequest that contains the event data.
-    init(chatEventId: ChatEventId, from request: TrouterRequest) throws {
+    init(chatEventId: ChatEventId, from trouterRequest: TrouterRequest?) throws {
+        if chatEventId == ChatEventId.realTimeNotificationConnected {
+            self = .realTimeNotificationConnected
+            return
+        }
+        if chatEventId == ChatEventId.realTimeNotificationDisconnected {
+            self = .realTimeNotificationDisconnected
+            return
+        }
+
+        guard let request = trouterRequest else {
+            throw AzureError.client("Unable to convert request body to Data.")
+        }
+
         switch chatEventId {
-        case ChatEventId.chatMessageReceived:
+        case .realTimeNotificationConnected:
+            self = .realTimeNotificationConnected
+        case .realTimeNotificationDisconnected:
+            self = .realTimeNotificationDisconnected
+        case .chatMessageReceived:
             let event = try ChatMessageReceivedEvent(from: request)
             self = .chatMessageReceivedEvent(event)
         case .typingIndicatorReceived:
