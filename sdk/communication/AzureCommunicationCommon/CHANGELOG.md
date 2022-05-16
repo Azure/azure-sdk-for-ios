@@ -1,9 +1,12 @@
 # Release History
 
-## 1.0.4 (upcoming)
+## 1.1.0 (upcoming)
 ### New Features
 - Introduce new `CommunicationIdentifierHelper` to create `CommunicationIdentifier` based on rawIds
 - Introduce new `rawId` getter property in the `CommunicationIdentifier` protocol 
+
+### Key Bug Fixes 
+- `PhoneNumberIdentifier` no longer allows the `rawId` to not correspond with the phone number
 
 ## 1.0.3 (2022-03-10)
 ### New Features
