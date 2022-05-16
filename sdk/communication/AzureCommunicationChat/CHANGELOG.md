@@ -1,6 +1,6 @@
 # Release History
 
-## 1.2.0 (2022-04-16)
+## 1.2.0 (2022-05-16)
 ### Features Added
 - Added two new events `realTimeNotificationConnected` and `realTimeNotificationDisconnected` that allow the developer to know when the connection to the real time notification server is active.
 
