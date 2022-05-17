@@ -48,6 +48,7 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
         let token = settings.token
         let credential = try CommunicationTokenCredential(token: token)
         let options = AzureCommunicationChatClientOptions(transportOptions: transportOptions)
+
         chatClient = try ChatClient(endpoint: endpoint, credential: credential, withOptions: options)
         chatClient.registrationId = "0E0F0BE0-0000-00C0-B000-A00A00E00BD0"
     }
@@ -113,15 +114,21 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
     func test_StartPushNotifications_ReturnsSuccess() {
         let expectation = self.expectation(description: "Start push notifications")
 
-        chatClient.startPushNotifications(deviceToken: "mockDeviceToken") { result in
-            switch result {
-            case let .success(response):
-                XCTAssertEqual(response?.statusCode, 202)
-                expectation.fulfill()
-            case .failure:
-                XCTFail("Start push notifications failed.")
+        let encryptionKeyPair = EncryptionKeyPair(
+            firstKey: "0000000000000000B00000000000000000000000AES=",
+            secondKey: "0000000000000000B0000000000000000000000AUTH="
+        )
+
+        chatClient
+            .startPushNotifications(deviceToken: "mockDeviceToken", encryptionKeyPair: encryptionKeyPair) { result in
+                switch result {
+                case let .success(response):
+                    XCTAssertEqual(response?.statusCode, 202)
+                    expectation.fulfill()
+                case .failure:
+                    XCTFail("Start push notifications failed.")
+                }
             }
-        }
 
         waitForExpectations(timeout: 10.0) { error in
             if let error = error {
@@ -133,24 +140,30 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
     func test_StopPushNotifications_ReturnsSuccess() {
         let expectation = self.expectation(description: "Stop push notifications")
 
+        let encryptionKeyPair = EncryptionKeyPair(
+            firstKey: "0000000000000000B00000000000000000000000AES=",
+            secondKey: "0000000000000000B0000000000000000000000AUTH="
+        )
+
         // Start notifications first
-        chatClient.startPushNotifications(deviceToken: "mockDeviceToken") { result in
-            switch result {
-            case .success:
-                // Stop notifications
-                self.chatClient.stopPushNotifications { result in
-                    switch result {
-                    case let .success(response):
-                        XCTAssertEqual(response?.statusCode, 202)
-                        expectation.fulfill()
-                    case .failure:
-                        XCTFail("Stop push notifications failed.")
+        chatClient
+            .startPushNotifications(deviceToken: "mockDeviceToken", encryptionKeyPair: encryptionKeyPair) { result in
+                switch result {
+                case .success:
+                    // Stop notifications
+                    self.chatClient.stopPushNotifications { result in
+                        switch result {
+                        case let .success(response):
+                            XCTAssertEqual(response?.statusCode, 202)
+                            expectation.fulfill()
+                        case .failure:
+                            XCTFail("Stop push notifications failed.")
+                        }
                     }
+                case .failure:
+                    XCTFail("Start push notifications failed.")
                 }
-            case .failure:
-                XCTFail("Start push notifications failed.")
             }
-        }
 
         waitForExpectations(timeout: 10.0) { error in
             if let error = error {

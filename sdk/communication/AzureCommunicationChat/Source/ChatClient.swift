@@ -340,6 +340,7 @@ public class ChatClient {
     ///   - completionHandler: Success indicates request to register for notifications has been received.
     public func startPushNotifications(
         deviceToken: String,
+        encryptionKeyPair: EncryptionKeyPair,
         completionHandler: @escaping (Result<HTTPResponse?, AzureError>) -> Void
     ) {
         // If the PushNotification has already been started, return success to avoid unnecessary re-registration. Theoretically this "pre-validation" mechanism can only work when app is alive.
@@ -363,7 +364,10 @@ public class ChatClient {
         }
 
         // After successful initialization, start push notifications
-        pushNotificationClient.startPushNotifications(deviceRegistrationToken: deviceToken) { result in
+        pushNotificationClient.startPushNotifications(
+            deviceRegistrationToken: deviceToken,
+            encryptionKeyPair: encryptionKeyPair
+        ) { result in
             switch result {
             case let .success(response):
                 completionHandler(.success(response))
@@ -380,13 +384,6 @@ public class ChatClient {
     public func stopPushNotifications(
         completionHandler: @escaping (Result<HTTPResponse?, AzureError>) -> Void
     ) {
-        // If PushNotification has already been stopped, return success and add a warning.
-        guard self.pushNotificationClient?.pushNotificationsStarted == true else {
-            options.logger.warning("Warning: PushNotification has already been stopped.")
-            completionHandler(.success(nil))
-            return
-        }
-
         // Report an error if pushNotificationClient doesn't exist
         guard let pushNotificationClient = pushNotificationClient else {
             completionHandler(.failure(
@@ -395,6 +392,13 @@ public class ChatClient {
                         "PushNotificationClient is not initialized, cannot stop push notificaitons. Ensure startPushNotifications() is called first."
                     )
             ))
+            return
+        }
+
+        // If PushNotification has already been stopped, return success and add a warning.
+        guard pushNotificationClient.pushNotificationsStarted == true else {
+            options.logger.warning("Warning: PushNotification has already been stopped.")
+            completionHandler(.success(nil))
             return
         }
 
@@ -410,6 +414,56 @@ public class ChatClient {
                     .error("Failed to stop push notifications with error: \(error.localizedDescription)")
                 completionHandler(.failure(AzureError.client("Failed to stop push notifications", error)))
             }
+        }
+    }
+
+    /// Handle the data payload for an incoming push notification.
+    /// - Parameters:
+    ///   - notification: The APNS push notification payload ( including "aps" and "data" )
+    ///   - encryptionKeys: An array of keyPair used for verification & decryption
+    public static func decryptPayload(
+        notification: [AnyHashable: Any],
+        encryptionKeyPairs: [EncryptionKeyPair]
+    ) throws -> PushNotificationEvent {
+        // Retrieve the "data" part from the APNS push notification payload
+        guard let dataPayload = notification["data"] as? [String: AnyObject] else {
+            throw AzureError.client("Push notification does not contain data payload")
+        }
+
+        do {
+            // 1.get "eventId"
+            guard let eventId = dataPayload["eventId"] as? Int else {
+                throw AzureError
+                    .client("Push notification does not contain eventId or eventId can't be downcast to Int.")
+            }
+
+            let chatEventType = try PushNotificationChatEventType(forCode: eventId)
+
+            // 2.get "e"
+            guard let encryptedPayload = dataPayload["e"] as? String else {
+                throw AzureError
+                    .client(
+                        "Push notification does not contain encryptedPayload or payload can't be downcast to String."
+                    )
+            }
+
+            // 3.Verify and decrypt the encrypted notification payload
+            let decryptedPayload = try PushNotificationClient.decryptPayload(
+                encryptedStr: encryptedPayload,
+                encryptionKeyPairCollection: encryptionKeyPairs
+            )
+
+            guard let data = decryptedPayload.data(using: .utf8) else {
+                throw AzureError.client("Failed to create utf8 encoded Data from decrypted string.")
+            }
+
+            // 4. Create and return the PushNotificationEvent Model
+            let pushNotificationEvent = try PushNotificationEvent(chatEventType: chatEventType, from: data)
+
+            return pushNotificationEvent
+
+        } catch {
+            throw AzureError.client("Error in decrypting the notification payload: \(error)")
         }
     }
 }
