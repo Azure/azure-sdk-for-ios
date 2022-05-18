@@ -49,20 +49,20 @@ class CommunicationIdentifierHelperTests: XCTestCase {
     }
 
     func test_createCommunicationUserIdentifier() {
-        let acsScope = "8:acs:some_raw_id"
-        var communciationUserIdentifier = CommunicationIdentifierHelper.createCommunicationIdentifier(from: acsScope)
+        let acsRawId = "8:acs:some_raw_id"
+        var communciationUserIdentifier = CommunicationIdentifierHelper.createCommunicationIdentifier(from: acsRawId)
         XCTAssertTrue(communciationUserIdentifier.isKind(of: CommunicationUserIdentifier.self))
 
-        let spoolScope = "8:spool:some_raw_id"
-        communciationUserIdentifier = CommunicationIdentifierHelper.createCommunicationIdentifier(from: spoolScope)
+        let spoolRawId = "8:spool:some_raw_id"
+        communciationUserIdentifier = CommunicationIdentifierHelper.createCommunicationIdentifier(from: spoolRawId)
         XCTAssertTrue(communciationUserIdentifier.isKind(of: CommunicationUserIdentifier.self))
 
-        let dodAcsScope = "8:dod-acs:some_raw_id"
-        communciationUserIdentifier = CommunicationIdentifierHelper.createCommunicationIdentifier(from: dodAcsScope)
+        let dodAcsRawId = "8:dod-acs:some_raw_id"
+        communciationUserIdentifier = CommunicationIdentifierHelper.createCommunicationIdentifier(from: dodAcsRawId)
         XCTAssertTrue(communciationUserIdentifier.isKind(of: CommunicationUserIdentifier.self))
 
-        let gcchAcsScope = "8:gcch-acs:some_raw_id"
-        communciationUserIdentifier = CommunicationIdentifierHelper.createCommunicationIdentifier(from: gcchAcsScope)
+        let gcchAcsRawId = "8:gcch-acs:some_raw_id"
+        communciationUserIdentifier = CommunicationIdentifierHelper.createCommunicationIdentifier(from: gcchAcsRawId)
         XCTAssertTrue(communciationUserIdentifier.isKind(of: CommunicationUserIdentifier.self))
     }
 
