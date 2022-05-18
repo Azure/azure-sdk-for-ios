@@ -169,11 +169,8 @@ import Foundation
      - Parameter isAnonymous: Set this to true if the user is anonymous:
                                 for example when joining a meeting with a share link.
      */
-    public init(userId: String, isAnonymous: Bool) {
-        self.cloudEnviroment = .Public
-        self.userId = userId
-        self.isAnonymous = isAnonymous
-        self.rawId = isAnonymous ? "8:teamsvisitor:" + userId : "8:orgid:" + userId
+    convenience init(userId: String, isAnonymous: Bool) {
+        self.init(userId: userId, isAnonymous: isAnonymous, rawId: nil, cloudEnvironment: .Public)
     }
 
     /**
