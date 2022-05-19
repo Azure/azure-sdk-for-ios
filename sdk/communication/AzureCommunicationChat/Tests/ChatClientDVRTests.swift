@@ -116,7 +116,8 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
 
         let encryptionKeyPair = EncryptionKeyPair(
             firstKey: "0000000000000000B00000000000000000000000AES=",
-            secondKey: "0000000000000000B0000000000000000000000AUTH="
+            secondKey: "0000000000000000B0000000000000000000000AUTH=",
+            ttl: 3600
         )
 
         chatClient
@@ -142,7 +143,8 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
 
         let encryptionKeyPair = EncryptionKeyPair(
             firstKey: "0000000000000000B00000000000000000000000AES=",
-            secondKey: "0000000000000000B0000000000000000000000AUTH="
+            secondKey: "0000000000000000B0000000000000000000000AUTH=",
+            ttl: 3600
         )
 
         // Start notifications first

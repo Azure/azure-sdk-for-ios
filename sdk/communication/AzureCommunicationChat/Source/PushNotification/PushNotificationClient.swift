@@ -100,6 +100,7 @@ internal class PushNotificationClient {
 
                     // Create RegistrarTransportSettings (Path is device token)
                     let transport = RegistrarTransportSettings(
+                        ttl: encryptionKeyPair.ttl,
                         path: self.deviceRegistrationToken
                     )
 
@@ -206,7 +207,7 @@ internal class PushNotificationClient {
             // 4. Failed to decrypt the push notification if thre is no keyPair used for encryption.
             throw AzureError
                 .client(
-                    "Failed to decrypt the push notification. Failed to find the keys used for encryption."
+                    "Failed to decrypt the push notification."
                 )
 
         } catch {

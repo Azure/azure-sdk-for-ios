@@ -40,11 +40,12 @@ internal struct RegistrarTransportSettings: Codable {
     internal let snoozeSeconds: Int?
 
     internal init(
+        ttl: Int,
         path: String,
         creationTime: String? = nil,
         snoozeSeconds: Int? = nil
     ) {
-        self.ttl = 15_552_000
+        self.ttl = ttl
         self.path = path
         self.context = ""
         self.creationTime = creationTime
