@@ -95,6 +95,7 @@ class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
         )
 
         let registrarTransportSettings = RegistrarTransportSettings(
+            ttl: 3600,
             path: "mockDeviceToken"
         )
 
@@ -128,6 +129,7 @@ class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
         )
 
         let registrarTransportSettings = RegistrarTransportSettings(
+            ttl: 3600,
             path: "mockDeviceToken"
         )
 
