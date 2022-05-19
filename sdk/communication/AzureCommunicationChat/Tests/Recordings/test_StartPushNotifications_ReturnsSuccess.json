@@ -1,7 +1,6 @@
 {
   "interactions" : [
     {
-      "recorded_at" : 1652477215.8614712,
       "request" : {
         "headers" : {
           "Content-Type" : "application\/json",
@@ -21,7 +20,7 @@
           "transports" : {
             "APNS" : [
               {
-                "ttl" : 15552000,
+                "ttl" : 3600,
                 "path" : "mockDeviceToken",
                 "context" : ""
               }
@@ -30,21 +29,22 @@
           "registrationId" : "0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
           "nodeId" : ""
         },
-        "method" : "POST",
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations"
-      },
-      "response" : {
-        "headers" : {
-          "x-cache" : "CONFIG_NOCACHE",
-          "ms-cv" : "qReAjryHlUGUNWIuMXPPYg.0",
-          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
-          "Content-Length" : "0",
-          "x-msedge-ref" : "Ref A: E070F9986C314D24887C03169BC40D44 Ref B: YVR311000112051 Ref C: 2022-05-13T21:26:55Z",
-          "x-content-type-options" : "nosniff"
-        },
-        "body" : "",
         "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
-        "status" : 202
+        "method" : "POST"
+      },
+      "recorded_at" : 1652944124.7933111,
+      "response" : {
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
+        "status" : 202,
+        "body" : "",
+        "headers" : {
+          "ms-cv" : "lCW1B1rpn0ioz8KiMv9XaQ.0",
+          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
+          "x-msedge-ref" : "Ref A: 41C9514585094AF49AE4D03F3F63C3E8 Ref B: YVR311000108027 Ref C: 2022-05-19T07:08:44Z",
+          "x-content-type-options" : "nosniff",
+          "Content-Length" : "0",
+          "x-cache" : "CONFIG_NOCACHE"
+        }
       }
     }
   ],
