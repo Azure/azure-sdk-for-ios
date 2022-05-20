@@ -2,13 +2,9 @@
   "name" : "test_deleteRegistration_ReturnsSuccess",
   "interactions" : [
     {
+      "recorded_at" : 1653009678.5628991,
       "request" : {
         "method" : "POST",
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
-        "headers" : {
-          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.4.0; xctest:13.3 -> iOS 9.0; en_US)",
-          "Content-Type" : "application\/json"
-        },
         "body" : {
           "clientDescription" : {
             "templateKey" : "AcsIos.AcsNotify_Chat_3.0",
@@ -23,7 +19,7 @@
           "transports" : {
             "APNS" : [
               {
-                "ttl" : 3600,
+                "ttl" : 2700,
                 "path" : "mockDeviceToken",
                 "context" : ""
               }
@@ -31,45 +27,49 @@
           },
           "registrationId" : "0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
           "nodeId" : ""
-        }
-      },
-      "response" : {
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
-        "headers" : {
-          "Content-Length" : "0",
-          "x-content-type-options" : "nosniff",
-          "x-cache" : "CONFIG_NOCACHE",
-          "ms-cv" : "bagf2H6gLUuYqQ5moBO7IA.0",
-          "x-msedge-ref" : "Ref A: B5D4B6E85C494CECA31C8926A0468F10 Ref B: YVR311000110053 Ref C: 2022-05-19T07:05:29Z",
-          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains"
         },
-        "status" : 202,
-        "body" : ""
-      },
-      "recorded_at" : 1652943929.3594289
-    },
-    {
-      "recorded_at" : 1652943929.665895,
-      "response" : {
-        "body" : "",
-        "status" : 202,
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations\/0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
-        "headers" : {
-          "x-cache" : "CONFIG_NOCACHE",
-          "ms-cv" : "pEGkzyQurUi2wKH86svNwQ.0",
-          "x-msedge-ref" : "Ref A: 632C827602EC42E895B981B4A6713981 Ref B: YVR311000110053 Ref C: 2022-05-19T07:05:29Z",
-          "Content-Length" : "0",
-          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
-          "x-content-type-options" : "nosniff"
-        }
-      },
-      "request" : {
         "headers" : {
           "Content-Type" : "application\/json",
           "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.4.0; xctest:13.3 -> iOS 9.0; en_US)"
         },
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations"
+      },
+      "response" : {
+        "headers" : {
+          "ms-cv" : "6QqTThmTvka4R8E9w21eKA.0",
+          "x-content-type-options" : "nosniff",
+          "x-msedge-ref" : "Ref A: 3FC3C7574EC74BD6A635B5C24A6416F3 Ref B: YVR311000108035 Ref C: 2022-05-20T01:21:18Z",
+          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
+          "Content-Length" : "0",
+          "x-cache" : "CONFIG_NOCACHE"
+        },
+        "status" : 202,
+        "body" : "",
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations"
+      }
+    },
+    {
+      "response" : {
         "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations\/0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
-        "method" : "DELETE"
+        "body" : "",
+        "status" : 202,
+        "headers" : {
+          "ms-cv" : "8qip5rH3NUGnaWJlKLLaGA.0",
+          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
+          "x-cache" : "CONFIG_NOCACHE",
+          "x-content-type-options" : "nosniff",
+          "x-msedge-ref" : "Ref A: F85C68DAE5C543D581EB041E6D1E4E56 Ref B: YVR311000108035 Ref C: 2022-05-20T01:21:18Z",
+          "Content-Length" : "0"
+        }
+      },
+      "recorded_at" : 1653009678.9890749,
+      "request" : {
+        "headers" : {
+          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.4.0; xctest:13.3 -> iOS 9.0; en_US)",
+          "Content-Type" : "application\/json"
+        },
+        "method" : "DELETE",
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations\/0E0F0BE0-0000-00C0-B000-A00A00E00BD0"
       }
     }
   ]

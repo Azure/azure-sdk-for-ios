@@ -28,7 +28,7 @@ import Foundation
 
 /// Registrar transport.
 internal struct RegistrarTransportSettings: Codable {
-    /// TTL in seconds. Maximum value is 15552000.
+    /// TTL in seconds. We decide to put 45 min based on Registrar Service's security requirement.
     internal let ttl: Int
     /// APNS device token.
     internal let path: String
@@ -40,12 +40,11 @@ internal struct RegistrarTransportSettings: Codable {
     internal let snoozeSeconds: Int?
 
     internal init(
-        ttl: Int,
         path: String,
         creationTime: String? = nil,
         snoozeSeconds: Int? = nil
     ) {
-        self.ttl = ttl
+        self.ttl = 2700
         self.path = path
         self.context = ""
         self.creationTime = creationTime
