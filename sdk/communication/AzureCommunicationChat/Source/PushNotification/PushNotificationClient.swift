@@ -100,7 +100,6 @@ internal class PushNotificationClient {
 
                     // Create RegistrarTransportSettings (Path is device token)
                     let transport = RegistrarTransportSettings(
-                        ttl: encryptionKeyPair.ttl,
                         path: self.deviceRegistrationToken
                     )
 

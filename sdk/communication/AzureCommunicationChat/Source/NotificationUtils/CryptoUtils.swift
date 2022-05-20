@@ -145,15 +145,12 @@ func decryptPushNotificationPayload(cipherText: [UInt8], iv: [UInt8], cryptoKey:
 public struct EncryptionKeyPair {
     let firstKey: String
     let secondKey: String
-    let ttl: Int
 
     public init(
         firstKey: String,
-        secondKey: String,
-        ttl: Int
+        secondKey: String
     ) {
         self.firstKey = firstKey
         self.secondKey = secondKey
-        self.ttl = ttl
     }
 }

@@ -1,11 +1,10 @@
 {
   "interactions" : [
     {
+      "recorded_at" : 1653009711.0375471,
       "request" : {
-        "headers" : {
-          "Content-Type" : "application\/json",
-          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.4.0; xctest:13.3 -> iOS 9.0; en_US)"
-        },
+        "method" : "POST",
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
         "body" : {
           "clientDescription" : {
             "templateKey" : "AcsIos.AcsNotify_Chat_3.0",
@@ -20,7 +19,7 @@
           "transports" : {
             "APNS" : [
               {
-                "ttl" : 3600,
+                "ttl" : 2700,
                 "path" : "mockDeviceToken",
                 "context" : ""
               }
@@ -29,22 +28,23 @@
           "registrationId" : "0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
           "nodeId" : ""
         },
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
-        "method" : "POST"
-      },
-      "recorded_at" : 1652944124.7933111,
-      "response" : {
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
-        "status" : 202,
-        "body" : "",
         "headers" : {
-          "ms-cv" : "lCW1B1rpn0ioz8KiMv9XaQ.0",
+          "Content-Type" : "application\/json",
+          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.4.0; xctest:13.3 -> iOS 9.0; en_US)"
+        }
+      },
+      "response" : {
+        "headers" : {
+          "x-cache" : "CONFIG_NOCACHE",
+          "x-msedge-ref" : "Ref A: 1A9A1C36606E4315AF365F9B6F94B642 Ref B: YVR311000112039 Ref C: 2022-05-20T01:21:50Z",
           "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
-          "x-msedge-ref" : "Ref A: 41C9514585094AF49AE4D03F3F63C3E8 Ref B: YVR311000108027 Ref C: 2022-05-19T07:08:44Z",
           "x-content-type-options" : "nosniff",
           "Content-Length" : "0",
-          "x-cache" : "CONFIG_NOCACHE"
-        }
+          "ms-cv" : "HC3JKesygkSODWm5KFITqg.0"
+        },
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
+        "body" : "",
+        "status" : 202
       }
     }
   ],
