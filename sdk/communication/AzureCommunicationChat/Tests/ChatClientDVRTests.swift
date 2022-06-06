@@ -114,13 +114,8 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
     func test_StartPushNotifications_ReturnsSuccess() {
         let expectation = self.expectation(description: "Start push notifications")
 
-        let encryptionKeyPair = EncryptionKeyPair(
-            firstKey: "0000000000000000B00000000000000000000000AES=",
-            secondKey: "0000000000000000B0000000000000000000000AUTH="
-        )
-
         chatClient
-            .startPushNotifications(deviceToken: "mockDeviceToken", encryptionKeyPair: encryptionKeyPair) { result in
+            .startPushNotifications(deviceToken: "mockDeviceToken", pushNotificationEncryptionDelegate: nil) { result in
                 switch result {
                 case let .success(response):
                     XCTAssertEqual(response?.statusCode, 202)
@@ -140,14 +135,9 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
     func test_StopPushNotifications_ReturnsSuccess() {
         let expectation = self.expectation(description: "Stop push notifications")
 
-        let encryptionKeyPair = EncryptionKeyPair(
-            firstKey: "0000000000000000B00000000000000000000000AES=",
-            secondKey: "0000000000000000B0000000000000000000000AUTH="
-        )
-
         // Start notifications first
         chatClient
-            .startPushNotifications(deviceToken: "mockDeviceToken", encryptionKeyPair: encryptionKeyPair) { result in
+            .startPushNotifications(deviceToken: "mockDeviceToken", pushNotificationEncryptionDelegate: nil) { result in
                 switch result {
                 case .success:
                     // Stop notifications

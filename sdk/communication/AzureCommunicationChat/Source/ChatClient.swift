@@ -373,13 +373,14 @@ public class ChatClient {
         }
     }
 
-    /// Start push notifications. Receiving of notifications can be expected ~1 second after successfully registering.
+    /// Start push notifications. Receiving of notifications can be expected after successfully registering.
     /// - Parameters:
     ///   - deviceToken: APNS push token.
+    ///   - pushNotificationEncryptionDelegate: Manage encyrption keys used by push notification.
     ///   - completionHandler: Success indicates request to register for notifications has been received.
     public func startPushNotifications(
         deviceToken: String,
-        encryptionKeyPair: EncryptionKeyPair,
+        pushNotificationEncryptionDelegate: PushNotificationEncryptionDelegate?,
         completionHandler: @escaping (Result<HTTPResponse?, AzureError>) -> Void
     ) {
         // If the PushNotification has already been started, return success to avoid unnecessary re-registration. Theoretically this "pre-validation" mechanism can only work when app is alive.
@@ -405,7 +406,7 @@ public class ChatClient {
         // After successful initialization, start push notifications
         pushNotificationClient.startPushNotifications(
             deviceRegistrationToken: deviceToken,
-            encryptionKeyPair: encryptionKeyPair
+            pushNotificationEncryptionDelegate: pushNotificationEncryptionDelegate
         ) { result in
             switch result {
             case let .success(response):
@@ -459,10 +460,10 @@ public class ChatClient {
     /// Handle the data payload for an incoming push notification.
     /// - Parameters:
     ///   - notification: The APNS push notification payload ( including "aps" and "data" )
-    ///   - encryptionKeys: An array of keyPair used for verification & decryption
+    ///   - pushNotificationEncryptionDelegate: Manage encyrption keys used by push notification.
     public static func decryptPayload(
         notification: [AnyHashable: Any],
-        encryptionKeyPairs: [EncryptionKeyPair]
+        pushNotificationEncryptionDelegate: PushNotificationEncryptionDelegate
     ) throws -> PushNotificationEvent {
         // Retrieve the "data" part from the APNS push notification payload
         guard let dataPayload = notification["data"] as? [String: AnyObject] else {
@@ -489,7 +490,7 @@ public class ChatClient {
             // 3.Verify and decrypt the encrypted notification payload
             let decryptedPayload = try PushNotificationClient.decryptPayload(
                 encryptedStr: encryptedPayload,
-                encryptionKeyPairCollection: encryptionKeyPairs
+                pushNotificationEncryptionDelegate: pushNotificationEncryptionDelegate
             )
 
             guard let data = decryptedPayload.data(using: .utf8) else {

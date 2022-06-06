@@ -142,15 +142,37 @@ func decryptPushNotificationPayload(cipherText: [UInt8], iv: [UInt8], cryptoKey:
     return String(decoding: cryptData, as: UTF8.self)
 }
 
-public struct EncryptionKeyPair {
-    let firstKey: String
-    let secondKey: String
+internal func generateEncryptionKey() -> String {
+    return SymmetricKey(size: .init(bitCount: 512)).serialize()
+}
 
-    public init(
-        firstKey: String,
-        secondKey: String
-    ) {
-        self.firstKey = firstKey
-        self.secondKey = secondKey
+// Use the SymmetricKey class in CryptoKit framework to create encryption keys
+extension SymmetricKey {
+    /// Serializes a `SymmetricKey` to a Base64-encoded `String`.
+    func serialize() -> String {
+        return withUnsafeBytes { body in
+            Data(body).base64EncodedString()
+        }
     }
+}
+
+func splitEncryptionKey(encryptionKey: String) -> [String] {
+    guard var data = Data(base64Encoded: encryptionKey, options: .ignoreUnknownCharacters) else {
+        return ["0000000000000000B00000000000000000000000AES=", "0000000000000000B0000000000000000000000AUTH="]
+    }
+    var aesArr: [UInt8] = .init(repeating: 0, count: 32)
+    var authArr: [UInt8] = .init(repeating: 0, count: 32)
+
+    for idx in 0 ..< 64 {
+        if idx < 32 {
+            aesArr[idx] = data.remove(at: 0)
+        } else {
+            authArr[idx - 32] = data.remove(at: 0)
+        }
+    }
+
+    let aesKey = Data(aesArr).base64EncodedString()
+    let authKey = Data(authArr).base64EncodedString()
+
+    return [aesKey, authKey]
 }
