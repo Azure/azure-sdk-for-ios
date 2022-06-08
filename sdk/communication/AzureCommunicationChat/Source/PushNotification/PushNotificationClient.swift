@@ -82,7 +82,16 @@ internal class PushNotificationClient {
                         self.aesKey = "0000000000000000B00000000000000000000000AES="
                         self.authKey = "0000000000000000B0000000000000000000000AUTH="
                     } else {
-                        pushNotificationEncryptionDelegate!.store(
+                        // Theoretically the delegate can't be nil at this point. Just add this guard statement to guarantee safety.
+                        guard let pushNotificationEncryptionDelegate = pushNotificationEncryptionDelegate else {
+                            completionHandler(.failure(
+                                AzureError
+                                    .client("chatPushNotificationEncryptionDelegate is nil.")
+                            ))
+                            return
+                        }
+                        
+                        pushNotificationEncryptionDelegate.store(
                             encryptionKey: encryptionKey,
                             // We set the TTL of each encryption key as 45 minutes.
                             expiryTime: Date(timeIntervalSinceNow: 45 * 60)
