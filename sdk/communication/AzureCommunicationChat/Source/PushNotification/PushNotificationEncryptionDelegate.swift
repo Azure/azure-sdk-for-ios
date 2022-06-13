@@ -26,8 +26,8 @@
 
 import Foundation
 
-public protocol PushNotificationEncryptionDelegate {
-    func store(encryptionKey: String, expiryTime: Date)
+public protocol ChatClientPushNotificationDelegate: AnyObject {
+    func chatClientPushNotification(_ chatClient: ChatClient, willPersist encryptionKey: String, of expiryTime: Date)
 
-    func getEncryptionKeys() -> [String]?
+    func chatClientPushNotificationWillGetKeys(_ chatClient: ChatClient) -> [String]?
 }

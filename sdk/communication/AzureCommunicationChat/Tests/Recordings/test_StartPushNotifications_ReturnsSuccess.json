@@ -2,21 +2,12 @@
   "name" : "test_StartPushNotifications_ReturnsSuccess",
   "interactions" : [
     {
-      "recorded_at" : 1654536959.9970951,
-      "response" : {
-        "body" : "",
-        "status" : 202,
-        "headers" : {
-          "x-cache" : "CONFIG_NOCACHE",
-          "ms-cv" : "KzjnBMOLVEiqQQiME7Cmjw.0",
-          "x-msedge-ref" : "Ref A: 2CAD55176C9547959B2E560AD40DC346 Ref B: YVR311000112053 Ref C: 2022-06-06T17:35:59Z",
-          "Content-Length" : "0",
-          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
-          "x-content-type-options" : "nosniff"
-        },
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations"
-      },
       "request" : {
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
+        "headers" : {
+          "Content-Type" : "application\/json",
+          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.5.0; xctest:13.3 -> iOS 9.0; en_US)"
+        },
         "method" : "POST",
         "body" : {
           "clientDescription" : {
@@ -40,11 +31,20 @@
           },
           "registrationId" : "0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
           "nodeId" : ""
-        },
+        }
+      },
+      "recorded_at" : 1655159407.155288,
+      "response" : {
         "headers" : {
-          "Content-Type" : "application\/json",
-          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.5.0; xctest:13.3 -> iOS 9.0; en_US)"
+          "Content-Length" : "0",
+          "x-msedge-ref" : "Ref A: FF3D967FE9F043F8B2C7540963ED773C Ref B: WSTEDGE1103 Ref C: 2022-06-13T22:30:06Z",
+          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
+          "x-content-type-options" : "nosniff",
+          "x-cache" : "CONFIG_NOCACHE",
+          "ms-cv" : "LC9ysjq7KEK4SVEvJLx+wQ.0"
         },
+        "status" : 202,
+        "body" : "",
         "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations"
       }
     }

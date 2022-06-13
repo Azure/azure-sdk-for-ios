@@ -42,6 +42,7 @@ public class ChatClient {
     private var realTimeNotificationDisconnectedHandler: TrouterEventHandler?
     private var pushNotificationClient: PushNotificationClient?
     internal var registrationId: String
+    public weak var chatClientPushNotificationDelegate: ChatClientPushNotificationDelegate?
 
     // MARK: Initializers
 
@@ -376,11 +377,9 @@ public class ChatClient {
     /// Start push notifications. Receiving of notifications can be expected after successfully registering.
     /// - Parameters:
     ///   - deviceToken: APNS push token.
-    ///   - pushNotificationEncryptionDelegate: Manage encyrption keys used by push notification.
     ///   - completionHandler: Success indicates request to register for notifications has been received.
     public func startPushNotifications(
         deviceToken: String,
-        pushNotificationEncryptionDelegate: PushNotificationEncryptionDelegate?,
         completionHandler: @escaping (Result<HTTPResponse?, AzureError>) -> Void
     ) {
         // If the PushNotification has already been started, return success to avoid unnecessary re-registration. Theoretically this "pre-validation" mechanism can only work when app is alive.
@@ -403,10 +402,24 @@ public class ChatClient {
             return
         }
 
+        let encryptionKey: String
+
+        // Delegate "storeKey" behaviour if the Contoso intends to implement encryption
+        if chatClientPushNotificationDelegate != nil {
+            encryptionKey = generateEncryptionKey()
+            chatClientPushNotificationDelegate?.chatClientPushNotification(
+                _: self,
+                willPersist: encryptionKey,
+                of: Date(timeIntervalSinceNow: 45 * 60)
+            )
+        } else {
+            encryptionKey = ""
+        }
+
         // After successful initialization, start push notifications
         pushNotificationClient.startPushNotifications(
             deviceRegistrationToken: deviceToken,
-            pushNotificationEncryptionDelegate: pushNotificationEncryptionDelegate
+            encryptionKey: encryptionKey
         ) { result in
             switch result {
             case let .success(response):
@@ -461,9 +474,8 @@ public class ChatClient {
     /// - Parameters:
     ///   - notification: The APNS push notification payload ( including "aps" and "data" )
     ///   - pushNotificationEncryptionDelegate: Manage encyrption keys used by push notification.
-    public static func decryptPayload(
-        notification: [AnyHashable: Any],
-        pushNotificationEncryptionDelegate: PushNotificationEncryptionDelegate
+    public func decryptPayload(
+        notification: [AnyHashable: Any]
     ) throws -> PushNotificationEvent {
         // Retrieve the "data" part from the APNS push notification payload
         guard let dataPayload = notification["data"] as? [String: AnyObject] else {
@@ -487,17 +499,25 @@ public class ChatClient {
                     )
             }
 
-            // 3.Verify and decrypt the encrypted notification payload
+            // 3.Delegate "getKeys" behaviour
+            guard let encryptionKeys = chatClientPushNotificationDelegate?
+                .chatClientPushNotificationWillGetKeys(_: self),
+                encryptionKeys.count > 0
+            else {
+                throw AzureError.client("Failed to get decryption keys. Failed to decrypt Notification payload.")
+            }
+
+            // 4.Verify and decrypt the encrypted notification payload
             let decryptedPayload = try PushNotificationClient.decryptPayload(
                 encryptedStr: encryptedPayload,
-                pushNotificationEncryptionDelegate: pushNotificationEncryptionDelegate
+                encryptionKeys: encryptionKeys
             )
 
             guard let data = decryptedPayload.data(using: .utf8) else {
                 throw AzureError.client("Failed to create utf8 encoded Data from decrypted string.")
             }
 
-            // 4. Create and return the PushNotificationEvent Model
+            // 5. Create and return the PushNotificationEvent Model
             let pushNotificationEvent = try PushNotificationEvent(chatEventType: chatEventType, from: data)
 
             return pushNotificationEvent

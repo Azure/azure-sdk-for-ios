@@ -61,7 +61,7 @@ internal class PushNotificationClient {
 
     internal func startPushNotifications(
         deviceRegistrationToken: String,
-        pushNotificationEncryptionDelegate: PushNotificationEncryptionDelegate?,
+        encryptionKey: String,
         completionHandler: @escaping (Result<HTTPResponse?, AzureError>) -> Void
     ) {
         self.deviceRegistrationToken = deviceRegistrationToken
@@ -75,33 +75,16 @@ internal class PushNotificationClient {
                 switch result {
                 case let .success(createdRegistrarClient):
                     // Generate and persist encryption key
-                    let encryptionKey = generateEncryptionKey()
-
-                    // If the Contoso doesn't want to implement the advanced version of PN, they will not pass in chatPushNotificationEncryptionDelegate. We can register two hard-coded fake keys for them.
-                    if pushNotificationEncryptionDelegate == nil {
-                        self.aesKey = "0000000000000000B00000000000000000000000AES="
-                        self.authKey = "0000000000000000B0000000000000000000000AUTH="
-                    } else {
-                        // Theoretically the delegate can't be nil at this point. Just add this guard statement to guarantee safety.
-                        guard let pushNotificationEncryptionDelegate = pushNotificationEncryptionDelegate else {
-                            completionHandler(.failure(
-                                AzureError
-                                    .client("chatPushNotificationEncryptionDelegate is nil.")
-                            ))
-                            return
-                        }
-                        
-                        pushNotificationEncryptionDelegate.store(
-                            encryptionKey: encryptionKey,
-                            // We set the TTL of each encryption key as 45 minutes.
-                            expiryTime: Date(timeIntervalSinceNow: 45 * 60)
-                        )
-                        /* We require the Contoso to pass in a 512-bit key.
-                           Need to split it into two 256-bit keys, taking the first part for decrytion and the second part for authorization.
-                         */
+                    /* We require the Contoso to pass in a 512-bit key. Need to split it into two 256-bit keys, taking the first part for decrytion and the second part for authorization.
+                     */
+                    if encryptionKey != "" {
                         let encryptionKeys = splitEncryptionKey(encryptionKey: encryptionKey)
                         self.aesKey = encryptionKeys[0]
                         self.authKey = encryptionKeys[1]
+                    } else {
+                        // If the Contoso doesn't want to implement encryption and we get an empty encrytionKey, we just register two fake values. Encryption keys are required for a successful registration.
+                        self.aesKey = "0000000000000000B00000000000000000000000AES="
+                        self.authKey = "0000000000000000B0000000000000000000000AUTH="
                     }
 
                     // Create RegistrarClientDescription (It should match valid APNS templates)
@@ -173,7 +156,7 @@ internal class PushNotificationClient {
 
     internal static func decryptPayload(
         encryptedStr: String,
-        pushNotificationEncryptionDelegate: PushNotificationEncryptionDelegate
+        encryptionKeys: [String]
     ) throws -> String {
         do {
             // 1.Decode the Base64 input string into [UInt8].
@@ -192,13 +175,7 @@ internal class PushNotificationClient {
             let cipherModeIVCipherText: [UInt8] = CryptoUtils.extractCipherModeIVCipherText(result: encryptedBytes)
 
             // 3.Loop over the key array and find the key used for encryption
-            let encryptionKeyCollection = pushNotificationEncryptionDelegate.getEncryptionKeys()
-
-            guard let encryptionKeyCollection = encryptionKeyCollection, encryptionKeyCollection.count > 0 else {
-                throw AzureError.client("Failed to get valid encryption keys.")
-            }
-
-            for encryptionKey in encryptionKeyCollection {
+            for encryptionKey in encryptionKeys {
                 let encryptionKeys = splitEncryptionKey(encryptionKey: encryptionKey)
                 let aesKey = encryptionKeys[0]
                 let authKey = encryptionKeys[1]

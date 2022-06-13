@@ -115,7 +115,7 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
         let expectation = self.expectation(description: "Start push notifications")
 
         chatClient
-            .startPushNotifications(deviceToken: "mockDeviceToken", pushNotificationEncryptionDelegate: nil) { result in
+            .startPushNotifications(deviceToken: "mockDeviceToken") { result in
                 switch result {
                 case let .success(response):
                     XCTAssertEqual(response?.statusCode, 202)
@@ -137,7 +137,7 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
 
         // Start notifications first
         chatClient
-            .startPushNotifications(deviceToken: "mockDeviceToken", pushNotificationEncryptionDelegate: nil) { result in
+            .startPushNotifications(deviceToken: "mockDeviceToken") { result in
                 switch result {
                 case .success:
                     // Stop notifications
