@@ -1,5 +1,14 @@
 # Release History
 
+## 2.2.0 (2022-06-10)
+
+### Features Added
+- ⁠Client options diagnostic information.
+    - Application will be able to pass custom 'appName', 'appVersion', and additionally set of 'tags' to the SDK that will be sent with telemetry pipeline.
+
+### Bugs fixed
+- Fixed crash when an invalid token is provided.
+
 ## 2.1.0 (2022-06-03)
 
 ### Features Added
