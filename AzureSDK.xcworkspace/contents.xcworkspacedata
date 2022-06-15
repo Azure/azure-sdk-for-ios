@@ -477,7 +477,10 @@
       location = "group:/Users/travisprescott/repos/azure-sdk-for-ios/jazzy"
       name = "jazzy">
       <FileRef
-         location = "group:index.html.erb">
+         location = "group:AzureCommunicationUICalling.yml">
+      </FileRef>
+      <FileRef
+         location = "group:index_template.html">
       </FileRef>
       <FileRef
          location = "group:AzureCommunicationCommon.yml">
