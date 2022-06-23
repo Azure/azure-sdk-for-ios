@@ -2,13 +2,25 @@
   "name" : "test_deleteRegistration_ReturnsSuccess",
   "interactions" : [
     {
+      "response" : {
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
+        "status" : 202,
+        "body" : "",
+        "headers" : {
+          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
+          "x-content-type-options" : "nosniff",
+          "Content-Length" : "0",
+          "x-cache" : "CONFIG_NOCACHE",
+          "ms-cv" : "laAKveOt9USWe0ejaDvZRQ.0",
+          "x-msedge-ref" : "Ref A: 8B0A72348D534BB6B4A15E804FEB383D Ref B: WSTEDGE0605 Ref C: 2022-06-22T23:49:49Z"
+        }
+      },
       "request" : {
         "headers" : {
-          "Content-Type" : "application\/json",
-          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.5.0; xctest:13.3 -> iOS 9.0; en_US)"
+          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.5.0; xctest:13.3 -> iOS 9.0; en_US)",
+          "Content-Type" : "application\/json"
         },
         "method" : "POST",
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
         "body" : {
           "clientDescription" : {
             "templateKey" : "AcsIos.AcsNotify_Chat_3.0",
@@ -31,46 +43,34 @@
           },
           "registrationId" : "0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
           "nodeId" : ""
-        }
+        },
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations"
       },
-      "recorded_at" : 1655161285.703546,
-      "response" : {
-        "status" : 202,
-        "body" : "",
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
-        "headers" : {
-          "x-content-type-options" : "nosniff",
-          "x-cache" : "CONFIG_NOCACHE",
-          "ms-cv" : "+VqsXEEbh0euMV18s+j7ag.0",
-          "x-msedge-ref" : "Ref A: FDDE21D3C49C46E29A09490750EAB99D Ref B: CO1EDGE1914 Ref C: 2022-06-13T23:01:25Z",
-          "Content-Length" : "0",
-          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains"
-        }
-      }
+      "recorded_at" : 1655941789.207058
     },
     {
       "request" : {
-        "method" : "DELETE",
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations\/0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
         "headers" : {
-          "Content-Type" : "application\/json",
-          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.5.0; xctest:13.3 -> iOS 9.0; en_US)"
-        }
-      },
-      "response" : {
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations\/0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
-        "headers" : {
-          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
-          "ms-cv" : "2TxhREpO50KCoUH6p5hs3A.0",
-          "x-content-type-options" : "nosniff",
-          "Content-Length" : "0",
-          "x-cache" : "CONFIG_NOCACHE",
-          "x-msedge-ref" : "Ref A: 6E1433D224104B76A37277485E99F046 Ref B: CO1EDGE1914 Ref C: 2022-06-13T23:01:25Z"
+          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.5.0; xctest:13.3 -> iOS 9.0; en_US)",
+          "Content-Type" : "application\/json"
         },
-        "status" : 202,
-        "body" : ""
+        "method" : "DELETE",
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations\/0E0F0BE0-0000-00C0-B000-A00A00E00BD0"
       },
-      "recorded_at" : 1655161286.1120172
+      "recorded_at" : 1655941789.5462551,
+      "response" : {
+        "headers" : {
+          "x-cache" : "CONFIG_NOCACHE",
+          "x-msedge-ref" : "Ref A: FC657A869610406BA98F4C06111C21FF Ref B: WSTEDGE0605 Ref C: 2022-06-22T23:49:49Z",
+          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
+          "Content-Length" : "0",
+          "ms-cv" : "kW98raWjy0Oi+ioY+ZHz4Q.0",
+          "x-content-type-options" : "nosniff"
+        },
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations\/0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
+        "body" : "",
+        "status" : 202
+      }
     }
   ]
 }

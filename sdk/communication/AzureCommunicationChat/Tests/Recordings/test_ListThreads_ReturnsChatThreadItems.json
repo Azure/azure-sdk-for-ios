@@ -1,83 +1,83 @@
 {
   "interactions" : [
     {
-      "recorded_at" : 1655159406.6362271,
-      "response" : {
-        "status" : 201,
-        "headers" : {
-          "Location" : "https:\/\/acs-gnygqibv4wh32.communication.azure.com\/chat\/threads\/19%3At1rIWW-rtLGV1KtRBaD38NvDTDk2KVAuVJwkEp8jtcU1@thread.v2",
-          "x-processing-time" : "615ms",
-          "Content-Type" : "application\/json; charset=utf-8",
-          "ms-cv" : "JIlcXEDOykmINC66zlwfLA.0",
-          "x-azure-ref" : "0brqnYgAAAAASxFU7Wi7pToekW49MVnVtV1NURURHRTA4MjAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
-          "api-supported-versions" : "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7",
-          "Strict-Transport-Security" : "max-age=2592000",
-          "x-cache" : "CONFIG_NOCACHE"
-        },
-        "body" : {
-          "chatThread" : {
-            "id" : "19:t1rIWW-rtLGV1KtRBaD38NvDTDk2KVAuVJwkEp8jtcU1@thread.v2",
-            "createdOn" : "2022-06-13T22:30:06Z",
-            "topic" : "Test list threads",
-            "createdByCommunicationIdentifier" : {
-              "rawId" : "8:acs:3405be52-6168-4802-b23f-29d01d602d0c_00000011-ff09-0278-35f3-343a0d006fe2",
-              "communicationUser" : {
-                "id" : "8:acs:3405be52-6168-4802-b23f-29d01d602d0c_00000011-ff09-0278-35f3-343a0d006fe2"
-              }
-            }
-          }
-        },
-        "url" : "https:\/\/acs-gnygqibv4wh32.communication.azure.com\/chat\/threads?api-version=2021-09-07"
-      },
       "request" : {
-        "headers" : {
-          "Accept" : "application\/json",
-          "Content-Type" : "application\/json",
-          "repeatability-request-id" : "033B70EE-C2B7-42A3-A568-AA825F0656D0",
-          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.5.0; xctest:13.3 -> iOS 9.0; en_US)"
-        },
         "url" : "https:\/\/endpoint\/chat\/threads?",
+        "method" : "POST",
         "body" : {
           "topic" : "Test list threads"
         },
-        "method" : "POST"
-      }
-    },
-    {
-      "recorded_at" : 1655159406.7769818,
-      "request" : {
-        "url" : "https:\/\/endpoint\/chat\/threads?",
-        "method" : "GET",
         "headers" : {
+          "Content-Type" : "application\/json",
           "Accept" : "application\/json",
+          "repeatability-request-id" : "26FDF2DA-B90D-47B9-8DC6-721FDC8CC79C",
           "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.5.0; xctest:13.3 -> iOS 9.0; en_US)"
         }
       },
       "response" : {
-        "status" : 200,
-        "headers" : {
-          "x-cache" : "CONFIG_NOCACHE",
-          "api-supported-versions" : "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7",
-          "Content-Type" : "application\/json; charset=utf-8",
-          "ms-cv" : "nE6diyzN9UKSLrtx4zppkQ.0",
-          "Strict-Transport-Security" : "max-age=2592000",
-          "x-processing-time" : "100ms",
-          "x-azure-ref" : "0brqnYgAAAAANztyURV7pQ6EBwWNOQ9OuV1NURURHRTA4MjAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx"
+        "status" : 201,
+        "body" : {
+          "chatThread" : {
+            "id" : "19:mRr2wSQNwjRTrowM_99QTDQ9iOYGICn4bPd7FICptNk1@thread.v2",
+            "createdOn" : "2022-06-22T23:52:51Z",
+            "topic" : "Test list threads",
+            "createdByCommunicationIdentifier" : {
+              "rawId" : "8:acs:ea540261-2583-407b-826d-b9f37ce88209_00000012-2daf-721e-99c6-593a0d00c2aa",
+              "communicationUser" : {
+                "id" : "8:acs:ea540261-2583-407b-826d-b9f37ce88209_00000012-2daf-721e-99c6-593a0d00c2aa"
+              }
+            }
+          }
         },
         "url" : "https:\/\/acs-gnygqibv4wh32.communication.azure.com\/chat\/threads?api-version=2021-09-07",
+        "headers" : {
+          "x-azure-ref" : "0U6uzYgAAAACkrnj5xpW0SqN9fyn+C1XQV1NURURHRTA4MTMAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+          "Content-Type" : "application\/json; charset=utf-8",
+          "Location" : "https:\/\/acs-gnygqibv4wh32.communication.azure.com\/chat\/threads\/19%3AmRr2wSQNwjRTrowM_99QTDQ9iOYGICn4bPd7FICptNk1@thread.v2",
+          "ms-cv" : "584A1pWEckCCrlUiwBNrYg.0",
+          "x-cache" : "CONFIG_NOCACHE",
+          "x-processing-time" : "435ms",
+          "Strict-Transport-Security" : "max-age=2592000",
+          "api-supported-versions" : "2021-03-07, 2021-04-05-preview6, 2021-09-07"
+        }
+      },
+      "recorded_at" : 1655941972.115072
+    },
+    {
+      "response" : {
+        "status" : 200,
+        "url" : "https:\/\/acs-gnygqibv4wh32.communication.azure.com\/chat\/threads?api-version=2021-09-07",
+        "headers" : {
+          "x-processing-time" : "60ms",
+          "Strict-Transport-Security" : "max-age=2592000",
+          "x-azure-ref" : "0VKuzYgAAAABPXSfVw1fHTqDGsIe4bhUgV1NURURHRTA4MTMAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+          "ms-cv" : "ZCHCbsRThUmOdw2BtJLe0Q.0",
+          "api-supported-versions" : "2021-03-07, 2021-04-05-preview6, 2021-09-07",
+          "Content-Type" : "application\/json; charset=utf-8",
+          "x-cache" : "CONFIG_NOCACHE"
+        },
         "body" : {
           "value" : [
             {
-              "id" : "19:t1rIWW-rtLGV1KtRBaD38NvDTDk2KVAuVJwkEp8jtcU1@thread.v2",
+              "id" : "19:mRr2wSQNwjRTrowM_99QTDQ9iOYGICn4bPd7FICptNk1@thread.v2",
               "topic" : "Test list threads",
-              "lastMessageReceivedOn" : "2022-06-13T22:30:06Z"
+              "lastMessageReceivedOn" : "2022-06-22T23:52:51Z"
             },
             {
-              "id" : "19:IqBOp2cIJc4uohvabcMZR0ARm1XwyrFQO3ygc29uhlo1@thread.v2",
+              "id" : "19:dT7QpTVxJ2khOTDORKvmmLQBl6dXHyYv-O8HPux0ESc1@thread.v2",
               "topic" : "Test topic",
-              "lastMessageReceivedOn" : "2022-06-13T22:30:05Z"
+              "lastMessageReceivedOn" : "2022-06-22T23:52:51Z"
             }
           ]
+        }
+      },
+      "recorded_at" : 1655941972.213721,
+      "request" : {
+        "method" : "GET",
+        "url" : "https:\/\/endpoint\/chat\/threads?",
+        "headers" : {
+          "Accept" : "application\/json",
+          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.5.0; xctest:13.3 -> iOS 9.0; en_US)"
         }
       }
     }

@@ -1,48 +1,48 @@
 {
+  "name" : "test_CreateThread_WithoutParticipants",
   "interactions" : [
     {
+      "response" : {
+        "body" : {
+          "chatThread" : {
+            "id" : "19:dT7QpTVxJ2khOTDORKvmmLQBl6dXHyYv-O8HPux0ESc1@thread.v2",
+            "createdOn" : "2022-06-22T23:52:51Z",
+            "topic" : "Test topic",
+            "createdByCommunicationIdentifier" : {
+              "rawId" : "8:acs:ea540261-2583-407b-826d-b9f37ce88209_00000012-2daf-721e-99c6-593a0d00c2aa",
+              "communicationUser" : {
+                "id" : "8:acs:ea540261-2583-407b-826d-b9f37ce88209_00000012-2daf-721e-99c6-593a0d00c2aa"
+              }
+            }
+          }
+        },
+        "url" : "https:\/\/acs-gnygqibv4wh32.communication.azure.com\/chat\/threads?api-version=2021-09-07",
+        "status" : 201,
+        "headers" : {
+          "x-azure-ref" : "0U6uzYgAAAAAcKI8CN6iIS4kiXM6FIwW1V1NURURHRTA4MTMAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+          "api-supported-versions" : "2021-03-07, 2021-04-05-preview6, 2021-09-07",
+          "x-cache" : "CONFIG_NOCACHE",
+          "ms-cv" : "oBPc\/pKVLkWR3qi1\/X41WQ.0",
+          "Content-Type" : "application\/json; charset=utf-8",
+          "Strict-Transport-Security" : "max-age=2592000",
+          "x-processing-time" : "457ms",
+          "Location" : "https:\/\/acs-gnygqibv4wh32.communication.azure.com\/chat\/threads\/19%3AdT7QpTVxJ2khOTDORKvmmLQBl6dXHyYv-O8HPux0ESc1@thread.v2"
+        }
+      },
       "request" : {
-        "method" : "POST",
         "body" : {
           "topic" : "Test topic"
         },
         "url" : "https:\/\/endpoint\/chat\/threads?",
         "headers" : {
-          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.5.0; xctest:13.3 -> iOS 9.0; en_US)",
-          "Content-Type" : "application\/json",
           "Accept" : "application\/json",
-          "repeatability-request-id" : "1F47741B-E90D-4E43-A0A4-4E482C805FDB"
-        }
-      },
-      "response" : {
-        "headers" : {
-          "Location" : "https:\/\/acs-gnygqibv4wh32.communication.azure.com\/chat\/threads\/19%3AIqBOp2cIJc4uohvabcMZR0ARm1XwyrFQO3ygc29uhlo1@thread.v2",
-          "api-supported-versions" : "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7",
-          "x-processing-time" : "563ms",
-          "x-azure-ref" : "0bbqnYgAAAADkq98djHIxQKGmbdroUxSEV1NURURHRTA4MjAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
-          "ms-cv" : "Q7ul\/2EVkEmbRCp86a3c7g.0",
-          "Content-Type" : "application\/json; charset=utf-8",
-          "x-cache" : "CONFIG_NOCACHE",
-          "Strict-Transport-Security" : "max-age=2592000"
+          "Content-Type" : "application\/json",
+          "repeatability-request-id" : "094AF1A8-C63D-49C6-A62F-79EE24F5AAFF",
+          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.5.0; xctest:13.3 -> iOS 9.0; en_US)"
         },
-        "status" : 201,
-        "body" : {
-          "chatThread" : {
-            "id" : "19:IqBOp2cIJc4uohvabcMZR0ARm1XwyrFQO3ygc29uhlo1@thread.v2",
-            "createdOn" : "2022-06-13T22:30:05Z",
-            "topic" : "Test topic",
-            "createdByCommunicationIdentifier" : {
-              "rawId" : "8:acs:3405be52-6168-4802-b23f-29d01d602d0c_00000011-ff09-0278-35f3-343a0d006fe2",
-              "communicationUser" : {
-                "id" : "8:acs:3405be52-6168-4802-b23f-29d01d602d0c_00000011-ff09-0278-35f3-343a0d006fe2"
-              }
-            }
-          }
-        },
-        "url" : "https:\/\/acs-gnygqibv4wh32.communication.azure.com\/chat\/threads?api-version=2021-09-07"
+        "method" : "POST"
       },
-      "recorded_at" : 1655159405.9534101
+      "recorded_at" : 1655941971.622401
     }
-  ],
-  "name" : "test_CreateThread_WithoutParticipants"
+  ]
 }
