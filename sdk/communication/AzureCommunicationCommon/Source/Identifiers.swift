@@ -32,7 +32,63 @@ import Foundation
  */
 @objc public protocol CommunicationIdentifier: NSObjectProtocol {
     var rawId: String { get }
+//    static func createCommunicationIdentifier(from rawId: String) -> CommunicationIdentifier // is this a nice to have
+    init?(with rawid: String) // first choice
 }
+
+/*extension CommunicationIdentifier {
+    @objc public static func createCommunicationIdentifier(from rawId: String) -> CommunicationIdentifier {
+        let phoneNumberPrefix = "4:"
+        let teamUserAnonymousPrefix = "8:teamsvisitor:"
+        let teamUserPublicCloudPrefix = "8:orgid:"
+        let teamUserDODCloudPrefix = "8:dod:"
+        let teamUserGCCHCloudPrefix = "8:gcch:"
+        let acsUser = "8:acs:"
+        let spoolUser = "8:spool:"
+        let dodAcsUser = "8:dod-acs:"
+        let gcchAcsUser = "8:gcch-acs:"
+
+        if rawId.hasPrefix(phoneNumberPrefix) {
+            let phoneNumber = "+" + rawId.dropFirst(phoneNumberPrefix.count)
+            return PhoneNumberIdentifier(phoneNumber: phoneNumber, rawId: rawId)
+        }
+        let segments = rawId.split(separator: ":")
+        if segments.count < 3 {
+            return UnknownIdentifier(rawId)
+        }
+        let scope = segments[0] + ":" + segments[1] + ":"
+        let suffix = String(rawId.dropFirst(scope.count))
+        switch scope {
+        case teamUserAnonymousPrefix:
+            return MicrosoftTeamsUserIdentifier(userId: suffix, isAnonymous: true)
+        case teamUserPublicCloudPrefix:
+            return MicrosoftTeamsUserIdentifier(
+                userId: suffix,
+                isAnonymous: false,
+                rawId: rawId,
+                cloudEnvironment: .Public
+            )
+        case teamUserDODCloudPrefix:
+            return MicrosoftTeamsUserIdentifier(
+                userId: suffix,
+                isAnonymous: false,
+                rawId: rawId,
+                cloudEnvironment: .Dod
+            )
+        case teamUserGCCHCloudPrefix:
+            return MicrosoftTeamsUserIdentifier(
+                userId: suffix,
+                isAnonymous: false,
+                rawId: rawId,
+                cloudEnvironment: .Gcch
+            )
+        case acsUser, spoolUser, dodAcsUser, gcchAcsUser:
+            return CommunicationUserIdentifier(rawId)
+        default:
+            return UnknownIdentifier(rawId)
+        }
+    }
+}*/
 
 /**
  Communication identifier for Communication Services Users
@@ -47,6 +103,27 @@ import Foundation
     @objc(initWithIdentifier:)
     public init(_ identifier: String) {
         self.identifier = identifier
+    }
+    
+    required public init?(with rawId: String) {
+        let acsUser = "8:acs:"
+        let spoolUser = "8:spool:"
+        let dodAcsUser = "8:dod-acs:"
+        let gcchAcsUser = "8:gcch-acs:"
+        
+        let segments = rawId.split(separator: ":")
+        if segments.count < 3 {
+            return nil
+        }
+        let scope = segments[0] + ":" + segments[1] + ":"
+
+        switch scope {
+        case acsUser, spoolUser, dodAcsUser, gcchAcsUser:
+            self.identifier = rawId
+        default:
+            return nil
+        }
+        
     }
 }
 
@@ -63,6 +140,10 @@ import Foundation
     @objc(initWithIdentifier:)
     public init(_ identifier: String) {
         self.identifier = identifier
+    }
+    
+    required public init?(with rawId: String) {
+        self.identifier = rawId
     }
 }
 
@@ -88,6 +169,16 @@ import Foundation
         }
     }
 
+    required public init?(with rawId: String) {
+        if rawId.hasPrefix("4:") {
+            let phoneNumber = "+" + rawId.dropFirst(2)
+            self.phoneNumber = phoneNumber
+            self.rawId = rawId
+        } else {
+            return nil
+        }
+    }
+    
     /**
      Returns a Boolean value indicating whether two values are equal.
         Note: In Objective-C favor isEqual() method
@@ -173,6 +264,44 @@ import Foundation
         self.init(userId: userId, isAnonymous: isAnonymous, rawId: nil, cloudEnvironment: .Public)
     }
 
+    required public init?(with rawId: String) {
+        let teamUserAnonymousPrefix = "8:teamsvisitor:"
+        let teamUserPublicCloudPrefix = "8:orgid:"
+        let teamUserDODCloudPrefix = "8:dod:"
+        let teamUserGCCHCloudPrefix = "8:gcch:"
+
+        let segments = rawId.split(separator: ":")
+        if segments.count < 3 {
+            return nil
+        }
+        let scope = segments[0] + ":" + segments[1] + ":"
+        let suffix = String(rawId.dropFirst(scope.count))
+        switch scope {
+        case teamUserAnonymousPrefix:
+            self.userId = suffix
+            self.isAnonymous = true
+            self.rawId = rawId
+            self.cloudEnviroment = .Public
+        case teamUserPublicCloudPrefix:
+            self.userId = suffix
+            self.isAnonymous = false
+            self.rawId = rawId
+            self.cloudEnviroment = .Public
+        case teamUserDODCloudPrefix:
+            self.userId = suffix
+            self.isAnonymous = false
+            self.rawId = rawId
+            self.cloudEnviroment = .Dod
+        case teamUserGCCHCloudPrefix:
+            self.userId = suffix
+            self.isAnonymous = false
+            self.rawId = rawId
+            self.cloudEnviroment = .Gcch
+        default:
+            return nil
+        }
+    }
+    
     /**
      Returns a Boolean value indicating whether two values are equal.
         Note: In Objective-C favor isEqual() method
