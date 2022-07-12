@@ -2,8 +2,9 @@
 
 ## 1.1.0 (upcoming)
 ### New Features
-- Introduce new `CommunicationIdentifierHelper` to create `CommunicationIdentifier` based on rawIds
-- Introduce new `rawId` getter property in the `CommunicationIdentifier` protocol 
+- Introduce new `createCommunicationIdentifier(from: )` to translate between a CommunicationIdentifier and its underlying canonical rawId representation. Developers can now use the rawId as an encoded format for identifiers to store in their databases or as stable keys in general.
+- Introduce new `rawId` getter property in the `CommunicationIdentifier` protocol to return rawId representation.
+- Introduce new `kind` getter property in the `CommunicationIdentifier` protocol to return string representation of the kind of identifer developers are woking with. 
 
 ### Key Bug Fixes 
 - `PhoneNumberIdentifier` no longer allows the `rawId` to not correspond with the phone number
