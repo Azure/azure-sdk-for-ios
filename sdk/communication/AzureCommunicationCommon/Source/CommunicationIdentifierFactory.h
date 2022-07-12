@@ -24,7 +24,12 @@
 //
 // --------------------------------------------------------------------------
 
-import AzureCommunicationCommon
-import XCTest
+#ifndef CommunicationIdentifierFactory_h
+#define CommunicationIdentifierFactory_h
+@class CommunicationIdentifier;
 
-class CommunicationIdentifierTests: XCTestCase {}
+@interface CommunicationIdentifierFactory : NSObject
++ (id<CommunicationIdentifier>)createCommunicationIdentifier: (NSString *) rawId;
+@end
+
+#endif /* CommunicationIdentifierFactory_h */

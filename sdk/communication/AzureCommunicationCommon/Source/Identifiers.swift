@@ -26,6 +26,18 @@
 
 import Foundation
 
+@objcMembers public class IdentifierKind: NSObject {
+    private var kindValue: String
+    public static let CommunicationUser = IdentifierKind(kindValue: "communicationUser")
+    public static let PhoneNumber = IdentifierKind(kindValue: "PhoneNumber")
+    public static let MicrosoftTeamsUser = IdentifierKind(kindValue: "MicrosoftTeamsUser")
+    public static let Unknown = IdentifierKind(kindValue: "Unknown")
+
+    public init(kindValue: String) {
+        self.kindValue = kindValue
+    }
+}
+
 /**
  Common Communication Identifier protocol for all Azure Communication Services.
  All Communication Identifiers conform to this protocol.
@@ -33,13 +45,6 @@ import Foundation
 @objc public protocol CommunicationIdentifier: NSObjectProtocol {
     var rawId: String { get }
     var kind: IdentifierKind { get }
-}
-
-@objc public enum IdentifierKind: Int {
-    case communicationUser
-    case phoneNumber
-    case microsoftTeamsUser
-    case unknown
 }
 
 public func createCommunicationIdentifier(from rawId: String) -> CommunicationIdentifier {
@@ -98,7 +103,7 @@ public func createCommunicationIdentifier(from rawId: String) -> CommunicationId
  */
 @objcMembers public class CommunicationUserIdentifier: NSObject, CommunicationIdentifier {
     public var rawId: String { return identifier }
-    public var kind: IdentifierKind { return .communicationUser }
+    public var kind: IdentifierKind { return .CommunicationUser }
     public let identifier: String
     /**
      Creates a CommunicationUserIdentifier object
@@ -115,7 +120,7 @@ public func createCommunicationIdentifier(from rawId: String) -> CommunicationId
  */
 @objcMembers public class UnknownIdentifier: NSObject, CommunicationIdentifier {
     public var rawId: String { return identifier }
-    public var kind: IdentifierKind { return .unknown }
+    public var kind: IdentifierKind { return .Unknown }
     public let identifier: String
     /**
      Creates a UnknownIdentifier object
@@ -133,7 +138,7 @@ public func createCommunicationIdentifier(from rawId: String) -> CommunicationId
 @objcMembers public class PhoneNumberIdentifier: NSObject, CommunicationIdentifier {
     public let phoneNumber: String
     public private(set) var rawId: String
-    public var kind: IdentifierKind { return .phoneNumber }
+    public var kind: IdentifierKind { return .PhoneNumber }
 
     /**
      Creates a PhoneNumberIdentifier object
@@ -182,7 +187,7 @@ public func createCommunicationIdentifier(from rawId: String) -> CommunicationId
     public let userId: String
     public let isAnonymous: Bool
     public private(set) var rawId: String
-    public var kind: IdentifierKind { return .microsoftTeamsUser }
+    public var kind: IdentifierKind { return .MicrosoftTeamsUser }
     public let cloudEnviroment: CommunicationCloudEnvironment
 
     /**
