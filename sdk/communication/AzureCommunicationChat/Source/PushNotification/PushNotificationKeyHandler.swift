@@ -27,13 +27,13 @@
 import AzureCore
 import Foundation
 
-public protocol ChatClientPushNotificationProtocol: AnyObject {
+public protocol PushNotificationKeyHandler: AnyObject {
     func onPersistKey(_ encryptionKey: String, expiryTime: Date)
 
     func onRetrieveKeys() -> [String]?
 }
 
-extension ChatClientPushNotificationProtocol {
+extension PushNotificationKeyHandler {
     /// Handle the data payload for an incoming push notification.
     /// - Parameters:
     ///   - notification: The APNS push notification payload ( including "aps" and "data" )
@@ -62,7 +62,7 @@ extension ChatClientPushNotificationProtocol {
                     )
             }
 
-            // 3.Delegate "getKeys" behaviour
+            // 3.get keys for decryption
             guard let encryptionKeys = onRetrieveKeys(),
                   encryptionKeys.count > 0
             else {

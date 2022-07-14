@@ -1,25 +1,23 @@
 {
-  "name" : "test_setRegistration_ReturnsSuccess",
   "interactions" : [
     {
+      "recorded_at" : 1657840983.3109112,
       "response" : {
-        "status" : 202,
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
         "headers" : {
-          "x-cache" : "CONFIG_NOCACHE",
-          "ms-cv" : "ftP08TXzKkartBGTWvMdOw.0",
-          "x-msedge-ref" : "Ref A: D7BF7EBAC36C455F9BBE78DDBEDBFCB3 Ref B: WSTEDGE0605 Ref C: 2022-06-22T23:49:49Z",
-          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
           "Content-Length" : "0",
-          "x-content-type-options" : "nosniff"
+          "x-content-type-options" : "nosniff",
+          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
+          "ms-cv" : "Ul3alAADsUGmv7KZDn7meg.0",
+          "x-cache" : "CONFIG_NOCACHE",
+          "x-msedge-ref" : "Ref A: DE1535629086440EB218A5B37A455452 Ref B: WSTEDGE1117 Ref C: 2022-07-14T23:23:03Z"
         },
-        "body" : ""
+        "body" : "",
+        "status" : 202,
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations"
       },
       "request" : {
-        "headers" : {
-          "Content-Type" : "application\/json",
-          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.5.0; xctest:13.3 -> iOS 9.0; en_US)"
-        },
+        "method" : "POST",
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
         "body" : {
           "clientDescription" : {
             "templateKey" : "AcsIos.AcsNotify_Chat_3.0",
@@ -43,10 +41,12 @@
           "registrationId" : "0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
           "nodeId" : ""
         },
-        "method" : "POST",
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations"
-      },
-      "recorded_at" : 1655941789.854255
+        "headers" : {
+          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.5.0; xctest:13.3 -> iOS 9.0; en_US)",
+          "Content-Type" : "application\/json"
+        }
+      }
     }
-  ]
+  ],
+  "name" : "test_setRegistration_ReturnsSuccess"
 }

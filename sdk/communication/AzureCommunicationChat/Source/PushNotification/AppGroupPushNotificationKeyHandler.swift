@@ -26,7 +26,7 @@
 
 import Foundation
 
-public class ChatClientAppGroupBased: ChatClientPushNotificationProtocol {
+public class AppGroupPushNotificationKeyHandler: PushNotificationKeyHandler {
     var sharedDefault: UserDefaults
     var keyTag: String
 

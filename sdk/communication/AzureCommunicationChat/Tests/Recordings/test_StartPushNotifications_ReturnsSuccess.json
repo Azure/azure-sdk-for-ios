@@ -2,20 +2,13 @@
   "name" : "test_StartPushNotifications_ReturnsSuccess",
   "interactions" : [
     {
-      "response" : {
+      "recorded_at" : 1657841120.1934609,
+      "request" : {
         "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
         "headers" : {
-          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
-          "x-cache" : "CONFIG_NOCACHE",
-          "ms-cv" : "htzl4Phph063QgowPASA2w.0",
-          "x-msedge-ref" : "Ref A: F681EF34ACB349F2AAE0F09F81C3A34A Ref B: WSTEDGE0622 Ref C: 2022-06-22T23:52:52Z",
-          "x-content-type-options" : "nosniff",
-          "Content-Length" : "0"
+          "Content-Type" : "application\/json",
+          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.5.0; xctest:13.3 -> iOS 9.0; en_US)"
         },
-        "status" : 202,
-        "body" : ""
-      },
-      "request" : {
         "method" : "POST",
         "body" : {
           "clientDescription" : {
@@ -39,14 +32,21 @@
           },
           "registrationId" : "0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
           "nodeId" : ""
-        },
-        "headers" : {
-          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.5.0; xctest:13.3 -> iOS 9.0; en_US)",
-          "Content-Type" : "application\/json"
-        },
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations"
+        }
       },
-      "recorded_at" : 1655941972.709296
+      "response" : {
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
+        "status" : 202,
+        "body" : "",
+        "headers" : {
+          "ms-cv" : "p7kUc7MrHk2q+JSPy0tJhA.0",
+          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
+          "x-content-type-options" : "nosniff",
+          "Content-Length" : "0",
+          "x-msedge-ref" : "Ref A: CEA3D44CDADB447593259EBC4BAFEE29 Ref B: WSTEDGE0720 Ref C: 2022-07-14T23:25:19Z",
+          "x-cache" : "CONFIG_NOCACHE"
+        }
+      }
     }
   ]
 }
