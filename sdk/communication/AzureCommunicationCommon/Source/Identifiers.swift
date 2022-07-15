@@ -28,10 +28,10 @@ import Foundation
 
 @objcMembers public class IdentifierKind: NSObject {
     private var kindValue: String
-    public static let CommunicationUser = IdentifierKind(kindValue: "communicationUser")
-    public static let PhoneNumber = IdentifierKind(kindValue: "PhoneNumber")
-    public static let MicrosoftTeamsUser = IdentifierKind(kindValue: "MicrosoftTeamsUser")
-    public static let Unknown = IdentifierKind(kindValue: "Unknown")
+    public static let communicationUser = IdentifierKind(kindValue: "communicationUser")
+    public static let phoneNumber = IdentifierKind(kindValue: "PhoneNumber")
+    public static let microsoftTeamsUser = IdentifierKind(kindValue: "MicrosoftTeamsUser")
+    public static let unknown = IdentifierKind(kindValue: "Unknown")
 
     public init(kindValue: String) {
         self.kindValue = kindValue
@@ -103,7 +103,7 @@ public func createCommunicationIdentifier(from rawId: String) -> CommunicationId
  */
 @objcMembers public class CommunicationUserIdentifier: NSObject, CommunicationIdentifier {
     public var rawId: String { return identifier }
-    public var kind: IdentifierKind { return .CommunicationUser }
+    public var kind: IdentifierKind { return .communicationUser }
     public let identifier: String
     /**
      Creates a CommunicationUserIdentifier object
@@ -120,7 +120,7 @@ public func createCommunicationIdentifier(from rawId: String) -> CommunicationId
  */
 @objcMembers public class UnknownIdentifier: NSObject, CommunicationIdentifier {
     public var rawId: String { return identifier }
-    public var kind: IdentifierKind { return .Unknown }
+    public var kind: IdentifierKind { return .unknown }
     public let identifier: String
     /**
      Creates a UnknownIdentifier object
@@ -138,7 +138,7 @@ public func createCommunicationIdentifier(from rawId: String) -> CommunicationId
 @objcMembers public class PhoneNumberIdentifier: NSObject, CommunicationIdentifier {
     public let phoneNumber: String
     public private(set) var rawId: String
-    public var kind: IdentifierKind { return .PhoneNumber }
+    public var kind: IdentifierKind { return .phoneNumber }
 
     /**
      Creates a PhoneNumberIdentifier object
@@ -187,7 +187,7 @@ public func createCommunicationIdentifier(from rawId: String) -> CommunicationId
     public let userId: String
     public let isAnonymous: Bool
     public private(set) var rawId: String
-    public var kind: IdentifierKind { return .MicrosoftTeamsUser }
+    public var kind: IdentifierKind { return .microsoftTeamsUser }
     public let cloudEnviroment: CommunicationCloudEnvironment
 
     /**

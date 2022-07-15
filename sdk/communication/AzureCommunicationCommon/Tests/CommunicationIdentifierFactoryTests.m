@@ -35,12 +35,12 @@
 - (void)test_createUnknownIdentifier {
     id<CommunicationIdentifier> identifier = [CommunicationIdentifierFactory createCommunicationIdentifier:@"37691ec4-57fb-4c0f-ae31-32791610cb14"];
     XCTAssertTrue([identifier isKindOfClass:UnknownIdentifier.class]);
-    XCTAssertEqual(identifier.kind, IdentifierKind.Unknown);
+    XCTAssertEqual(identifier.kind, IdentifierKind.unknown);
     XCTAssertEqual(identifier.rawId, @"37691ec4-57fb-4c0f-ae31-32791610cb14");
     
     identifier = [CommunicationIdentifierFactory createCommunicationIdentifier:@"48:37691ec4-57fb-4c0f-ae31-32791610cb14"];
     XCTAssertTrue([identifier isKindOfClass:UnknownIdentifier.class]);
-    XCTAssertEqual(identifier.kind, IdentifierKind.Unknown);
+    XCTAssertEqual(identifier.kind, IdentifierKind.unknown);
     XCTAssertEqual(identifier.rawId, @"48:37691ec4-57fb-4c0f-ae31-32791610cb14");
 }
 
@@ -48,7 +48,7 @@
     NSString *phoneNumberRawId = @"4:12345556789";
     id<CommunicationIdentifier> identifier = [CommunicationIdentifierFactory createCommunicationIdentifier:phoneNumberRawId];
     XCTAssertTrue([identifier isKindOfClass:PhoneNumberIdentifier.class]);
-    XCTAssertEqual(identifier.kind, IdentifierKind.PhoneNumber);
+    XCTAssertEqual(identifier.kind, IdentifierKind.phoneNumber);
     XCTAssertEqual(identifier.rawId, phoneNumberRawId);
     XCTAssertEqualObjects(((PhoneNumberIdentifier *)identifier).phoneNumber, @"+12345556789");
 }
@@ -57,28 +57,28 @@
     NSString *acsRawId = @"8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14";
     id<CommunicationIdentifier> identifier = [CommunicationIdentifierFactory createCommunicationIdentifier:acsRawId];
     XCTAssertTrue([identifier isKindOfClass:CommunicationUserIdentifier.class]);
-    XCTAssertEqual(identifier.kind, IdentifierKind.CommunicationUser);
+    XCTAssertEqual(identifier.kind, IdentifierKind.communicationUser);
     XCTAssertEqualObjects(identifier.rawId, acsRawId);
     XCTAssertEqualObjects(((CommunicationUserIdentifier *)identifier).identifier, acsRawId);
     
     NSString *spoolRawId = @"8:spool:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14";
     identifier = [CommunicationIdentifierFactory createCommunicationIdentifier:spoolRawId];
     XCTAssertTrue([identifier isKindOfClass:CommunicationUserIdentifier.class]);
-    XCTAssertEqual(identifier.kind, IdentifierKind.CommunicationUser);
+    XCTAssertEqual(identifier.kind, IdentifierKind.communicationUser);
     XCTAssertEqualObjects(identifier.rawId, spoolRawId);
     XCTAssertEqualObjects(((CommunicationUserIdentifier *)identifier).identifier, spoolRawId);
     
     NSString* dodAcsRawId = @"8:dod-acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14";
     identifier = [CommunicationIdentifierFactory createCommunicationIdentifier:dodAcsRawId];
     XCTAssertTrue([identifier isKindOfClass:CommunicationUserIdentifier.class]);
-    XCTAssertEqual(identifier.kind, IdentifierKind.CommunicationUser);
+    XCTAssertEqual(identifier.kind, IdentifierKind.communicationUser);
     XCTAssertEqualObjects(identifier.rawId, dodAcsRawId);
     XCTAssertEqualObjects(((CommunicationUserIdentifier *)identifier).identifier, dodAcsRawId);
     
     NSString* gcchAcsRawId = @"8:gcch-acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14";
     identifier = [CommunicationIdentifierFactory createCommunicationIdentifier:gcchAcsRawId];
     XCTAssertTrue([identifier isKindOfClass:CommunicationUserIdentifier.class]);
-    XCTAssertEqual(identifier.kind, IdentifierKind.CommunicationUser);
+    XCTAssertEqual(identifier.kind, IdentifierKind.communicationUser);
     XCTAssertEqualObjects(identifier.rawId, gcchAcsRawId);
     XCTAssertEqualObjects(((CommunicationUserIdentifier *)identifier).identifier, gcchAcsRawId);
 }
@@ -87,7 +87,7 @@
     NSString *teamUserAnonymousScope = @"8:teamsvisitor:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14";
     id<CommunicationIdentifier> identifier = [CommunicationIdentifierFactory createCommunicationIdentifier:teamUserAnonymousScope];
     XCTAssertTrue([identifier isKindOfClass:MicrosoftTeamsUserIdentifier.class]);
-    XCTAssertEqual(identifier.kind, IdentifierKind.MicrosoftTeamsUser);
+    XCTAssertEqual(identifier.kind, IdentifierKind.microsoftTeamsUser);
     XCTAssertEqualObjects(identifier.rawId, teamUserAnonymousScope);
     XCTAssertEqualObjects(((MicrosoftTeamsUserIdentifier *)identifier).userId, @"37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14");
     XCTAssertTrue(((MicrosoftTeamsUserIdentifier *)identifier).isAnonymous);
@@ -98,7 +98,7 @@
     NSString *teamUserPublicCloudScope = @"8:orgid:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14";
     id<CommunicationIdentifier> identifier = [CommunicationIdentifierFactory createCommunicationIdentifier:teamUserPublicCloudScope];
     XCTAssertTrue([identifier isKindOfClass:MicrosoftTeamsUserIdentifier.class]);
-    XCTAssertEqual(identifier.kind, IdentifierKind.MicrosoftTeamsUser);
+    XCTAssertEqual(identifier.kind, IdentifierKind.microsoftTeamsUser);
     XCTAssertEqualObjects(identifier.rawId, teamUserPublicCloudScope);
     XCTAssertEqualObjects(((MicrosoftTeamsUserIdentifier *)identifier).userId, @"37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14");
     XCTAssertFalse(((MicrosoftTeamsUserIdentifier *)identifier).isAnonymous);
@@ -109,7 +109,7 @@
     NSString *teamUserDODCloudScope = @"8:dod:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14";
     id<CommunicationIdentifier> identifier = [CommunicationIdentifierFactory createCommunicationIdentifier:teamUserDODCloudScope];
     XCTAssertTrue([identifier isKindOfClass:MicrosoftTeamsUserIdentifier.class]);
-    XCTAssertEqual(identifier.kind, IdentifierKind.MicrosoftTeamsUser);
+    XCTAssertEqual(identifier.kind, IdentifierKind.microsoftTeamsUser);
     XCTAssertEqualObjects(identifier.rawId, teamUserDODCloudScope);
     XCTAssertEqualObjects(((MicrosoftTeamsUserIdentifier *)identifier).userId, @"37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14");
     XCTAssertFalse(((MicrosoftTeamsUserIdentifier *)identifier).isAnonymous);
@@ -120,7 +120,7 @@
     NSString *teamUserGCCHCloudScope = @"8:gcch:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14";
     id<CommunicationIdentifier> identifier = [CommunicationIdentifierFactory createCommunicationIdentifier:teamUserGCCHCloudScope];
     XCTAssertTrue([identifier isKindOfClass:MicrosoftTeamsUserIdentifier.class]);
-    XCTAssertEqual(identifier.kind, IdentifierKind.MicrosoftTeamsUser);
+    XCTAssertEqual(identifier.kind, IdentifierKind.microsoftTeamsUser);
     XCTAssertEqualObjects(identifier.rawId, teamUserGCCHCloudScope);
     XCTAssertEqualObjects(((MicrosoftTeamsUserIdentifier *)identifier).userId, @"37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14");
     XCTAssertFalse(((MicrosoftTeamsUserIdentifier *)identifier).isAnonymous);
