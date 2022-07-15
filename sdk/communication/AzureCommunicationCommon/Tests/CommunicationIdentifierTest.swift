@@ -154,12 +154,12 @@ class CommunicationIdentifierTest: XCTestCase {
     // swiftlint:enable function_body_length
 
     func test_createUnknownIdentifier() {
-        var unknownIdentifier = createCommunicationIdentifier(from: "37691ec4-57fb-4c0f-ae31-32791610cb14")
+        var unknownIdentifier = createCommunicationIdentifier(fromRawId: "37691ec4-57fb-4c0f-ae31-32791610cb14")
         XCTAssertTrue(unknownIdentifier.isKind(of: UnknownIdentifier.self))
         XCTAssertEqual(unknownIdentifier.kind, .unknown)
         XCTAssertEqual(unknownIdentifier.rawId, "37691ec4-57fb-4c0f-ae31-32791610cb14")
 
-        unknownIdentifier = createCommunicationIdentifier(from: "48:37691ec4-57fb-4c0f-ae31-32791610cb14")
+        unknownIdentifier = createCommunicationIdentifier(fromRawId: "48:37691ec4-57fb-4c0f-ae31-32791610cb14")
         XCTAssertTrue(unknownIdentifier.isKind(of: UnknownIdentifier.self))
         XCTAssertEqual(unknownIdentifier.kind, .unknown)
         XCTAssertEqual(unknownIdentifier.rawId, "48:37691ec4-57fb-4c0f-ae31-32791610cb14")
@@ -167,7 +167,7 @@ class CommunicationIdentifierTest: XCTestCase {
 
     func test_createPhoneNumberIdentifier() {
         let phoneNumberRawId = "4:12345556789"
-        let phoneNumberIdentifier = createCommunicationIdentifier(from: phoneNumberRawId)
+        let phoneNumberIdentifier = createCommunicationIdentifier(fromRawId: phoneNumberRawId)
         XCTAssertTrue(phoneNumberIdentifier.isKind(of: PhoneNumberIdentifier.self))
         XCTAssertEqual(phoneNumberIdentifier.kind, .phoneNumber)
         XCTAssertEqual((phoneNumberIdentifier as? PhoneNumberIdentifier)?.rawId, phoneNumberRawId)
@@ -176,7 +176,7 @@ class CommunicationIdentifierTest: XCTestCase {
 
     func test_createCommunicationUserIdentifier() {
         let acsRawId = "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
-        var communicationUserIdentifier = createCommunicationIdentifier(from: acsRawId)
+        var communicationUserIdentifier = createCommunicationIdentifier(fromRawId: acsRawId)
         XCTAssertTrue(communicationUserIdentifier.isKind(of: CommunicationUserIdentifier.self))
         XCTAssertEqual(communicationUserIdentifier.kind, .communicationUser)
         XCTAssertEqual(communicationUserIdentifier.rawId, acsRawId)
@@ -185,7 +185,7 @@ class CommunicationIdentifierTest: XCTestCase {
         )
 
         let spoolRawId = "8:spool:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
-        communicationUserIdentifier = createCommunicationIdentifier(from: spoolRawId)
+        communicationUserIdentifier = createCommunicationIdentifier(fromRawId: spoolRawId)
         XCTAssertTrue(communicationUserIdentifier.isKind(of: CommunicationUserIdentifier.self))
         XCTAssertEqual(communicationUserIdentifier.kind, .communicationUser)
         XCTAssertEqual(communicationUserIdentifier.rawId, spoolRawId)
@@ -194,7 +194,7 @@ class CommunicationIdentifierTest: XCTestCase {
         )
 
         let dodAcsRawId = "8:dod-acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
-        communicationUserIdentifier = createCommunicationIdentifier(from: dodAcsRawId)
+        communicationUserIdentifier = createCommunicationIdentifier(fromRawId: dodAcsRawId)
         XCTAssertTrue(communicationUserIdentifier.isKind(of: CommunicationUserIdentifier.self))
         XCTAssertEqual(communicationUserIdentifier.kind, .communicationUser)
         XCTAssertEqual(communicationUserIdentifier.rawId, dodAcsRawId)
@@ -203,7 +203,7 @@ class CommunicationIdentifierTest: XCTestCase {
         )
 
         let gcchAcsRawId = "8:gcch-acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
-        communicationUserIdentifier = createCommunicationIdentifier(from: gcchAcsRawId)
+        communicationUserIdentifier = createCommunicationIdentifier(fromRawId: gcchAcsRawId)
         XCTAssertTrue(communicationUserIdentifier.isKind(of: CommunicationUserIdentifier.self))
         XCTAssertEqual(communicationUserIdentifier.kind, .communicationUser)
         XCTAssertEqual(communicationUserIdentifier.rawId, gcchAcsRawId)
@@ -215,7 +215,7 @@ class CommunicationIdentifierTest: XCTestCase {
     func test_createMicrosoftTeamsUserIdentifierAnonymousScope() {
         let teamUserAnonymousScope =
             "8:teamsvisitor:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
-        let teamUserIdentifier = createCommunicationIdentifier(from: teamUserAnonymousScope)
+        let teamUserIdentifier = createCommunicationIdentifier(fromRawId: teamUserAnonymousScope)
         XCTAssertTrue(teamUserIdentifier.isKind(of: MicrosoftTeamsUserIdentifier.self))
         XCTAssertEqual(teamUserIdentifier.kind, .microsoftTeamsUser)
         XCTAssertEqual(teamUserIdentifier.rawId, teamUserAnonymousScope)
@@ -234,7 +234,7 @@ class CommunicationIdentifierTest: XCTestCase {
     func test_createMicrosoftTeamsUserIdentifierPublicScope() {
         let teamUserPublicCloudScope =
             "8:orgid:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
-        let teamUserIdentifier = createCommunicationIdentifier(from: teamUserPublicCloudScope)
+        let teamUserIdentifier = createCommunicationIdentifier(fromRawId: teamUserPublicCloudScope)
         XCTAssertTrue(teamUserIdentifier.isKind(of: MicrosoftTeamsUserIdentifier.self))
         XCTAssertEqual(teamUserIdentifier.kind, .microsoftTeamsUser)
         XCTAssertEqual(teamUserIdentifier.rawId, teamUserPublicCloudScope)
@@ -252,7 +252,7 @@ class CommunicationIdentifierTest: XCTestCase {
 
     func test_createMicrosoftTeamsUserIdentifierDODScope() {
         let teamUserDODCloudScope = "8:dod:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
-        let teamUserIdentifier = createCommunicationIdentifier(from: teamUserDODCloudScope)
+        let teamUserIdentifier = createCommunicationIdentifier(fromRawId: teamUserDODCloudScope)
         XCTAssertTrue(teamUserIdentifier.isKind(of: MicrosoftTeamsUserIdentifier.self))
         XCTAssertEqual(teamUserIdentifier.kind, .microsoftTeamsUser)
         XCTAssertEqual(teamUserIdentifier.rawId, teamUserDODCloudScope)
@@ -270,7 +270,7 @@ class CommunicationIdentifierTest: XCTestCase {
 
     func test_createMicrosoftTeamsUserIdentifierGCCHScope() {
         let teamUserGCCHCloudScope = "8:gcch:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
-        let teamUserIdentifier = createCommunicationIdentifier(from: teamUserGCCHCloudScope)
+        let teamUserIdentifier = createCommunicationIdentifier(fromRawId: teamUserGCCHCloudScope)
 
         XCTAssertTrue(teamUserIdentifier.isKind(of: MicrosoftTeamsUserIdentifier.self))
         XCTAssertEqual(teamUserIdentifier.kind, .microsoftTeamsUser)

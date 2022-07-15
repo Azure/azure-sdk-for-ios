@@ -28,12 +28,12 @@ import Foundation
 
 @objcMembers public class IdentifierKind: NSObject {
     private var kindValue: String
-    public static let communicationUser = IdentifierKind(kindValue: "communicationUser")
-    public static let phoneNumber = IdentifierKind(kindValue: "PhoneNumber")
-    public static let microsoftTeamsUser = IdentifierKind(kindValue: "MicrosoftTeamsUser")
-    public static let unknown = IdentifierKind(kindValue: "Unknown")
+    public static let communicationUser = IdentifierKind("communicationUser")
+    public static let phoneNumber = IdentifierKind("PhoneNumber")
+    public static let microsoftTeamsUser = IdentifierKind("MicrosoftTeamsUser")
+    public static let unknown = IdentifierKind("Unknown")
 
-    public init(kindValue: String) {
+    public init(_ kindValue: String) {
         self.kindValue = kindValue
     }
 }
@@ -47,7 +47,7 @@ import Foundation
     var kind: IdentifierKind { get }
 }
 
-public func createCommunicationIdentifier(from rawId: String) -> CommunicationIdentifier {
+public func createCommunicationIdentifier(fromRawId rawId: String) -> CommunicationIdentifier {
     let phoneNumberPrefix = "4:"
     let teamUserAnonymousPrefix = "8:teamsvisitor:"
     let teamUserPublicCloudPrefix = "8:orgid:"
