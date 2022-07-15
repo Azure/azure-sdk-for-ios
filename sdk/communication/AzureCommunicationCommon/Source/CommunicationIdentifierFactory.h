@@ -29,7 +29,7 @@
 @class CommunicationIdentifier;
 
 @interface CommunicationIdentifierFactory : NSObject
-+ (id<CommunicationIdentifier>)createCommunicationIdentifier: (NSString *) rawId;
++ (id<CommunicationIdentifier>)createCommunicationIdentifier: (NSString *) rawId NS_SWIFT_UNAVAILABLE("Exposed in Swift as createCommunicationIdentifier(from: ) -> CommunicationIdentifier");
 @end
 
 #endif /* CommunicationIdentifierFactory_h */
