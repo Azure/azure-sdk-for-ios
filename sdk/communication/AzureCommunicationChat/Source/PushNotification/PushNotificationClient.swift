@@ -74,53 +74,63 @@ internal class PushNotificationClient {
             completionHandler: { result in
                 switch result {
                 case let .success(createdRegistrarClient):
-                    // Generate and persist encryption key
-                    /* We require the Contoso to pass in a 512-bit key. Need to split it into two 256-bit keys, taking the first part for decrytion and the second part for authorization.
-                     */
-                    if encryptionKey != "" {
-                        let encryptionKeys = splitEncryptionKey(encryptionKey: encryptionKey)
-                        self.aesKey = encryptionKeys[0]
-                        self.authKey = encryptionKeys[1]
-                    } else {
-                        // If the Contoso doesn't want to implement encryption and we get an empty encrytionKey, we just register two fake values. Encryption keys are required for a successful registration.
-                        self.aesKey = "0000000000000000B00000000000000000000000AES="
-                        self.authKey = "0000000000000000B0000000000000000000000AUTH="
-                    }
-
-                    // Create RegistrarClientDescription (It should match valid APNS templates)
-                    let clientDescription = RegistrarClientDescription(
-                        aesKey: self.aesKey,
-                        authKey: self.authKey,
-                        cryptoMethod: PushNotificationClient.cryptoMethod
-                    )
-
-                    // Create RegistrarTransportSettings (Path is device token)
-                    let transport = RegistrarTransportSettings(
-                        path: self.deviceRegistrationToken
-                    )
-
-                    // Register for push notifications
-                    self.registrarClient = createdRegistrarClient
-
-                    guard let registrarClient = self.registrarClient else {
-                        completionHandler(.failure(
-                            AzureError
-                                .client("Failed to start push notifications. RegistrarClient is nil.")
-                        ))
-                        return
-                    }
-
-                    registrarClient.setRegistration(with: clientDescription, for: [transport]) { result in
-                        switch result {
-                        case let .success(response):
-                            self.pushNotificationsStarted = true
-                            completionHandler(.success(response))
-                        case let .failure(error):
-                            self.options.logger
-                                .error("Failed to start push notifications with error: \(error.localizedDescription)")
-                            completionHandler(.failure(AzureError.client("Failed to start push notifications", error)))
+                    do {
+                        // Generate and persist encryption key
+                        /* We require the Contoso to pass in a 512-bit key. Need to split it into two 256-bit keys, taking the first part for decrytion and the second part for authorization.
+                         */
+                        if encryptionKey != "" {
+                            let encryptionKeys = try splitEncryptionKey(encryptionKey: encryptionKey)
+                            self.aesKey = encryptionKeys[0]
+                            self.authKey = encryptionKeys[1]
+                        } else {
+                            // If the Contoso doesn't want to implement encryption and we get an empty encrytionKey, we just register two fake values. Encryption keys are required for a successful registration.
+                            self.aesKey = "0000000000000000B00000000000000000000000AES="
+                            self.authKey = "0000000000000000B0000000000000000000000AUTH="
                         }
+
+                        // Create RegistrarClientDescription (It should match valid APNS templates)
+                        let clientDescription = RegistrarClientDescription(
+                            aesKey: self.aesKey,
+                            authKey: self.authKey,
+                            cryptoMethod: PushNotificationClient.cryptoMethod
+                        )
+
+                        // Create RegistrarTransportSettings (Path is device token)
+                        let transport = RegistrarTransportSettings(
+                            path: self.deviceRegistrationToken
+                        )
+
+                        // Register for push notifications
+                        self.registrarClient = createdRegistrarClient
+
+                        guard let registrarClient = self.registrarClient else {
+                            completionHandler(.failure(
+                                AzureError
+                                    .client("Failed to start push notifications. RegistrarClient is nil.")
+                            ))
+                            return
+                        }
+
+                        registrarClient.setRegistration(with: clientDescription, for: [transport]) { result in
+                            switch result {
+                            case let .success(response):
+                                self.pushNotificationsStarted = true
+                                completionHandler(.success(response))
+                            case let .failure(error):
+                                self.options.logger
+                                    .error(
+                                        "Failed to start push notifications with error: \(error.localizedDescription)"
+                                    )
+                                completionHandler(.failure(
+                                    AzureError
+                                        .client("Failed to start push notifications", error)
+                                ))
+                            }
+                        }
+                    } catch {
+                        completionHandler(.failure(AzureError.client("Failed to split the encryption key: ", error)))
                     }
+
                 case let .failure(error):
                     completionHandler(.failure(AzureError.client("Failed to initialize the RegistrarClient.", error)))
                 }

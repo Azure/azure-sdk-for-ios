@@ -156,9 +156,10 @@ extension SymmetricKey {
     }
 }
 
-func splitEncryptionKey(encryptionKey: String) -> [String] {
+func splitEncryptionKey(encryptionKey: String) throws -> [String] {
     guard var data = Data(base64Encoded: encryptionKey, options: .ignoreUnknownCharacters) else {
-        return ["0000000000000000B00000000000000000000000AES=", "0000000000000000B0000000000000000000000AUTH="]
+        throw AzureError
+            .client("Failed to convert base64Encoded string into Data format.")
     }
     var aesArr: [UInt8] = .init(repeating: 0, count: 32)
     var authArr: [UInt8] = .init(repeating: 0, count: 32)

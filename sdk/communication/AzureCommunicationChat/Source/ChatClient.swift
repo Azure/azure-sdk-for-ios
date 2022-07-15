@@ -406,11 +406,16 @@ public class ChatClient {
 
         // Persist the key if the Contoso intends to implement encryption
         if pushNotificationKeyHandler != nil {
+            // Persist the key if the Contoso intends to implement encryption
             encryptionKey = generateEncryptionKey()
-            pushNotificationKeyHandler?.onPersistKey(
-                encryptionKey,
-                expiryTime: Date(timeIntervalSinceNow: 45 * 60)
-            )
+            do {
+                try pushNotificationKeyHandler?.onPersistKey(
+                    encryptionKey,
+                    expiryTime: Date(timeIntervalSinceNow: 45 * 60)
+                )
+            } catch {
+                completionHandler(.failure(AzureError.client("Failed to persist the encryption key", error)))
+            }
         } else {
             encryptionKey = ""
         }

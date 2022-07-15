@@ -24,30 +24,38 @@
 //
 // --------------------------------------------------------------------------
 
+import AzureCore
 import Foundation
 
 public class AppGroupPushNotificationKeyHandler: PushNotificationKeyHandler {
     var sharedDefault: UserDefaults
     var keyTag: String
 
-    public init?(appGroupId: String, keyTag: String) {
+    public init?(appGroupId: String, keyTag: String) throws {
         guard let shareDefault = UserDefaults(suiteName: appGroupId) else {
-            return nil
+            throw AzureError
+                .client(
+                    "Failed to init AppGroupPushNotificationKeyHandler. The UserDefaults doesn't exist for the app group ID."
+                )
         }
         self.sharedDefault = shareDefault
         self.keyTag = keyTag
     }
 
-    public func onPersistKey(_ encryptionKey: String, expiryTime: Date) {
+    public func onPersistKey(_ encryptionKey: String, expiryTime: Date) throws {
         // 1.Retrieve the existing key dictionary from app group
-        var keyDict = sharedDefault.dictionary(forKey: keyTag) as? [String: Date]
+        var prevKeyDict = sharedDefault.dictionary(forKey: keyTag)
 
         // If this is the first time we store the key, we'll need to create a new key dictionary
-        if keyDict == nil {
-            keyDict = [:]
+        if prevKeyDict == nil {
+            prevKeyDict = [:]
         }
-        guard var keyDict = keyDict else {
-            return
+
+        guard var keyDict = prevKeyDict as? [String: Date] else {
+            throw AzureError
+                .client(
+                    "Failed to persist encryption key. The format of the existing key dictionary in UserDefaults doesn't match [String: Date]."
+                )
         }
 
         // 2.Insert a new key-value pair([current encryption key - current time]) into the dictionary
@@ -65,10 +73,20 @@ public class AppGroupPushNotificationKeyHandler: PushNotificationKeyHandler {
         sharedDefault.set(keyDict, forKey: keyTag)
     }
 
-    public func onRetrieveKeys() -> [String]? {
+    public func onRetrieveKeys() throws -> [String] {
         // 1.Retrieve the existing key dictionary from app group
-        guard var keyDict = sharedDefault.dictionary(forKey: keyTag) as? [String: Date] else {
-            return nil
+        guard let prevKeyDict = sharedDefault.dictionary(forKey: keyTag) else {
+            throw AzureError
+                .client(
+                    "There is no encryption key in UserDefaults."
+                )
+        }
+
+        guard var keyDict = prevKeyDict as? [String: Date] else {
+            throw AzureError
+                .client(
+                    "Failed to retrieve encryption key. The format of the existing key dictionary in UserDefaults doesn't match [String: Date]."
+                )
         }
 
         var decryptionKeys: [String] = []
@@ -83,6 +101,10 @@ public class AppGroupPushNotificationKeyHandler: PushNotificationKeyHandler {
             } else {
                 keyDict.removeValue(forKey: key)
             }
+        }
+
+        guard decryptionKeys.count > 0 else {
+            throw AzureError.client("All encryption keys in UserDefaults expire.")
         }
 
         // 3.Store the updated dictionary into App Group
