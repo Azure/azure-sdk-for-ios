@@ -42,6 +42,7 @@ public class ChatClient {
     private var realTimeNotificationDisconnectedHandler: TrouterEventHandler?
     private var pushNotificationClient: PushNotificationClient?
     internal var registrationId: String
+    public weak var pushNotificationKeyHandler: PushNotificationKeyHandler?
 
     // MARK: Initializers
 
@@ -373,13 +374,12 @@ public class ChatClient {
         }
     }
 
-    /// Start push notifications. Receiving of notifications can be expected ~1 second after successfully registering.
+    /// Start push notifications. Receiving of notifications can be expected after successfully registering.
     /// - Parameters:
     ///   - deviceToken: APNS push token.
     ///   - completionHandler: Success indicates request to register for notifications has been received.
     public func startPushNotifications(
         deviceToken: String,
-        encryptionKeyPair: EncryptionKeyPair,
         completionHandler: @escaping (Result<HTTPResponse?, AzureError>) -> Void
     ) {
         // If the PushNotification has already been started, return success to avoid unnecessary re-registration. Theoretically this "pre-validation" mechanism can only work when app is alive.
@@ -402,10 +402,28 @@ public class ChatClient {
             return
         }
 
+        let encryptionKey: String
+
+        // Persist the key if the Contoso intends to implement encryption
+        if pushNotificationKeyHandler != nil {
+            // Persist the key if the Contoso intends to implement encryption
+            encryptionKey = generateEncryptionKey()
+            do {
+                try pushNotificationKeyHandler?.onPersistKey(
+                    encryptionKey,
+                    expiryTime: Date(timeIntervalSinceNow: 45 * 60)
+                )
+            } catch {
+                completionHandler(.failure(AzureError.client("Failed to persist the encryption key", error)))
+            }
+        } else {
+            encryptionKey = ""
+        }
+
         // After successful initialization, start push notifications
         pushNotificationClient.startPushNotifications(
             deviceRegistrationToken: deviceToken,
-            encryptionKeyPair: encryptionKeyPair
+            encryptionKey: encryptionKey
         ) { result in
             switch result {
             case let .success(response):
@@ -453,56 +471,6 @@ public class ChatClient {
                     .error("Failed to stop push notifications with error: \(error.localizedDescription)")
                 completionHandler(.failure(AzureError.client("Failed to stop push notifications", error)))
             }
-        }
-    }
-
-    /// Handle the data payload for an incoming push notification.
-    /// - Parameters:
-    ///   - notification: The APNS push notification payload ( including "aps" and "data" )
-    ///   - encryptionKeys: An array of keyPair used for verification & decryption
-    public static func decryptPayload(
-        notification: [AnyHashable: Any],
-        encryptionKeyPairs: [EncryptionKeyPair]
-    ) throws -> PushNotificationEvent {
-        // Retrieve the "data" part from the APNS push notification payload
-        guard let dataPayload = notification["data"] as? [String: AnyObject] else {
-            throw AzureError.client("Push notification does not contain data payload")
-        }
-
-        do {
-            // 1.get "eventId"
-            guard let eventId = dataPayload["eventId"] as? Int else {
-                throw AzureError
-                    .client("Push notification does not contain eventId or eventId can't be downcast to Int.")
-            }
-
-            let chatEventType = try PushNotificationChatEventType(forCode: eventId)
-
-            // 2.get "e"
-            guard let encryptedPayload = dataPayload["e"] as? String else {
-                throw AzureError
-                    .client(
-                        "Push notification does not contain encryptedPayload or payload can't be downcast to String."
-                    )
-            }
-
-            // 3.Verify and decrypt the encrypted notification payload
-            let decryptedPayload = try PushNotificationClient.decryptPayload(
-                encryptedStr: encryptedPayload,
-                encryptionKeyPairCollection: encryptionKeyPairs
-            )
-
-            guard let data = decryptedPayload.data(using: .utf8) else {
-                throw AzureError.client("Failed to create utf8 encoded Data from decrypted string.")
-            }
-
-            // 4. Create and return the PushNotificationEvent Model
-            let pushNotificationEvent = try PushNotificationEvent(chatEventType: chatEventType, from: data)
-
-            return pushNotificationEvent
-
-        } catch {
-            throw AzureError.client("Error in decrypting the notification payload: \(error)")
         }
     }
 }
