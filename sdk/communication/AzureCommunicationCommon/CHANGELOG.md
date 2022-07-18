@@ -7,7 +7,7 @@
 - Introduce new `kind` getter property in the `CommunicationIdentifier` protocol to return string representation of the kind of identifer developers are woking with. 
 
 ### Key Bug Fixes 
-- `PhoneNumberIdentifier` no longer allows the `rawId` to not correspond with the phone number
+- Previously `rawId` was an optional property in `PhoneNumberIdentifier`. Updated the `rawId` to be required, and always corresponds with the phone number. This will cause compilation errors. 
 
 ## 1.0.3 (2022-03-10)
 ### New Features
