@@ -1,5 +1,26 @@
 # Release History
 
+## 2.2.0 (2022-06-10)
+
+### Features Added
+- ⁠Client options diagnostic information.
+    - Application will be able to pass custom 'appName', 'appVersion', and additionally set of 'tags' to the SDK that will be sent with telemetry pipeline.
+
+### Bugs fixed
+- Fixed crash when an invalid token is provided.
+
+## 2.1.0 (2022-06-03)
+
+### Features Added
+- Voice and video calling support in Azure government.
+-  Push Notifications support for stopping an incoming call because it was answered in another device, or caller cancelled, etc.
+
+### Bugs fixed
+- Fix for internal update when Call Id changes in the middle of a call. 
+- Fix for fetching token from background thread blocks the creation of CallAgent. 
+- Fix for simulator crash when UI window size is returned as zero. 
+- Fix for audio not flowing issue when resume ACS call from PSTN call. 
+
 ## 2.0.0 (2021-12-13)
 
 ### Breaking Changes
