@@ -29,9 +29,9 @@ import Foundation
 @objcMembers public class IdentifierKind: NSObject {
     private var kindValue: String
     public static let communicationUser = IdentifierKind("communicationUser")
-    public static let phoneNumber = IdentifierKind("PhoneNumber")
-    public static let microsoftTeamsUser = IdentifierKind("MicrosoftTeamsUser")
-    public static let unknown = IdentifierKind("Unknown")
+    public static let phoneNumber = IdentifierKind("phoneNumber")
+    public static let microsoftTeamsUser = IdentifierKind("microsoftTeamsUser")
+    public static let unknown = IdentifierKind("unknown")
 
     public init(_ kindValue: String) {
         self.kindValue = kindValue
