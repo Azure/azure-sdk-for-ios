@@ -1,0 +1,76 @@
+{
+  "name" : "test_StopPushNotifications_ReturnsSuccess",
+  "interactions" : [
+    {
+      "response" : {
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
+        "status" : 202,
+        "headers" : {
+          "x-content-type-options" : "nosniff",
+          "x-msedge-ref" : "Ref A: 065DB4A7181D453AABADA0B17699F07D Ref B: WSTEDGE0710 Ref C: 2022-07-15T23:41:25Z",
+          "x-cache" : "CONFIG_NOCACHE",
+          "Content-Length" : "0",
+          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
+          "ms-cv" : "O28j1rpi3UWuHfoaf4Wdvw.0"
+        },
+        "body" : ""
+      },
+      "recorded_at" : 1657928485.5425019,
+      "request" : {
+        "method" : "POST",
+        "headers" : {
+          "Content-Type" : "application\/json",
+          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.5.0; xctest:13.3 -> iOS 9.0; en_US)"
+        },
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
+        "body" : {
+          "clientDescription" : {
+            "templateKey" : "AcsIos.AcsNotify_Chat_3.0",
+            "aesKey" : "0000000000000000B00000000000000000000000AES=",
+            "platform" : "iOS",
+            "platformUIVersion" : "3619\/0.0.0.0\/",
+            "appId" : "AcsIos",
+            "authKey" : "0000000000000000B0000000000000000000000AUTH=",
+            "languageId" : "",
+            "cryptoMethod" : "0x70"
+          },
+          "transports" : {
+            "APNS" : [
+              {
+                "ttl" : 2700,
+                "path" : "mockDeviceToken",
+                "context" : ""
+              }
+            ]
+          },
+          "registrationId" : "0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
+          "nodeId" : ""
+        }
+      }
+    },
+    {
+      "response" : {
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations\/0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
+        "body" : "",
+        "headers" : {
+          "x-cache" : "CONFIG_NOCACHE",
+          "ms-cv" : "LseFs9v7Xkm7RNiHkdR6gQ.0",
+          "Content-Length" : "0",
+          "x-msedge-ref" : "Ref A: E07FF53DB488419D9B547649F03D6455 Ref B: WSTEDGE0710 Ref C: 2022-07-15T23:41:25Z",
+          "x-content-type-options" : "nosniff",
+          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains"
+        },
+        "status" : 202
+      },
+      "recorded_at" : 1657928485.8068218,
+      "request" : {
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations\/0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
+        "headers" : {
+          "Content-Type" : "application\/json",
+          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.5.0; xctest:13.3 -> iOS 9.0; en_US)"
+        },
+        "method" : "DELETE"
+      }
+    }
+  ]
+}
