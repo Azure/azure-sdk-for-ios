@@ -56,7 +56,7 @@ specifying the clone URL of this repository and the version specifier you wish t
 // swift-tools-version:5.3
     dependencies: [
         ...
-        .package(name: "AzureCommunicationChat", url: "https://github.com/Azure/SwiftPM-AzureCommunicationChat.git", from: "1.2.0")
+        .package(name: "AzureCommunicationChat", url: "https://github.com/Azure/SwiftPM-AzureCommunicationChat.git", from: "1.3.0-beta.1")
     ],
 ```
 
@@ -88,13 +88,13 @@ ensure compatibility when using multiple client libraries in the same project, u
 Azure SDK client libraries within the project:
 
 ```ruby
-platform :ios, '12.0'
+platform :ios, '13.0'
 
 # Comment the next line if you don't want to use dynamic frameworks
 use_frameworks!
 
 target 'MyTarget' do
-  pod 'AzureCommunicationChat', '1.2.0'
+  pod 'AzureCommunicationChat', '1.3.0-beta.1'
   ...
 end
 ```
