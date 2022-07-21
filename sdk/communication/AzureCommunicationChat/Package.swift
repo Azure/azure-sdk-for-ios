@@ -32,7 +32,7 @@ import PackageDescription
 let package = Package(
     name: "AzureCommunicationChat",
     platforms: [
-        .iOS(.v12)
+        .iOS(.v13)
     ],
     products: [
         .library(name: "AzureCommunicationChat", targets: ["AzureCommunicationChat"])
