@@ -26,7 +26,6 @@
 
 #import <XCTest/XCTest.h>
 #import <AzureCommunicationCommon/AzureCommunicationCommon-Swift.h>
-#import <AzureCore/AzureCore-Swift.h>
 
 @interface ObjCCommunicationTokenCredentialAsyncTests : XCTestCase
 @property (nonatomic, strong) NSString *sampleToken;

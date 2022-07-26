@@ -21,7 +21,6 @@
 		CE28995B2826981CCEAD9A96 /* Pods_AzureCommunicationCommonTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65876B73FED970EE674191B8 /* Pods_AzureCommunicationCommonTests.framework */; };
 		D112634825B7969B00F437C6 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		D1A42CF825CCA1C100408C0F /* CommunicationTokenCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A42CF725CCA1C100408C0F /* CommunicationTokenCredential.swift */; };
-		F11E5CC824B77F8900AA3A58 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5ED62316DB8F00473FDA /* AzureCore.framework */; };
 		F1540EBD25BF893C0056B087 /* CommunicationCloudEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1540EBC25BF893C0056B087 /* CommunicationCloudEnvironment.swift */; };
 		F1540EC125BFD6910056B087 /* CommunicationIdentifierTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1540EC025BFD6910056B087 /* CommunicationIdentifierTest.swift */; };
 		F183A5EB24AF9D9000F0E0D5 /* CommunicationTokenCredentialProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F183A5EA24AF9D9000F0E0D5 /* CommunicationTokenCredentialProviding.swift */; };
@@ -78,7 +77,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F11E5CC824B77F8900AA3A58 /* AzureCore.framework in Frameworks */,
 				C1ABE73016C6539A7175199B /* Pods_AzureCommunicationCommon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
