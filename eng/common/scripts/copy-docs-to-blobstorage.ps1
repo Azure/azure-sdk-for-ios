@@ -31,16 +31,16 @@ function ToSemVer($version){
 
             # some older packages don't have a prenumber, should handle this
             if($matches["prenumber"]){
-                $prenumber = [int]$matches["prenumber"]
+                $prenumber = [long]$matches["prenumber"]
             }
 
             $isPre = $true;
         }
 
         New-Object PSObject -Property @{
-            Major = [int]$matches['major']
-            Minor = [int]$matches['minor']
-            Patch = [int]$matches['patch']
+            Major = [long]$matches['major']
+            Minor = [long]$matches['minor']
+            Patch = [long]$matches['patch']
             PrereleaseLabel = $prelabel
             PrereleaseNumber = $prenumber
             IsPrerelease = $isPre

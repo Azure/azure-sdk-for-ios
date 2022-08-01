@@ -14,16 +14,16 @@ Note: A builtin Powershell version of SemVer exists in 'System.Management.Automa
 #>
 
 class AzureEngSemanticVersion : IComparable {
-  [int] $Major
-  [int] $Minor
-  [int] $Patch
+  [long] $Major
+  [long] $Minor
+  [long] $Patch
   [string] $PrereleaseLabelSeparator
   [string] $PrereleaseLabel
   [string] $PrereleaseNumberSeparator
   [string] $BuildNumberSeparator
   # BuildNumber is string to preserve zero-padding where applicable
   [string] $BuildNumber
-  [int] $PrereleaseNumber
+  [long] $PrereleaseNumber
   [bool] $IsPrerelease
   [string] $VersionType
   [string] $RawVersion
@@ -63,9 +63,9 @@ class AzureEngSemanticVersion : IComparable {
     {
       $this.IsSemVerFormat = $true
       $this.RawVersion = $versionString
-      $this.Major = [int]$matches.Major
-      $this.Minor = [int]$matches.Minor
-      $this.Patch = [int]$matches.Patch
+      $this.Major = [long]$matches.Major
+      $this.Minor = [long]$matches.Minor
+      $this.Patch = [long]$matches.Patch
 
       # If Language exists and is set to python setup the python conventions.
       $parseLanguage = (Get-Variable -Name "Language" -ValueOnly -ErrorAction "Ignore")
@@ -96,7 +96,7 @@ class AzureEngSemanticVersion : IComparable {
       {
         $this.PrereleaseLabel = $matches["prelabel"]
         $this.PrereleaseLabelSeparator = $matches["presep"]
-        $this.PrereleaseNumber = [int]$matches["prenumber"]
+        $this.PrereleaseNumber = [long]$matches["prenumber"]
         $this.PrereleaseNumberSeparator = $matches["prenumsep"]
         $this.IsPrerelease = $true
         $this.VersionType = "Beta"
@@ -205,7 +205,7 @@ class AzureEngSemanticVersion : IComparable {
     $ret = $this.PrereleaseNumber.CompareTo($other.PrereleaseNumber)
     if ($ret) { return $ret }
 
-    return ([int] $this.BuildNumber).CompareTo([int] $other.BuildNumber)
+    return ([long] $this.BuildNumber).CompareTo([long] $other.BuildNumber)
   }
 
   static [string[]] SortVersionStrings([string[]] $versionStrings)
