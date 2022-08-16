@@ -135,8 +135,6 @@
 		E034C0F2282B4D4300E3F985 /* PushNotificationEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E034C0F0282B4D4300E3F985 /* PushNotificationEvent.swift */; };
 		E034C0F4282B4F1900E3F985 /* CryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E034C0F3282B4F1900E3F985 /* CryptoUtils.swift */; };
 		E034C0F5282B4F1900E3F985 /* CryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E034C0F3282B4F1900E3F985 /* CryptoUtils.swift */; };
-		E03DAFC428075EE000389C43 /* URLSettingsUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03DAFC328075EE000389C43 /* URLSettingsUtil.swift */; };
-		E03DAFC528075EE800389C43 /* URLSettingsUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03DAFC328075EE000389C43 /* URLSettingsUtil.swift */; };
 		E03DAFD4280763C600389C43 /* PushNotificationClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03DAFD3280763C600389C43 /* PushNotificationClient.swift */; };
 		E03DAFD5280763C600389C43 /* PushNotificationClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03DAFD3280763C600389C43 /* PushNotificationClient.swift */; };
 		E03DAFD82807660700389C43 /* RegistrarClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03DAFD72807660700389C43 /* RegistrarClient.swift */; };
@@ -222,6 +220,8 @@
 		E04440DD28077C0400A6DA24 /* test_setRegistration_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E04440DC28077C0400A6DA24 /* test_setRegistration_ReturnsSuccess.json */; };
 		E04440E028077C0C00A6DA24 /* test_StopPushNotifications_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E04440DE28077C0C00A6DA24 /* test_StopPushNotifications_ReturnsSuccess.json */; };
 		E04440E128077C0C00A6DA24 /* test_StartPushNotifications_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E04440DF28077C0C00A6DA24 /* test_StartPushNotifications_ReturnsSuccess.json */; };
+		E058442C28A6DDFA007D7E0A /* IdentityUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = E058442B28A6DDFA007D7E0A /* IdentityUtil.swift */; };
+		E058442D28A6DDFA007D7E0A /* IdentityUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = E058442B28A6DDFA007D7E0A /* IdentityUtil.swift */; };
 		E0C134EE284E677900FC388B /* PushNotificationKeyHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C134ED284E677900FC388B /* PushNotificationKeyHandler.swift */; };
 		E0C134EF284E677900FC388B /* PushNotificationKeyHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C134ED284E677900FC388B /* PushNotificationKeyHandler.swift */; };
 /* End PBXBuildFile section */
@@ -380,7 +380,6 @@
 		E034C0ED282B4D1D00E3F985 /* PushNotificationBaseEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationBaseEvent.swift; sourceTree = "<group>"; };
 		E034C0F0282B4D4300E3F985 /* PushNotificationEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationEvent.swift; sourceTree = "<group>"; };
 		E034C0F3282B4F1900E3F985 /* CryptoUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoUtils.swift; sourceTree = "<group>"; };
-		E03DAFC328075EE000389C43 /* URLSettingsUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSettingsUtil.swift; sourceTree = "<group>"; };
 		E03DAFD3280763C600389C43 /* PushNotificationClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationClient.swift; sourceTree = "<group>"; };
 		E03DAFD72807660700389C43 /* RegistrarClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrarClient.swift; sourceTree = "<group>"; };
 		E03DAFDA2807661A00389C43 /* RegistrarSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrarSettings.swift; sourceTree = "<group>"; };
@@ -393,6 +392,7 @@
 		E04440DC28077C0400A6DA24 /* test_setRegistration_ReturnsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_setRegistration_ReturnsSuccess.json; sourceTree = "<group>"; };
 		E04440DE28077C0C00A6DA24 /* test_StopPushNotifications_ReturnsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_StopPushNotifications_ReturnsSuccess.json; sourceTree = "<group>"; };
 		E04440DF28077C0C00A6DA24 /* test_StartPushNotifications_ReturnsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_StartPushNotifications_ReturnsSuccess.json; sourceTree = "<group>"; };
+		E058442B28A6DDFA007D7E0A /* IdentityUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityUtil.swift; sourceTree = "<group>"; };
 		E0C134ED284E677900FC388B /* PushNotificationKeyHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationKeyHandler.swift; sourceTree = "<group>"; };
 		FCF18D210ADF02D5CBA71786 /* Pods-AzureCommunicationChatUnitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationChatUnitTests.release.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationChatUnitTests/Pods-AzureCommunicationChatUnitTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -697,8 +697,8 @@
 		E03DAFC228075E8800389C43 /* NotificationUtils */ = {
 			isa = PBXGroup;
 			children = (
-				E03DAFC328075EE000389C43 /* URLSettingsUtil.swift */,
 				E034C0F3282B4F1900E3F985 /* CryptoUtils.swift */,
+				E058442B28A6DDFA007D7E0A /* IdentityUtil.swift */,
 			);
 			path = NotificationUtils;
 			sourceTree = "<group>";
@@ -1078,13 +1078,13 @@
 				E04440B2280775EB00A6DA24 /* ChatParticipant.swift in Sources */,
 				817A92C127BC3A7000D2268E /* TrouterSettingsUnitTest.swift in Sources */,
 				E04440CC2807776500A6DA24 /* ChatParticipantInternal.swift in Sources */,
+				E058442D28A6DDFA007D7E0A /* IdentityUtil.swift in Sources */,
 				E04440A52807759B00A6DA24 /* DeleteChatThreadOptions.swift in Sources */,
 				E04440A02807758700A6DA24 /* SendTypingNotificationOptions.swift in Sources */,
 				E04440BB2807772400A6DA24 /* CommunicationUserIdentifierModel.swift in Sources */,
 				E04440B6280775FF00A6DA24 /* AzureCommunicationChatClientOptions.swift in Sources */,
 				E04440D8280777D800A6DA24 /* TrouterEvent.swift in Sources */,
 				E04440B5280775F700A6DA24 /* CreateChatThreadResult.swift in Sources */,
-				E03DAFC528075EE800389C43 /* URLSettingsUtil.swift in Sources */,
 				E04440D12807777900A6DA24 /* CreateChatThreadRequestInternal.swift in Sources */,
 				E04440CD2807776800A6DA24 /* CommunicationIdentifierModelInternal.swift in Sources */,
 				E04440D22807777D00A6DA24 /* ChatParticipantsCollection.swift in Sources */,
@@ -1172,9 +1172,9 @@
 				E03DAFE42807667200389C43 /* RegistrarTransportSettings.swift in Sources */,
 				D17F8AAD26B0A480005648EA /* CommunicationErrorResponse.swift in Sources */,
 				D17F8AAE26B0A480005648EA /* AddChatParticipantsRequestInternal.swift in Sources */,
-				E03DAFC428075EE000389C43 /* URLSettingsUtil.swift in Sources */,
 				E034C0F4282B4F1900E3F985 /* CryptoUtils.swift in Sources */,
 				D17F8AAF26B0A480005648EA /* Enumerations.swift in Sources */,
+				E058442C28A6DDFA007D7E0A /* IdentityUtil.swift in Sources */,
 				D17F8AB026B0A480005648EA /* PhoneNumberIdentifierModel.swift in Sources */,
 				D17F8AB126B0A480005648EA /* AddChatParticipantsResult.swift in Sources */,
 				D17F8AB226B0A480005648EA /* ChatMessageReadReceiptsCollection.swift in Sources */,
@@ -1385,7 +1385,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.0-beta.1;
+				MARKETING_VERSION = "1.3.0-beta.1";
 				NEW_SETTING = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.azure.communication.AzureCommunicationChat;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -1420,7 +1420,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.0-beta.1;
+				MARKETING_VERSION = "1.3.0-beta.1";
 				NEW_SETTING = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.azure.communication.AzureCommunicationChat;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";

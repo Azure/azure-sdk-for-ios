@@ -24,6 +24,8 @@
 //
 // --------------------------------------------------------------------------
 
+import AzureCommunicationCommon
+import AzureCore
 import Foundation
 import Trouter
 
@@ -67,4 +69,67 @@ func isGcch(id: String) -> Bool {
     let gcchTeamsUserPrefix = "gcch:"
     let gcchAcsUserPrefix = "gcch-acs:"
     return (id.starts(with: gcchTeamsUserPrefix) || id.starts(with: gcchAcsUserPrefix))
+}
+
+/// Parses out the id/phone number portion of a user id.
+/// - Parameters:
+///   - id: The string id.
+///   - prefix: The id prefix.
+/// - Returns: The part of the id after the prefix that corresponds to the user id or phone number of a user.
+private func parse(id: String, prefix: String) -> String {
+    let index = id.index(id.startIndex, offsetBy: prefix.count)
+    return String(id.suffix(from: index))
+}
+
+/// Constructs a CommunicationIdentifier from a string id.
+/// - Parameter id: The string id.
+/// - Returns: The CommunicationIdentifier.
+internal func getIdentifier(from id: String) -> CommunicationIdentifier {
+    let publicTeamsUserPrefix = "8:orgid:"
+    let dodTeamsUserPrefix = "8:dod:"
+    let gcchTeamsUserPrefix = "8:gcch:"
+    let teamsVisitorUserPrefix = "8:teamsvisitor:"
+    let phoneNumberPrefix = "4:"
+    let acsUserPrefix = "8:acs:"
+    let spoolUserPrefix = "8:spool:"
+    let dodAcsUserPrefix = "8:dod-acs:"
+    let gcchAcsUserPrefix = "8:gcch-acs:"
+
+    if id.starts(with: publicTeamsUserPrefix) {
+        return MicrosoftTeamsUserIdentifier(
+            userId: parse(id: id, prefix: publicTeamsUserPrefix),
+            isAnonymous: false,
+            rawId: id,
+            cloudEnvironment: CommunicationCloudEnvironment.Public
+        )
+    } else if id.starts(with: dodTeamsUserPrefix) {
+        return MicrosoftTeamsUserIdentifier(
+            userId: parse(id: id, prefix: dodTeamsUserPrefix),
+            isAnonymous: false,
+            rawId: id,
+            cloudEnvironment: CommunicationCloudEnvironment.Dod
+        )
+    } else if id.starts(with: gcchTeamsUserPrefix) {
+        return MicrosoftTeamsUserIdentifier(
+            userId: parse(id: id, prefix: gcchTeamsUserPrefix),
+            isAnonymous: false,
+            rawId: id,
+            cloudEnvironment: CommunicationCloudEnvironment.Gcch
+        )
+    } else if id.starts(with: teamsVisitorUserPrefix) {
+        return MicrosoftTeamsUserIdentifier(
+            userId: parse(id: id, prefix: teamsVisitorUserPrefix),
+            isAnonymous: true
+        )
+    } else if id.starts(with: phoneNumberPrefix) {
+        return PhoneNumberIdentifier(
+            phoneNumber: parse(id: id, prefix: phoneNumberPrefix),
+            rawId: id
+        )
+    } else if id.starts(with: acsUserPrefix) || id.starts(with: spoolUserPrefix) || id
+        .starts(with: dodAcsUserPrefix) || id.starts(with: gcchAcsUserPrefix) {
+        return CommunicationUserIdentifier(id)
+    } else {
+        return UnknownIdentifier(id)
+    }
 }

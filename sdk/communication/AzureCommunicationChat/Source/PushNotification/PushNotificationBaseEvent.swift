@@ -40,9 +40,9 @@ public class PushNotificationChatMessageEvent {
     /// Chat thread id.
     public var threadId: String
     /// Sender Id
-    public var senderId: String
+    public var sender: CommunicationIdentifier
     /// Recipient Id
-    public var recipientId: String
+    public var recipient: CommunicationIdentifier
     /// Sender display name.
     public var senderDisplayName: String?
     /// The timestamp when the message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
@@ -66,8 +66,8 @@ public class PushNotificationChatMessageEvent {
         messageId: String,
         type: ChatMessageType,
         threadId: String,
-        senderId: String,
-        recipientId: String,
+        sender: CommunicationIdentifier,
+        recipient: CommunicationIdentifier,
         senderDisplayName: String? = nil,
         originalArrivalTime: Iso8601Date? = nil,
         version: String
@@ -75,8 +75,8 @@ public class PushNotificationChatMessageEvent {
         self.messageId = messageId
         self.type = type
         self.threadId = threadId
-        self.senderId = senderId
-        self.recipientId = recipientId
+        self.sender = sender
+        self.recipient = recipient
         self.senderDisplayName = senderDisplayName
         self.originalArrivalTime = originalArrivalTime
         self.version = version
@@ -113,8 +113,8 @@ public class PushNotificationChatMessageReceivedEvent: PushNotificationChatMessa
             messageId: pushNotificationMessageReceivedPayload.messageId,
             type: ChatMessageType(pushNotificationMessageReceivedPayload.messageType),
             threadId: pushNotificationMessageReceivedPayload.groupId,
-            senderId: pushNotificationMessageReceivedPayload.senderId,
-            recipientId: pushNotificationMessageReceivedPayload.recipientId,
+            sender: getIdentifier(from: pushNotificationMessageReceivedPayload.senderId),
+            recipient: getIdentifier(from: pushNotificationMessageReceivedPayload.recipientId),
             senderDisplayName: pushNotificationMessageReceivedPayload.senderDisplayName,
             originalArrivalTime: Iso8601Date(string: pushNotificationMessageReceivedPayload.originalArrivalTime),
             version: pushNotificationMessageReceivedPayload.version
