@@ -55,6 +55,55 @@
    <Group
       location = "group:examples"
       name = "Examples">
+      <Group
+         location = "group:AzureSDKSmokeTestSwiftPM"
+         name = "AzureSDKSmokeTestSwiftPM">
+         <Group
+            location = "group:AzureSDKSmokeTestSwiftPM"
+            name = "AzureSDKSmokeTestSwiftPM">
+            <Group
+               location = "group:Assets.xcassets"
+               name = "Assets.xcassets">
+               <Group
+                  location = "group:AppIcon.appiconset"
+                  name = "AppIcon.appiconset">
+                  <FileRef
+                     location = "group:Contents.json">
+                  </FileRef>
+               </Group>
+               <Group
+                  location = "group:AccentColor.colorset"
+                  name = "AccentColor.colorset">
+                  <FileRef
+                     location = "group:Contents.json">
+                  </FileRef>
+               </Group>
+               <FileRef
+                  location = "group:Contents.json">
+               </FileRef>
+            </Group>
+            <Group
+               location = "group:Preview Content"
+               name = "Preview Content">
+               <Group
+                  location = "group:Preview Assets.xcassets"
+                  name = "Preview Assets.xcassets">
+                  <FileRef
+                     location = "group:Contents.json">
+                  </FileRef>
+               </Group>
+            </Group>
+            <FileRef
+               location = "group:AzureSDKSmokeTestSwiftPMApp.swift">
+            </FileRef>
+            <FileRef
+               location = "group:ContentView.swift">
+            </FileRef>
+            <FileRef
+               location = "group:Info.plist">
+            </FileRef>
+         </Group>
+      </Group>
       <FileRef
          location = "group:AzureSDKSmokeTest/AzureSDKSmokeTest.xcodeproj">
       </FileRef>

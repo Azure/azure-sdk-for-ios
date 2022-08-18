@@ -1,2 +1,0 @@
-azure-functions
-azure-storage-blob
