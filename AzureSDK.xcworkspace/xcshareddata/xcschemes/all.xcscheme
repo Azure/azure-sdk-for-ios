@@ -56,20 +56,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0A686488233E834D004B7E17"
-               BuildableName = "AzureStorageBlob.framework"
-               BlueprintName = "AzureStorageBlob"
-               ReferencedContainer = "container:sdk/storage/AzureStorageBlob/AzureStorageBlob.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "AzureCommunicationChat::AzureCommunicationChat"
                BuildableName = "AzureCommunicationChat.framework"
                BlueprintName = "AzureCommunicationChat"
@@ -126,52 +112,10 @@
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0A686491233E834D004B7E17"
-               BuildableName = "AzureStorageBlobTests.xctest"
-               BlueprintName = "AzureStorageBlobTests"
-               ReferencedContainer = "container:sdk/storage/AzureStorageBlob/AzureStorageBlob.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "NO"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "D147E62725CE242C001CFB5D"
                BuildableName = "AzureCommunicationChatUnitTests.xctest"
                BlueprintName = "AzureCommunicationChatUnitTests"
                ReferencedContainer = "container:sdk/communication/AzureCommunicationChat/AzureCommunicationChat.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0A3A5E752315E70400473FDA"
-               BuildableName = "AzureStorageBlobDemo.app"
-               BlueprintName = "AzureStorageBlobDemo"
-               ReferencedContainer = "container:examples/AzureStorageBlobDemo/AzureStorageBlobDemo.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0A3A5E752315E70400473FDA"
-               BuildableName = "AzureSDKDemoSwift.app"
-               BlueprintName = "AzureSDKDemoSwift"
-               ReferencedContainer = "container:examples/AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -220,16 +164,6 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0A686491233E834D004B7E17"
-               BuildableName = "AzureStorageBlobTests.xctest"
-               BlueprintName = "AzureStorageBlobTests"
-               ReferencedContainer = "container:sdk/storage/AzureStorageBlob/AzureStorageBlob.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "D147E62725CE242C001CFB5D"
                BuildableName = "AzureCommunicationChatUnitTests.xctest"
                BlueprintName = "AzureCommunicationChatUnitTests"
@@ -244,16 +178,6 @@
                BuildableName = "AzureCommunicationCommonTests.xctest"
                BlueprintName = "AzureCommunicationCommonTests"
                ReferencedContainer = "container:sdk/communication/AzureCommunicationCommon/AzureCommunicationCommon.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AzureTemplate::AzureTemplateTests"
-               BuildableName = "AzureTemplateTests.xctest"
-               BlueprintName = "AzureTemplateTests"
-               ReferencedContainer = "container:sdk/template/AzureTemplate/AzureTemplate.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

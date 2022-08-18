@@ -45,13 +45,6 @@
          </FileRef>
       </Group>
       <Group
-         location = "group:storage"
-         name = "storage">
-         <FileRef
-            location = "group:AzureStorageBlob/AzureStorageBlob.xcodeproj">
-         </FileRef>
-      </Group>
-      <Group
          location = "container:"
          name = "template">
          <FileRef
@@ -62,17 +55,57 @@
    <Group
       location = "group:examples"
       name = "Examples">
-      <FileRef
-         location = "group:AzureStorageBlobDemo/AzureStorageBlobDemo.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:AzureSDKDemoSwiftUI/AzureSDKDemoSwiftUI.xcodeproj">
-      </FileRef>
+      <Group
+         location = "group:AzureSDKSmokeTestSwiftPM"
+         name = "AzureSDKSmokeTestSwiftPM">
+         <Group
+            location = "group:AzureSDKSmokeTestSwiftPM"
+            name = "AzureSDKSmokeTestSwiftPM">
+            <Group
+               location = "group:Assets.xcassets"
+               name = "Assets.xcassets">
+               <Group
+                  location = "group:AppIcon.appiconset"
+                  name = "AppIcon.appiconset">
+                  <FileRef
+                     location = "group:Contents.json">
+                  </FileRef>
+               </Group>
+               <Group
+                  location = "group:AccentColor.colorset"
+                  name = "AccentColor.colorset">
+                  <FileRef
+                     location = "group:Contents.json">
+                  </FileRef>
+               </Group>
+               <FileRef
+                  location = "group:Contents.json">
+               </FileRef>
+            </Group>
+            <Group
+               location = "group:Preview Content"
+               name = "Preview Content">
+               <Group
+                  location = "group:Preview Assets.xcassets"
+                  name = "Preview Assets.xcassets">
+                  <FileRef
+                     location = "group:Contents.json">
+                  </FileRef>
+               </Group>
+            </Group>
+            <FileRef
+               location = "group:AzureSDKSmokeTestSwiftPMApp.swift">
+            </FileRef>
+            <FileRef
+               location = "group:ContentView.swift">
+            </FileRef>
+            <FileRef
+               location = "group:Info.plist">
+            </FileRef>
+         </Group>
+      </Group>
       <FileRef
          location = "group:AzureSDKSmokeTest/AzureSDKSmokeTest.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
       </FileRef>
    </Group>
    <Group
@@ -487,9 +520,6 @@
       </FileRef>
       <FileRef
          location = "group:AzureIdentity.yml">
-      </FileRef>
-      <FileRef
-         location = "group:AzureStorageBlob.yml">
       </FileRef>
       <FileRef
          location = "group:AzureCommunicationChat.yml">
