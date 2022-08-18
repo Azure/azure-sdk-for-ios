@@ -45,13 +45,6 @@
          </FileRef>
       </Group>
       <Group
-         location = "group:storage"
-         name = "storage">
-         <FileRef
-            location = "group:AzureStorageBlob/AzureStorageBlob.xcodeproj">
-         </FileRef>
-      </Group>
-      <Group
          location = "container:"
          name = "template">
          <FileRef
@@ -63,16 +56,7 @@
       location = "group:examples"
       name = "Examples">
       <FileRef
-         location = "group:AzureStorageBlobDemo/AzureStorageBlobDemo.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:AzureSDKDemoSwiftUI/AzureSDKDemoSwiftUI.xcodeproj">
-      </FileRef>
-      <FileRef
          location = "group:AzureSDKSmokeTest/AzureSDKSmokeTest.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
       </FileRef>
    </Group>
    <Group
@@ -487,9 +471,6 @@
       </FileRef>
       <FileRef
          location = "group:AzureIdentity.yml">
-      </FileRef>
-      <FileRef
-         location = "group:AzureStorageBlob.yml">
       </FileRef>
       <FileRef
          location = "group:AzureCommunicationChat.yml">
