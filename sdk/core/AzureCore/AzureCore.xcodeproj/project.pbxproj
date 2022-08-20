@@ -47,6 +47,46 @@
 			name = "AzureCore tvOS Universal";
 			productName = "AzureCore tvOS Universal";
 		};
+		939045BF28B176930047158D /* AzureCore iOS Documentation */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 939045C028B176930047158D /* Build configuration list for PBXAggregateTarget "AzureCore iOS Documentation" */;
+			buildPhases = (
+			);
+			dependencies = (
+			);
+			name = "AzureCore iOS Documentation";
+			productName = "AzureCore iOS Documentation";
+		};
+		939045C328B176DB0047158D /* AzureCore macOS Documentation */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 939045C428B176DB0047158D /* Build configuration list for PBXAggregateTarget "AzureCore macOS Documentation" */;
+			buildPhases = (
+			);
+			dependencies = (
+			);
+			name = "AzureCore macOS Documentation";
+			productName = "AzureCore macOS Documentation";
+		};
+		939045D128B177A90047158D /* AzureCore tvOS Documentation */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 939045D228B177A90047158D /* Build configuration list for PBXAggregateTarget "AzureCore tvOS Documentation" */;
+			buildPhases = (
+			);
+			dependencies = (
+			);
+			name = "AzureCore tvOS Documentation";
+			productName = "AzureCore tvOS Documentation";
+		};
+		939045D528B177CB0047158D /* AzureCore watchOS Documentation */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 939045D628B177CB0047158D /* Build configuration list for PBXAggregateTarget "AzureCore watchOS Documentation" */;
+			buildPhases = (
+			);
+			dependencies = (
+			);
+			name = "AzureCore watchOS Documentation";
+			productName = "AzureCore watchOS Documentation";
+		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
@@ -118,12 +158,7 @@
 		0AFEC37423C8FC630065D588 /* things.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0AFEC36823C8FC590065D588 /* things.xml */; };
 		0AFEC37523C8FC630065D588 /* thing2.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0AFEC36923C8FC590065D588 /* thing2.xml */; };
 		0AFEC37623C8FC630065D588 /* pagedthings.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0AFEC36A23C8FC590065D588 /* pagedthings.xml */; };
-		1A33D7C51441E6AC1FD4846B /* Pods_AzureCore_watchOS_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69657F5C86BEA82D09F9DD8D /* Pods_AzureCore_watchOS_Tests.framework */; };
-		298888143B0BC55F0EC91683 /* Pods_AzureCore_watchOS_Framework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39D2EB1AD57DA7DF7B8D6EA8 /* Pods_AzureCore_watchOS_Framework.framework */; };
-		35D37054317207D8AC6372CB /* Pods_AzureCore_macOS_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C104529BEDDF5441A69B9618 /* Pods_AzureCore_macOS_Tests.framework */; };
 		55578F7FADC81F4E7153E6CE /* Pods_AzureCore_iOS_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 109551DCEEF43F5A9350B4DB /* Pods_AzureCore_iOS_Tests.framework */; };
-		59E96F87490B39281896969E /* Pods_AzureCore_tvOS_Framework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B80D44975A3F3E608B03929E /* Pods_AzureCore_tvOS_Framework.framework */; };
-		690BC2D29FADA1E7E2C56CDF /* Pods_AzureCore_tvOS_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B0EF6B769CCC096421AE86F /* Pods_AzureCore_tvOS_Tests.framework */; };
 		7A1A916C23D13D5700B0B3D2 /* RequestIdPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1A916B23D13D5700B0B3D2 /* RequestIdPolicyTests.swift */; };
 		7A1A916F23D13E5D00B0B3D2 /* PipelineStubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1A916E23D13E5D00B0B3D2 /* PipelineStubs.swift */; };
 		7A1A917123D13F0300B0B3D2 /* ProviderStubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1A917023D13F0300B0B3D2 /* ProviderStubs.swift */; };
@@ -141,10 +176,243 @@
 		7AFA4D6023D14BDB001A3BF4 /* AddDatePolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFA4D5F23D14BDB001A3BF4 /* AddDatePolicyTests.swift */; };
 		7AFA4D6223D14F01001A3BF4 /* LoggingPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFA4D6123D14F01001A3BF4 /* LoggingPolicyTests.swift */; };
 		7AFCF7662345714200592782 /* LoggingPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFCF7652345714200592782 /* LoggingPolicy.swift */; };
-		9390444C28AF59170047158D /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9390443D28AF58970047158D /* AzureCore.framework */; };
-		9390447228AF5A580047158D /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9390446328AF5A160047158D /* AzureCore.framework */; };
-		9390448C28AF5AD30047158D /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9390447D28AF5A910047158D /* AzureCore.framework */; };
-		CCA89377D5001CC284D25D10 /* Pods_AzureCore_macOS_Framework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675C0F42A70D5013721BAFE1 /* Pods_AzureCore_macOS_Framework.framework */; };
+		939044D028B174430047158D /* AzureDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A348C6E2550BC9D00C63618 /* AzureDate.swift */; };
+		939044D128B174430047158D /* Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA8A234F8ADD00F05073 /* Collections.swift */; };
+		939044D228B174430047158D /* XMLMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A532ACE2417E71100C4C8BA /* XMLMap.swift */; };
+		939044D328B174430047158D /* XMLModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA8E234FDB0800F05073 /* XMLModel.swift */; };
+		939044D428B174430047158D /* XMLTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A532AD02417E73C00C4C8BA /* XMLTree.swift */; };
+		939044D528B174430047158D /* CancellationToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0DD9AE24AE7D5800D2E884 /* CancellationToken.swift */; };
+		939044D628B174430047158D /* AddDatePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366223BEC7EC00A65A96 /* AddDatePolicy.swift */; };
+		939044D728B174430047158D /* AuthenticationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F31231720DE00473FDA /* AuthenticationPolicy.swift */; };
+		939044D828B174430047158D /* ContentDecodePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6864B7233EAC76004B7E17 /* ContentDecodePolicy.swift */; };
+		939044D928B174430047158D /* HeadersPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F1B2316EBC600473FDA /* HeadersPolicy.swift */; };
+		939044DA28B174430047158D /* HeadersValidationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE326342499605700C85EAA /* HeadersValidationPolicy.swift */; };
+		939044DB28B174430047158D /* LoggingPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFCF7652345714200592782 /* LoggingPolicy.swift */; };
+		939044DC28B174430047158D /* NormalizeETagPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE326362499616900C85EAA /* NormalizeETagPolicy.swift */; };
+		939044DD28B174430047158D /* RequestIdPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366423C0232A00A65A96 /* RequestIdPolicy.swift */; };
+		939044DE28B174430047158D /* RetryPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A55FC3B2548B63D002CBFD8 /* RetryPolicy.swift */; };
+		939044DF28B174430047158D /* UserAgentPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F212316FAF000473FDA /* UserAgentPolicy.swift */; };
+		939044E028B174430047158D /* DataStringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB7411F23C79E1400B579B3 /* DataStringConvertible.swift */; };
+		939044E128B174430047158D /* HTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D932315CEB600473FDA /* HTTPHeader.swift */; };
+		939044E228B174430047158D /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D922315CEB600473FDA /* HTTPMethod.swift */; };
+		939044E328B174430047158D /* HTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D902315CEB600473FDA /* HTTPRequest.swift */; };
+		939044E428B174440047158D /* HTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D912315CEB600473FDA /* HTTPResponse.swift */; };
+		939044E528B174440047158D /* TransportStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB7412023C79E1400B579B3 /* TransportStage.swift */; };
+		939044E628B174440047158D /* RequestParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC47D76254209DB00660532 /* RequestParameters.swift */; };
+		939044E728B174440047158D /* TelemetryOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A22B09124CF611F00EC018E /* TelemetryOptions.swift */; };
+		939044E828B174440047158D /* TransportOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A22B08F24CF490C00EC018E /* TransportOptions.swift */; };
+		939044E928B174440047158D /* URLHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F56392321732B00E9765A /* URLHTTPResponse.swift */; };
+		939044EA28B174440047158D /* URLSessionTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F432319D49700473FDA /* URLSessionTransport.swift */; };
+		939044EB28B174440047158D /* Pipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F3D2318906100473FDA /* Pipeline.swift */; };
+		939044EC28B174440047158D /* PipelineClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F3F2318975900473FDA /* PipelineClient.swift */; };
+		939044ED28B174440047158D /* PipelineContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F1F2316EF9400473FDA /* PipelineContext.swift */; };
+		939044EE28B174440047158D /* PipelineRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F392318903900473FDA /* PipelineRequest.swift */; };
+		939044EF28B174440047158D /* PipelineResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F3B2318904F00473FDA /* PipelineResponse.swift */; };
+		939044F028B174440047158D /* PipelineStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F412319834500473FDA /* PipelineStage.swift */; };
+		939044F128B174440047158D /* BundleInfoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366823C0340C00A65A96 /* BundleInfoProvider.swift */; };
+		939044F228B174440047158D /* DeviceProviders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366E23C0409F00A65A96 /* DeviceProviders.swift */; };
+		939044F328B174440047158D /* LocaleInfoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366C23C0342600A65A96 /* LocaleInfoProvider.swift */; };
+		939044F428B174440047158D /* PlatformInfoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366A23C0341B00A65A96 /* PlatformInfoProvider.swift */; };
+		939044F528B174440047158D /* ApplicationUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45B1FA23A82A2E00C54363 /* ApplicationUtil.swift */; };
+		939044F628B174440047158D /* AzureCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA82234D017F00F05073 /* AzureCodable.swift */; };
+		939044F728B174440047158D /* ConvertingInitializers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB5EAFC2375F25400361879 /* ConvertingInitializers.swift */; };
+		939044F828B174440047158D /* Copyable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A18D7B423A95FEC008959E6 /* Copyable.swift */; };
+		939044F928B174440047158D /* CryptoUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F022316DF6600473FDA /* CryptoUtil.swift */; };
+		939044FA28B174440047158D /* KeychainUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */; };
+		939044FB28B174440047158D /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD6351A23F46C18000D67F6 /* ReachabilityManager.swift */; };
+		939044FC28B174440047158D /* ReachabilityManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD6351C23F46C6D000D67F6 /* ReachabilityManagerType.swift */; };
+		939044FD28B174440047158D /* RegexUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6A9B4E234293B50013FCAA /* RegexUtil.swift */; };
+		939044FE28B174440047158D /* RequestString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A348F4F2555E3B000C63618 /* RequestString.swift */; };
+		939044FF28B174440047158D /* StringUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A73AB76243F969700C6DC34 /* StringUtil.swift */; };
+		9390450028B174440047158D /* URLUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5E79ED2474A921000757F6 /* URLUtil.swift */; };
+		9390450128B174440047158D /* AzureTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1DC6C22489E8550006FCB7 /* AzureTask.swift */; };
+		9390450228B174440047158D /* ClientLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB7412323C7A03400B579B3 /* ClientLogger.swift */; };
+		9390450328B174440047158D /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F002316DF1B00473FDA /* Errors.swift */; };
+		9390450428B174E70047158D /* AzureDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A348C6E2550BC9D00C63618 /* AzureDate.swift */; };
+		9390450528B174E70047158D /* Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA8A234F8ADD00F05073 /* Collections.swift */; };
+		9390450628B174E70047158D /* XMLMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A532ACE2417E71100C4C8BA /* XMLMap.swift */; };
+		9390450728B174E70047158D /* XMLModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA8E234FDB0800F05073 /* XMLModel.swift */; };
+		9390450828B174E70047158D /* XMLTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A532AD02417E73C00C4C8BA /* XMLTree.swift */; };
+		9390450928B174E70047158D /* CancellationToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0DD9AE24AE7D5800D2E884 /* CancellationToken.swift */; };
+		9390450A28B174E70047158D /* AddDatePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366223BEC7EC00A65A96 /* AddDatePolicy.swift */; };
+		9390450B28B174E70047158D /* AuthenticationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F31231720DE00473FDA /* AuthenticationPolicy.swift */; };
+		9390450C28B174E70047158D /* ContentDecodePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6864B7233EAC76004B7E17 /* ContentDecodePolicy.swift */; };
+		9390450D28B174E80047158D /* HeadersPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F1B2316EBC600473FDA /* HeadersPolicy.swift */; };
+		9390450E28B174E80047158D /* HeadersValidationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE326342499605700C85EAA /* HeadersValidationPolicy.swift */; };
+		9390450F28B174E80047158D /* LoggingPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFCF7652345714200592782 /* LoggingPolicy.swift */; };
+		9390451028B174E80047158D /* NormalizeETagPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE326362499616900C85EAA /* NormalizeETagPolicy.swift */; };
+		9390451128B174E80047158D /* RequestIdPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366423C0232A00A65A96 /* RequestIdPolicy.swift */; };
+		9390451228B174E80047158D /* RetryPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A55FC3B2548B63D002CBFD8 /* RetryPolicy.swift */; };
+		9390451328B174E80047158D /* UserAgentPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F212316FAF000473FDA /* UserAgentPolicy.swift */; };
+		9390451428B174E80047158D /* DataStringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB7411F23C79E1400B579B3 /* DataStringConvertible.swift */; };
+		9390451528B174E80047158D /* HTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D932315CEB600473FDA /* HTTPHeader.swift */; };
+		9390451628B174E80047158D /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D922315CEB600473FDA /* HTTPMethod.swift */; };
+		9390451728B174E80047158D /* HTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D902315CEB600473FDA /* HTTPRequest.swift */; };
+		9390451828B174E80047158D /* HTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D912315CEB600473FDA /* HTTPResponse.swift */; };
+		9390451928B174E80047158D /* TransportStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB7412023C79E1400B579B3 /* TransportStage.swift */; };
+		9390451A28B174E80047158D /* RequestParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC47D76254209DB00660532 /* RequestParameters.swift */; };
+		9390451B28B174E80047158D /* TelemetryOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A22B09124CF611F00EC018E /* TelemetryOptions.swift */; };
+		9390451C28B174E80047158D /* TransportOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A22B08F24CF490C00EC018E /* TransportOptions.swift */; };
+		9390451D28B174E80047158D /* URLHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F56392321732B00E9765A /* URLHTTPResponse.swift */; };
+		9390451E28B174E80047158D /* URLSessionTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F432319D49700473FDA /* URLSessionTransport.swift */; };
+		9390451F28B174E80047158D /* Pipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F3D2318906100473FDA /* Pipeline.swift */; };
+		9390452028B174E80047158D /* PipelineClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F3F2318975900473FDA /* PipelineClient.swift */; };
+		9390452128B174E80047158D /* PipelineContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F1F2316EF9400473FDA /* PipelineContext.swift */; };
+		9390452228B174E80047158D /* PipelineRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F392318903900473FDA /* PipelineRequest.swift */; };
+		9390452328B174E80047158D /* PipelineResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F3B2318904F00473FDA /* PipelineResponse.swift */; };
+		9390452428B174E80047158D /* PipelineStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F412319834500473FDA /* PipelineStage.swift */; };
+		9390452528B174E80047158D /* BundleInfoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366823C0340C00A65A96 /* BundleInfoProvider.swift */; };
+		9390452628B174E80047158D /* DeviceProviders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366E23C0409F00A65A96 /* DeviceProviders.swift */; };
+		9390452728B174E80047158D /* LocaleInfoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366C23C0342600A65A96 /* LocaleInfoProvider.swift */; };
+		9390452828B174E80047158D /* PlatformInfoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366A23C0341B00A65A96 /* PlatformInfoProvider.swift */; };
+		9390452928B174E80047158D /* ApplicationUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45B1FA23A82A2E00C54363 /* ApplicationUtil.swift */; };
+		9390452A28B174E80047158D /* AzureCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA82234D017F00F05073 /* AzureCodable.swift */; };
+		9390452B28B174E80047158D /* ConvertingInitializers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB5EAFC2375F25400361879 /* ConvertingInitializers.swift */; };
+		9390452C28B174E80047158D /* Copyable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A18D7B423A95FEC008959E6 /* Copyable.swift */; };
+		9390452D28B174E80047158D /* CryptoUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F022316DF6600473FDA /* CryptoUtil.swift */; };
+		9390452E28B174E80047158D /* KeychainUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */; };
+		9390452F28B174E80047158D /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD6351A23F46C18000D67F6 /* ReachabilityManager.swift */; };
+		9390453028B174E80047158D /* ReachabilityManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD6351C23F46C6D000D67F6 /* ReachabilityManagerType.swift */; };
+		9390453128B174E80047158D /* RegexUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6A9B4E234293B50013FCAA /* RegexUtil.swift */; };
+		9390453228B174E80047158D /* RequestString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A348F4F2555E3B000C63618 /* RequestString.swift */; };
+		9390453328B174E80047158D /* StringUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A73AB76243F969700C6DC34 /* StringUtil.swift */; };
+		9390453428B174E80047158D /* URLUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5E79ED2474A921000757F6 /* URLUtil.swift */; };
+		9390453528B174E80047158D /* AzureTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1DC6C22489E8550006FCB7 /* AzureTask.swift */; };
+		9390453628B174E80047158D /* ClientLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB7412323C7A03400B579B3 /* ClientLogger.swift */; };
+		9390453728B174E80047158D /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F002316DF1B00473FDA /* Errors.swift */; };
+		9390453828B174F60047158D /* AzureDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A348C6E2550BC9D00C63618 /* AzureDate.swift */; };
+		9390453928B174F60047158D /* Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA8A234F8ADD00F05073 /* Collections.swift */; };
+		9390453A28B174F60047158D /* XMLMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A532ACE2417E71100C4C8BA /* XMLMap.swift */; };
+		9390453B28B174F60047158D /* XMLModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA8E234FDB0800F05073 /* XMLModel.swift */; };
+		9390453C28B174F60047158D /* XMLTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A532AD02417E73C00C4C8BA /* XMLTree.swift */; };
+		9390453D28B174F60047158D /* CancellationToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0DD9AE24AE7D5800D2E884 /* CancellationToken.swift */; };
+		9390453E28B174F60047158D /* AddDatePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366223BEC7EC00A65A96 /* AddDatePolicy.swift */; };
+		9390453F28B174F60047158D /* AuthenticationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F31231720DE00473FDA /* AuthenticationPolicy.swift */; };
+		9390454028B174F60047158D /* ContentDecodePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6864B7233EAC76004B7E17 /* ContentDecodePolicy.swift */; };
+		9390454128B174F60047158D /* HeadersPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F1B2316EBC600473FDA /* HeadersPolicy.swift */; };
+		9390454228B174F60047158D /* HeadersValidationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE326342499605700C85EAA /* HeadersValidationPolicy.swift */; };
+		9390454328B174F60047158D /* LoggingPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFCF7652345714200592782 /* LoggingPolicy.swift */; };
+		9390454428B174F60047158D /* NormalizeETagPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE326362499616900C85EAA /* NormalizeETagPolicy.swift */; };
+		9390454528B174F60047158D /* RequestIdPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366423C0232A00A65A96 /* RequestIdPolicy.swift */; };
+		9390454628B174F60047158D /* RetryPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A55FC3B2548B63D002CBFD8 /* RetryPolicy.swift */; };
+		9390454728B174F60047158D /* UserAgentPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F212316FAF000473FDA /* UserAgentPolicy.swift */; };
+		9390454828B174F70047158D /* DataStringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB7411F23C79E1400B579B3 /* DataStringConvertible.swift */; };
+		9390454928B174F70047158D /* HTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D932315CEB600473FDA /* HTTPHeader.swift */; };
+		9390454A28B174F70047158D /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D922315CEB600473FDA /* HTTPMethod.swift */; };
+		9390454B28B174F70047158D /* HTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D902315CEB600473FDA /* HTTPRequest.swift */; };
+		9390454C28B174F70047158D /* HTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D912315CEB600473FDA /* HTTPResponse.swift */; };
+		9390454D28B174F70047158D /* TransportStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB7412023C79E1400B579B3 /* TransportStage.swift */; };
+		9390454E28B174F70047158D /* RequestParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC47D76254209DB00660532 /* RequestParameters.swift */; };
+		9390454F28B174F70047158D /* TelemetryOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A22B09124CF611F00EC018E /* TelemetryOptions.swift */; };
+		9390455028B174F70047158D /* TransportOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A22B08F24CF490C00EC018E /* TransportOptions.swift */; };
+		9390455128B174F70047158D /* URLHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F56392321732B00E9765A /* URLHTTPResponse.swift */; };
+		9390455228B174F70047158D /* URLSessionTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F432319D49700473FDA /* URLSessionTransport.swift */; };
+		9390455328B174F70047158D /* Pipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F3D2318906100473FDA /* Pipeline.swift */; };
+		9390455428B174F70047158D /* PipelineClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F3F2318975900473FDA /* PipelineClient.swift */; };
+		9390455528B174F70047158D /* PipelineContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F1F2316EF9400473FDA /* PipelineContext.swift */; };
+		9390455628B174F70047158D /* PipelineRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F392318903900473FDA /* PipelineRequest.swift */; };
+		9390455728B174F70047158D /* PipelineResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F3B2318904F00473FDA /* PipelineResponse.swift */; };
+		9390455828B174F70047158D /* PipelineStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F412319834500473FDA /* PipelineStage.swift */; };
+		9390455928B174F70047158D /* BundleInfoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366823C0340C00A65A96 /* BundleInfoProvider.swift */; };
+		9390455A28B174F70047158D /* DeviceProviders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366E23C0409F00A65A96 /* DeviceProviders.swift */; };
+		9390455B28B174F70047158D /* LocaleInfoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366C23C0342600A65A96 /* LocaleInfoProvider.swift */; };
+		9390455C28B174F70047158D /* PlatformInfoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366A23C0341B00A65A96 /* PlatformInfoProvider.swift */; };
+		9390455D28B174F70047158D /* ApplicationUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45B1FA23A82A2E00C54363 /* ApplicationUtil.swift */; };
+		9390455E28B174F70047158D /* AzureCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA82234D017F00F05073 /* AzureCodable.swift */; };
+		9390455F28B174F70047158D /* ConvertingInitializers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB5EAFC2375F25400361879 /* ConvertingInitializers.swift */; };
+		9390456028B174F70047158D /* Copyable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A18D7B423A95FEC008959E6 /* Copyable.swift */; };
+		9390456128B174F70047158D /* CryptoUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F022316DF6600473FDA /* CryptoUtil.swift */; };
+		9390456228B174F70047158D /* KeychainUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */; };
+		9390456328B174F70047158D /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD6351A23F46C18000D67F6 /* ReachabilityManager.swift */; };
+		9390456428B174F70047158D /* ReachabilityManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD6351C23F46C6D000D67F6 /* ReachabilityManagerType.swift */; };
+		9390456528B174F70047158D /* RegexUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6A9B4E234293B50013FCAA /* RegexUtil.swift */; };
+		9390456628B174F70047158D /* RequestString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A348F4F2555E3B000C63618 /* RequestString.swift */; };
+		9390456728B174F70047158D /* StringUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A73AB76243F969700C6DC34 /* StringUtil.swift */; };
+		9390456828B174F70047158D /* URLUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5E79ED2474A921000757F6 /* URLUtil.swift */; };
+		9390456928B174F70047158D /* AzureTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1DC6C22489E8550006FCB7 /* AzureTask.swift */; };
+		9390456A28B174F70047158D /* ClientLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB7412323C7A03400B579B3 /* ClientLogger.swift */; };
+		9390456B28B174F70047158D /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F002316DF1B00473FDA /* Errors.swift */; };
+		9390456C28B175150047158D /* HTTPHeaderStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A348FC32555FE7C00C63618 /* HTTPHeaderStub.swift */; };
+		9390456D28B175150047158D /* LoggerStubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A968D0223E0FC6400E0F054 /* LoggerStubs.swift */; };
+		9390456E28B175150047158D /* PipelineStubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1A916E23D13E5D00B0B3D2 /* PipelineStubs.swift */; };
+		9390456F28B175150047158D /* ProviderStubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1A917023D13F0300B0B3D2 /* ProviderStubs.swift */; };
+		9390457028B175150047158D /* TestCallOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A55FD27254B2521002CBFD8 /* TestCallOptions.swift */; };
+		9390457128B175150047158D /* TestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A55FD2A254B2564002CBFD8 /* TestClient.swift */; };
+		9390457228B175150047158D /* TestClientOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A22B09324CF84F300EC018E /* TestClientOptions.swift */; };
+		9390457328B175150047158D /* TestPolicies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A55FD2D254B25BD002CBFD8 /* TestPolicies.swift */; };
+		9390457428B175150047158D /* AddDatePolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFA4D5F23D14BDB001A3BF4 /* AddDatePolicyTests.swift */; };
+		9390457528B175150047158D /* AzureDateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A34907D2559C6CB00C63618 /* AzureDateTests.swift */; };
+		9390457628B175150047158D /* CollectionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEC35523C8FC320065D588 /* CollectionsTests.swift */; };
+		9390457728B175150047158D /* CryptoUtilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE1886E2447C3950051628A /* CryptoUtilTests.swift */; };
+		9390457828B175150047158D /* HeadersPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFA4D5D23D14864001A3BF4 /* HeadersPolicyTests.swift */; };
+		9390457928B175150047158D /* HeadersValidationPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE32638249A7F3200C85EAA /* HeadersValidationPolicyTests.swift */; };
+		9390457A28B175150047158D /* HTTPRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEC35123C8FC320065D588 /* HTTPRequestTests.swift */; };
+		9390457B28B175150047158D /* LoggingPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFA4D6123D14F01001A3BF4 /* LoggingPolicyTests.swift */; };
+		9390457C28B175150047158D /* NormalizeETagPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE3263A249A7F4900C85EAA /* NormalizeETagPolicyTests.swift */; };
+		9390457D28B175150047158D /* PipelineContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A55FD30254B31AB002CBFD8 /* PipelineContextTests.swift */; };
+		9390457E28B175150047158D /* PipelineRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEC35423C8FC320065D588 /* PipelineRequestTests.swift */; };
+		9390457F28B175150047158D /* PipelineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEC35023C8FC310065D588 /* PipelineTests.swift */; };
+		9390458028B175150047158D /* RequestParametersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC47D9A2542381600660532 /* RequestParametersTests.swift */; };
+		9390458128B175150047158D /* ReachabilityManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD6351E23F46CC4000D67F6 /* ReachabilityManagerTests.swift */; };
+		9390458228B175150047158D /* RequestIdPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1A916B23D13D5700B0B3D2 /* RequestIdPolicyTests.swift */; };
+		9390458328B175150047158D /* UserAgentPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEC35223C8FC320065D588 /* UserAgentPolicyTests.swift */; };
+		9390458428B175150047158D /* UtilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEC34F23C8FC310065D588 /* UtilTests.swift */; };
+		9390458528B175150047158D /* XMLModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEC35323C8FC320065D588 /* XMLModelTests.swift */; };
+		9390458628B1757E0047158D /* HTTPHeaderStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A348FC32555FE7C00C63618 /* HTTPHeaderStub.swift */; };
+		9390458728B1757E0047158D /* LoggerStubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A968D0223E0FC6400E0F054 /* LoggerStubs.swift */; };
+		9390458828B1757E0047158D /* PipelineStubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1A916E23D13E5D00B0B3D2 /* PipelineStubs.swift */; };
+		9390458928B1757E0047158D /* ProviderStubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1A917023D13F0300B0B3D2 /* ProviderStubs.swift */; };
+		9390458A28B1757E0047158D /* TestCallOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A55FD27254B2521002CBFD8 /* TestCallOptions.swift */; };
+		9390458B28B1757E0047158D /* TestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A55FD2A254B2564002CBFD8 /* TestClient.swift */; };
+		9390458C28B1757E0047158D /* TestClientOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A22B09324CF84F300EC018E /* TestClientOptions.swift */; };
+		9390458D28B1757E0047158D /* TestPolicies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A55FD2D254B25BD002CBFD8 /* TestPolicies.swift */; };
+		9390458E28B1757E0047158D /* AddDatePolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFA4D5F23D14BDB001A3BF4 /* AddDatePolicyTests.swift */; };
+		9390458F28B1757E0047158D /* AzureDateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A34907D2559C6CB00C63618 /* AzureDateTests.swift */; };
+		9390459028B1757E0047158D /* CollectionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEC35523C8FC320065D588 /* CollectionsTests.swift */; };
+		9390459128B1757E0047158D /* CryptoUtilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE1886E2447C3950051628A /* CryptoUtilTests.swift */; };
+		9390459228B1757E0047158D /* HeadersPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFA4D5D23D14864001A3BF4 /* HeadersPolicyTests.swift */; };
+		9390459328B1757E0047158D /* HeadersValidationPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE32638249A7F3200C85EAA /* HeadersValidationPolicyTests.swift */; };
+		9390459428B1757E0047158D /* HTTPRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEC35123C8FC320065D588 /* HTTPRequestTests.swift */; };
+		9390459528B1757E0047158D /* LoggingPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFA4D6123D14F01001A3BF4 /* LoggingPolicyTests.swift */; };
+		9390459628B1757E0047158D /* NormalizeETagPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE3263A249A7F4900C85EAA /* NormalizeETagPolicyTests.swift */; };
+		9390459728B1757E0047158D /* PipelineContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A55FD30254B31AB002CBFD8 /* PipelineContextTests.swift */; };
+		9390459828B1757E0047158D /* PipelineRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEC35423C8FC320065D588 /* PipelineRequestTests.swift */; };
+		9390459928B1757E0047158D /* PipelineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEC35023C8FC310065D588 /* PipelineTests.swift */; };
+		9390459A28B1757E0047158D /* RequestParametersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC47D9A2542381600660532 /* RequestParametersTests.swift */; };
+		9390459B28B1757E0047158D /* ReachabilityManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD6351E23F46CC4000D67F6 /* ReachabilityManagerTests.swift */; };
+		9390459C28B1757E0047158D /* RequestIdPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1A916B23D13D5700B0B3D2 /* RequestIdPolicyTests.swift */; };
+		9390459D28B1757E0047158D /* UserAgentPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEC35223C8FC320065D588 /* UserAgentPolicyTests.swift */; };
+		9390459E28B1757E0047158D /* UtilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEC34F23C8FC310065D588 /* UtilTests.swift */; };
+		9390459F28B1757E0047158D /* XMLModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEC35323C8FC320065D588 /* XMLModelTests.swift */; };
+		939045A028B175920047158D /* HTTPHeaderStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A348FC32555FE7C00C63618 /* HTTPHeaderStub.swift */; };
+		939045A128B175920047158D /* LoggerStubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A968D0223E0FC6400E0F054 /* LoggerStubs.swift */; };
+		939045A228B175920047158D /* PipelineStubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1A916E23D13E5D00B0B3D2 /* PipelineStubs.swift */; };
+		939045A328B175920047158D /* ProviderStubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1A917023D13F0300B0B3D2 /* ProviderStubs.swift */; };
+		939045A428B175920047158D /* TestCallOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A55FD27254B2521002CBFD8 /* TestCallOptions.swift */; };
+		939045A528B175920047158D /* TestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A55FD2A254B2564002CBFD8 /* TestClient.swift */; };
+		939045A628B175920047158D /* TestClientOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A22B09324CF84F300EC018E /* TestClientOptions.swift */; };
+		939045A728B175920047158D /* TestPolicies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A55FD2D254B25BD002CBFD8 /* TestPolicies.swift */; };
+		939045A828B175920047158D /* AddDatePolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFA4D5F23D14BDB001A3BF4 /* AddDatePolicyTests.swift */; };
+		939045A928B175920047158D /* AzureDateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A34907D2559C6CB00C63618 /* AzureDateTests.swift */; };
+		939045AA28B175920047158D /* CollectionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEC35523C8FC320065D588 /* CollectionsTests.swift */; };
+		939045AB28B175920047158D /* CryptoUtilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE1886E2447C3950051628A /* CryptoUtilTests.swift */; };
+		939045AC28B175920047158D /* HeadersPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFA4D5D23D14864001A3BF4 /* HeadersPolicyTests.swift */; };
+		939045AD28B175920047158D /* HeadersValidationPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE32638249A7F3200C85EAA /* HeadersValidationPolicyTests.swift */; };
+		939045AE28B175920047158D /* HTTPRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEC35123C8FC320065D588 /* HTTPRequestTests.swift */; };
+		939045AF28B175920047158D /* LoggingPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFA4D6123D14F01001A3BF4 /* LoggingPolicyTests.swift */; };
+		939045B028B175920047158D /* NormalizeETagPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE3263A249A7F4900C85EAA /* NormalizeETagPolicyTests.swift */; };
+		939045B128B175920047158D /* PipelineContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A55FD30254B31AB002CBFD8 /* PipelineContextTests.swift */; };
+		939045B228B175920047158D /* PipelineRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEC35423C8FC320065D588 /* PipelineRequestTests.swift */; };
+		939045B328B175920047158D /* PipelineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEC35023C8FC310065D588 /* PipelineTests.swift */; };
+		939045B428B175920047158D /* RequestParametersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC47D9A2542381600660532 /* RequestParametersTests.swift */; };
+		939045B528B175920047158D /* ReachabilityManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD6351E23F46CC4000D67F6 /* ReachabilityManagerTests.swift */; };
+		939045B628B175920047158D /* RequestIdPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1A916B23D13D5700B0B3D2 /* RequestIdPolicyTests.swift */; };
+		939045B728B175920047158D /* UserAgentPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEC35223C8FC320065D588 /* UserAgentPolicyTests.swift */; };
+		939045B828B175920047158D /* UtilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEC34F23C8FC310065D588 /* UtilTests.swift */; };
+		939045B928B175920047158D /* XMLModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEC35323C8FC320065D588 /* XMLModelTests.swift */; };
+		939045BA28B175A80047158D /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9390447D28AF5A910047158D /* AzureCore.framework */; };
+		939045BB28B175BC0047158D /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9390446328AF5A160047158D /* AzureCore.framework */; };
+		939045BC28B175E60047158D /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9390443D28AF58970047158D /* AzureCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -311,6 +579,7 @@
 		939044AB28AF5E030047158D /* iOS Universal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "iOS Universal.xcconfig"; path = "../../../../eng/config/iOS Universal.xcconfig"; sourceTree = "<group>"; };
 		939044AC28AF5E030047158D /* iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = iOS.xcconfig; path = ../../../../eng/config/iOS.xcconfig; sourceTree = "<group>"; };
 		939044B328AFDE2A0047158D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		939045BD28B176570047158D /* Pods_AzureCore_iOS_Framework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_AzureCore_iOS_Framework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A71CA39FB1132F184EBCB2A4 /* Pods-AzureCore watchOS Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCore watchOS Tests.release.xcconfig"; path = "Target Support Files/Pods-AzureCore watchOS Tests/Pods-AzureCore watchOS Tests.release.xcconfig"; sourceTree = "<group>"; };
 		AAEE43AD7DCF9BF86F34A95B /* Pods-AzureCore iOS Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCore iOS Tests.release.xcconfig"; path = "Target Support Files/Pods-AzureCore iOS Tests/Pods-AzureCore iOS Tests.release.xcconfig"; sourceTree = "<group>"; };
 		AE215F6439C91C64AA07101B /* Pods-AzureCore macOS Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCore macOS Tests.debug.xcconfig"; path = "Target Support Files/Pods-AzureCore macOS Tests/Pods-AzureCore macOS Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -341,7 +610,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CCA89377D5001CC284D25D10 /* Pods_AzureCore_macOS_Framework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -349,8 +617,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9390444C28AF59170047158D /* AzureCore.framework in Frameworks */,
-				35D37054317207D8AC6372CB /* Pods_AzureCore_macOS_Tests.framework in Frameworks */,
+				939045BC28B175E60047158D /* AzureCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -358,7 +625,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				59E96F87490B39281896969E /* Pods_AzureCore_tvOS_Framework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -366,8 +632,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9390447228AF5A580047158D /* AzureCore.framework in Frameworks */,
-				690BC2D29FADA1E7E2C56CDF /* Pods_AzureCore_tvOS_Tests.framework in Frameworks */,
+				939045BB28B175BC0047158D /* AzureCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,7 +640,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				298888143B0BC55F0EC91683 /* Pods_AzureCore_watchOS_Framework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -383,8 +647,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9390448C28AF5AD30047158D /* AzureCore.framework in Frameworks */,
-				1A33D7C51441E6AC1FD4846B /* Pods_AzureCore_watchOS_Tests.framework in Frameworks */,
+				939045BA28B175A80047158D /* AzureCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -653,6 +916,7 @@
 		E4BF633BF023E92DD7174C5B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				939045BD28B176570047158D /* Pods_AzureCore_iOS_Framework.framework */,
 				694B4734174F22A9F92F9C33 /* Pods_AzureCore_iOS_Framework.framework */,
 				109551DCEEF43F5A9350B4DB /* Pods_AzureCore_iOS_Tests.framework */,
 				675C0F42A70D5013721BAFE1 /* Pods_AzureCore_macOS_Framework.framework */,
@@ -744,10 +1008,12 @@
 			buildConfigurationList = 9390444128AF58970047158D /* Build configuration list for PBXNativeTarget "AzureCore macOS Framework" */;
 			buildPhases = (
 				F1499FD25841321D0F5E31E2 /* [CP] Check Pods Manifest.lock */,
+				939044C628B172590047158D /* Verify No Build Settings */,
 				9390443828AF58970047158D /* Headers */,
 				9390443928AF58970047158D /* Sources */,
 				9390443A28AF58970047158D /* Frameworks */,
 				9390443B28AF58970047158D /* Resources */,
+				939044CD28B173DD0047158D /* Format and Lint */,
 			);
 			buildRules = (
 			);
@@ -782,10 +1048,12 @@
 			buildConfigurationList = 9390446728AF5A160047158D /* Build configuration list for PBXNativeTarget "AzureCore tvOS Framework" */;
 			buildPhases = (
 				0059F1237BBFF44D89454C5A /* [CP] Check Pods Manifest.lock */,
+				939044C728B172AE0047158D /* Verify No Build Settings */,
 				9390445E28AF5A160047158D /* Headers */,
 				9390445F28AF5A160047158D /* Sources */,
 				9390446028AF5A160047158D /* Frameworks */,
 				9390446128AF5A160047158D /* Resources */,
+				939044CE28B173EE0047158D /* Format and Lint */,
 			);
 			buildRules = (
 			);
@@ -820,10 +1088,12 @@
 			buildConfigurationList = 9390448128AF5A910047158D /* Build configuration list for PBXNativeTarget "AzureCore watchOS Framework" */;
 			buildPhases = (
 				2193CA61A466559C48F90CDC /* [CP] Check Pods Manifest.lock */,
+				939044CC28B1731B0047158D /* Verify No Build Settings */,
 				9390447828AF5A910047158D /* Headers */,
 				9390447928AF5A910047158D /* Sources */,
 				9390447A28AF5A910047158D /* Frameworks */,
 				9390447B28AF5A910047158D /* Resources */,
+				939044CF28B173FE0047158D /* Format and Lint */,
 			);
 			buildRules = (
 			);
@@ -900,6 +1170,18 @@
 					9390449E28AF5C290047158D = {
 						CreatedOnToolsVersion = 13.4.1;
 					};
+					939045BF28B176930047158D = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
+					939045C328B176DB0047158D = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
+					939045D128B177A90047158D = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
+					939045D528B177CB0047158D = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
 				};
 			};
 			buildConfigurationList = 0A3A5D702315C89C00473FDA /* Build configuration list for PBXProject "AzureCore" */;
@@ -918,15 +1200,19 @@
 				9390449228AF5B240047158D /* AzureCore */,
 				9390449628AF5B660047158D /* AzureCore XCFramework */,
 				0A3A5D752315C89C00473FDA /* AzureCore iOS Framework */,
-				9390449A28AF5BA00047158D /* AzureCore iOS Universal */,
 				0A3A5DDD2315D17F00473FDA /* AzureCore iOS Tests */,
+				9390449A28AF5BA00047158D /* AzureCore iOS Universal */,
+				939045BF28B176930047158D /* AzureCore iOS Documentation */,
 				9390443C28AF58970047158D /* AzureCore macOS Framework */,
 				9390444728AF59170047158D /* AzureCore macOS Tests */,
+				939045C328B176DB0047158D /* AzureCore macOS Documentation */,
 				9390446228AF5A160047158D /* AzureCore tvOS Framework */,
-				9390449E28AF5C290047158D /* AzureCore tvOS Universal */,
 				9390446D28AF5A580047158D /* AzureCore tvOS Tests */,
+				9390449E28AF5C290047158D /* AzureCore tvOS Universal */,
+				939045D128B177A90047158D /* AzureCore tvOS Documentation */,
 				9390447C28AF5A910047158D /* AzureCore watchOS Framework */,
 				9390448728AF5AD30047158D /* AzureCore watchOS Tests */,
+				939045D528B177CB0047158D /* AzureCore watchOS Documentation */,
 			);
 		};
 /* End PBXProject section */
@@ -1164,6 +1450,114 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/../../../eng/scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
 		};
+		939044C628B172590047158D /* Verify No Build Settings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Verify No Build Settings";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../../../eng/scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
+		};
+		939044C728B172AE0047158D /* Verify No Build Settings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Verify No Build Settings";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../../../eng/scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
+		};
+		939044CC28B1731B0047158D /* Verify No Build Settings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Verify No Build Settings";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../../../eng/scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
+		};
+		939044CD28B173DD0047158D /* Format and Lint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Format and Lint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "BUILD_PATH=$(pwd)\nROOT_PATH=$(pwd | rev | cut -d'/' -f4- | rev) \n$ROOT_PATH/eng/scripts/swiftlint.sh $BUILD_PATH\n";
+		};
+		939044CE28B173EE0047158D /* Format and Lint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Format and Lint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# TyBUILD_PATH=$(pwd)\nROOT_PATH=$(pwd | rev | cut -d'/' -f4- | rev) \n$ROOT_PATH/eng/scripts/swiftlint.sh $BUILD_PATH\npe a script or drag a script file from your workspace to insert its path.\n";
+		};
+		939044CF28B173FE0047158D /* Format and Lint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Format and Lint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "BUILD_PATH=$(pwd)\nROOT_PATH=$(pwd | rev | cut -d'/' -f4- | rev) \n$ROOT_PATH/eng/scripts/swiftlint.sh $BUILD_PATH\n";
+		};
 		CE5CD118F398B26CF149DB2D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1307,6 +1701,58 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				939044D028B174430047158D /* AzureDate.swift in Sources */,
+				939044D128B174430047158D /* Collections.swift in Sources */,
+				939044D228B174430047158D /* XMLMap.swift in Sources */,
+				939044D328B174430047158D /* XMLModel.swift in Sources */,
+				939044D428B174430047158D /* XMLTree.swift in Sources */,
+				939044D528B174430047158D /* CancellationToken.swift in Sources */,
+				939044D628B174430047158D /* AddDatePolicy.swift in Sources */,
+				939044D728B174430047158D /* AuthenticationPolicy.swift in Sources */,
+				939044D828B174430047158D /* ContentDecodePolicy.swift in Sources */,
+				939044D928B174430047158D /* HeadersPolicy.swift in Sources */,
+				939044DA28B174430047158D /* HeadersValidationPolicy.swift in Sources */,
+				939044DB28B174430047158D /* LoggingPolicy.swift in Sources */,
+				939044DC28B174430047158D /* NormalizeETagPolicy.swift in Sources */,
+				939044DD28B174430047158D /* RequestIdPolicy.swift in Sources */,
+				939044DE28B174430047158D /* RetryPolicy.swift in Sources */,
+				939044DF28B174430047158D /* UserAgentPolicy.swift in Sources */,
+				939044E028B174430047158D /* DataStringConvertible.swift in Sources */,
+				939044E128B174430047158D /* HTTPHeader.swift in Sources */,
+				939044E228B174430047158D /* HTTPMethod.swift in Sources */,
+				939044E328B174430047158D /* HTTPRequest.swift in Sources */,
+				939044E428B174440047158D /* HTTPResponse.swift in Sources */,
+				939044E528B174440047158D /* TransportStage.swift in Sources */,
+				939044E628B174440047158D /* RequestParameters.swift in Sources */,
+				939044E728B174440047158D /* TelemetryOptions.swift in Sources */,
+				939044E828B174440047158D /* TransportOptions.swift in Sources */,
+				939044E928B174440047158D /* URLHTTPResponse.swift in Sources */,
+				939044EA28B174440047158D /* URLSessionTransport.swift in Sources */,
+				939044EB28B174440047158D /* Pipeline.swift in Sources */,
+				939044EC28B174440047158D /* PipelineClient.swift in Sources */,
+				939044ED28B174440047158D /* PipelineContext.swift in Sources */,
+				939044EE28B174440047158D /* PipelineRequest.swift in Sources */,
+				939044EF28B174440047158D /* PipelineResponse.swift in Sources */,
+				939044F028B174440047158D /* PipelineStage.swift in Sources */,
+				939044F128B174440047158D /* BundleInfoProvider.swift in Sources */,
+				939044F228B174440047158D /* DeviceProviders.swift in Sources */,
+				939044F328B174440047158D /* LocaleInfoProvider.swift in Sources */,
+				939044F428B174440047158D /* PlatformInfoProvider.swift in Sources */,
+				939044F528B174440047158D /* ApplicationUtil.swift in Sources */,
+				939044F628B174440047158D /* AzureCodable.swift in Sources */,
+				939044F728B174440047158D /* ConvertingInitializers.swift in Sources */,
+				939044F828B174440047158D /* Copyable.swift in Sources */,
+				939044F928B174440047158D /* CryptoUtil.swift in Sources */,
+				939044FA28B174440047158D /* KeychainUtil.swift in Sources */,
+				939044FB28B174440047158D /* ReachabilityManager.swift in Sources */,
+				939044FC28B174440047158D /* ReachabilityManagerType.swift in Sources */,
+				939044FD28B174440047158D /* RegexUtil.swift in Sources */,
+				939044FE28B174440047158D /* RequestString.swift in Sources */,
+				939044FF28B174440047158D /* StringUtil.swift in Sources */,
+				9390450028B174440047158D /* URLUtil.swift in Sources */,
+				9390450128B174440047158D /* AzureTask.swift in Sources */,
+				9390450228B174440047158D /* ClientLogger.swift in Sources */,
+				9390450328B174440047158D /* Errors.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1314,6 +1760,32 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9390456C28B175150047158D /* HTTPHeaderStub.swift in Sources */,
+				9390456D28B175150047158D /* LoggerStubs.swift in Sources */,
+				9390456E28B175150047158D /* PipelineStubs.swift in Sources */,
+				9390456F28B175150047158D /* ProviderStubs.swift in Sources */,
+				9390457028B175150047158D /* TestCallOptions.swift in Sources */,
+				9390457128B175150047158D /* TestClient.swift in Sources */,
+				9390457228B175150047158D /* TestClientOptions.swift in Sources */,
+				9390457328B175150047158D /* TestPolicies.swift in Sources */,
+				9390457428B175150047158D /* AddDatePolicyTests.swift in Sources */,
+				9390457528B175150047158D /* AzureDateTests.swift in Sources */,
+				9390457628B175150047158D /* CollectionsTests.swift in Sources */,
+				9390457728B175150047158D /* CryptoUtilTests.swift in Sources */,
+				9390457828B175150047158D /* HeadersPolicyTests.swift in Sources */,
+				9390457928B175150047158D /* HeadersValidationPolicyTests.swift in Sources */,
+				9390457A28B175150047158D /* HTTPRequestTests.swift in Sources */,
+				9390457B28B175150047158D /* LoggingPolicyTests.swift in Sources */,
+				9390457C28B175150047158D /* NormalizeETagPolicyTests.swift in Sources */,
+				9390457D28B175150047158D /* PipelineContextTests.swift in Sources */,
+				9390457E28B175150047158D /* PipelineRequestTests.swift in Sources */,
+				9390457F28B175150047158D /* PipelineTests.swift in Sources */,
+				9390458028B175150047158D /* RequestParametersTests.swift in Sources */,
+				9390458128B175150047158D /* ReachabilityManagerTests.swift in Sources */,
+				9390458228B175150047158D /* RequestIdPolicyTests.swift in Sources */,
+				9390458328B175150047158D /* UserAgentPolicyTests.swift in Sources */,
+				9390458428B175150047158D /* UtilTests.swift in Sources */,
+				9390458528B175150047158D /* XMLModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1321,6 +1793,58 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9390450428B174E70047158D /* AzureDate.swift in Sources */,
+				9390450528B174E70047158D /* Collections.swift in Sources */,
+				9390450628B174E70047158D /* XMLMap.swift in Sources */,
+				9390450728B174E70047158D /* XMLModel.swift in Sources */,
+				9390450828B174E70047158D /* XMLTree.swift in Sources */,
+				9390450928B174E70047158D /* CancellationToken.swift in Sources */,
+				9390450A28B174E70047158D /* AddDatePolicy.swift in Sources */,
+				9390450B28B174E70047158D /* AuthenticationPolicy.swift in Sources */,
+				9390450C28B174E70047158D /* ContentDecodePolicy.swift in Sources */,
+				9390450D28B174E80047158D /* HeadersPolicy.swift in Sources */,
+				9390450E28B174E80047158D /* HeadersValidationPolicy.swift in Sources */,
+				9390450F28B174E80047158D /* LoggingPolicy.swift in Sources */,
+				9390451028B174E80047158D /* NormalizeETagPolicy.swift in Sources */,
+				9390451128B174E80047158D /* RequestIdPolicy.swift in Sources */,
+				9390451228B174E80047158D /* RetryPolicy.swift in Sources */,
+				9390451328B174E80047158D /* UserAgentPolicy.swift in Sources */,
+				9390451428B174E80047158D /* DataStringConvertible.swift in Sources */,
+				9390451528B174E80047158D /* HTTPHeader.swift in Sources */,
+				9390451628B174E80047158D /* HTTPMethod.swift in Sources */,
+				9390451728B174E80047158D /* HTTPRequest.swift in Sources */,
+				9390451828B174E80047158D /* HTTPResponse.swift in Sources */,
+				9390451928B174E80047158D /* TransportStage.swift in Sources */,
+				9390451A28B174E80047158D /* RequestParameters.swift in Sources */,
+				9390451B28B174E80047158D /* TelemetryOptions.swift in Sources */,
+				9390451C28B174E80047158D /* TransportOptions.swift in Sources */,
+				9390451D28B174E80047158D /* URLHTTPResponse.swift in Sources */,
+				9390451E28B174E80047158D /* URLSessionTransport.swift in Sources */,
+				9390451F28B174E80047158D /* Pipeline.swift in Sources */,
+				9390452028B174E80047158D /* PipelineClient.swift in Sources */,
+				9390452128B174E80047158D /* PipelineContext.swift in Sources */,
+				9390452228B174E80047158D /* PipelineRequest.swift in Sources */,
+				9390452328B174E80047158D /* PipelineResponse.swift in Sources */,
+				9390452428B174E80047158D /* PipelineStage.swift in Sources */,
+				9390452528B174E80047158D /* BundleInfoProvider.swift in Sources */,
+				9390452628B174E80047158D /* DeviceProviders.swift in Sources */,
+				9390452728B174E80047158D /* LocaleInfoProvider.swift in Sources */,
+				9390452828B174E80047158D /* PlatformInfoProvider.swift in Sources */,
+				9390452928B174E80047158D /* ApplicationUtil.swift in Sources */,
+				9390452A28B174E80047158D /* AzureCodable.swift in Sources */,
+				9390452B28B174E80047158D /* ConvertingInitializers.swift in Sources */,
+				9390452C28B174E80047158D /* Copyable.swift in Sources */,
+				9390452D28B174E80047158D /* CryptoUtil.swift in Sources */,
+				9390452E28B174E80047158D /* KeychainUtil.swift in Sources */,
+				9390452F28B174E80047158D /* ReachabilityManager.swift in Sources */,
+				9390453028B174E80047158D /* ReachabilityManagerType.swift in Sources */,
+				9390453128B174E80047158D /* RegexUtil.swift in Sources */,
+				9390453228B174E80047158D /* RequestString.swift in Sources */,
+				9390453328B174E80047158D /* StringUtil.swift in Sources */,
+				9390453428B174E80047158D /* URLUtil.swift in Sources */,
+				9390453528B174E80047158D /* AzureTask.swift in Sources */,
+				9390453628B174E80047158D /* ClientLogger.swift in Sources */,
+				9390453728B174E80047158D /* Errors.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1328,6 +1852,32 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9390458628B1757E0047158D /* HTTPHeaderStub.swift in Sources */,
+				9390458728B1757E0047158D /* LoggerStubs.swift in Sources */,
+				9390458828B1757E0047158D /* PipelineStubs.swift in Sources */,
+				9390458928B1757E0047158D /* ProviderStubs.swift in Sources */,
+				9390458A28B1757E0047158D /* TestCallOptions.swift in Sources */,
+				9390458B28B1757E0047158D /* TestClient.swift in Sources */,
+				9390458C28B1757E0047158D /* TestClientOptions.swift in Sources */,
+				9390458D28B1757E0047158D /* TestPolicies.swift in Sources */,
+				9390458E28B1757E0047158D /* AddDatePolicyTests.swift in Sources */,
+				9390458F28B1757E0047158D /* AzureDateTests.swift in Sources */,
+				9390459028B1757E0047158D /* CollectionsTests.swift in Sources */,
+				9390459128B1757E0047158D /* CryptoUtilTests.swift in Sources */,
+				9390459228B1757E0047158D /* HeadersPolicyTests.swift in Sources */,
+				9390459328B1757E0047158D /* HeadersValidationPolicyTests.swift in Sources */,
+				9390459428B1757E0047158D /* HTTPRequestTests.swift in Sources */,
+				9390459528B1757E0047158D /* LoggingPolicyTests.swift in Sources */,
+				9390459628B1757E0047158D /* NormalizeETagPolicyTests.swift in Sources */,
+				9390459728B1757E0047158D /* PipelineContextTests.swift in Sources */,
+				9390459828B1757E0047158D /* PipelineRequestTests.swift in Sources */,
+				9390459928B1757E0047158D /* PipelineTests.swift in Sources */,
+				9390459A28B1757E0047158D /* RequestParametersTests.swift in Sources */,
+				9390459B28B1757E0047158D /* ReachabilityManagerTests.swift in Sources */,
+				9390459C28B1757E0047158D /* RequestIdPolicyTests.swift in Sources */,
+				9390459D28B1757E0047158D /* UserAgentPolicyTests.swift in Sources */,
+				9390459E28B1757E0047158D /* UtilTests.swift in Sources */,
+				9390459F28B1757E0047158D /* XMLModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1335,6 +1885,58 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9390453828B174F60047158D /* AzureDate.swift in Sources */,
+				9390453928B174F60047158D /* Collections.swift in Sources */,
+				9390453A28B174F60047158D /* XMLMap.swift in Sources */,
+				9390453B28B174F60047158D /* XMLModel.swift in Sources */,
+				9390453C28B174F60047158D /* XMLTree.swift in Sources */,
+				9390453D28B174F60047158D /* CancellationToken.swift in Sources */,
+				9390453E28B174F60047158D /* AddDatePolicy.swift in Sources */,
+				9390453F28B174F60047158D /* AuthenticationPolicy.swift in Sources */,
+				9390454028B174F60047158D /* ContentDecodePolicy.swift in Sources */,
+				9390454128B174F60047158D /* HeadersPolicy.swift in Sources */,
+				9390454228B174F60047158D /* HeadersValidationPolicy.swift in Sources */,
+				9390454328B174F60047158D /* LoggingPolicy.swift in Sources */,
+				9390454428B174F60047158D /* NormalizeETagPolicy.swift in Sources */,
+				9390454528B174F60047158D /* RequestIdPolicy.swift in Sources */,
+				9390454628B174F60047158D /* RetryPolicy.swift in Sources */,
+				9390454728B174F60047158D /* UserAgentPolicy.swift in Sources */,
+				9390454828B174F70047158D /* DataStringConvertible.swift in Sources */,
+				9390454928B174F70047158D /* HTTPHeader.swift in Sources */,
+				9390454A28B174F70047158D /* HTTPMethod.swift in Sources */,
+				9390454B28B174F70047158D /* HTTPRequest.swift in Sources */,
+				9390454C28B174F70047158D /* HTTPResponse.swift in Sources */,
+				9390454D28B174F70047158D /* TransportStage.swift in Sources */,
+				9390454E28B174F70047158D /* RequestParameters.swift in Sources */,
+				9390454F28B174F70047158D /* TelemetryOptions.swift in Sources */,
+				9390455028B174F70047158D /* TransportOptions.swift in Sources */,
+				9390455128B174F70047158D /* URLHTTPResponse.swift in Sources */,
+				9390455228B174F70047158D /* URLSessionTransport.swift in Sources */,
+				9390455328B174F70047158D /* Pipeline.swift in Sources */,
+				9390455428B174F70047158D /* PipelineClient.swift in Sources */,
+				9390455528B174F70047158D /* PipelineContext.swift in Sources */,
+				9390455628B174F70047158D /* PipelineRequest.swift in Sources */,
+				9390455728B174F70047158D /* PipelineResponse.swift in Sources */,
+				9390455828B174F70047158D /* PipelineStage.swift in Sources */,
+				9390455928B174F70047158D /* BundleInfoProvider.swift in Sources */,
+				9390455A28B174F70047158D /* DeviceProviders.swift in Sources */,
+				9390455B28B174F70047158D /* LocaleInfoProvider.swift in Sources */,
+				9390455C28B174F70047158D /* PlatformInfoProvider.swift in Sources */,
+				9390455D28B174F70047158D /* ApplicationUtil.swift in Sources */,
+				9390455E28B174F70047158D /* AzureCodable.swift in Sources */,
+				9390455F28B174F70047158D /* ConvertingInitializers.swift in Sources */,
+				9390456028B174F70047158D /* Copyable.swift in Sources */,
+				9390456128B174F70047158D /* CryptoUtil.swift in Sources */,
+				9390456228B174F70047158D /* KeychainUtil.swift in Sources */,
+				9390456328B174F70047158D /* ReachabilityManager.swift in Sources */,
+				9390456428B174F70047158D /* ReachabilityManagerType.swift in Sources */,
+				9390456528B174F70047158D /* RegexUtil.swift in Sources */,
+				9390456628B174F70047158D /* RequestString.swift in Sources */,
+				9390456728B174F70047158D /* StringUtil.swift in Sources */,
+				9390456828B174F70047158D /* URLUtil.swift in Sources */,
+				9390456928B174F70047158D /* AzureTask.swift in Sources */,
+				9390456A28B174F70047158D /* ClientLogger.swift in Sources */,
+				9390456B28B174F70047158D /* Errors.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1342,6 +1944,32 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				939045A028B175920047158D /* HTTPHeaderStub.swift in Sources */,
+				939045A128B175920047158D /* LoggerStubs.swift in Sources */,
+				939045A228B175920047158D /* PipelineStubs.swift in Sources */,
+				939045A328B175920047158D /* ProviderStubs.swift in Sources */,
+				939045A428B175920047158D /* TestCallOptions.swift in Sources */,
+				939045A528B175920047158D /* TestClient.swift in Sources */,
+				939045A628B175920047158D /* TestClientOptions.swift in Sources */,
+				939045A728B175920047158D /* TestPolicies.swift in Sources */,
+				939045A828B175920047158D /* AddDatePolicyTests.swift in Sources */,
+				939045A928B175920047158D /* AzureDateTests.swift in Sources */,
+				939045AA28B175920047158D /* CollectionsTests.swift in Sources */,
+				939045AB28B175920047158D /* CryptoUtilTests.swift in Sources */,
+				939045AC28B175920047158D /* HeadersPolicyTests.swift in Sources */,
+				939045AD28B175920047158D /* HeadersValidationPolicyTests.swift in Sources */,
+				939045AE28B175920047158D /* HTTPRequestTests.swift in Sources */,
+				939045AF28B175920047158D /* LoggingPolicyTests.swift in Sources */,
+				939045B028B175920047158D /* NormalizeETagPolicyTests.swift in Sources */,
+				939045B128B175920047158D /* PipelineContextTests.swift in Sources */,
+				939045B228B175920047158D /* PipelineRequestTests.swift in Sources */,
+				939045B328B175920047158D /* PipelineTests.swift in Sources */,
+				939045B428B175920047158D /* RequestParametersTests.swift in Sources */,
+				939045B528B175920047158D /* ReachabilityManagerTests.swift in Sources */,
+				939045B628B175920047158D /* RequestIdPolicyTests.swift in Sources */,
+				939045B728B175920047158D /* UserAgentPolicyTests.swift in Sources */,
+				939045B828B175920047158D /* UtilTests.swift in Sources */,
+				939045B928B175920047158D /* XMLModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1431,6 +2059,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 939044A928AF5E030047158D /* Tests macOS.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 			};
 			name = Debug;
 		};
@@ -1438,6 +2067,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 939044A928AF5E030047158D /* Tests macOS.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 			};
 			name = Release;
 		};
@@ -1459,6 +2089,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 939044A628AF5E030047158D /* Tests tvOS.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 			};
 			name = Debug;
 		};
@@ -1466,6 +2097,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 939044A628AF5E030047158D /* Tests tvOS.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 			};
 			name = Release;
 		};
@@ -1487,6 +2119,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 939044AA28AF5E030047158D /* Tests watchOS.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 			};
 			name = Debug;
 		};
@@ -1494,6 +2127,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 939044AA28AF5E030047158D /* Tests watchOS.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 			};
 			name = Release;
 		};
@@ -1548,6 +2182,82 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 939044A328AF5E030047158D /* tvOS Universal.xcconfig */;
 			buildSettings = {
+			};
+			name = Release;
+		};
+		939045C128B176930047158D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 939044AC28AF5E030047158D /* iOS.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6QHKQ538VM;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		939045C228B176930047158D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6QHKQ538VM;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		939045C528B176DB0047158D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 939044A228AF5E030047158D /* macOS.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6QHKQ538VM;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		939045C628B176DB0047158D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6QHKQ538VM;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		939045D328B177A90047158D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 939044A428AF5E030047158D /* tvOS.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6QHKQ538VM;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		939045D428B177A90047158D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6QHKQ538VM;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		939045D728B177CB0047158D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 939044A728AF5E030047158D /* watchOS.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6QHKQ538VM;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		939045D828B177CB0047158D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6QHKQ538VM;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -1667,6 +2377,42 @@
 			buildConfigurations = (
 				939044A028AF5C290047158D /* Debug */,
 				939044A128AF5C290047158D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		939045C028B176930047158D /* Build configuration list for PBXAggregateTarget "AzureCore iOS Documentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				939045C128B176930047158D /* Debug */,
+				939045C228B176930047158D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		939045C428B176DB0047158D /* Build configuration list for PBXAggregateTarget "AzureCore macOS Documentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				939045C528B176DB0047158D /* Debug */,
+				939045C628B176DB0047158D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		939045D228B177A90047158D /* Build configuration list for PBXAggregateTarget "AzureCore tvOS Documentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				939045D328B177A90047158D /* Debug */,
+				939045D428B177A90047158D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		939045D628B177CB0047158D /* Build configuration list for PBXAggregateTarget "AzureCore watchOS Documentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				939045D728B177CB0047158D /* Debug */,
+				939045D828B177CB0047158D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
