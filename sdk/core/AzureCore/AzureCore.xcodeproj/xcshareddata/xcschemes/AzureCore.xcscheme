@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0A3A5D752315C89C00473FDA"
                BuildableName = "AzureCore.framework"
-               BlueprintName = "AzureCore"
+               BlueprintName = "AzureCore iOS Framework"
                ReferencedContainer = "container:AzureCore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -33,7 +33,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0A3A5D752315C89C00473FDA"
             BuildableName = "AzureCore.framework"
-            BlueprintName = "AzureCore"
+            BlueprintName = "AzureCore iOS Framework"
             ReferencedContainer = "container:AzureCore.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -44,8 +44,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0A3A5DDD2315D17F00473FDA"
-               BuildableName = "AzureCoreTests.xctest"
-               BlueprintName = "AzureCoreTests"
+               BuildableName = "AzureCore.xctest"
+               BlueprintName = "AzureCore iOS Tests"
                ReferencedContainer = "container:AzureCore.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -66,7 +66,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0A3A5D752315C89C00473FDA"
             BuildableName = "AzureCore.framework"
-            BlueprintName = "AzureCore"
+            BlueprintName = "AzureCore iOS Framework"
             ReferencedContainer = "container:AzureCore.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -82,7 +82,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0A3A5D752315C89C00473FDA"
             BuildableName = "AzureCore.framework"
-            BlueprintName = "AzureCore"
+            BlueprintName = "AzureCore iOS Framework"
             ReferencedContainer = "container:AzureCore.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

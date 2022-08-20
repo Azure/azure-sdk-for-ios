@@ -1,0 +1,4 @@
+#include "./Tests.xcconfig"
+#include "./watchOS.xcconfig"
+
+LD_RUNPATH_SEARCH_PATHS = @executable_path/Frameworks @loader_path/Frameworks

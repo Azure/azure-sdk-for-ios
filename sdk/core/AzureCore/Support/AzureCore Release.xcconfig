@@ -1,0 +1,2 @@
+#include "../../../eng/config/Global Release.xcconfig"
+#include "./AzureCore.xcconfig"

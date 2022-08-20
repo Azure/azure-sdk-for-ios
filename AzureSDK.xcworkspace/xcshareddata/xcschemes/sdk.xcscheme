@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0A3A5D752315C89C00473FDA"
                BuildableName = "AzureCore.framework"
-               BlueprintName = "AzureCore"
+               BlueprintName = "AzureCore iOS Framework"
                ReferencedContainer = "container:sdk/core/AzureCore/AzureCore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -119,8 +119,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0A3A5DDD2315D17F00473FDA"
-               BuildableName = "AzureCoreTests.xctest"
-               BlueprintName = "AzureCoreTests"
+               BuildableName = "AzureCore.xctest"
+               BlueprintName = "AzureCore iOS Tests"
                ReferencedContainer = "container:sdk/core/AzureCore/AzureCore.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -224,7 +224,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0A3A5D752315C89C00473FDA"
             BuildableName = "AzureCore.framework"
-            BlueprintName = "AzureCore"
+            BlueprintName = "AzureCore iOS Framework"
             ReferencedContainer = "container:sdk/core/AzureCore/AzureCore.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

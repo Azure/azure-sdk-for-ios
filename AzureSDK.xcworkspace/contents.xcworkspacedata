@@ -45,6 +45,13 @@
          </FileRef>
       </Group>
       <Group
+         location = "group:storage"
+         name = "storage">
+         <FileRef
+            location = "group:AzureStorageBlob/AzureStorageBlob.xcodeproj">
+         </FileRef>
+      </Group>
+      <Group
          location = "container:"
          name = "template">
          <FileRef
@@ -55,57 +62,17 @@
    <Group
       location = "group:examples"
       name = "Examples">
-      <Group
-         location = "group:AzureSDKSmokeTestSwiftPM"
-         name = "AzureSDKSmokeTestSwiftPM">
-         <Group
-            location = "group:AzureSDKSmokeTestSwiftPM"
-            name = "AzureSDKSmokeTestSwiftPM">
-            <Group
-               location = "group:Assets.xcassets"
-               name = "Assets.xcassets">
-               <Group
-                  location = "group:AppIcon.appiconset"
-                  name = "AppIcon.appiconset">
-                  <FileRef
-                     location = "group:Contents.json">
-                  </FileRef>
-               </Group>
-               <Group
-                  location = "group:AccentColor.colorset"
-                  name = "AccentColor.colorset">
-                  <FileRef
-                     location = "group:Contents.json">
-                  </FileRef>
-               </Group>
-               <FileRef
-                  location = "group:Contents.json">
-               </FileRef>
-            </Group>
-            <Group
-               location = "group:Preview Content"
-               name = "Preview Content">
-               <Group
-                  location = "group:Preview Assets.xcassets"
-                  name = "Preview Assets.xcassets">
-                  <FileRef
-                     location = "group:Contents.json">
-                  </FileRef>
-               </Group>
-            </Group>
-            <FileRef
-               location = "group:AzureSDKSmokeTestSwiftPMApp.swift">
-            </FileRef>
-            <FileRef
-               location = "group:ContentView.swift">
-            </FileRef>
-            <FileRef
-               location = "group:Info.plist">
-            </FileRef>
-         </Group>
-      </Group>
+      <FileRef
+         location = "group:AzureStorageBlobDemo/AzureStorageBlobDemo.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:AzureSDKDemoSwiftUI/AzureSDKDemoSwiftUI.xcodeproj">
+      </FileRef>
       <FileRef
          location = "group:AzureSDKSmokeTest/AzureSDKSmokeTest.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
       </FileRef>
    </Group>
    <Group
@@ -134,6 +101,43 @@
    <Group
       location = "group:eng"
       name = "eng">
+      <Group
+         location = "container:"
+         name = "config">
+         <FileRef
+            location = "group:eng/config/Framework.xcconfig">
+         </FileRef>
+         <FileRef
+            location = "group:eng/config/Global Debug.xcconfig">
+         </FileRef>
+         <FileRef
+            location = "group:eng/config/Global Release.xcconfig">
+         </FileRef>
+         <FileRef
+            location = "group:eng/config/Global.xcconfig">
+         </FileRef>
+         <FileRef
+            location = "group:eng/config/iOS Universal.xcconfig">
+         </FileRef>
+         <FileRef
+            location = "group:eng/config/iOS.xcconfig">
+         </FileRef>
+         <FileRef
+            location = "group:eng/config/macOS.xcconfig">
+         </FileRef>
+         <FileRef
+            location = "group:eng/config/tvOS Universal.xcconfig">
+         </FileRef>
+         <FileRef
+            location = "group:eng/config/tvOS.xcconfig">
+         </FileRef>
+         <FileRef
+            location = "group:eng/config/watchOS.xcconfig">
+         </FileRef>
+         <FileRef
+            location = "group:eng/config/XCFramework.xcconfig">
+         </FileRef>
+      </Group>
       <FileRef
          location = "group:ignore-links.txt">
       </FileRef>
@@ -466,6 +470,12 @@
          location = "group:scripts"
          name = "scripts">
          <FileRef
+            location = "group:podlint.sh">
+         </FileRef>
+         <FileRef
+            location = "group:sync_repo.py">
+         </FileRef>
+         <FileRef
             location = "group:build_api_docs.py">
          </FileRef>
          <FileRef
@@ -487,48 +497,17 @@
             location = "group:version.py">
          </FileRef>
          <FileRef
-            location = "group:build_api_docs.sh">
-         </FileRef>
-         <FileRef
             location = "group:swiftlint.sh">
-         </FileRef>
-         <FileRef
-            location = "group:/Users/travisprescott/repos/azure-sdk-for-ios/eng/scripts/sync_repo.py">
-         </FileRef>
-         <FileRef
-            location = "group:/Users/travisprescott/repos/azure-sdk-for-ios/eng/scripts/podlint.sh">
          </FileRef>
          <FileRef
             location = "group:util.py">
          </FileRef>
+         <FileRef
+            location = "group:VerifyNoBuildSettings.swift">
+         </FileRef>
       </Group>
       <FileRef
          location = "group:CHECKENFORCER">
-      </FileRef>
-   </Group>
-   <Group
-      location = "group:/Users/travisprescott/repos/azure-sdk-for-ios/jazzy"
-      name = "jazzy">
-      <FileRef
-         location = "group:AzureCommunicationUICalling.yml">
-      </FileRef>
-      <FileRef
-         location = "group:index_template.html">
-      </FileRef>
-      <FileRef
-         location = "group:AzureCommunicationCommon.yml">
-      </FileRef>
-      <FileRef
-         location = "group:AzureIdentity.yml">
-      </FileRef>
-      <FileRef
-         location = "group:AzureCommunicationChat.yml">
-      </FileRef>
-      <FileRef
-         location = "group:AzureCore.yml">
-      </FileRef>
-      <FileRef
-         location = "group:/Users/travisprescott/repos/azure-sdk-for-ios/jazzy/AzureCommunicationUI.yml">
       </FileRef>
    </Group>
 </Workspace>

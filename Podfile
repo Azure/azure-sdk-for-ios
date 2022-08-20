@@ -71,10 +71,34 @@ target 'AzureCommunicationChat' do
   end
 end
 
-target 'AzureCore' do
+target 'AzureCore iOS Framework' do
   project 'sdk/core/AzureCore/AzureCore'
 
-  target 'AzureCoreTests' do
+  target 'AzureCore iOS Tests' do
+    inherit! :search_paths
+  end
+end
+
+target 'AzureCore macOS Framework' do
+  project 'sdk/core/AzureCore/AzureCore'
+
+  target 'AzureCore macOS Tests' do
+    inherit! :search_paths
+  end
+end
+
+target 'AzureCore tvOS Framework' do
+  project 'sdk/core/AzureCore/AzureCore'
+
+  target 'AzureCore tvOS Tests' do
+    inherit! :search_paths
+  end
+end
+
+target 'AzureCore watchOS Framework' do
+  project 'sdk/core/AzureCore/AzureCore'
+
+  target 'AzureCore watchOS Tests' do
     inherit! :search_paths
   end
 end

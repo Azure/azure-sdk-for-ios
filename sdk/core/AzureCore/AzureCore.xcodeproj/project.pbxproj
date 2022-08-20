@@ -6,6 +6,49 @@
 	objectVersion = 50;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		9390449228AF5B240047158D /* AzureCore */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 9390449328AF5B240047158D /* Build configuration list for PBXAggregateTarget "AzureCore" */;
+			buildPhases = (
+			);
+			dependencies = (
+			);
+			name = AzureCore;
+			productName = AzureCore;
+		};
+		9390449628AF5B660047158D /* AzureCore XCFramework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 9390449728AF5B660047158D /* Build configuration list for PBXAggregateTarget "AzureCore XCFramework" */;
+			buildPhases = (
+			);
+			dependencies = (
+			);
+			name = "AzureCore XCFramework";
+			productName = "AzureCore XCFramework";
+		};
+		9390449A28AF5BA00047158D /* AzureCore iOS Universal */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 9390449B28AF5BA00047158D /* Build configuration list for PBXAggregateTarget "AzureCore iOS Universal" */;
+			buildPhases = (
+			);
+			dependencies = (
+			);
+			name = "AzureCore iOS Universal";
+			productName = "AzureCore iOS Universal";
+		};
+		9390449E28AF5C290047158D /* AzureCore tvOS Universal */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 9390449F28AF5C290047158D /* Build configuration list for PBXAggregateTarget "AzureCore tvOS Universal" */;
+			buildPhases = (
+			);
+			dependencies = (
+			);
+			name = "AzureCore tvOS Universal";
+			productName = "AzureCore tvOS Universal";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		0A0DD9AF24AE7D5800D2E884 /* CancellationToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0DD9AE24AE7D5800D2E884 /* CancellationToken.swift */; };
 		0A18D7B523A95FEC008959E6 /* Copyable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A18D7B423A95FEC008959E6 /* Copyable.swift */; };
@@ -75,7 +118,12 @@
 		0AFEC37423C8FC630065D588 /* things.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0AFEC36823C8FC590065D588 /* things.xml */; };
 		0AFEC37523C8FC630065D588 /* thing2.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0AFEC36923C8FC590065D588 /* thing2.xml */; };
 		0AFEC37623C8FC630065D588 /* pagedthings.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0AFEC36A23C8FC590065D588 /* pagedthings.xml */; };
-		3DD2BD632812BD4E5AEA48DD /* Pods_AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C60F095469BF6BE907D2145 /* Pods_AzureCore.framework */; };
+		1A33D7C51441E6AC1FD4846B /* Pods_AzureCore_watchOS_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69657F5C86BEA82D09F9DD8D /* Pods_AzureCore_watchOS_Tests.framework */; };
+		298888143B0BC55F0EC91683 /* Pods_AzureCore_watchOS_Framework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39D2EB1AD57DA7DF7B8D6EA8 /* Pods_AzureCore_watchOS_Framework.framework */; };
+		35D37054317207D8AC6372CB /* Pods_AzureCore_macOS_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C104529BEDDF5441A69B9618 /* Pods_AzureCore_macOS_Tests.framework */; };
+		55578F7FADC81F4E7153E6CE /* Pods_AzureCore_iOS_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 109551DCEEF43F5A9350B4DB /* Pods_AzureCore_iOS_Tests.framework */; };
+		59E96F87490B39281896969E /* Pods_AzureCore_tvOS_Framework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B80D44975A3F3E608B03929E /* Pods_AzureCore_tvOS_Framework.framework */; };
+		690BC2D29FADA1E7E2C56CDF /* Pods_AzureCore_tvOS_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B0EF6B769CCC096421AE86F /* Pods_AzureCore_tvOS_Tests.framework */; };
 		7A1A916C23D13D5700B0B3D2 /* RequestIdPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1A916B23D13D5700B0B3D2 /* RequestIdPolicyTests.swift */; };
 		7A1A916F23D13E5D00B0B3D2 /* PipelineStubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1A916E23D13E5D00B0B3D2 /* PipelineStubs.swift */; };
 		7A1A917123D13F0300B0B3D2 /* ProviderStubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1A917023D13F0300B0B3D2 /* ProviderStubs.swift */; };
@@ -93,7 +141,10 @@
 		7AFA4D6023D14BDB001A3BF4 /* AddDatePolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFA4D5F23D14BDB001A3BF4 /* AddDatePolicyTests.swift */; };
 		7AFA4D6223D14F01001A3BF4 /* LoggingPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFA4D6123D14F01001A3BF4 /* LoggingPolicyTests.swift */; };
 		7AFCF7662345714200592782 /* LoggingPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFCF7652345714200592782 /* LoggingPolicy.swift */; };
-		AF436E45C118BA1397851791 /* Pods_AzureCoreTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6883BF9BFA9A5629697ADCE /* Pods_AzureCoreTests.framework */; };
+		9390444C28AF59170047158D /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9390443D28AF58970047158D /* AzureCore.framework */; };
+		9390447228AF5A580047158D /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9390446328AF5A160047158D /* AzureCore.framework */; };
+		9390448C28AF5AD30047158D /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9390447D28AF5A910047158D /* AzureCore.framework */; };
+		CCA89377D5001CC284D25D10 /* Pods_AzureCore_macOS_Framework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675C0F42A70D5013721BAFE1 /* Pods_AzureCore_macOS_Framework.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,10 +155,31 @@
 			remoteGlobalIDString = 0A3A5D752315C89C00473FDA;
 			remoteInfo = "AzureCore iOS Framework";
 		};
+		9390444D28AF59170047158D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A3A5D6D2315C89C00473FDA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9390443C28AF58970047158D;
+			remoteInfo = "AzureCore macOS Framework";
+		};
+		9390447328AF5A580047158D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A3A5D6D2315C89C00473FDA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9390446228AF5A160047158D;
+			remoteInfo = "AzureCore tvOS Framework";
+		};
+		9390448D28AF5AD30047158D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A3A5D6D2315C89C00473FDA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9390447C28AF5A910047158D;
+			remoteInfo = "AzureCore watchOS Framework";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		05AC340FD3A45F007FCB0F95 /* Pods-AzureCoreTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCoreTests.debug.xcconfig"; path = "Target Support Files/Pods-AzureCoreTests/Pods-AzureCoreTests.debug.xcconfig"; sourceTree = "<group>"; };
+		01879A594874172E577F19B3 /* Pods-AzureCore tvOS Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCore tvOS Tests.release.xcconfig"; path = "Target Support Files/Pods-AzureCore tvOS Tests/Pods-AzureCore tvOS Tests.release.xcconfig"; sourceTree = "<group>"; };
 		0A0DD9AE24AE7D5800D2E884 /* CancellationToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancellationToken.swift; sourceTree = "<group>"; };
 		0A18D7B423A95FEC008959E6 /* Copyable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Copyable.swift; sourceTree = "<group>"; };
 		0A22B08F24CF490C00EC018E /* TransportOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportOptions.swift; sourceTree = "<group>"; };
@@ -123,7 +195,7 @@
 		0A3A5D912315CEB600473FDA /* HTTPResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPResponse.swift; sourceTree = "<group>"; };
 		0A3A5D922315CEB600473FDA /* HTTPMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		0A3A5D932315CEB600473FDA /* HTTPHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPHeader.swift; sourceTree = "<group>"; };
-		0A3A5DDE2315D17F00473FDA /* AzureCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzureCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A3A5DDE2315D17F00473FDA /* AzureCore.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzureCore.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3A5DE22315D17F00473FDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A3A5F002316DF1B00473FDA /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		0A3A5F022316DF6600473FDA /* CryptoUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoUtil.swift; sourceTree = "<group>"; };
@@ -183,8 +255,21 @@
 		0AFEC36823C8FC590065D588 /* things.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = things.xml; sourceTree = "<group>"; };
 		0AFEC36923C8FC590065D588 /* thing2.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = thing2.xml; sourceTree = "<group>"; };
 		0AFEC36A23C8FC590065D588 /* pagedthings.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = pagedthings.xml; sourceTree = "<group>"; };
-		5C60F095469BF6BE907D2145 /* Pods_AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5D344FB2DAF4D22248D4FF45 /* Pods-AzureCoreTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCoreTests.release.xcconfig"; path = "Target Support Files/Pods-AzureCoreTests/Pods-AzureCoreTests.release.xcconfig"; sourceTree = "<group>"; };
+		109551DCEEF43F5A9350B4DB /* Pods_AzureCore_iOS_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCore_iOS_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1392A91E0AF4E2A917736363 /* Pods-AzureCore macOS Framework.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCore macOS Framework.debug.xcconfig"; path = "Target Support Files/Pods-AzureCore macOS Framework/Pods-AzureCore macOS Framework.debug.xcconfig"; sourceTree = "<group>"; };
+		1CEE80BC370EE7E8ECB3798F /* Pods-AzureCore iOS Framework.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCore iOS Framework.debug.xcconfig"; path = "Target Support Files/Pods-AzureCore iOS Framework/Pods-AzureCore iOS Framework.debug.xcconfig"; sourceTree = "<group>"; };
+		2B0EF6B769CCC096421AE86F /* Pods_AzureCore_tvOS_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCore_tvOS_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2CDF2A7B78C4FCBE727F7475 /* Pods-AzureCore watchOS Framework.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCore watchOS Framework.debug.xcconfig"; path = "Target Support Files/Pods-AzureCore watchOS Framework/Pods-AzureCore watchOS Framework.debug.xcconfig"; sourceTree = "<group>"; };
+		2DCB462F9500DA4D5769107C /* Pods-AzureCore tvOS Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCore tvOS Tests.debug.xcconfig"; path = "Target Support Files/Pods-AzureCore tvOS Tests/Pods-AzureCore tvOS Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		2E840A5F0DC9646B95C4E024 /* Pods-AzureCore iOS Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCore iOS Tests.debug.xcconfig"; path = "Target Support Files/Pods-AzureCore iOS Tests/Pods-AzureCore iOS Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		32E43FF483C163E46C1A3D22 /* Pods-AzureCore watchOS Framework.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCore watchOS Framework.release.xcconfig"; path = "Target Support Files/Pods-AzureCore watchOS Framework/Pods-AzureCore watchOS Framework.release.xcconfig"; sourceTree = "<group>"; };
+		39D2EB1AD57DA7DF7B8D6EA8 /* Pods_AzureCore_watchOS_Framework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCore_watchOS_Framework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F09ECBC33AD0574F8890C44 /* Pods-AzureCore macOS Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCore macOS Tests.release.xcconfig"; path = "Target Support Files/Pods-AzureCore macOS Tests/Pods-AzureCore macOS Tests.release.xcconfig"; sourceTree = "<group>"; };
+		616749A4C28F69E444C51644 /* Pods-AzureCore macOS Framework.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCore macOS Framework.release.xcconfig"; path = "Target Support Files/Pods-AzureCore macOS Framework/Pods-AzureCore macOS Framework.release.xcconfig"; sourceTree = "<group>"; };
+		675C0F42A70D5013721BAFE1 /* Pods_AzureCore_macOS_Framework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCore_macOS_Framework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		694B4734174F22A9F92F9C33 /* Pods_AzureCore_iOS_Framework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCore_iOS_Framework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		69657F5C86BEA82D09F9DD8D /* Pods_AzureCore_watchOS_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCore_watchOS_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D4E7D62C1A00C61B2227420 /* Pods-AzureCore tvOS Framework.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCore tvOS Framework.debug.xcconfig"; path = "Target Support Files/Pods-AzureCore tvOS Framework/Pods-AzureCore tvOS Framework.debug.xcconfig"; sourceTree = "<group>"; };
 		7A1A916B23D13D5700B0B3D2 /* RequestIdPolicyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestIdPolicyTests.swift; sourceTree = "<group>"; };
 		7A1A916E23D13E5D00B0B3D2 /* PipelineStubs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineStubs.swift; sourceTree = "<group>"; };
 		7A1A917023D13F0300B0B3D2 /* ProviderStubs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProviderStubs.swift; sourceTree = "<group>"; };
@@ -203,9 +288,36 @@
 		7AFA4D5F23D14BDB001A3BF4 /* AddDatePolicyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddDatePolicyTests.swift; sourceTree = "<group>"; };
 		7AFA4D6123D14F01001A3BF4 /* LoggingPolicyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingPolicyTests.swift; sourceTree = "<group>"; };
 		7AFCF7652345714200592782 /* LoggingPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingPolicy.swift; sourceTree = "<group>"; };
-		ACE29E18DCE92FED378C9781 /* Pods-AzureCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCore.debug.xcconfig"; path = "Target Support Files/Pods-AzureCore/Pods-AzureCore.debug.xcconfig"; sourceTree = "<group>"; };
-		AEB66FD369DD6CD266675B61 /* Pods-AzureCore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCore.release.xcconfig"; path = "Target Support Files/Pods-AzureCore/Pods-AzureCore.release.xcconfig"; sourceTree = "<group>"; };
-		D6883BF9BFA9A5629697ADCE /* Pods_AzureCoreTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCoreTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		88ABE7A4AA9D5028253A6544 /* Pods-AzureCore tvOS Framework.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCore tvOS Framework.release.xcconfig"; path = "Target Support Files/Pods-AzureCore tvOS Framework/Pods-AzureCore tvOS Framework.release.xcconfig"; sourceTree = "<group>"; };
+		9390443428AF57BF0047158D /* AzureCore.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AzureCore.xcconfig; sourceTree = "<group>"; };
+		9390443528AF57BF0047158D /* AzureCore Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AzureCore Debug.xcconfig"; sourceTree = "<group>"; };
+		9390443628AF57BF0047158D /* AzureCore Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AzureCore Release.xcconfig"; sourceTree = "<group>"; };
+		9390443728AF57BF0047158D /* Version.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Version.xcconfig; sourceTree = "<group>"; };
+		9390443D28AF58970047158D /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9390444828AF59170047158D /* AzureCore.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzureCore.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9390446328AF5A160047158D /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9390446E28AF5A580047158D /* AzureCore.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzureCore.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9390447D28AF5A910047158D /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9390448828AF5AD30047158D /* AzureCore.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzureCore.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		939044A228AF5E030047158D /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = macOS.xcconfig; path = ../../../../eng/config/macOS.xcconfig; sourceTree = "<group>"; };
+		939044A328AF5E030047158D /* tvOS Universal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "tvOS Universal.xcconfig"; path = "../../../../eng/config/tvOS Universal.xcconfig"; sourceTree = "<group>"; };
+		939044A428AF5E030047158D /* tvOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = tvOS.xcconfig; path = ../../../../eng/config/tvOS.xcconfig; sourceTree = "<group>"; };
+		939044A528AF5E030047158D /* Tests iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Tests iOS.xcconfig"; path = "../../../../eng/config/Tests iOS.xcconfig"; sourceTree = "<group>"; };
+		939044A628AF5E030047158D /* Tests tvOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Tests tvOS.xcconfig"; path = "../../../../eng/config/Tests tvOS.xcconfig"; sourceTree = "<group>"; };
+		939044A728AF5E030047158D /* watchOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = watchOS.xcconfig; path = ../../../../eng/config/watchOS.xcconfig; sourceTree = "<group>"; };
+		939044A828AF5E030047158D /* XCFramework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = XCFramework.xcconfig; path = ../../../../eng/config/XCFramework.xcconfig; sourceTree = "<group>"; };
+		939044A928AF5E030047158D /* Tests macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Tests macOS.xcconfig"; path = "../../../../eng/config/Tests macOS.xcconfig"; sourceTree = "<group>"; };
+		939044AA28AF5E030047158D /* Tests watchOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Tests watchOS.xcconfig"; path = "../../../../eng/config/Tests watchOS.xcconfig"; sourceTree = "<group>"; };
+		939044AB28AF5E030047158D /* iOS Universal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "iOS Universal.xcconfig"; path = "../../../../eng/config/iOS Universal.xcconfig"; sourceTree = "<group>"; };
+		939044AC28AF5E030047158D /* iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = iOS.xcconfig; path = ../../../../eng/config/iOS.xcconfig; sourceTree = "<group>"; };
+		939044B328AFDE2A0047158D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A71CA39FB1132F184EBCB2A4 /* Pods-AzureCore watchOS Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCore watchOS Tests.release.xcconfig"; path = "Target Support Files/Pods-AzureCore watchOS Tests/Pods-AzureCore watchOS Tests.release.xcconfig"; sourceTree = "<group>"; };
+		AAEE43AD7DCF9BF86F34A95B /* Pods-AzureCore iOS Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCore iOS Tests.release.xcconfig"; path = "Target Support Files/Pods-AzureCore iOS Tests/Pods-AzureCore iOS Tests.release.xcconfig"; sourceTree = "<group>"; };
+		AE215F6439C91C64AA07101B /* Pods-AzureCore macOS Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCore macOS Tests.debug.xcconfig"; path = "Target Support Files/Pods-AzureCore macOS Tests/Pods-AzureCore macOS Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		AFA9146439EBB7696AAFC96B /* Pods-AzureCore watchOS Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCore watchOS Tests.debug.xcconfig"; path = "Target Support Files/Pods-AzureCore watchOS Tests/Pods-AzureCore watchOS Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		B80D44975A3F3E608B03929E /* Pods_AzureCore_tvOS_Framework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCore_tvOS_Framework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C104529BEDDF5441A69B9618 /* Pods_AzureCore_macOS_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCore_macOS_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDBD011D3DE8491A5B5BF181 /* Pods-AzureCore iOS Framework.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCore iOS Framework.release.xcconfig"; path = "Target Support Files/Pods-AzureCore iOS Framework/Pods-AzureCore iOS Framework.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,7 +325,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3DD2BD632812BD4E5AEA48DD /* Pods_AzureCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,16 +333,92 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A3A5DE32315D17F00473FDA /* AzureCore.framework in Frameworks */,
-				AF436E45C118BA1397851791 /* Pods_AzureCoreTests.framework in Frameworks */,
+				55578F7FADC81F4E7153E6CE /* Pods_AzureCore_iOS_Tests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9390443A28AF58970047158D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CCA89377D5001CC284D25D10 /* Pods_AzureCore_macOS_Framework.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9390444528AF59170047158D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9390444C28AF59170047158D /* AzureCore.framework in Frameworks */,
+				35D37054317207D8AC6372CB /* Pods_AzureCore_macOS_Tests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9390446028AF5A160047158D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				59E96F87490B39281896969E /* Pods_AzureCore_tvOS_Framework.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9390446B28AF5A580047158D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9390447228AF5A580047158D /* AzureCore.framework in Frameworks */,
+				690BC2D29FADA1E7E2C56CDF /* Pods_AzureCore_tvOS_Tests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9390447A28AF5A910047158D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				298888143B0BC55F0EC91683 /* Pods_AzureCore_watchOS_Framework.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9390448528AF5AD30047158D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9390448C28AF5AD30047158D /* AzureCore.framework in Frameworks */,
+				1A33D7C51441E6AC1FD4846B /* Pods_AzureCore_watchOS_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		008FF733B2E1071EE36B3C7F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1CEE80BC370EE7E8ECB3798F /* Pods-AzureCore iOS Framework.debug.xcconfig */,
+				FDBD011D3DE8491A5B5BF181 /* Pods-AzureCore iOS Framework.release.xcconfig */,
+				2E840A5F0DC9646B95C4E024 /* Pods-AzureCore iOS Tests.debug.xcconfig */,
+				AAEE43AD7DCF9BF86F34A95B /* Pods-AzureCore iOS Tests.release.xcconfig */,
+				1392A91E0AF4E2A917736363 /* Pods-AzureCore macOS Framework.debug.xcconfig */,
+				616749A4C28F69E444C51644 /* Pods-AzureCore macOS Framework.release.xcconfig */,
+				AE215F6439C91C64AA07101B /* Pods-AzureCore macOS Tests.debug.xcconfig */,
+				4F09ECBC33AD0574F8890C44 /* Pods-AzureCore macOS Tests.release.xcconfig */,
+				6D4E7D62C1A00C61B2227420 /* Pods-AzureCore tvOS Framework.debug.xcconfig */,
+				88ABE7A4AA9D5028253A6544 /* Pods-AzureCore tvOS Framework.release.xcconfig */,
+				2DCB462F9500DA4D5769107C /* Pods-AzureCore tvOS Tests.debug.xcconfig */,
+				01879A594874172E577F19B3 /* Pods-AzureCore tvOS Tests.release.xcconfig */,
+				2CDF2A7B78C4FCBE727F7475 /* Pods-AzureCore watchOS Framework.debug.xcconfig */,
+				32E43FF483C163E46C1A3D22 /* Pods-AzureCore watchOS Framework.release.xcconfig */,
+				AFA9146439EBB7696AAFC96B /* Pods-AzureCore watchOS Tests.debug.xcconfig */,
+				A71CA39FB1132F184EBCB2A4 /* Pods-AzureCore watchOS Tests.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../../../Pods;
+			sourceTree = "<group>";
+		};
 		0A3A5D6C2315C89C00473FDA = {
 			isa = PBXGroup;
 			children = (
+				9390443328AF57BF0047158D /* Support */,
 				0A5DCA392621013300A9ABF3 /* AzureCore.podspec.json */,
 				0A6C00D92615131A002573E7 /* CHANGELOG.md */,
 				7ACBF0A7248EFF2D0077C5BA /* README.md */,
@@ -241,7 +428,7 @@
 				0A3A5DDF2315D17F00473FDA /* Tests */,
 				0A3A5D772315C89C00473FDA /* Products */,
 				E4BF633BF023E92DD7174C5B /* Frameworks */,
-				92BD27331528A5376457893C /* Pods */,
+				008FF733B2E1071EE36B3C7F /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -249,7 +436,13 @@
 			isa = PBXGroup;
 			children = (
 				0A3A5D762315C89C00473FDA /* AzureCore.framework */,
-				0A3A5DDE2315D17F00473FDA /* AzureCoreTests.xctest */,
+				0A3A5DDE2315D17F00473FDA /* AzureCore.xctest */,
+				9390443D28AF58970047158D /* AzureCore.framework */,
+				9390444828AF59170047158D /* AzureCore.xctest */,
+				9390446328AF5A160047158D /* AzureCore.framework */,
+				9390446E28AF5A580047158D /* AzureCore.xctest */,
+				9390447D28AF5A910047158D /* AzureCore.framework */,
+				9390448828AF5AD30047158D /* AzureCore.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -434,23 +627,40 @@
 			path = Providers;
 			sourceTree = "<group>";
 		};
-		92BD27331528A5376457893C /* Pods */ = {
+		9390443328AF57BF0047158D /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				ACE29E18DCE92FED378C9781 /* Pods-AzureCore.debug.xcconfig */,
-				AEB66FD369DD6CD266675B61 /* Pods-AzureCore.release.xcconfig */,
-				05AC340FD3A45F007FCB0F95 /* Pods-AzureCoreTests.debug.xcconfig */,
-				5D344FB2DAF4D22248D4FF45 /* Pods-AzureCoreTests.release.xcconfig */,
+				939044B328AFDE2A0047158D /* Info.plist */,
+				939044AB28AF5E030047158D /* iOS Universal.xcconfig */,
+				939044AC28AF5E030047158D /* iOS.xcconfig */,
+				939044A228AF5E030047158D /* macOS.xcconfig */,
+				939044A528AF5E030047158D /* Tests iOS.xcconfig */,
+				939044A928AF5E030047158D /* Tests macOS.xcconfig */,
+				939044A628AF5E030047158D /* Tests tvOS.xcconfig */,
+				939044AA28AF5E030047158D /* Tests watchOS.xcconfig */,
+				939044A328AF5E030047158D /* tvOS Universal.xcconfig */,
+				939044A428AF5E030047158D /* tvOS.xcconfig */,
+				939044A728AF5E030047158D /* watchOS.xcconfig */,
+				939044A828AF5E030047158D /* XCFramework.xcconfig */,
+				9390443428AF57BF0047158D /* AzureCore.xcconfig */,
+				9390443528AF57BF0047158D /* AzureCore Debug.xcconfig */,
+				9390443628AF57BF0047158D /* AzureCore Release.xcconfig */,
+				9390443728AF57BF0047158D /* Version.xcconfig */,
 			);
-			name = Pods;
-			path = ../../../Pods;
+			path = Support;
 			sourceTree = "<group>";
 		};
 		E4BF633BF023E92DD7174C5B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5C60F095469BF6BE907D2145 /* Pods_AzureCore.framework */,
-				D6883BF9BFA9A5629697ADCE /* Pods_AzureCoreTests.framework */,
+				694B4734174F22A9F92F9C33 /* Pods_AzureCore_iOS_Framework.framework */,
+				109551DCEEF43F5A9350B4DB /* Pods_AzureCore_iOS_Tests.framework */,
+				675C0F42A70D5013721BAFE1 /* Pods_AzureCore_macOS_Framework.framework */,
+				C104529BEDDF5441A69B9618 /* Pods_AzureCore_macOS_Tests.framework */,
+				B80D44975A3F3E608B03929E /* Pods_AzureCore_tvOS_Framework.framework */,
+				2B0EF6B769CCC096421AE86F /* Pods_AzureCore_tvOS_Tests.framework */,
+				39D2EB1AD57DA7DF7B8D6EA8 /* Pods_AzureCore_watchOS_Framework.framework */,
+				69657F5C86BEA82D09F9DD8D /* Pods_AzureCore_watchOS_Tests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -465,14 +675,36 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9390443828AF58970047158D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9390445E28AF5A160047158D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9390447828AF5A910047158D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		0A3A5D752315C89C00473FDA /* AzureCore */ = {
+		0A3A5D752315C89C00473FDA /* AzureCore iOS Framework */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0A3A5D7E2315C89C00473FDA /* Build configuration list for PBXNativeTarget "AzureCore" */;
+			buildConfigurationList = 0A3A5D7E2315C89C00473FDA /* Build configuration list for PBXNativeTarget "AzureCore iOS Framework" */;
 			buildPhases = (
 				5AD53F1266E88280F1D011F5 /* [CP] Check Pods Manifest.lock */,
+				9390443028AED5160047158D /* Verify No Build Settings */,
 				0A3A5D712315C89C00473FDA /* Headers */,
 				0A3A5D722315C89C00473FDA /* Sources */,
 				0A3A5D732315C89C00473FDA /* Frameworks */,
@@ -483,14 +715,14 @@
 			);
 			dependencies = (
 			);
-			name = AzureCore;
+			name = "AzureCore iOS Framework";
 			productName = AzureCore;
 			productReference = 0A3A5D762315C89C00473FDA /* AzureCore.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		0A3A5DDD2315D17F00473FDA /* AzureCoreTests */ = {
+		0A3A5DDD2315D17F00473FDA /* AzureCore iOS Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0A3A5DE62315D17F00473FDA /* Build configuration list for PBXNativeTarget "AzureCoreTests" */;
+			buildConfigurationList = 0A3A5DE62315D17F00473FDA /* Build configuration list for PBXNativeTarget "AzureCore iOS Tests" */;
 			buildPhases = (
 				72E2293B609465CF9998D104 /* [CP] Check Pods Manifest.lock */,
 				0A3A5DDA2315D17F00473FDA /* Sources */,
@@ -502,9 +734,123 @@
 			dependencies = (
 				0A3A5DE52315D17F00473FDA /* PBXTargetDependency */,
 			);
-			name = AzureCoreTests;
+			name = "AzureCore iOS Tests";
 			productName = AzureCore_iOS_FrameworkTests;
-			productReference = 0A3A5DDE2315D17F00473FDA /* AzureCoreTests.xctest */;
+			productReference = 0A3A5DDE2315D17F00473FDA /* AzureCore.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		9390443C28AF58970047158D /* AzureCore macOS Framework */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9390444128AF58970047158D /* Build configuration list for PBXNativeTarget "AzureCore macOS Framework" */;
+			buildPhases = (
+				F1499FD25841321D0F5E31E2 /* [CP] Check Pods Manifest.lock */,
+				9390443828AF58970047158D /* Headers */,
+				9390443928AF58970047158D /* Sources */,
+				9390443A28AF58970047158D /* Frameworks */,
+				9390443B28AF58970047158D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AzureCore macOS Framework";
+			productName = "AzureCore macOS Framework";
+			productReference = 9390443D28AF58970047158D /* AzureCore.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		9390444728AF59170047158D /* AzureCore macOS Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9390444F28AF59170047158D /* Build configuration list for PBXNativeTarget "AzureCore macOS Tests" */;
+			buildPhases = (
+				338B8C77EF38F1B493BC029C /* [CP] Check Pods Manifest.lock */,
+				9390444428AF59170047158D /* Sources */,
+				9390444528AF59170047158D /* Frameworks */,
+				9390444628AF59170047158D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9390444E28AF59170047158D /* PBXTargetDependency */,
+			);
+			name = "AzureCore macOS Tests";
+			productName = "AzureCore macOS Tests";
+			productReference = 9390444828AF59170047158D /* AzureCore.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		9390446228AF5A160047158D /* AzureCore tvOS Framework */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9390446728AF5A160047158D /* Build configuration list for PBXNativeTarget "AzureCore tvOS Framework" */;
+			buildPhases = (
+				0059F1237BBFF44D89454C5A /* [CP] Check Pods Manifest.lock */,
+				9390445E28AF5A160047158D /* Headers */,
+				9390445F28AF5A160047158D /* Sources */,
+				9390446028AF5A160047158D /* Frameworks */,
+				9390446128AF5A160047158D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AzureCore tvOS Framework";
+			productName = "AzureCore tvOS Framework";
+			productReference = 9390446328AF5A160047158D /* AzureCore.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		9390446D28AF5A580047158D /* AzureCore tvOS Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9390447528AF5A580047158D /* Build configuration list for PBXNativeTarget "AzureCore tvOS Tests" */;
+			buildPhases = (
+				CE5CD118F398B26CF149DB2D /* [CP] Check Pods Manifest.lock */,
+				9390446A28AF5A580047158D /* Sources */,
+				9390446B28AF5A580047158D /* Frameworks */,
+				9390446C28AF5A580047158D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9390447428AF5A580047158D /* PBXTargetDependency */,
+			);
+			name = "AzureCore tvOS Tests";
+			productName = "AzureCore tvOS Tests";
+			productReference = 9390446E28AF5A580047158D /* AzureCore.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		9390447C28AF5A910047158D /* AzureCore watchOS Framework */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9390448128AF5A910047158D /* Build configuration list for PBXNativeTarget "AzureCore watchOS Framework" */;
+			buildPhases = (
+				2193CA61A466559C48F90CDC /* [CP] Check Pods Manifest.lock */,
+				9390447828AF5A910047158D /* Headers */,
+				9390447928AF5A910047158D /* Sources */,
+				9390447A28AF5A910047158D /* Frameworks */,
+				9390447B28AF5A910047158D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AzureCore watchOS Framework";
+			productName = "AzureCore watchOS Framework";
+			productReference = 9390447D28AF5A910047158D /* AzureCore.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		9390448728AF5AD30047158D /* AzureCore watchOS Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9390448F28AF5AD30047158D /* Build configuration list for PBXNativeTarget "AzureCore watchOS Tests" */;
+			buildPhases = (
+				81DA880F4B8B6D99FED51C36 /* [CP] Check Pods Manifest.lock */,
+				9390448428AF5AD30047158D /* Sources */,
+				9390448528AF5AD30047158D /* Frameworks */,
+				9390448628AF5AD30047158D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9390448E28AF5AD30047158D /* PBXTargetDependency */,
+			);
+			name = "AzureCore watchOS Tests";
+			productName = "AzureCore watchOS Tests";
+			productReference = 9390448828AF5AD30047158D /* AzureCore.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -513,7 +859,7 @@
 		0A3A5D6D2315C89C00473FDA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1030;
+				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1210;
 				ORGANIZATIONNAME = "Azure SDK Team";
 				TargetAttributes = {
@@ -523,6 +869,36 @@
 					};
 					0A3A5DDD2315D17F00473FDA = {
 						CreatedOnToolsVersion = 10.3;
+					};
+					9390443C28AF58970047158D = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
+					9390444728AF59170047158D = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
+					9390446228AF5A160047158D = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
+					9390446D28AF5A580047158D = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
+					9390447C28AF5A910047158D = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
+					9390448728AF5AD30047158D = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
+					9390449228AF5B240047158D = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
+					9390449628AF5B660047158D = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
+					9390449A28AF5BA00047158D = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
+					9390449E28AF5C290047158D = {
+						CreatedOnToolsVersion = 13.4.1;
 					};
 				};
 			};
@@ -539,8 +915,18 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				0A3A5D752315C89C00473FDA /* AzureCore */,
-				0A3A5DDD2315D17F00473FDA /* AzureCoreTests */,
+				9390449228AF5B240047158D /* AzureCore */,
+				9390449628AF5B660047158D /* AzureCore XCFramework */,
+				0A3A5D752315C89C00473FDA /* AzureCore iOS Framework */,
+				9390449A28AF5BA00047158D /* AzureCore iOS Universal */,
+				0A3A5DDD2315D17F00473FDA /* AzureCore iOS Tests */,
+				9390443C28AF58970047158D /* AzureCore macOS Framework */,
+				9390444728AF59170047158D /* AzureCore macOS Tests */,
+				9390446228AF5A160047158D /* AzureCore tvOS Framework */,
+				9390449E28AF5C290047158D /* AzureCore tvOS Universal */,
+				9390446D28AF5A580047158D /* AzureCore tvOS Tests */,
+				9390447C28AF5A910047158D /* AzureCore watchOS Framework */,
+				9390448728AF5AD30047158D /* AzureCore watchOS Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -566,9 +952,73 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9390443B28AF58970047158D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9390444628AF59170047158D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9390446128AF5A160047158D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9390446C28AF5A580047158D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9390447B28AF5A910047158D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9390448628AF5AD30047158D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0059F1237BBFF44D89454C5A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AzureCore tvOS Framework-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		0AF4731723315A2000AC5571 /* Format And Lint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -587,6 +1037,50 @@
 			shellPath = /bin/sh;
 			shellScript = "BUILD_PATH=$(pwd)\nROOT_PATH=$(pwd | rev | cut -d'/' -f4- | rev) \n$ROOT_PATH/eng/scripts/swiftlint.sh $BUILD_PATH\n";
 		};
+		2193CA61A466559C48F90CDC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AzureCore watchOS Framework-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		338B8C77EF38F1B493BC029C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AzureCore macOS Tests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		5AD53F1266E88280F1D011F5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -602,12 +1096,11 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AzureCore-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-AzureCore iOS Framework-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
+			shellScript = "\n\ndiff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 		};
 		72E2293B609465CF9998D104 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -624,7 +1117,91 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AzureCoreTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-AzureCore iOS Tests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		81DA880F4B8B6D99FED51C36 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AzureCore watchOS Tests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9390443028AED5160047158D /* Verify No Build Settings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Verify No Build Settings";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../../../eng/scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
+		};
+		CE5CD118F398B26CF149DB2D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AzureCore tvOS Tests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F1499FD25841321D0F5E31E2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AzureCore macOS Framework-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -726,236 +1303,251 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9390443928AF58970047158D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9390444428AF59170047158D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9390445F28AF5A160047158D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9390446A28AF5A580047158D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9390447928AF5A910047158D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9390448428AF5AD30047158D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
 		0A3A5DE52315D17F00473FDA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 0A3A5D752315C89C00473FDA /* AzureCore */;
+			target = 0A3A5D752315C89C00473FDA /* AzureCore iOS Framework */;
 			targetProxy = 0A3A5DE42315D17F00473FDA /* PBXContainerItemProxy */;
+		};
+		9390444E28AF59170047158D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9390443C28AF58970047158D /* AzureCore macOS Framework */;
+			targetProxy = 9390444D28AF59170047158D /* PBXContainerItemProxy */;
+		};
+		9390447428AF5A580047158D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9390446228AF5A160047158D /* AzureCore tvOS Framework */;
+			targetProxy = 9390447328AF5A580047158D /* PBXContainerItemProxy */;
+		};
+		9390448E28AF5AD30047158D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9390447C28AF5A910047158D /* AzureCore watchOS Framework */;
+			targetProxy = 9390448D28AF5AD30047158D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		0A3A5D7C2315C89C00473FDA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9390443528AF57BF0047158D /* AzureCore Debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
 		0A3A5D7D2315C89C00473FDA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9390443628AF57BF0047158D /* AzureCore Release.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				EXCLUDED_ARCHS = "";
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 5.0;
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
 		0A3A5D7F2315C89C00473FDA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = ACE29E18DCE92FED378C9781 /* Pods-AzureCore.debug.xcconfig */;
+			baseConfigurationReference = 939044AC28AF5E030047158D /* iOS.xcconfig */;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = NO;
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
-				CLANG_ENABLE_MODULES = YES;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "$(SRCROOT)/Source/Supporting Files/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MARKETING_VERSION = "1.0.0-beta.15";
-				PRODUCT_BUNDLE_IDENTIFIER = com.azure.core.AzureCore;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		0A3A5D802315C89C00473FDA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AEB66FD369DD6CD266675B61 /* Pods-AzureCore.release.xcconfig */;
+			baseConfigurationReference = 939044AC28AF5E030047158D /* iOS.xcconfig */;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = NO;
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
-				CLANG_ENABLE_MODULES = YES;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "$(SRCROOT)/Source/Supporting Files/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MARKETING_VERSION = "1.0.0-beta.15";
-				PRODUCT_BUNDLE_IDENTIFIER = com.azure.core.AzureCore;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
 		0A3A5DE72315D17F00473FDA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 05AC340FD3A45F007FCB0F95 /* Pods-AzureCoreTests.debug.xcconfig */;
+			baseConfigurationReference = 939044A528AF5E030047158D /* Tests iOS.xcconfig */;
 			buildSettings = {
-				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.azure.core.AzureCoreTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		0A3A5DE82315D17F00473FDA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5D344FB2DAF4D22248D4FF45 /* Pods-AzureCoreTests.release.xcconfig */;
+			baseConfigurationReference = 939044A528AF5E030047158D /* Tests iOS.xcconfig */;
 			buildSettings = {
-				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.azure.core.AzureCoreTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		9390444228AF58970047158D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 939044A228AF5E030047158D /* macOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		9390444328AF58970047158D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 939044A228AF5E030047158D /* macOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		9390445028AF59170047158D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 939044A928AF5E030047158D /* Tests macOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		9390445128AF59170047158D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 939044A928AF5E030047158D /* Tests macOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		9390446828AF5A160047158D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 939044A428AF5E030047158D /* tvOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		9390446928AF5A160047158D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 939044A428AF5E030047158D /* tvOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		9390447628AF5A580047158D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 939044A628AF5E030047158D /* Tests tvOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		9390447728AF5A580047158D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 939044A628AF5E030047158D /* Tests tvOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		9390448228AF5A910047158D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 939044A728AF5E030047158D /* watchOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		9390448328AF5A910047158D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 939044A728AF5E030047158D /* watchOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		9390449028AF5AD30047158D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 939044AA28AF5E030047158D /* Tests watchOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		9390449128AF5AD30047158D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 939044AA28AF5E030047158D /* Tests watchOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		9390449428AF5B240047158D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		9390449528AF5B240047158D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		9390449828AF5B660047158D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 939044A828AF5E030047158D /* XCFramework.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		9390449928AF5B660047158D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 939044A828AF5E030047158D /* XCFramework.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		9390449C28AF5BA00047158D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 939044AB28AF5E030047158D /* iOS Universal.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		9390449D28AF5BA00047158D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 939044AB28AF5E030047158D /* iOS Universal.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		939044A028AF5C290047158D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 939044A328AF5E030047158D /* tvOS Universal.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		939044A128AF5C290047158D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 939044A328AF5E030047158D /* tvOS Universal.xcconfig */;
+			buildSettings = {
 			};
 			name = Release;
 		};
@@ -971,7 +1563,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0A3A5D7E2315C89C00473FDA /* Build configuration list for PBXNativeTarget "AzureCore" */ = {
+		0A3A5D7E2315C89C00473FDA /* Build configuration list for PBXNativeTarget "AzureCore iOS Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0A3A5D7F2315C89C00473FDA /* Debug */,
@@ -980,11 +1572,101 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0A3A5DE62315D17F00473FDA /* Build configuration list for PBXNativeTarget "AzureCoreTests" */ = {
+		0A3A5DE62315D17F00473FDA /* Build configuration list for PBXNativeTarget "AzureCore iOS Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0A3A5DE72315D17F00473FDA /* Debug */,
 				0A3A5DE82315D17F00473FDA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9390444128AF58970047158D /* Build configuration list for PBXNativeTarget "AzureCore macOS Framework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9390444228AF58970047158D /* Debug */,
+				9390444328AF58970047158D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9390444F28AF59170047158D /* Build configuration list for PBXNativeTarget "AzureCore macOS Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9390445028AF59170047158D /* Debug */,
+				9390445128AF59170047158D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9390446728AF5A160047158D /* Build configuration list for PBXNativeTarget "AzureCore tvOS Framework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9390446828AF5A160047158D /* Debug */,
+				9390446928AF5A160047158D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9390447528AF5A580047158D /* Build configuration list for PBXNativeTarget "AzureCore tvOS Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9390447628AF5A580047158D /* Debug */,
+				9390447728AF5A580047158D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9390448128AF5A910047158D /* Build configuration list for PBXNativeTarget "AzureCore watchOS Framework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9390448228AF5A910047158D /* Debug */,
+				9390448328AF5A910047158D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9390448F28AF5AD30047158D /* Build configuration list for PBXNativeTarget "AzureCore watchOS Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9390449028AF5AD30047158D /* Debug */,
+				9390449128AF5AD30047158D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9390449328AF5B240047158D /* Build configuration list for PBXAggregateTarget "AzureCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9390449428AF5B240047158D /* Debug */,
+				9390449528AF5B240047158D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9390449728AF5B660047158D /* Build configuration list for PBXAggregateTarget "AzureCore XCFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9390449828AF5B660047158D /* Debug */,
+				9390449928AF5B660047158D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9390449B28AF5BA00047158D /* Build configuration list for PBXAggregateTarget "AzureCore iOS Universal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9390449C28AF5BA00047158D /* Debug */,
+				9390449D28AF5BA00047158D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9390449F28AF5C290047158D /* Build configuration list for PBXAggregateTarget "AzureCore tvOS Universal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				939044A028AF5C290047158D /* Debug */,
+				939044A128AF5C290047158D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
