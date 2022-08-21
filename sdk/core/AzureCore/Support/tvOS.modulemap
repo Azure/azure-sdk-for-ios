@@ -1,0 +1,9 @@
+framework module AzureCore {
+  umbrella header "AzureCore.h"
+  
+  export *
+  module * { export * }
+  
+  link framework "Foundation"
+  link framework "UIKit"
+}

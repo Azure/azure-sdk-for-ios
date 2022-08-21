@@ -1,0 +1,2 @@
+#include "../../../eng/config/watchOS.xcconfig"
+#include "../../../eng/config/Framework.xcconfig"

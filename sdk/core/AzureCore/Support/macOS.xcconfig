@@ -1,0 +1,2 @@
+#include "../../../eng/config/macOS.xcconfig"
+#include "../../../eng/config/Framework.xcconfig"

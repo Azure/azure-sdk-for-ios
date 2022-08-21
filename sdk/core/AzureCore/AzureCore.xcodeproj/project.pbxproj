@@ -413,6 +413,10 @@
 		939045BA28B175A80047158D /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9390447D28AF5A910047158D /* AzureCore.framework */; };
 		939045BB28B175BC0047158D /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9390446328AF5A160047158D /* AzureCore.framework */; };
 		939045BC28B175E60047158D /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9390443D28AF58970047158D /* AzureCore.framework */; };
+		939045E528B2B6690047158D /* AzureCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 939045DB28B2A1960047158D /* AzureCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		939045E628B2B66B0047158D /* AzureCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 939045DB28B2A1960047158D /* AzureCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		939045E728B2B66D0047158D /* AzureCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 939045DB28B2A1960047158D /* AzureCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		939045E828B2B66E0047158D /* AzureCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 939045DB28B2A1960047158D /* AzureCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -567,19 +571,24 @@
 		9390446E28AF5A580047158D /* AzureCore.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzureCore.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9390447D28AF5A910047158D /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9390448828AF5AD30047158D /* AzureCore.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzureCore.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		939044A228AF5E030047158D /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = macOS.xcconfig; path = ../../../../eng/config/macOS.xcconfig; sourceTree = "<group>"; };
 		939044A328AF5E030047158D /* tvOS Universal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "tvOS Universal.xcconfig"; path = "../../../../eng/config/tvOS Universal.xcconfig"; sourceTree = "<group>"; };
-		939044A428AF5E030047158D /* tvOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = tvOS.xcconfig; path = ../../../../eng/config/tvOS.xcconfig; sourceTree = "<group>"; };
 		939044A528AF5E030047158D /* Tests iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Tests iOS.xcconfig"; path = "../../../../eng/config/Tests iOS.xcconfig"; sourceTree = "<group>"; };
 		939044A628AF5E030047158D /* Tests tvOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Tests tvOS.xcconfig"; path = "../../../../eng/config/Tests tvOS.xcconfig"; sourceTree = "<group>"; };
-		939044A728AF5E030047158D /* watchOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = watchOS.xcconfig; path = ../../../../eng/config/watchOS.xcconfig; sourceTree = "<group>"; };
 		939044A828AF5E030047158D /* XCFramework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = XCFramework.xcconfig; path = ../../../../eng/config/XCFramework.xcconfig; sourceTree = "<group>"; };
 		939044A928AF5E030047158D /* Tests macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Tests macOS.xcconfig"; path = "../../../../eng/config/Tests macOS.xcconfig"; sourceTree = "<group>"; };
 		939044AA28AF5E030047158D /* Tests watchOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Tests watchOS.xcconfig"; path = "../../../../eng/config/Tests watchOS.xcconfig"; sourceTree = "<group>"; };
 		939044AB28AF5E030047158D /* iOS Universal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "iOS Universal.xcconfig"; path = "../../../../eng/config/iOS Universal.xcconfig"; sourceTree = "<group>"; };
-		939044AC28AF5E030047158D /* iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = iOS.xcconfig; path = ../../../../eng/config/iOS.xcconfig; sourceTree = "<group>"; };
 		939044B328AFDE2A0047158D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		939045BD28B176570047158D /* Pods_AzureCore_iOS_Framework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_AzureCore_iOS_Framework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		939045D928B2A1960047158D /* macOS.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = macOS.modulemap; sourceTree = "<group>"; };
+		939045DA28B2A1960047158D /* iOS.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
+		939045DB28B2A1960047158D /* AzureCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzureCore.h; sourceTree = "<group>"; };
+		939045DC28B2A1960047158D /* tvOS.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = tvOS.modulemap; sourceTree = "<group>"; };
+		939045DD28B2A1960047158D /* iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
+		939045DE28B2A1960047158D /* tvsOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = tvsOS.xcconfig; sourceTree = "<group>"; };
+		939045DF28B2A1960047158D /* watchOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = watchOS.xcconfig; sourceTree = "<group>"; };
+		939045E028B2A1960047158D /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		939045E128B2A1970047158D /* watchOS.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = watchOS.modulemap; sourceTree = "<group>"; };
 		A71CA39FB1132F184EBCB2A4 /* Pods-AzureCore watchOS Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCore watchOS Tests.release.xcconfig"; path = "Target Support Files/Pods-AzureCore watchOS Tests/Pods-AzureCore watchOS Tests.release.xcconfig"; sourceTree = "<group>"; };
 		AAEE43AD7DCF9BF86F34A95B /* Pods-AzureCore iOS Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCore iOS Tests.release.xcconfig"; path = "Target Support Files/Pods-AzureCore iOS Tests/Pods-AzureCore iOS Tests.release.xcconfig"; sourceTree = "<group>"; };
 		AE215F6439C91C64AA07101B /* Pods-AzureCore macOS Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCore macOS Tests.debug.xcconfig"; path = "Target Support Files/Pods-AzureCore macOS Tests/Pods-AzureCore macOS Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -893,21 +902,26 @@
 		9390443328AF57BF0047158D /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				939045DB28B2A1960047158D /* AzureCore.h */,
+				9390443428AF57BF0047158D /* AzureCore.xcconfig */,
+				9390443528AF57BF0047158D /* AzureCore Debug.xcconfig */,
+				9390443628AF57BF0047158D /* AzureCore Release.xcconfig */,
 				939044B328AFDE2A0047158D /* Info.plist */,
+				939045DA28B2A1960047158D /* iOS.modulemap */,
+				939045DD28B2A1960047158D /* iOS.xcconfig */,
+				939045D928B2A1960047158D /* macOS.modulemap */,
+				939045E028B2A1960047158D /* macOS.xcconfig */,
+				939045DC28B2A1960047158D /* tvOS.modulemap */,
+				939045DE28B2A1960047158D /* tvsOS.xcconfig */,
+				939045E128B2A1970047158D /* watchOS.modulemap */,
+				939045DF28B2A1960047158D /* watchOS.xcconfig */,
 				939044AB28AF5E030047158D /* iOS Universal.xcconfig */,
-				939044AC28AF5E030047158D /* iOS.xcconfig */,
-				939044A228AF5E030047158D /* macOS.xcconfig */,
 				939044A528AF5E030047158D /* Tests iOS.xcconfig */,
 				939044A928AF5E030047158D /* Tests macOS.xcconfig */,
 				939044A628AF5E030047158D /* Tests tvOS.xcconfig */,
 				939044AA28AF5E030047158D /* Tests watchOS.xcconfig */,
 				939044A328AF5E030047158D /* tvOS Universal.xcconfig */,
-				939044A428AF5E030047158D /* tvOS.xcconfig */,
-				939044A728AF5E030047158D /* watchOS.xcconfig */,
 				939044A828AF5E030047158D /* XCFramework.xcconfig */,
-				9390443428AF57BF0047158D /* AzureCore.xcconfig */,
-				9390443528AF57BF0047158D /* AzureCore Debug.xcconfig */,
-				9390443628AF57BF0047158D /* AzureCore Release.xcconfig */,
 				9390443728AF57BF0047158D /* Version.xcconfig */,
 			);
 			path = Support;
@@ -936,6 +950,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				939045E528B2B6690047158D /* AzureCore.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -943,6 +958,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				939045E628B2B66B0047158D /* AzureCore.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -950,6 +966,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				939045E728B2B66D0047158D /* AzureCore.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -957,6 +974,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				939045E828B2B66E0047158D /* AzureCore.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2015,14 +2033,14 @@
 		};
 		0A3A5D7F2315C89C00473FDA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 939044AC28AF5E030047158D /* iOS.xcconfig */;
+			baseConfigurationReference = 939045DD28B2A1960047158D /* iOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		0A3A5D802315C89C00473FDA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 939044AC28AF5E030047158D /* iOS.xcconfig */;
+			baseConfigurationReference = 939045DD28B2A1960047158D /* iOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
@@ -2043,14 +2061,14 @@
 		};
 		9390444228AF58970047158D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 939044A228AF5E030047158D /* macOS.xcconfig */;
+			baseConfigurationReference = 939045E028B2A1960047158D /* macOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		9390444328AF58970047158D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 939044A228AF5E030047158D /* macOS.xcconfig */;
+			baseConfigurationReference = 939045E028B2A1960047158D /* macOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
@@ -2059,7 +2077,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 939044A928AF5E030047158D /* Tests macOS.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 			};
 			name = Debug;
 		};
@@ -2067,20 +2084,19 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 939044A928AF5E030047158D /* Tests macOS.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 			};
 			name = Release;
 		};
 		9390446828AF5A160047158D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 939044A428AF5E030047158D /* tvOS.xcconfig */;
+			baseConfigurationReference = 939045DE28B2A1960047158D /* tvsOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		9390446928AF5A160047158D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 939044A428AF5E030047158D /* tvOS.xcconfig */;
+			baseConfigurationReference = 939045DE28B2A1960047158D /* tvsOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
@@ -2089,7 +2105,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 939044A628AF5E030047158D /* Tests tvOS.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 			};
 			name = Debug;
 		};
@@ -2097,20 +2112,19 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 939044A628AF5E030047158D /* Tests tvOS.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 			};
 			name = Release;
 		};
 		9390448228AF5A910047158D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 939044A728AF5E030047158D /* watchOS.xcconfig */;
+			baseConfigurationReference = 939045DF28B2A1960047158D /* watchOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		9390448328AF5A910047158D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 939044A728AF5E030047158D /* watchOS.xcconfig */;
+			baseConfigurationReference = 939045DF28B2A1960047158D /* watchOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
@@ -2119,7 +2133,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 939044AA28AF5E030047158D /* Tests watchOS.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 			};
 			name = Debug;
 		};
@@ -2127,7 +2140,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 939044AA28AF5E030047158D /* Tests watchOS.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 			};
 			name = Release;
 		};
@@ -2187,77 +2199,49 @@
 		};
 		939045C128B176930047158D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 939044AC28AF5E030047158D /* iOS.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6QHKQ538VM;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		939045C228B176930047158D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6QHKQ538VM;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
 		939045C528B176DB0047158D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 939044A228AF5E030047158D /* macOS.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6QHKQ538VM;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		939045C628B176DB0047158D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6QHKQ538VM;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
 		939045D328B177A90047158D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 939044A428AF5E030047158D /* tvOS.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6QHKQ538VM;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		939045D428B177A90047158D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6QHKQ538VM;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
 		939045D728B177CB0047158D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 939044A728AF5E030047158D /* watchOS.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6QHKQ538VM;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		939045D828B177CB0047158D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6QHKQ538VM;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
