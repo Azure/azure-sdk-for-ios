@@ -25,6 +25,9 @@
 // --------------------------------------------------------------------------
 
 import Foundation
+/**
+ The IdentifierKind for a given CommunicationIdentifier.
+ */
 
 @objcMembers public class IdentifierKind: NSObject {
     private var kindValue: String
@@ -46,7 +49,10 @@ import Foundation
     var rawId: String { get }
     var kind: IdentifierKind { get }
 }
-
+/**
+ Creates a CommunicationIdentifierKind from a given rawId. When storing rawIds use this function to restore the identifier that was encoded in the rawId.
+ - Parameter fromRawId: Id of the Microsoft Teams user. If the user isn't anonymous,The rawId to be translated to its identifier representation.
+ */
 public func createCommunicationIdentifier(fromRawId rawId: String) -> CommunicationIdentifier {
     let phoneNumberPrefix = "4:"
     let teamUserAnonymousPrefix = "8:teamsvisitor:"
