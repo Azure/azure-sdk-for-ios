@@ -30,14 +30,14 @@ import Foundation
  */
 
 @objcMembers public class IdentifierKind: NSObject {
-    private var kindValue: String
-    public static let communicationUser = IdentifierKind("communicationUser")
-    public static let phoneNumber = IdentifierKind("phoneNumber")
-    public static let microsoftTeamsUser = IdentifierKind("microsoftTeamsUser")
-    public static let unknown = IdentifierKind("unknown")
+    private var rawValue: String
+    public static let communicationUser = IdentifierKind(rawValue: "communicationUser")
+    public static let phoneNumber = IdentifierKind(rawValue: "phoneNumber")
+    public static let microsoftTeamsUser = IdentifierKind(rawValue: "microsoftTeamsUser")
+    public static let unknown = IdentifierKind(rawValue: "unknown")
 
-    public init(_ kindValue: String) {
-        self.kindValue = kindValue
+    public init(rawValue: String) {
+        self.rawValue = rawValue
     }
 }
 
@@ -49,6 +49,7 @@ import Foundation
     var rawId: String { get }
     var kind: IdentifierKind { get }
 }
+
 /**
  Creates a CommunicationIdentifierKind from a given rawId. When storing rawIds use this function to restore the identifier that was encoded in the rawId.
  - Parameter fromRawId: Id of the Microsoft Teams user. If the user isn't anonymous,The rawId to be translated to its identifier representation.
@@ -64,8 +65,7 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
     let dodAcsUser = "8:dod-acs:"
     let gcchAcsUser = "8:gcch-acs:"
     if rawId.hasPrefix(phoneNumberPrefix) {
-        let phoneNumber = "+" + rawId.dropFirst(phoneNumberPrefix.count)
-        return PhoneNumberIdentifier(phoneNumber: phoneNumber, rawId: rawId)
+        return PhoneNumberIdentifier(phoneNumber: "+" + rawId.dropFirst(phoneNumberPrefix.count), rawId: rawId)
     }
     let segments = rawId.split(separator: ":")
     if segments.count < 3 {
