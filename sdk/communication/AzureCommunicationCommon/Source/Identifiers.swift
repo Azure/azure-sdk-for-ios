@@ -25,16 +25,91 @@
 // --------------------------------------------------------------------------
 
 import Foundation
+/**
+ The IdentifierKind for a given CommunicationIdentifier.
+ */
+
+@objcMembers public class IdentifierKind: NSObject {
+    private var rawValue: String
+    public static let communicationUser = IdentifierKind(rawValue: "communicationUser")
+    public static let phoneNumber = IdentifierKind(rawValue: "phoneNumber")
+    public static let microsoftTeamsUser = IdentifierKind(rawValue: "microsoftTeamsUser")
+    public static let unknown = IdentifierKind(rawValue: "unknown")
+
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+}
 
 /**
  Common Communication Identifier protocol for all Azure Communication Services.
  All Communication Identifiers conform to this protocol.
  */
-@objc public protocol CommunicationIdentifier: NSObjectProtocol {}
+@objc public protocol CommunicationIdentifier: NSObjectProtocol {
+    var rawId: String { get }
+    var kind: IdentifierKind { get }
+}
+
+/**
+ Creates a CommunicationIdentifierKind from a given rawId. When storing rawIds use this function to restore the identifier that was encoded in the rawId.
+ - Parameter fromRawId: Id of the Microsoft Teams user. If the user isn't anonymous,The rawId to be translated to its identifier representation.
+ */
+public func createCommunicationIdentifier(fromRawId rawId: String) -> CommunicationIdentifier {
+    let phoneNumberPrefix = "4:"
+    let teamUserAnonymousPrefix = "8:teamsvisitor:"
+    let teamUserPublicCloudPrefix = "8:orgid:"
+    let teamUserDODCloudPrefix = "8:dod:"
+    let teamUserGCCHCloudPrefix = "8:gcch:"
+    let acsUser = "8:acs:"
+    let spoolUser = "8:spool:"
+    let dodAcsUser = "8:dod-acs:"
+    let gcchAcsUser = "8:gcch-acs:"
+    if rawId.hasPrefix(phoneNumberPrefix) {
+        return PhoneNumberIdentifier(phoneNumber: "+" + rawId.dropFirst(phoneNumberPrefix.count), rawId: rawId)
+    }
+    let segments = rawId.split(separator: ":")
+    if segments.count < 3 {
+        return UnknownIdentifier(rawId)
+    }
+    let scope = segments[0] + ":" + segments[1] + ":"
+    let suffix = String(rawId.dropFirst(scope.count))
+    switch scope {
+    case teamUserAnonymousPrefix:
+        return MicrosoftTeamsUserIdentifier(userId: suffix, isAnonymous: true)
+    case teamUserPublicCloudPrefix:
+        return MicrosoftTeamsUserIdentifier(
+            userId: suffix,
+            isAnonymous: false,
+            rawId: rawId,
+            cloudEnvironment: .Public
+        )
+    case teamUserDODCloudPrefix:
+        return MicrosoftTeamsUserIdentifier(
+            userId: suffix,
+            isAnonymous: false,
+            rawId: rawId,
+            cloudEnvironment: .Dod
+        )
+    case teamUserGCCHCloudPrefix:
+        return MicrosoftTeamsUserIdentifier(
+            userId: suffix,
+            isAnonymous: false,
+            rawId: rawId,
+            cloudEnvironment: .Gcch
+        )
+    case acsUser, spoolUser, dodAcsUser, gcchAcsUser:
+        return CommunicationUserIdentifier(rawId)
+    default:
+        return UnknownIdentifier(rawId)
+    }
+}
+
 /**
  Communication identifier for Communication Services Users
  */
 @objcMembers public class CommunicationUserIdentifier: NSObject, CommunicationIdentifier {
+    public var rawId: String { return identifier }
+    public var kind: IdentifierKind { return .communicationUser }
     public let identifier: String
     /**
      Creates a CommunicationUserIdentifier object
@@ -50,6 +125,8 @@ import Foundation
  Catch-all for all other Communication identifiers for Communication Services
  */
 @objcMembers public class UnknownIdentifier: NSObject, CommunicationIdentifier {
+    public var rawId: String { return identifier }
+    public var kind: IdentifierKind { return .unknown }
     public let identifier: String
     /**
      Creates a UnknownIdentifier object
@@ -66,7 +143,8 @@ import Foundation
  */
 @objcMembers public class PhoneNumberIdentifier: NSObject, CommunicationIdentifier {
     public let phoneNumber: String
-    public let rawId: String?
+    public private(set) var rawId: String
+    public var kind: IdentifierKind { return .phoneNumber }
 
     /**
      Creates a PhoneNumberIdentifier object
@@ -75,17 +153,36 @@ import Foundation
      */
     public init(phoneNumber: String, rawId: String? = nil) {
         self.phoneNumber = phoneNumber
-        self.rawId = rawId
+        if let rawId = rawId {
+            self.rawId = rawId
+        } else {
+            let strippedPhoneNumber = phoneNumber.replacingOccurrences(of: "+", with: "")
+            self.rawId = "4:" + strippedPhoneNumber
+        }
     }
 
+    /**
+     Returns a Boolean value indicating whether two values are equal.
+        Note: In Objective-C favor isEqual() method
+     - Parameter lhs PhoneNumberIdentifier to compare.
+     - Parameter rhs  Another PhoneNumberIdentifier to compare.
+     */
+    // swiftlint:disable nsobject_prefer_isequal
     public static func == (lhs: PhoneNumberIdentifier, rhs: PhoneNumberIdentifier) -> Bool {
-        if lhs.phoneNumber != rhs.phoneNumber {
+        return lhs.rawId == rhs.rawId
+    }
+
+    /**
+     Returns a Boolean value that indicates whether the receiver is equal to another given object.
+     This will automatically return false if object being compared to is not a PhoneNumberIdentifier.
+     - Parameter object The object with which to compare the receiver.
+     */
+    override public func isEqual(_ object: Any?) -> Bool {
+        guard let object = object as? PhoneNumberIdentifier else {
             return false
         }
 
-        return lhs.rawId == nil
-            || rhs.rawId == nil
-            || lhs.rawId == rhs.rawId
+        return rawId == object.rawId
     }
 }
 
@@ -95,7 +192,8 @@ import Foundation
 @objcMembers public class MicrosoftTeamsUserIdentifier: NSObject, CommunicationIdentifier {
     public let userId: String
     public let isAnonymous: Bool
-    public let rawId: String?
+    public private(set) var rawId: String
+    public var kind: IdentifierKind { return .microsoftTeamsUser }
     public let cloudEnviroment: CommunicationCloudEnvironment
 
     /**
@@ -114,31 +212,62 @@ import Foundation
         rawId: String? = nil,
         cloudEnvironment: CommunicationCloudEnvironment = .Public
     ) {
-        self.rawId = rawId
         self.userId = userId
         self.isAnonymous = isAnonymous
         self.cloudEnviroment = cloudEnvironment
+
+        if let rawId = rawId {
+            self.rawId = rawId
+        } else {
+            if isAnonymous {
+                self.rawId = "8:teamsvisitor:" + userId
+            } else {
+                switch cloudEnvironment {
+                case .Dod:
+                    self.rawId = "8:dod:" + userId
+                case .Gcch:
+                    self.rawId = "8:gcch:" + userId
+                case .Public:
+                    self.rawId = "8:orgid:" + userId
+                default:
+                    self.rawId = "8:orgid:" + userId
+                }
+            }
+        }
     }
 
-    public init(userId: String, isAnonymous: Bool) {
-        self.cloudEnviroment = .Public
-        self.rawId = nil
-        self.userId = userId
-        self.isAnonymous = isAnonymous
+    /**
+     Creates a MicrosoftTeamsUserIdentifier object. cloudEnvironment is defaulted to Public cloud.
+     - Parameter userId: Id of the Microsoft Teams user. If the user isn't anonymous,
+                            the id is the AAD object id of the user.
+     - Parameter isAnonymous: Set this to true if the user is anonymous:
+                                for example when joining a meeting with a share link.
+     */
+    convenience init(userId: String, isAnonymous: Bool) {
+        self.init(userId: userId, isAnonymous: isAnonymous, rawId: nil, cloudEnvironment: .Public)
     }
 
+    /**
+     Returns a Boolean value indicating whether two values are equal.
+        Note: In Objective-C favor isEqual() method
+     - Parameter lhs MicrosoftTeamsUserIdentifier to compare.
+     - Parameter rhs  Another MicrosoftTeamsUserIdentifier to compare.
+     */
+    // swiftlint:disable nsobject_prefer_isequal
     public static func == (lhs: MicrosoftTeamsUserIdentifier, rhs: MicrosoftTeamsUserIdentifier) -> Bool {
-        if lhs.userId != rhs.userId ||
-            lhs.isAnonymous != rhs.isAnonymous {
+        return lhs.rawId == rhs.rawId
+    }
+
+    /**
+     Returns a Boolean value that indicates whether the receiver is equal to another given object.
+     This will automatically return false if object being compared to is not a MicrosoftTeamsUserIdentifier.
+     - Parameter object The object with which to compare the receiver.
+     */
+    override public func isEqual(_ object: Any?) -> Bool {
+        guard let object = object as? MicrosoftTeamsUserIdentifier else {
             return false
         }
 
-        if lhs.cloudEnviroment != rhs.cloudEnviroment {
-            return false
-        }
-
-        return lhs.rawId == nil
-            || rhs.rawId == nil
-            || lhs.rawId == rhs.rawId
+        return rawId == object.rawId
     }
 }

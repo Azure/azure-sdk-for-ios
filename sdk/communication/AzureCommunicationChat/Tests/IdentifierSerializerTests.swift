@@ -144,10 +144,6 @@ class IdentifierSerializerTests: XCTestCase {
         try serializePhoneNumber(expectedId: testRawId)
     }
 
-    func test_SerializePhoneNumber_ExpectedIdNil() throws {
-        try serializePhoneNumber(expectedId: nil)
-    }
-
     func serializePhoneNumber(expectedId: String?) throws {
         let model = try IdentifierSerializer
             .serialize(identifier: PhoneNumberIdentifier(phoneNumber: testPhoneNumber, rawId: expectedId))

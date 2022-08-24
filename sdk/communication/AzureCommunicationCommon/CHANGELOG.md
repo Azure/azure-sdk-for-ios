@@ -1,5 +1,14 @@
 # Release History
 
+## 1.1.0 (upcoming)
+### New Features
+- Introduce new `createCommunicationIdentifier(from: )` to translate between a CommunicationIdentifier and its underlying canonical rawId representation. Developers can now use the rawId as an encoded format for identifiers to store in their databases or as stable keys in general.
+- Introduce new `rawId` getter property in the `CommunicationIdentifier` protocol to return rawId representation.
+- Introduce new `kind` getter property in the `CommunicationIdentifier` protocol to return string representation of the kind of identifer developers are woking with. 
+
+### Key Bug Fixes 
+- Previously `rawId` was an optional property in `PhoneNumberIdentifier`. Updated the `rawId` to be required, and always corresponds with the phone number. This will cause compilation errors. 
+
 ## 1.0.3 (2022-03-10)
 ### New Features
 - Update `AzureCore` dependency to beta 15.
