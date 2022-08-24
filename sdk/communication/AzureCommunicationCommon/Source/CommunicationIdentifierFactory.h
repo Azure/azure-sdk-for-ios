@@ -23,42 +23,13 @@
 // IN THE SOFTWARE.
 //
 // --------------------------------------------------------------------------
-//
 
-import CoreData
-import Foundation
+#ifndef CommunicationIdentifierFactory_h
+#define CommunicationIdentifierFactory_h
+@class CommunicationIdentifier;
 
-internal class BlockTransfer: NSManagedObject, TransferImpl {
-    internal var operation: TransferOperation?
+@interface CommunicationIdentifierFactory : NSObject
++ (id<CommunicationIdentifier>)createCommunicationIdentifier: (NSString *) rawId NS_SWIFT_UNAVAILABLE("Exposed in Swift as createCommunicationIdentifier(from: ) -> CommunicationIdentifier");
+@end
 
-    public var debugString: String {
-        return "\t\tTransfer \(type(of: self)) \(hash): Status \(state.label)"
-    }
-
-    internal var clientRestorationId: String {
-        return parent.clientRestorationId
-    }
-}
-
-internal extension BlockTransfer {
-    static func with(
-        context: NSManagedObjectContext,
-        id: UUID? = nil,
-        startRange: Int64,
-        endRange: Int64,
-        parent: BlobTransfer
-    ) -> BlockTransfer {
-        guard let transfer = NSEntityDescription.insertNewObject(
-            forEntityName: "BlockTransfer",
-            into: context
-        ) as? BlockTransfer else {
-            fatalError("Unable to create BlockTransfer object.")
-        }
-        transfer.startRange = startRange
-        transfer.endRange = endRange
-        transfer.parent = parent
-        transfer.state = .pending
-        transfer.id = id ?? UUID()
-        return transfer
-    }
-}
+#endif /* CommunicationIdentifierFactory_h */

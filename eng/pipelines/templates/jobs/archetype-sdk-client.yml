@@ -245,30 +245,6 @@ jobs:
           summaryFileLocation: '$(Build.ArtifactStagingDirectory)/reports/*/*.xml'
         displayName: 'Publish code coverage'
 
-  - job: 'IntegrationTest'
-
-    variables:
-      - template: ../variables/globals.yml
-
-    pool:
-      vmImage: '$(OSVmImage)'
-
-    steps:
-      - script: sudo xcode-select --switch /Applications/Xcode_$(XcodeVersion).app
-        displayName: 'Use Xcode $(XcodeVersion)'
-
-      - script: pod install
-        displayName: 'Install dependencies'
-
-      - script: |
-          set -o pipefail
-          xcodebuild build \
-                     -workspace AzureSDK.xcworkspace \
-                     -scheme examples \
-                     -sdk iphonesimulator \
-                     -configuration Debug | xcpretty -c
-        displayName: 'Build examples [iphonesimulator]'
-
   - job: 'SmokeTest'
     strategy:
       matrix:
