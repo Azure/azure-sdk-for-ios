@@ -1,12 +1,20 @@
 {
   "interactions" : [
     {
-      "request" : {
-        "method" : "POST",
+      "response" : {
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
         "headers" : {
-          "Content-Type" : "application\/json",
-          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.6.0; xctest:13.3 -> iOS 9.0; en_US)"
+          "ms-cv" : "orJUIOQALkqs3aKs61KFzQ.0",
+          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
+          "x-content-type-options" : "nosniff",
+          "x-cache" : "CONFIG_NOCACHE",
+          "Content-Length" : "0",
+          "x-msedge-ref" : "Ref A: 1772912BCE6F4FB6B3B4BEFB7A931E98 Ref B: YVR311000109027 Ref C: 2022-09-02T00:03:19Z"
         },
+        "body" : "",
+        "status" : 202
+      },
+      "request" : {
         "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
         "body" : {
           "clientDescription" : {
@@ -30,22 +38,14 @@
           },
           "registrationId" : "0E0F0BE0-0000-00C0-B000-A00A00E00BD0",
           "nodeId" : ""
+        },
+        "method" : "POST",
+        "headers" : {
+          "Content-Type" : "application\/json",
+          "User-Agent" : "azsdk-ios-AzureCommunicationChatTests\/1.0 (MacBookPro16,1 - 21.6.0; xctest:13.4.1 -> iOS 9.0; en_US)"
         }
       },
-      "response" : {
-        "headers" : {
-          "Content-Length" : "0",
-          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
-          "x-msedge-ref" : "Ref A: 653CC3DF62C0464C9DF5B90C0B4D036E Ref B: YVR311000111033 Ref C: 2022-08-16T00:06:54Z",
-          "x-cache" : "CONFIG_NOCACHE",
-          "ms-cv" : "4CI+75DBi0OB8N420uOPoA.0",
-          "x-content-type-options" : "nosniff"
-        },
-        "body" : "",
-        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
-        "status" : 202
-      },
-      "recorded_at" : 1660608414.8790212
+      "recorded_at" : 1662076999.726212
     }
   ],
   "name" : "test_StartPushNotifications_ReturnsSuccess"

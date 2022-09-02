@@ -27,7 +27,7 @@
 import AzureCore
 import Foundation
 
-public class AppGroupPushNotificationKeyHandler: PushNotificationKeyHandler {
+public class AppGroupPushNotificationKeyStorage: PushNotificationKeyStorage {
     var sharedDefault: UserDefaults
     var keyTag: String
 
@@ -35,7 +35,7 @@ public class AppGroupPushNotificationKeyHandler: PushNotificationKeyHandler {
         guard let shareDefault = UserDefaults(suiteName: appGroupId) else {
             throw AzureError
                 .client(
-                    "Failed to init AppGroupPushNotificationKeyHandler. The UserDefaults doesn't exist for the app group ID."
+                    "Failed to init AppGroupPushNotificationKeyStorage. The UserDefaults doesn't exist for the app group ID."
                 )
         }
         self.sharedDefault = shareDefault

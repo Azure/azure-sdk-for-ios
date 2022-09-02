@@ -10,8 +10,6 @@
 		0A2D45FA26E179E000EEA234 /* AzureCommunicationChatClientOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2D45F926E179E000EEA234 /* AzureCommunicationChatClientOptions.swift */; };
 		0A2D45FC26E17A4600EEA234 /* AzureCommunicationChatClientOptionsInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2D45FB26E17A4600EEA234 /* AzureCommunicationChatClientOptionsInternal.swift */; };
 		0A6A542326867D21001006AF /* Trouter.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A6A542226867D21001006AF /* Trouter.xcframework */; };
-		0A6A5455268BAC57001006AF /* test_CreateThread_WithoutParticipants.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A6A5453268BAB8B001006AF /* test_CreateThread_WithoutParticipants.json */; };
-		0A6A5457268BAC5D001006AF /* test_ListThreads_ReturnsChatThreadItems.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A6A5454268BAB8B001006AF /* test_ListThreads_ReturnsChatThreadItems.json */; };
 		0ABFEE3D26B9A34300AB2B39 /* libAzureTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A922A0426B0720A00D4B387 /* libAzureTest.a */; };
 		0ABFEE3E26B9A34A00AB2B39 /* libAzureTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A922A0426B0720A00D4B387 /* libAzureTest.a */; };
 		0AE5BA07267D25AD006B93B7 /* TestSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE5BA06267D25AD006B93B7 /* TestSettings.swift */; };
@@ -123,8 +121,8 @@
 		D1CD93E8258D6F0600409613 /* updateMessage.json in Resources */ = {isa = PBXBuildFile; fileRef = D1CD93E7258D6F0600409613 /* updateMessage.json */; };
 		D1CD93EC258D6F1300409613 /* updateTopic.json in Resources */ = {isa = PBXBuildFile; fileRef = D1CD93EB258D6F1300409613 /* updateTopic.json */; };
 		D1E4DD8726B1D1D300B7691E /* ChatClientDVRTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1E7593267003A000054F60 /* ChatClientDVRTests.swift */; };
-		E020359B2863DDBC00AE8A6D /* AppGroupPushNotificationKeyHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E020359A2863DDBC00AE8A6D /* AppGroupPushNotificationKeyHandler.swift */; };
-		E020359C2863DDBC00AE8A6D /* AppGroupPushNotificationKeyHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E020359A2863DDBC00AE8A6D /* AppGroupPushNotificationKeyHandler.swift */; };
+		E020359B2863DDBC00AE8A6D /* AppGroupPushNotificationKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E020359A2863DDBC00AE8A6D /* AppGroupPushNotificationKeyStorage.swift */; };
+		E020359C2863DDBC00AE8A6D /* AppGroupPushNotificationKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E020359A2863DDBC00AE8A6D /* AppGroupPushNotificationKeyStorage.swift */; };
 		E034C0E8282B4CB100E3F985 /* PushNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = E034C0E7282B4CB100E3F985 /* PushNotificationPayload.swift */; };
 		E034C0E9282B4CB100E3F985 /* PushNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = E034C0E7282B4CB100E3F985 /* PushNotificationPayload.swift */; };
 		E034C0EB282B4CD000E3F985 /* PushNotificationChatEventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E034C0EA282B4CD000E3F985 /* PushNotificationChatEventType.swift */; };
@@ -216,14 +214,24 @@
 		E04440D7280777D300A6DA24 /* ChatEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF8C47426A894890052FBFF /* ChatEvent.swift */; };
 		E04440D8280777D800A6DA24 /* TrouterEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF8C47526A894890052FBFF /* TrouterEvent.swift */; };
 		E04440D9280777DB00A6DA24 /* TrouterEventUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF8C47626A894890052FBFF /* TrouterEventUtil.swift */; };
-		E04440DB28077BFA00A6DA24 /* test_deleteRegistration_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E04440DA28077BFA00A6DA24 /* test_deleteRegistration_ReturnsSuccess.json */; };
-		E04440DD28077C0400A6DA24 /* test_setRegistration_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E04440DC28077C0400A6DA24 /* test_setRegistration_ReturnsSuccess.json */; };
-		E04440E028077C0C00A6DA24 /* test_StopPushNotifications_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E04440DE28077C0C00A6DA24 /* test_StopPushNotifications_ReturnsSuccess.json */; };
-		E04440E128077C0C00A6DA24 /* test_StartPushNotifications_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E04440DF28077C0C00A6DA24 /* test_StartPushNotifications_ReturnsSuccess.json */; };
 		E058442C28A6DDFA007D7E0A /* IdentityUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = E058442B28A6DDFA007D7E0A /* IdentityUtil.swift */; };
 		E058442D28A6DDFA007D7E0A /* IdentityUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = E058442B28A6DDFA007D7E0A /* IdentityUtil.swift */; };
-		E0C134EE284E677900FC388B /* PushNotificationKeyHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C134ED284E677900FC388B /* PushNotificationKeyHandler.swift */; };
-		E0C134EF284E677900FC388B /* PushNotificationKeyHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C134ED284E677900FC388B /* PushNotificationKeyHandler.swift */; };
+		E09B6AFA28C17EE10044D0BB /* test-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = E09B6AF928C17EE10044D0BB /* test-settings.plist */; };
+		E09B6AFB28C17EE10044D0BB /* test-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = E09B6AF928C17EE10044D0BB /* test-settings.plist */; };
+		E09B6B0228C180DD0044D0BB /* test_deleteRegistration_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E09B6AFC28C180DD0044D0BB /* test_deleteRegistration_ReturnsSuccess.json */; };
+		E09B6B0328C180DE0044D0BB /* test_deleteRegistration_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E09B6AFC28C180DD0044D0BB /* test_deleteRegistration_ReturnsSuccess.json */; };
+		E09B6B0428C180DE0044D0BB /* test_StopPushNotifications_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E09B6AFD28C180DD0044D0BB /* test_StopPushNotifications_ReturnsSuccess.json */; };
+		E09B6B0528C180DE0044D0BB /* test_StopPushNotifications_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E09B6AFD28C180DD0044D0BB /* test_StopPushNotifications_ReturnsSuccess.json */; };
+		E09B6B0628C180DE0044D0BB /* test_CreateThread_WithoutParticipants.json in Resources */ = {isa = PBXBuildFile; fileRef = E09B6AFE28C180DD0044D0BB /* test_CreateThread_WithoutParticipants.json */; };
+		E09B6B0728C180DE0044D0BB /* test_CreateThread_WithoutParticipants.json in Resources */ = {isa = PBXBuildFile; fileRef = E09B6AFE28C180DD0044D0BB /* test_CreateThread_WithoutParticipants.json */; };
+		E09B6B0828C180DE0044D0BB /* test_setRegistration_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E09B6AFF28C180DD0044D0BB /* test_setRegistration_ReturnsSuccess.json */; };
+		E09B6B0928C180DE0044D0BB /* test_setRegistration_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E09B6AFF28C180DD0044D0BB /* test_setRegistration_ReturnsSuccess.json */; };
+		E09B6B0A28C180DE0044D0BB /* test_ListThreads_ReturnsChatThreadItems.json in Resources */ = {isa = PBXBuildFile; fileRef = E09B6B0028C180DD0044D0BB /* test_ListThreads_ReturnsChatThreadItems.json */; };
+		E09B6B0B28C180DE0044D0BB /* test_ListThreads_ReturnsChatThreadItems.json in Resources */ = {isa = PBXBuildFile; fileRef = E09B6B0028C180DD0044D0BB /* test_ListThreads_ReturnsChatThreadItems.json */; };
+		E09B6B0C28C180DE0044D0BB /* test_StartPushNotifications_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E09B6B0128C180DD0044D0BB /* test_StartPushNotifications_ReturnsSuccess.json */; };
+		E09B6B0D28C180DE0044D0BB /* test_StartPushNotifications_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E09B6B0128C180DD0044D0BB /* test_StartPushNotifications_ReturnsSuccess.json */; };
+		E0C134EE284E677900FC388B /* PushNotificationKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C134ED284E677900FC388B /* PushNotificationKeyStorage.swift */; };
+		E0C134EF284E677900FC388B /* PushNotificationKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C134ED284E677900FC388B /* PushNotificationKeyStorage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -252,8 +260,6 @@
 		0A5DCA322620F99400A9ABF3 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		0A5DCA352620FB7200A9ABF3 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		0A6A542226867D21001006AF /* Trouter.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Trouter.xcframework; path = ../../../Pods/Trouter/Trouter.xcframework; sourceTree = "<group>"; };
-		0A6A5453268BAB8B001006AF /* test_CreateThread_WithoutParticipants.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_CreateThread_WithoutParticipants.json; sourceTree = "<group>"; };
-		0A6A5454268BAB8B001006AF /* test_ListThreads_ReturnsChatThreadItems.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_ListThreads_ReturnsChatThreadItems.json; sourceTree = "<group>"; };
 		0A9229E626B068DE00D4B387 /* AzureTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A9229EA26B06E6F00D4B387 /* AzureTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A922A0426B0720A00D4B387 /* libAzureTest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libAzureTest.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -374,7 +380,7 @@
 		D1CD93E7258D6F0600409613 /* updateMessage.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = updateMessage.json; sourceTree = "<group>"; };
 		D1CD93EB258D6F1300409613 /* updateTopic.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = updateTopic.json; sourceTree = "<group>"; };
 		D1D829BD25D1FFD700AC3CF3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		E020359A2863DDBC00AE8A6D /* AppGroupPushNotificationKeyHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroupPushNotificationKeyHandler.swift; sourceTree = "<group>"; };
+		E020359A2863DDBC00AE8A6D /* AppGroupPushNotificationKeyStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroupPushNotificationKeyStorage.swift; sourceTree = "<group>"; };
 		E034C0E7282B4CB100E3F985 /* PushNotificationPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationPayload.swift; sourceTree = "<group>"; };
 		E034C0EA282B4CD000E3F985 /* PushNotificationChatEventType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationChatEventType.swift; sourceTree = "<group>"; };
 		E034C0ED282B4D1D00E3F985 /* PushNotificationBaseEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationBaseEvent.swift; sourceTree = "<group>"; };
@@ -388,12 +394,15 @@
 		E03DAFE32807667200389C43 /* RegistrarTransportSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrarTransportSettings.swift; sourceTree = "<group>"; };
 		E03DAFE62807668A00389C43 /* RegistrarURLSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrarURLSettings.swift; sourceTree = "<group>"; };
 		E04440942807705C00A6DA24 /* RegistrarClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrarClientTests.swift; sourceTree = "<group>"; };
-		E04440DA28077BFA00A6DA24 /* test_deleteRegistration_ReturnsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_deleteRegistration_ReturnsSuccess.json; sourceTree = "<group>"; };
-		E04440DC28077C0400A6DA24 /* test_setRegistration_ReturnsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_setRegistration_ReturnsSuccess.json; sourceTree = "<group>"; };
-		E04440DE28077C0C00A6DA24 /* test_StopPushNotifications_ReturnsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_StopPushNotifications_ReturnsSuccess.json; sourceTree = "<group>"; };
-		E04440DF28077C0C00A6DA24 /* test_StartPushNotifications_ReturnsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_StartPushNotifications_ReturnsSuccess.json; sourceTree = "<group>"; };
 		E058442B28A6DDFA007D7E0A /* IdentityUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityUtil.swift; sourceTree = "<group>"; };
-		E0C134ED284E677900FC388B /* PushNotificationKeyHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationKeyHandler.swift; sourceTree = "<group>"; };
+		E09B6AF928C17EE10044D0BB /* test-settings.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "test-settings.plist"; path = "Tests/test-settings.plist"; sourceTree = SOURCE_ROOT; };
+		E09B6AFC28C180DD0044D0BB /* test_deleteRegistration_ReturnsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_deleteRegistration_ReturnsSuccess.json; sourceTree = "<group>"; };
+		E09B6AFD28C180DD0044D0BB /* test_StopPushNotifications_ReturnsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_StopPushNotifications_ReturnsSuccess.json; sourceTree = "<group>"; };
+		E09B6AFE28C180DD0044D0BB /* test_CreateThread_WithoutParticipants.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_CreateThread_WithoutParticipants.json; sourceTree = "<group>"; };
+		E09B6AFF28C180DD0044D0BB /* test_setRegistration_ReturnsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_setRegistration_ReturnsSuccess.json; sourceTree = "<group>"; };
+		E09B6B0028C180DD0044D0BB /* test_ListThreads_ReturnsChatThreadItems.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_ListThreads_ReturnsChatThreadItems.json; sourceTree = "<group>"; };
+		E09B6B0128C180DD0044D0BB /* test_StartPushNotifications_ReturnsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_StartPushNotifications_ReturnsSuccess.json; sourceTree = "<group>"; };
+		E0C134ED284E677900FC388B /* PushNotificationKeyStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationKeyStorage.swift; sourceTree = "<group>"; };
 		FCF18D210ADF02D5CBA71786 /* Pods-AzureCommunicationChatUnitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationChatUnitTests.release.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationChatUnitTests/Pods-AzureCommunicationChatUnitTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -462,12 +471,12 @@
 		0A9207EC26839B3100469608 /* Recordings */ = {
 			isa = PBXGroup;
 			children = (
-				0A6A5453268BAB8B001006AF /* test_CreateThread_WithoutParticipants.json */,
-				0A6A5454268BAB8B001006AF /* test_ListThreads_ReturnsChatThreadItems.json */,
-				E04440DC28077C0400A6DA24 /* test_setRegistration_ReturnsSuccess.json */,
-				E04440DA28077BFA00A6DA24 /* test_deleteRegistration_ReturnsSuccess.json */,
-				E04440DF28077C0C00A6DA24 /* test_StartPushNotifications_ReturnsSuccess.json */,
-				E04440DE28077C0C00A6DA24 /* test_StopPushNotifications_ReturnsSuccess.json */,
+				E09B6AFE28C180DD0044D0BB /* test_CreateThread_WithoutParticipants.json */,
+				E09B6AFC28C180DD0044D0BB /* test_deleteRegistration_ReturnsSuccess.json */,
+				E09B6B0028C180DD0044D0BB /* test_ListThreads_ReturnsChatThreadItems.json */,
+				E09B6AFF28C180DD0044D0BB /* test_setRegistration_ReturnsSuccess.json */,
+				E09B6B0128C180DD0044D0BB /* test_StartPushNotifications_ReturnsSuccess.json */,
+				E09B6AFD28C180DD0044D0BB /* test_StopPushNotifications_ReturnsSuccess.json */,
 			);
 			path = Recordings;
 			sourceTree = "<group>";
@@ -665,6 +674,7 @@
 		D1CD93AB258D6C0300409613 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				E09B6AF928C17EE10044D0BB /* test-settings.plist */,
 				D1CD93BC258D6E3500409613 /* Recordings */,
 				0ECA8CD52581838E006760F7 /* Mocks */,
 				D1CD93AC258D6C2500409613 /* Util.swift */,
@@ -711,8 +721,8 @@
 				E034C0EA282B4CD000E3F985 /* PushNotificationChatEventType.swift */,
 				E034C0ED282B4D1D00E3F985 /* PushNotificationBaseEvent.swift */,
 				E034C0F0282B4D4300E3F985 /* PushNotificationEvent.swift */,
-				E0C134ED284E677900FC388B /* PushNotificationKeyHandler.swift */,
-				E020359A2863DDBC00AE8A6D /* AppGroupPushNotificationKeyHandler.swift */,
+				E0C134ED284E677900FC388B /* PushNotificationKeyStorage.swift */,
+				E020359A2863DDBC00AE8A6D /* AppGroupPushNotificationKeyStorage.swift */,
 			);
 			path = PushNotification;
 			sourceTree = "<group>";
@@ -883,8 +893,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				D147E68A25CE2480001CFB5D /* UnauthorizedError.json in Resources */,
+				E09B6B0928C180DE0044D0BB /* test_setRegistration_ReturnsSuccess.json in Resources */,
+				E09B6B0728C180DE0044D0BB /* test_CreateThread_WithoutParticipants.json in Resources */,
 				D147E66725CE2473001CFB5D /* ListMessagesResponse.json in Resources */,
 				D147E66025CE2470001CFB5D /* ListParticipantsResponse.json in Resources */,
+				E09B6B0D28C180DE0044D0BB /* test_StartPushNotifications_ReturnsSuccess.json in Resources */,
 				D147E65925CE246E001CFB5D /* AddParticipantResponse.json in Resources */,
 				D147E65225CE246B001CFB5D /* ListReadReceiptResponse.json in Resources */,
 				D147E67525CE2478001CFB5D /* NoContent.json in Resources */,
@@ -893,6 +906,10 @@
 				D147E68325CE247D001CFB5D /* ListThreadsResponse.json in Resources */,
 				D147E67C25CE247B001CFB5D /* SendMessageResponse.json in Resources */,
 				D147E69825CE2485001CFB5D /* CreateThreadResponse.json in Resources */,
+				E09B6B0328C180DE0044D0BB /* test_deleteRegistration_ReturnsSuccess.json in Resources */,
+				E09B6B0528C180DE0044D0BB /* test_StopPushNotifications_ReturnsSuccess.json in Resources */,
+				E09B6B0B28C180DE0044D0BB /* test_ListThreads_ReturnsChatThreadItems.json in Resources */,
+				E09B6AFB28C17EE10044D0BB /* test-settings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -900,26 +917,27 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A6A5455268BAC57001006AF /* test_CreateThread_WithoutParticipants.json in Resources */,
 				D1CD93CC258D6E9E00409613 /* deleteThread.json in Resources */,
 				D1CD93EC258D6F1300409613 /* updateTopic.json in Resources */,
 				D1CD93C4258D6E7300409613 /* createThread.json in Resources */,
-				E04440DB28077BFA00A6DA24 /* test_deleteRegistration_ReturnsSuccess.json in Resources */,
 				D1CD93D8258D6ECD00409613 /* removeParticipant.json in Resources */,
 				D1CD93DC258D6EDA00409613 /* sendMessage.json in Resources */,
 				D13CE65125BFB6D700415467 /* listReadReceipts.json in Resources */,
 				D1CD93C8258D6E8F00409613 /* deleteMessage.json in Resources */,
+				E09B6B0A28C180DE0044D0BB /* test_ListThreads_ReturnsChatThreadItems.json in Resources */,
+				E09B6B0228C180DD0044D0BB /* test_deleteRegistration_ReturnsSuccess.json in Resources */,
 				D10C3BDA25A66D4D00A181E3 /* listThreads.json in Resources */,
 				D1CD93D0258D6EAB00409613 /* getThread.json in Resources */,
+				E09B6B0628C180DE0044D0BB /* test_CreateThread_WithoutParticipants.json in Resources */,
+				E09B6B0428C180DE0044D0BB /* test_StopPushNotifications_ReturnsSuccess.json in Resources */,
 				D10C3BCE25A63F7800A181E3 /* listParticipants.json in Resources */,
-				E04440DD28077C0400A6DA24 /* test_setRegistration_ReturnsSuccess.json in Resources */,
+				E09B6B0828C180DE0044D0BB /* test_setRegistration_ReturnsSuccess.json in Resources */,
+				E09B6B0C28C180DE0044D0BB /* test_StartPushNotifications_ReturnsSuccess.json in Resources */,
 				D1CD93E4258D6EF700409613 /* sendTypingNotification.json in Resources */,
-				E04440E128077C0C00A6DA24 /* test_StartPushNotifications_ReturnsSuccess.json in Resources */,
 				D1CD93E0258D6EEA00409613 /* sendReadReceipt.json in Resources */,
 				D1CD93E8258D6F0600409613 /* updateMessage.json in Resources */,
 				D1CD93BE258D6E6200409613 /* addParticipants.json in Resources */,
-				0A6A5457268BAC5D001006AF /* test_ListThreads_ReturnsChatThreadItems.json in Resources */,
-				E04440E028077C0C00A6DA24 /* test_StopPushNotifications_ReturnsSuccess.json in Resources */,
+				E09B6AFA28C17EE10044D0BB /* test-settings.plist in Resources */,
 				D10C3BD425A660AF00A181E3 /* listMessages.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1109,7 +1127,7 @@
 				E04440B1280775E700A6DA24 /* ChatMessageReadReceipt.swift in Sources */,
 				E04440BC2807772700A6DA24 /* ChatError.swift in Sources */,
 				E04440D32807778100A6DA24 /* ChatMessageContentInternal.swift in Sources */,
-				E020359C2863DDBC00AE8A6D /* AppGroupPushNotificationKeyHandler.swift in Sources */,
+				E020359C2863DDBC00AE8A6D /* AppGroupPushNotificationKeyStorage.swift in Sources */,
 				E04440AB280775C100A6DA24 /* PatchUtil.swift in Sources */,
 				E04440CE2807776C00A6DA24 /* UpdateChatThreadRequestInternal.swift in Sources */,
 				E04440D02807777500A6DA24 /* SendChatMessageResult.swift in Sources */,
@@ -1121,7 +1139,7 @@
 				E04440992807755400A6DA24 /* ChatThreadClient.swift in Sources */,
 				D1E4DD8726B1D1D300B7691E /* ChatClientDVRTests.swift in Sources */,
 				E03DAFD5280763C600389C43 /* PushNotificationClient.swift in Sources */,
-				E0C134EF284E677900FC388B /* PushNotificationKeyHandler.swift in Sources */,
+				E0C134EF284E677900FC388B /* PushNotificationKeyStorage.swift in Sources */,
 				E044409B2807757600A6DA24 /* UpdateChatMessageOptions.swift in Sources */,
 				E04440A9280775AD00A6DA24 /* CreateChatThreadOptions.swift in Sources */,
 				E04440C02807773600A6DA24 /* ChatThreadPropertiesInternal.swift in Sources */,
@@ -1160,7 +1178,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				E0C134EE284E677900FC388B /* PushNotificationKeyHandler.swift in Sources */,
+				E0C134EE284E677900FC388B /* PushNotificationKeyStorage.swift in Sources */,
 				D17F8AA726B0A480005648EA /* CommunicationUserIdentifierModel.swift in Sources */,
 				E03DAFDE2807663700389C43 /* RegistrarRequestBody.swift in Sources */,
 				E03DAFE72807668A00389C43 /* RegistrarURLSettings.swift in Sources */,
@@ -1216,7 +1234,7 @@
 				D17F8A9626B0A41B005648EA /* ListChatParticipantsOptions.swift in Sources */,
 				E034C0E8282B4CB100E3F985 /* PushNotificationPayload.swift in Sources */,
 				D17F8A8A26B0A3C3005648EA /* ChatThreadProperties.swift in Sources */,
-				E020359B2863DDBC00AE8A6D /* AppGroupPushNotificationKeyHandler.swift in Sources */,
+				E020359B2863DDBC00AE8A6D /* AppGroupPushNotificationKeyStorage.swift in Sources */,
 				D17F8AA426B0A445005648EA /* Chat.swift in Sources */,
 				0A2D45FC26E17A4600EEA234 /* AzureCommunicationChatClientOptionsInternal.swift in Sources */,
 				D17F8AA126B0A432005648EA /* CreateChatThreadOptions.swift in Sources */,

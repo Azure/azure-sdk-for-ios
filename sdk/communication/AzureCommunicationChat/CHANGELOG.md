@@ -1,5 +1,13 @@
 # Release History
 
+## 1.3.0 (2022-09-15)
+### New Features
+- `ChatClient` now supports Push Notifications for Chat events
+- Following methods added to `ChatClient`:
+  - `startPushNotifications(deviceToken:)`
+  - `stopPushNotifications()`
+- Added the prototol `PushNotificationKeyStorage` and the class `AppGroupPushNotificationKeyStorage` to support PushNotification Encryption Key Management
+
 ## 1.3.0-beta.1 (2022-07-25)
 ### New Features
 - `ChatClient` now supports Push Notifications for Chat events

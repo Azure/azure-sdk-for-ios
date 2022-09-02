@@ -42,7 +42,7 @@ public class ChatClient {
     private var realTimeNotificationDisconnectedHandler: TrouterEventHandler?
     private var pushNotificationClient: PushNotificationClient?
     internal var registrationId: String
-    public weak var pushNotificationKeyHandler: PushNotificationKeyHandler?
+    public weak var pushNotificationKeyStorage: PushNotificationKeyStorage?
 
     // MARK: Initializers
 
@@ -405,11 +405,11 @@ public class ChatClient {
         let encryptionKey: String
 
         // Persist the key if the Contoso intends to implement encryption
-        if pushNotificationKeyHandler != nil {
+        if pushNotificationKeyStorage != nil {
             // Persist the key if the Contoso intends to implement encryption
             encryptionKey = generateEncryptionKey()
             do {
-                try pushNotificationKeyHandler?.onPersistKey(
+                try pushNotificationKeyStorage?.onPersistKey(
                     encryptionKey,
                     expiryTime: Date(timeIntervalSinceNow: 45 * 60)
                 )
