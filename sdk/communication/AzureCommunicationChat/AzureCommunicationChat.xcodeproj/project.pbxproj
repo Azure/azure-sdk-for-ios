@@ -216,8 +216,6 @@
 		E04440D9280777DB00A6DA24 /* TrouterEventUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF8C47626A894890052FBFF /* TrouterEventUtil.swift */; };
 		E058442C28A6DDFA007D7E0A /* IdentityUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = E058442B28A6DDFA007D7E0A /* IdentityUtil.swift */; };
 		E058442D28A6DDFA007D7E0A /* IdentityUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = E058442B28A6DDFA007D7E0A /* IdentityUtil.swift */; };
-		E09B6AFA28C17EE10044D0BB /* test-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = E09B6AF928C17EE10044D0BB /* test-settings.plist */; };
-		E09B6AFB28C17EE10044D0BB /* test-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = E09B6AF928C17EE10044D0BB /* test-settings.plist */; };
 		E09B6B0228C180DD0044D0BB /* test_deleteRegistration_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E09B6AFC28C180DD0044D0BB /* test_deleteRegistration_ReturnsSuccess.json */; };
 		E09B6B0328C180DE0044D0BB /* test_deleteRegistration_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E09B6AFC28C180DD0044D0BB /* test_deleteRegistration_ReturnsSuccess.json */; };
 		E09B6B0428C180DE0044D0BB /* test_StopPushNotifications_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E09B6AFD28C180DD0044D0BB /* test_StopPushNotifications_ReturnsSuccess.json */; };
@@ -395,7 +393,6 @@
 		E03DAFE62807668A00389C43 /* RegistrarURLSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrarURLSettings.swift; sourceTree = "<group>"; };
 		E04440942807705C00A6DA24 /* RegistrarClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrarClientTests.swift; sourceTree = "<group>"; };
 		E058442B28A6DDFA007D7E0A /* IdentityUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityUtil.swift; sourceTree = "<group>"; };
-		E09B6AF928C17EE10044D0BB /* test-settings.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "test-settings.plist"; path = "Tests/test-settings.plist"; sourceTree = SOURCE_ROOT; };
 		E09B6AFC28C180DD0044D0BB /* test_deleteRegistration_ReturnsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_deleteRegistration_ReturnsSuccess.json; sourceTree = "<group>"; };
 		E09B6AFD28C180DD0044D0BB /* test_StopPushNotifications_ReturnsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_StopPushNotifications_ReturnsSuccess.json; sourceTree = "<group>"; };
 		E09B6AFE28C180DD0044D0BB /* test_CreateThread_WithoutParticipants.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_CreateThread_WithoutParticipants.json; sourceTree = "<group>"; };
@@ -674,7 +671,6 @@
 		D1CD93AB258D6C0300409613 /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				E09B6AF928C17EE10044D0BB /* test-settings.plist */,
 				D1CD93BC258D6E3500409613 /* Recordings */,
 				0ECA8CD52581838E006760F7 /* Mocks */,
 				D1CD93AC258D6C2500409613 /* Util.swift */,
@@ -909,7 +905,6 @@
 				E09B6B0328C180DE0044D0BB /* test_deleteRegistration_ReturnsSuccess.json in Resources */,
 				E09B6B0528C180DE0044D0BB /* test_StopPushNotifications_ReturnsSuccess.json in Resources */,
 				E09B6B0B28C180DE0044D0BB /* test_ListThreads_ReturnsChatThreadItems.json in Resources */,
-				E09B6AFB28C17EE10044D0BB /* test-settings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -937,7 +932,6 @@
 				D1CD93E0258D6EEA00409613 /* sendReadReceipt.json in Resources */,
 				D1CD93E8258D6F0600409613 /* updateMessage.json in Resources */,
 				D1CD93BE258D6E6200409613 /* addParticipants.json in Resources */,
-				E09B6AFA28C17EE10044D0BB /* test-settings.plist in Resources */,
 				D10C3BD425A660AF00A181E3 /* listMessages.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
