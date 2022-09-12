@@ -235,8 +235,8 @@ public class ChatMessageReceivedEvent: BaseChatMessageEvent {
 
         super.init(
             threadId: messageReceivedPayload.groupId,
-            sender: TrouterEventUtil.getIdentifier(from: messageReceivedPayload.senderId),
-            recipient: TrouterEventUtil.getIdentifier(from: messageReceivedPayload.recipientMri),
+            sender: getIdentifier(from: messageReceivedPayload.senderId),
+            recipient: getIdentifier(from: messageReceivedPayload.recipientMri),
             id: messageReceivedPayload.messageId,
             senderDisplayName: messageReceivedPayload.senderDisplayName,
             createdOn: Iso8601Date(string: messageReceivedPayload.originalArrivalTime),
@@ -320,8 +320,8 @@ public class ChatMessageEditedEvent: BaseChatMessageEvent {
 
         super.init(
             threadId: chatMessageEditedPayload.groupId,
-            sender: TrouterEventUtil.getIdentifier(from: chatMessageEditedPayload.senderId),
-            recipient: TrouterEventUtil.getIdentifier(from: chatMessageEditedPayload.recipientMri),
+            sender: getIdentifier(from: chatMessageEditedPayload.senderId),
+            recipient: getIdentifier(from: chatMessageEditedPayload.recipientMri),
             id: chatMessageEditedPayload.messageId,
             senderDisplayName: chatMessageEditedPayload.senderDisplayName,
             createdOn: Iso8601Date(string: chatMessageEditedPayload.originalArrivalTime),
@@ -388,8 +388,8 @@ public class ChatMessageDeletedEvent: BaseChatMessageEvent {
         self.deletedOn = Iso8601Date(string: chatMessageDeletedPayload.deletetime)
         super.init(
             threadId: chatMessageDeletedPayload.groupId,
-            sender: TrouterEventUtil.getIdentifier(from: chatMessageDeletedPayload.senderId),
-            recipient: TrouterEventUtil.getIdentifier(from: chatMessageDeletedPayload.recipientMri),
+            sender: getIdentifier(from: chatMessageDeletedPayload.senderId),
+            recipient: getIdentifier(from: chatMessageDeletedPayload.recipientMri),
             id: chatMessageDeletedPayload.messageId,
             senderDisplayName: chatMessageDeletedPayload.senderDisplayName,
             createdOn: Iso8601Date(string: chatMessageDeletedPayload.originalArrivalTime),
@@ -450,8 +450,8 @@ public class TypingIndicatorReceivedEvent: BaseChatEvent {
         self.senderDisplayName = typingIndicatorReceivedPayload.senderDisplayName
         super.init(
             threadId: typingIndicatorReceivedPayload.groupId,
-            sender: TrouterEventUtil.getIdentifier(from: typingIndicatorReceivedPayload.senderId),
-            recipient: TrouterEventUtil.getIdentifier(from: typingIndicatorReceivedPayload.recipientMri)
+            sender: getIdentifier(from: typingIndicatorReceivedPayload.senderId),
+            recipient: getIdentifier(from: typingIndicatorReceivedPayload.recipientMri)
         )
     }
 }
@@ -517,8 +517,8 @@ public class ReadReceiptReceivedEvent: BaseChatEvent {
         self.readOn = Iso8601Date(readOnDate)
         super.init(
             threadId: readReceiptReceivedPayload.groupId,
-            sender: TrouterEventUtil.getIdentifier(from: readReceiptReceivedPayload.senderId),
-            recipient: TrouterEventUtil.getIdentifier(from: readReceiptReceivedPayload.recipientMri)
+            sender: getIdentifier(from: readReceiptReceivedPayload.senderId),
+            recipient: getIdentifier(from: readReceiptReceivedPayload.recipientMri)
         )
     }
 }
@@ -582,7 +582,7 @@ public class ChatThreadCreatedEvent: BaseChatThreadEvent {
             .decode(ChatParticipantPayload.self, from: createdByJsonData)
         let createdBy =
             SignalingChatParticipant(
-                id: TrouterEventUtil.getIdentifier(from: createdByPayload.participantId),
+                id: getIdentifier(from: createdByPayload.participantId),
                 displayName: createdByPayload.displayName
             )
 
@@ -595,7 +595,7 @@ public class ChatThreadCreatedEvent: BaseChatThreadEvent {
         let participants: [SignalingChatParticipant] = membersPayload
             .map { (memberPayload: ChatParticipantPayload) -> SignalingChatParticipant in
                 SignalingChatParticipant(
-                    id: TrouterEventUtil.getIdentifier(from: memberPayload.participantId),
+                    id: getIdentifier(from: memberPayload.participantId),
                     displayName: memberPayload.displayName
                 )
             }
@@ -670,7 +670,7 @@ public class ChatThreadPropertiesUpdatedEvent: BaseChatThreadEvent {
             .decode(ChatParticipantPayload.self, from: updatedByJsonData)
         let updatedBy =
             SignalingChatParticipant(
-                id: TrouterEventUtil.getIdentifier(from: updatedByPayload.participantId),
+                id: getIdentifier(from: updatedByPayload.participantId),
                 displayName: updatedByPayload.displayName
             )
 
@@ -737,7 +737,7 @@ public class ChatThreadDeletedEvent: BaseChatThreadEvent {
         let deletedByPayload: ChatParticipantPayload = try JSONDecoder()
             .decode(ChatParticipantPayload.self, from: deletedByJsonData)
         let deletedBy = SignalingChatParticipant(
-            id: TrouterEventUtil.getIdentifier(from: deletedByPayload.participantId),
+            id: getIdentifier(from: deletedByPayload.participantId),
             displayName: deletedByPayload.displayName
         )
 
@@ -800,7 +800,7 @@ public class ParticipantsAddedEvent: BaseChatThreadEvent {
         let addedByPayload: ChatParticipantPayload = try JSONDecoder()
             .decode(ChatParticipantPayload.self, from: addeddByJsonData)
         let addedBy = SignalingChatParticipant(
-            id: TrouterEventUtil.getIdentifier(from: addedByPayload.participantId),
+            id: getIdentifier(from: addedByPayload.participantId),
             displayName: addedByPayload.displayName
         )
 
@@ -814,7 +814,7 @@ public class ParticipantsAddedEvent: BaseChatThreadEvent {
         let participants: [SignalingChatParticipant] = participantsPayload
             .map { (memberPayload: ChatParticipantPayload) -> SignalingChatParticipant in
                 SignalingChatParticipant(
-                    id: TrouterEventUtil.getIdentifier(from: memberPayload.participantId),
+                    id: getIdentifier(from: memberPayload.participantId),
                     displayName: memberPayload.displayName,
                     shareHistoryTime: Iso8601Date(
                         string: TrouterEventUtil
@@ -883,7 +883,7 @@ public class ParticipantsRemovedEvent: BaseChatThreadEvent {
         let removedByPayload: ChatParticipantPayload = try JSONDecoder()
             .decode(ChatParticipantPayload.self, from: removedByJsonData)
         let removedBy = SignalingChatParticipant(
-            id: TrouterEventUtil.getIdentifier(from: removedByPayload.participantId),
+            id: getIdentifier(from: removedByPayload.participantId),
             displayName: removedByPayload.displayName
         )
 
@@ -896,7 +896,7 @@ public class ParticipantsRemovedEvent: BaseChatThreadEvent {
         let participants: [SignalingChatParticipant] = participantsPayload
             .map { (memberPayload: ChatParticipantPayload) -> SignalingChatParticipant in
                 SignalingChatParticipant(
-                    id: TrouterEventUtil.getIdentifier(from: memberPayload.participantId),
+                    id: getIdentifier(from: memberPayload.participantId),
                     displayName: memberPayload.displayName,
                     shareHistoryTime: Iso8601Date(
                         string: TrouterEventUtil
