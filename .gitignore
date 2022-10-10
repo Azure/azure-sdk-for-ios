@@ -80,3 +80,7 @@ fastlane/test_output
 Icon?
 *.bak
 test-settings.plist
+
+# Default Assets restore directory
+.assets
+
