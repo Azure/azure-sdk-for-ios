@@ -1,5 +1,5 @@
 variables:
-  OSVmImage: 'macOS-11'
+  OSVmImage: 'macOS-12'
   DocWardenVersion: '0.7.1'
   XcodeVersion: '13.3'
   SimulatorVersion: '14.5'
