@@ -1,5 +1,11 @@
 # Release History
 
+## 2.2.1 (2022-11-02)
+
+### Bugs fixed
+ - Fix calling `call.hangup()` with `HangUpOptions` for everybody.
+ - Fix bug that allowed create several CallAgents for same identity.
+
 ## 2.3.0-beta.1 (2022-09-30)
 
 ### Features Added
