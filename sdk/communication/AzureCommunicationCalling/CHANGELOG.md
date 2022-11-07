@@ -1,5 +1,18 @@
 # Release History
 
+## 2.3.0-beta.2 (2022-11-07)
+
+### Features Added
+- Added support for audio start/stop.
+- Added new API for `muteSpeaker` and property `isSpeakerMuted`.
+- Add support for `RecordingsUpdated` event which will be triggered when a recording is started or stopped, `Recordings` property to list all current recordings and `RecordingState` indicates the state of a recording. 
+- Raw Outgoing Video
+- details: 
+    - Users will be able to send `CVImageBuffer` frames(in one of the supported formats) to a call through a virtual video stream as an alternative to camera source(local video stream) or through screen sharing stream using [Raw Media APIs](https://github.com/MicrosoftDocs/azure-docs/blob/main/articles/communication-services/quickstarts/voice-video-calling/get-started-raw-media-access.md).
+### Bugs fixed
+- Fix calling `call.hangup()` with `HangUpOptions` for everybody.
+- Fix bug that allowed create several CallAgents for same identity.
+
 ## 2.2.1 (2022-11-02)
 
 ### Bugs fixed
