@@ -75,7 +75,7 @@ class CreateCommunicationIdentifier: XCTestCase {
             guard let identifier = identifier as? PhoneNumberIdentifier else { return }
 
             XCTAssertEqual(identifier.rawId, phoneNumberRawId)
-            XCTAssertEqual(identifier.phoneNumber, "+12345556789")
+            XCTAssertEqual(identifier.phoneNumber, "12345556789")
         case .microsoftTeamsUser:
             XCTFail("test_createPhoneNumberIdentifier created the wrong type")
         case .unknown:
@@ -261,5 +261,28 @@ class CreateCommunicationIdentifier: XCTestCase {
         default:
             XCTFail("test_createMicrosoftTeamsUserIdentifierGCCHScope created the wrong type")
         }
+    }
+
+    func test_rawIdStaysTheSameAfterConversionToIdentifierAndBack() {
+        assertRoundTrip(rawId: "8:acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130")
+        assertRoundTrip(rawId: "8:spool:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130")
+        assertRoundTrip(rawId: "8:dod-acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130")
+        assertRoundTrip(rawId: "8:gcch-acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130")
+        assertRoundTrip(rawId: "8:acs:something")
+        assertRoundTrip(rawId: "8:orgid:45ab2481-1c1c-4005-be24-0ffb879b1130")
+        assertRoundTrip(rawId: "8:dod:45ab2481-1c1c-4005-be24-0ffb879b1130")
+        assertRoundTrip(rawId: "8:gcch:45ab2481-1c1c-4005-be24-0ffb879b1130")
+        assertRoundTrip(rawId: "8:teamsvisitor:45ab2481-1c1c-4005-be24-0ffb879b1130")
+        assertRoundTrip(rawId: "8:orgid:legacyFormat")
+        assertRoundTrip(rawId: "4:112345556789")
+        assertRoundTrip(rawId: "4:+112345556789")
+        assertRoundTrip(rawId: "4:207ffef6-9444-41fb-92ab-20eacaae2768")
+        assertRoundTrip(rawId: "4:207ffef6-9444-41fb-92ab-20eacaae2768_207ffef6-9444-41fb-92ab-20eacaae2768")
+        assertRoundTrip(rawId: "4:+112345556789_207ffef6-9444-41fb-92ab-20eacaae2768")
+        assertRoundTrip(rawId: "28:45ab2481-1c1c-4005-be24-0ffb879b1130")
+    }
+
+    private func assertRoundTrip(rawId: String) {
+        XCTAssertEqual(createCommunicationIdentifier(fromRawId: rawId).rawId, rawId)
     }
 }
