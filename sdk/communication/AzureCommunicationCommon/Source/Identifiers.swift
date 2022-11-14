@@ -65,7 +65,7 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
     let dodAcsUser = "8:dod-acs:"
     let gcchAcsUser = "8:gcch-acs:"
     if rawId.hasPrefix(phoneNumberPrefix) {
-        return PhoneNumberIdentifier(phoneNumber: "+" + rawId.dropFirst(phoneNumberPrefix.count), rawId: rawId)
+        return PhoneNumberIdentifier(phoneNumber: String(rawId.dropFirst(phoneNumberPrefix.count)), rawId: rawId)
     }
     let segments = rawId.split(separator: ":")
     if segments.count < 3 {
@@ -156,8 +156,7 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
         if let rawId = rawId {
             self.rawId = rawId
         } else {
-            let strippedPhoneNumber = phoneNumber.replacingOccurrences(of: "+", with: "")
-            self.rawId = "4:" + strippedPhoneNumber
+            self.rawId = "4:" + phoneNumber
         }
     }
 

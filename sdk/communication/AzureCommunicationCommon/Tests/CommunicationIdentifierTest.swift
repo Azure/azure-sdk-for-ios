@@ -34,6 +34,9 @@ class CommunicationIdentifierTest: XCTestCase {
     let testUserId = "User Id"
     let testRawId = "Raw Id"
     let testPhoneNumber = "+12223334444"
+    let testPhoneNumberRawId = "4:+12223334444"
+    let testPhoneNumberWithoutPlus = "12223334444"
+    let testPhoneNumberRawIdWithoutPlus = "4:12223334444"
     let testTeamsUserId = "Microsoft Teams User Id"
 
     func test_CommunicationUserIdentifier_RawId_IsEqualTo_Identifier() {
@@ -47,9 +50,10 @@ class CommunicationIdentifierTest: XCTestCase {
     }
 
     func test_PhoneNumberIdentifier_IfRawIdIsNull_RawIdIsGeneratedProperly() {
-        let expectedPhoneNumberRawId = "4:12223334444"
-        let phoneNumberIdentifier = PhoneNumberIdentifier(phoneNumber: testPhoneNumber)
-        XCTAssertEqual(phoneNumberIdentifier.rawId, expectedPhoneNumberRawId)
+        var phoneNumberIdentifier = PhoneNumberIdentifier(phoneNumber: testPhoneNumber)
+        XCTAssertEqual(phoneNumberIdentifier.rawId, testPhoneNumberRawId)
+        phoneNumberIdentifier = PhoneNumberIdentifier(phoneNumber: testPhoneNumberWithoutPlus)
+        XCTAssertEqual(phoneNumberIdentifier.rawId, testPhoneNumberRawIdWithoutPlus)
     }
 
     func test_MicrosoftTeamsUserIdentifier_IfRawIdIsNull_RawIdIsGeneratedProperly_AnonymousUserIsFalse() {
@@ -129,8 +133,26 @@ class CommunicationIdentifierTest: XCTestCase {
                 PhoneNumberIdentifier(phoneNumber: testPhoneNumber)
         )
         XCTAssertTrue(
+            PhoneNumberIdentifier(
+                phoneNumber: testPhoneNumber,
+                rawId: testPhoneNumberRawId
+            ) ==
+                PhoneNumberIdentifier(phoneNumber: testPhoneNumber)
+        )
+        XCTAssertTrue(
+            PhoneNumberIdentifier(
+                phoneNumber: testPhoneNumberWithoutPlus,
+                rawId: testPhoneNumberRawIdWithoutPlus
+            ) ==
+                PhoneNumberIdentifier(phoneNumber: testPhoneNumberWithoutPlus)
+        )
+        XCTAssertTrue(
             PhoneNumberIdentifier(phoneNumber: testPhoneNumber) ==
                 PhoneNumberIdentifier(phoneNumber: testPhoneNumber)
+        )
+        XCTAssertTrue(
+            PhoneNumberIdentifier(phoneNumber: testPhoneNumberWithoutPlus) ==
+                PhoneNumberIdentifier(phoneNumber: testPhoneNumberWithoutPlus)
         )
         XCTAssertFalse(
             PhoneNumberIdentifier(phoneNumber: testPhoneNumber) ==
