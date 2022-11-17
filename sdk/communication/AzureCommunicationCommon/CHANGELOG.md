@@ -1,6 +1,10 @@
 # Release History
 
-## 1.1.0 (upcoming)
+## 1.1.1 (2022-11-17)
+### Bugs fixed
+- Fixed the logic of `PhoneNumberIdentifier` to always maintain the original phone number string whether it included the leading + sign or not.
+
+## 1.1.0 (2022-09-08)
 ### New Features
 - Introduce new `createCommunicationIdentifier(from: )` to translate between a CommunicationIdentifier and its underlying canonical rawId representation. Developers can now use the rawId as an encoded format for identifiers to store in their databases or as stable keys in general.
 - Introduce new `rawId` getter property in the `CommunicationIdentifier` protocol to return rawId representation.
