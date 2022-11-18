@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.16 
+## 1.0.0-beta.16 (Unreleased)
 ### New Features
 - Added async wrappers to PageCollection nextPage and nextItem
 
