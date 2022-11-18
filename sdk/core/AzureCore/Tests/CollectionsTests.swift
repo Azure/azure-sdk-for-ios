@@ -176,4 +176,42 @@ class CollectionsTests: XCTestCase {
         }
         wait(for: expectations, timeout: 5)
     }
+
+    @available(iOS 13.0.0, *)
+    func test_PagedCollection_CanAsyncIteratePerItem() async throws {
+        let client = TestPageableClient(
+            endpoint: URL(string: "http://www.microsoft.com")!,
+            transport: URLSessionTransport(),
+            policies: [
+                UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0")
+            ],
+            logger: ClientLoggers.default(),
+            options: TestClientOptions()
+        )
+        let request = try HTTPRequest(method: .get, url: "test")
+        // simulate data received
+        let data = load(resource: "pagedthings1", withExtension: "json")
+        let jsonObject = try JSONSerialization.jsonObject(with: data)
+        let jsonData = try JSONSerialization.data(withJSONObject: jsonObject)
+        let codingKeys = PagedCodingKeys()
+        let paged = try PagedCollection<JsonTestItem>(
+            client: client,
+            request: request,
+            context: PipelineContext(),
+            data: jsonData,
+            codingKeys: codingKeys
+        )
+
+        for index in 0 ..< 3 {
+            let item = try await paged.nextItem()
+            XCTAssertEqual(item.id, index + 1)
+        }
+
+        // verify that fourth call to nextItem triggers a page fetch (which will fail)
+        do {
+            let noMore = try await paged.nextItem()
+            XCTFail("Error should have been thrown")
+        } catch {
+        }
+    }
 }
