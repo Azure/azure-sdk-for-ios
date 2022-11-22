@@ -211,6 +211,7 @@ jobs:
         displayName: 'Convert unit test results'
 
       - task: PublishTestResults@2
+        condition: always()
         inputs:
           searchFolder: '$(Build.ArtifactStagingDirectory)/Logs/Test'
           testResultsFiles: '*.xml'
