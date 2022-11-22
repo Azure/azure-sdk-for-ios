@@ -110,65 +110,65 @@ jobs:
   #     - script: swift build
   #       displayName: 'Build libraries with swift build'
 
-  - job: 'Analyze'
-    condition: and(succeeded(), ne(variables['Skip.Analyze'], 'true'))
+  # - job: 'Analyze'
+  #   condition: and(succeeded(), ne(variables['Skip.Analyze'], 'true'))
 
-    variables:
-      - template: ../variables/globals.yml
+  #   variables:
+  #     - template: ../variables/globals.yml
 
-    pool:
-      vmImage: '$(OSVmImage)'
+  #   pool:
+  #     vmImage: '$(OSVmImage)'
 
-    steps:
+  #   steps:
 
-      - task: UsePythonVersion@0
-        displayName: 'Use Python 3.10'
-        inputs:
-          versionSpec: '3.10'
+  #     - task: UsePythonVersion@0
+  #       displayName: 'Use Python 3.10'
+  #       inputs:
+  #         versionSpec: '3.10'
 
-      - script: sudo xcode-select --switch /Applications/Xcode_$(XcodeVersion).app
-        displayName: 'Use Xcode $(XcodeVersion)'
+  #     - script: sudo xcode-select --switch /Applications/Xcode_$(XcodeVersion).app
+  #       displayName: 'Use Xcode $(XcodeVersion)'
 
-      - template: ../../../common/pipelines/templates/steps/verify-links.yml
-        parameters:
-          Directory: ""
-          CheckLinkGuidance: $true
+  #     - template: ../../../common/pipelines/templates/steps/verify-links.yml
+  #       parameters:
+  #         Directory: ""
+  #         CheckLinkGuidance: $true
 
-      - script: |
-          python ./eng/scripts/version.py verify
-        displayName: Verify Versions
+  #     - script: |
+  #         python ./eng/scripts/version.py verify
+  #       displayName: Verify Versions
 
-      - script: ./eng/scripts/podlint.sh
-        displayName: Lint PodSpecs
+  #     - script: ./eng/scripts/podlint.sh
+  #       displayName: Lint PodSpecs
 
-      - script: |
-          brew install swiftlint
-          case "${{parameters.BuildScheme}}" in
-            all)
-              swiftlint lint --path . --quiet --reporter emoji
-              ;;
-            sdk|examples)
-              swiftlint lint --path ${{parameters.BuildScheme}} --quiet --reporter emoji
-              ;;
-            *)
-              swiftlint lint --path sdk/${{parameters.BuildScheme}} --quiet --reporter emoji
-              ;;
-          esac
-        displayName: 'Lint sources'
+  #     - script: |
+  #         brew install swiftlint
+  #         case "${{parameters.BuildScheme}}" in
+  #           all)
+  #             swiftlint lint --path . --quiet --reporter emoji
+  #             ;;
+  #           sdk|examples)
+  #             swiftlint lint --path ${{parameters.BuildScheme}} --quiet --reporter emoji
+  #             ;;
+  #           *)
+  #             swiftlint lint --path sdk/${{parameters.BuildScheme}} --quiet --reporter emoji
+  #             ;;
+  #         esac
+  #       displayName: 'Lint sources'
 
-      - script: |
-          pip install setuptools wheel
-          pip install doc-warden==$(DocWardenVersion)
-          ward scan -d $(Build.SourcesDirectory) -c $(Build.SourcesDirectory)/eng/.docsettings.yml
-        displayName: 'Verify readmes'
+  #     - script: |
+  #         pip install setuptools wheel
+  #         pip install doc-warden==$(DocWardenVersion)
+  #         ward scan -d $(Build.SourcesDirectory) -c $(Build.SourcesDirectory)/eng/.docsettings.yml
+  #       displayName: 'Verify readmes'
 
-      - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
-        # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR
-        # builds should be sufficient.
-        condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
-        displayName: 'Component detection'
+  #     - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
+  #       # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR
+  #       # builds should be sufficient.
+  #       condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
+  #       displayName: 'Component detection'
 
-      - template: /eng/common/pipelines/templates/steps/eng-common-workflow-enforcer.yml
+  #     - template: /eng/common/pipelines/templates/steps/eng-common-workflow-enforcer.yml
 
   # - job: 'UnitTest'
 
@@ -245,47 +245,47 @@ jobs:
   #         summaryFileLocation: '$(Build.ArtifactStagingDirectory)/reports/*/*.xml'
   #       displayName: 'Publish code coverage'
 
-  - job: 'SmokeTest'
-    strategy:
-      matrix:
-        # Build SDK libraries as frameworks, dynamically link to copies stored within the app bundle
-        frameworks:
-          PodsLinkage: frameworks
+  # - job: 'SmokeTest'
+  #   strategy:
+  #     matrix:
+  #       # Build SDK libraries as frameworks, dynamically link to copies stored within the app bundle
+  #       frameworks:
+  #         PodsLinkage: frameworks
 
-        # Build SDK libraries as static libs (.a), statically link them into the app binary
-        # This is currently broken, probably because Calling is pre-built as a framework
-        # static:
-        #   PodsLinkage: static
+  #       # Build SDK libraries as static libs (.a), statically link them into the app binary
+  #       # This is currently broken, probably because Calling is pre-built as a framework
+  #       # static:
+  #       #   PodsLinkage: static
 
-        # Build SDK libraries as frameworks, but then statically link them into the app binary
-        # Calling is still dynamically linked, probably because Calling is pre-built as a framework
-        staticframeworks:
-          PodsLinkage: staticframeworks
+  #       # Build SDK libraries as frameworks, but then statically link them into the app binary
+  #       # Calling is still dynamically linked, probably because Calling is pre-built as a framework
+  #       staticframeworks:
+  #         PodsLinkage: staticframeworks
 
-    variables:
-      - template: ../variables/globals.yml
+  #   variables:
+  #     - template: ../variables/globals.yml
 
-    pool:
-      vmImage: '$(OSVmImage)'
+  #   pool:
+  #     vmImage: '$(OSVmImage)'
 
-    steps:
-      - script: sudo xcode-select --switch /Applications/Xcode_$(XcodeVersion).app
-        displayName: 'Use Xcode $(XcodeVersion)'
+  #   steps:
+  #     - script: sudo xcode-select --switch /Applications/Xcode_$(XcodeVersion).app
+  #       displayName: 'Use Xcode $(XcodeVersion)'
 
-      - script: |
-          cd examples/AzureSDKSmokeTest
-          pod install
-        env:
-          IS_CI: True
-          PODSPEC_DIR: $(Build.Repository.LocalPath)
-          PODS_LINKAGE: $(PodsLinkage)
-        displayName: 'Install dependencies'
-      - script: |
-          set -o pipefail
-          cd examples/AzureSDKSmokeTest
-          xcodebuild build \
-                     -workspace AzureSDKSmokeTest.xcworkspace \
-                     -scheme AzureSDKSmokeTest \
-                     -sdk iphonesimulator \
-                     -configuration Debug | xcpretty -c
-        displayName: 'Build smoke test [iphonesimulator]'
+  #     - script: |
+  #         cd examples/AzureSDKSmokeTest
+  #         pod install
+  #       env:
+  #         IS_CI: True
+  #         PODSPEC_DIR: $(Build.Repository.LocalPath)
+  #         PODS_LINKAGE: $(PodsLinkage)
+  #       displayName: 'Install dependencies'
+  #     - script: |
+  #         set -o pipefail
+  #         cd examples/AzureSDKSmokeTest
+  #         xcodebuild build \
+  #                    -workspace AzureSDKSmokeTest.xcworkspace \
+  #                    -scheme AzureSDKSmokeTest \
+  #                    -sdk iphonesimulator \
+  #                    -configuration Debug | xcpretty -c
+  #       displayName: 'Build smoke test [iphonesimulator]'
