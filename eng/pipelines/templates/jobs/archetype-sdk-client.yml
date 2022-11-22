@@ -170,81 +170,80 @@ jobs:
 
       - template: /eng/common/pipelines/templates/steps/eng-common-workflow-enforcer.yml
 
-  - job: 'UnitTest'
+  # - job: 'UnitTest'
 
-    variables:
-      - template: ../variables/globals.yml
+  #   variables:
+  #     - template: ../variables/globals.yml
 
-    pool:
-      vmImage: '$(OSVmImage)'
+  #   pool:
+  #     vmImage: '$(OSVmImage)'
 
-    steps:
-      - script: sudo xcode-select --switch /Applications/Xcode_$(XcodeVersion).app
-        displayName: 'Use Xcode $(XcodeVersion)'
+  #   steps:
+  #     - script: sudo xcode-select --switch /Applications/Xcode_$(XcodeVersion).app
+  #       displayName: 'Use Xcode $(XcodeVersion)'
 
-      - script: gem install -N trainer slather -- --use-system-libraries
-        displayName: 'Install build tools'
+  #     - script: gem install -N trainer slather -- --use-system-libraries
+  #       displayName: 'Install build tools'
 
-      - script: pod install
-        displayName: 'Install dependencies'
+  #     - script: pod install
+  #       displayName: 'Install dependencies'
 
-      - script: |
-          xcrun simctl delete unavailable
-          set -o pipefail
-          xcodebuild -workspace AzureSDK.xcworkspace \
-                     -scheme ${{parameters.BuildScheme}} \
-                     -destination "platform=iOS Simulator,OS=$(SimulatorVersion),name=$(SimulatorDevice)" \
-                     -configuration Debug \
-                     -derivedDataPath $(Build.ArtifactStagingDirectory) \
-                     -enableCodeCoverage YES \
-                     test | xcpretty -c
-        displayName: 'Build and test libraries'
+  #     - script: |
+  #         xcrun simctl delete unavailable
+  #         set -o pipefail
+  #         xcodebuild -workspace AzureSDK.xcworkspace \
+  #                    -scheme ${{parameters.BuildScheme}} \
+  #                    -destination "platform=iOS Simulator,OS=$(SimulatorVersion),name=$(SimulatorDevice)" \
+  #                    -configuration Debug \
+  #                    -derivedDataPath $(Build.ArtifactStagingDirectory) \
+  #                    -enableCodeCoverage YES \
+  #                    test | xcpretty -c
+  #       displayName: 'Build and test libraries'
 
-      - publish: $(Build.ArtifactStagingDirectory)/Logs/Test
-        displayName: 'Preserve logs on failure'
-        artifact: 'test-failure-logs'
-        condition: failed()
+  #     - publish: $(Build.ArtifactStagingDirectory)/Logs/Test
+  #       displayName: 'Preserve logs on failure'
+  #       artifact: 'test-failure-logs'
+  #       condition: failed()
 
-      - script: trainer --path $(Build.ArtifactStagingDirectory) --fail_build false
-        env:
-          FASTLANE_OPT_OUT_USAGE: true
-        displayName: 'Convert unit test results'
+  #     - script: trainer --path $(Build.ArtifactStagingDirectory) --fail_build false
+  #       env:
+  #         FASTLANE_OPT_OUT_USAGE: true
+  #       displayName: 'Convert unit test results'
 
-      - task: PublishTestResults@2
-        condition: always()
-        inputs:
-          searchFolder: '$(Build.ArtifactStagingDirectory)/Logs/Test'
-          testResultsFiles: '*.xml'
-          testRunTitle: 'Unit Tests - [Xcode $(XcodeVersion), iOS $(SimulatorVersion)]'
-        displayName: 'Publish unit test results'
+  #     - task: PublishTestResults@2
+  #       inputs:
+  #         searchFolder: '$(Build.ArtifactStagingDirectory)/Logs/Test'
+  #         testResultsFiles: '*.xml'
+  #         testRunTitle: 'Unit Tests - [Xcode $(XcodeVersion), iOS $(SimulatorVersion)]'
+  #       displayName: 'Publish unit test results'
 
-      - script: |
-          echo "Getting list of projects in scheme ${{parameters.BuildScheme}}"
-          xcodebuild -showBuildSettings \
-                     -workspace AzureSDK.xcworkspace \
-                     -scheme ${{parameters.BuildScheme}} \
-                     -configuration Debug \
-          | grep PROJECT_FILE_PATH \
-          | awk -F ' = ' '{print $NF}' \
-          | while read PROJECT_PATH; do
-              PROJECT_NAME=$(echo $PROJECT_PATH | awk -F/ '{print $NF}' | sed 's/.xcodeproj//')
-              echo "Generating reports for $PROJECT_NAME"
-              slather coverage -x \
-                              --workspace AzureSDK.xcworkspace \
-                              --scheme ${{parameters.BuildScheme}} \
-                              --configuration Debug \
-                              --binary-basename $PROJECT_NAME \
-                              --build-directory $(Build.ArtifactStagingDirectory) \
-                              --output-directory $(Build.ArtifactStagingDirectory)/reports/$PROJECT_NAME \
-                              $PROJECT_PATH
-            done
-        displayName: 'Generate code coverage reports'
+  #     - script: |
+  #         echo "Getting list of projects in scheme ${{parameters.BuildScheme}}"
+  #         xcodebuild -showBuildSettings \
+  #                    -workspace AzureSDK.xcworkspace \
+  #                    -scheme ${{parameters.BuildScheme}} \
+  #                    -configuration Debug \
+  #         | grep PROJECT_FILE_PATH \
+  #         | awk -F ' = ' '{print $NF}' \
+  #         | while read PROJECT_PATH; do
+  #             PROJECT_NAME=$(echo $PROJECT_PATH | awk -F/ '{print $NF}' | sed 's/.xcodeproj//')
+  #             echo "Generating reports for $PROJECT_NAME"
+  #             slather coverage -x \
+  #                             --workspace AzureSDK.xcworkspace \
+  #                             --scheme ${{parameters.BuildScheme}} \
+  #                             --configuration Debug \
+  #                             --binary-basename $PROJECT_NAME \
+  #                             --build-directory $(Build.ArtifactStagingDirectory) \
+  #                             --output-directory $(Build.ArtifactStagingDirectory)/reports/$PROJECT_NAME \
+  #                             $PROJECT_PATH
+  #           done
+  #       displayName: 'Generate code coverage reports'
 
-      - task: PublishCodeCoverageResults@1
-        inputs:
-          codeCoverageTool: 'Cobertura'
-          summaryFileLocation: '$(Build.ArtifactStagingDirectory)/reports/*/*.xml'
-        displayName: 'Publish code coverage'
+  #     - task: PublishCodeCoverageResults@1
+  #       inputs:
+  #         codeCoverageTool: 'Cobertura'
+  #         summaryFileLocation: '$(Build.ArtifactStagingDirectory)/reports/*/*.xml'
+  #       displayName: 'Publish code coverage'
 
   - job: 'SmokeTest'
     strategy:
