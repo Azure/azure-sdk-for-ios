@@ -37,6 +37,17 @@
                BlueprintName = "AzureCommunicationCommonTests"
                ReferencedContainer = "container:AzureCommunicationCommon.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "ObjCCommunciationTokenCredentialTests/test_ObjCRefreshTokenProactively_TokenAlreadyExpired">
+               </Test>
+               <Test
+                  Identifier = "ObjCCommunicationTokenCredentialAsyncTests/test_ObjCRefreshTokenProactivelyTokenExpiringInNineMin">
+               </Test>
+               <Test
+                  Identifier = "ObjCCommunicationTokenCredentialAsyncTests/test_ObjCRefreshTokenProactivelyTokenExpiringInOneMin">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>
