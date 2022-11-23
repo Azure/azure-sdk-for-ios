@@ -45,7 +45,7 @@ try {
     git -c user.name="azure-sdk" -c user.email="azuresdk@microsoft.com" commit -m "Releasing $version"
 
     LogDebug "Tagging and pushing version: $version"
-    git tag -a $version -m "$version"
+    git -c user.name="azure-sdk" -c user.email="azuresdk@microsoft.com" tag -a $version -m "$version"
 
     if ($LASTEXITCODE -ne 0) {
         throw "Failed to tag repository because tag $version already exists!"
