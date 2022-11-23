@@ -9,17 +9,17 @@ parameters:
   default: []
 
 stages:
-  - stage: Build
-    jobs:
-    - template: ../jobs/archetype-sdk-client.yml
-      parameters:
-        BuildScheme: ${{parameters.BuildScheme}}
+  # - stage: Build
+  #   jobs:
+  #   - template: ../jobs/archetype-sdk-client.yml
+  #     parameters:
+  #       BuildScheme: ${{parameters.BuildScheme}}
 
   # The Prerelease and Release stages are conditioned on whether we are building a pull request and the branch.
   - ${{if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['System.TeamProject'], 'internal'))}}:
     - template: archetype-ios-release.yml
       parameters:
-        DependsOn:
-          - Build
+        # DependsOn:
+        #   - Build
         ServiceDirectory: ${{ parameters.ServiceDirectory }}
         Artifacts: ${{ parameters.Artifacts }}
