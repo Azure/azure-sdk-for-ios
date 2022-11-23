@@ -45,7 +45,7 @@ $readme.Replace("#mirror_repo_url", $repoUrl) | Out-File README.md
 if (git status --porcelain) {
     LogDebug "Committing mirror README.md to $UpstreamBranch"
     git add README.md
-    git commit -m "Add/update mirror README"
+    git -c user.name="azure-sdk" -c user.email="azuresdk@microsoft.com" commit -m "Add/update mirror README"
 }
 
 if (git diff origin/$UpstreamBranch..HEAD) {
