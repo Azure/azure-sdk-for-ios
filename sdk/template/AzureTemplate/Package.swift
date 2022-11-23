@@ -38,7 +38,7 @@ let package = Package(
         .library(name: "AzureTemplate", targets: ["AzureTemplate"])
     ],
     dependencies: [
-        .package(name: "AzureCore", url: "https://github.com/Azure/SwiftPM-AzureCore.git", .exact("1.0.0-beta.13"))
+        .package(name: "AzureCore", url: "https://github.com/Azure/SwiftPM-AzureCore.git", .exact("1.7.0-beta.1"))
     ],
     targets: [
         // Build targets

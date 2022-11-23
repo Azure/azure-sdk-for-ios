@@ -1,7 +1,10 @@
 # Release History
 
+# 1.7.0-beta.1 (2022-11-23)
+Azure Template release for Engineering System testing.
+
 # 1.6.2 (2021-07-22)
-Azure Template release for Engineering System testing. 
+Azure Template release for Engineering System testing.
 
 # 1.3.0 (2021-05-26)
 Azure Template release for Engineering System testing.
