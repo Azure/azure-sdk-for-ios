@@ -69,7 +69,7 @@ stages:
               displayName: "Publish to SPM Mirrors"
               condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
               environment: cocoapodstrunk
-              dependsOn: PublishPackageToCocoaPodsTrunk
+#              dependsOn: PublishPackageToCocoaPodsTrunk
               variables:
                 - template: ../variables/globals.yml
               pool:
