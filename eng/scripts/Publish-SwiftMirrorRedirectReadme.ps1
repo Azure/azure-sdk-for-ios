@@ -9,7 +9,7 @@ param (
 
     [Parameter(Mandatory = $false)]
     [ValidateNotNullOrEmpty()]
-    [string] $UpstreamBranch = "master",
+    [string] $UpstreamBranch = "main",
 
     [Parameter(Mandatory = $false)]
     [ValidateNotNullOrEmpty()]
@@ -30,7 +30,7 @@ if (Compare-Object $repoContents @("README.md")) {
     $repoContents | Remove-Item -Recurse -Force
     LogDebug "Adding commit to clear $UpstreamBranch branch contents"
     git add -u
-    git commit -m "Clear $UpstreamBranch branch contents"
+    git -c user.name="azure-sdk" -c user.email="azuresdk@microsoft.com" commit -m "Clear $UpstreamBranch branch contents"
 }
 
 Copy-Item -Path $GitSourcePath/eng/mirror.README.md -Destination README.md
