@@ -46,7 +46,7 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
     self.timeout = 10.0;
 }
 
-- (void)test_ObjCRefreshTokenProactivelyTokenExpiringInOneMin {
+- (void)skip_test_ObjCRefreshTokenProactivelyTokenExpiringInOneMin {
     __weak ObjCCommunicationTokenCredentialAsyncTests *weakSelf = self;
     __block BOOL isComplete = NO;
     
@@ -87,7 +87,7 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
     }
 }
 
-- (void)test_ObjCRefreshTokenProactivelyTokenExpiringInNineMin {
+- (void)skip_test_ObjCRefreshTokenProactivelyTokenExpiringInNineMin {
     __weak ObjCCommunicationTokenCredentialAsyncTests *weakSelf = self;
     __block BOOL isComplete = NO;
     
