@@ -38,6 +38,7 @@ internal class ThreadSafeRefreshableAccessTokenCache {
 
     private let proactiveRefreshingInterval = TimeInterval(600)
     private let onDemandRefreshingInterval = TimeInterval(120)
+    private let refreshAfterTTLDivider = 2.0
 
     private let tokenRefresher: TokenRefreshAction
     let anyThreadRefreshing = DispatchSemaphore(value: 1)
@@ -131,16 +132,23 @@ internal class ThreadSafeRefreshableAccessTokenCache {
         if !scheduleProactivelyRefreshing {
             return
         }
-
-        let actionPeriod = shouldRefresh()
-            ? TimeInterval.zero
-            : (currentToken.expiresOn - proactiveRefreshingInterval).timeIntervalSinceNow
-
+        var actionPeriod = TimeInterval.zero
+        if !isTokenExpired(accessToken: currentToken) {
+            let now = Date()
+            let tokenTtl = now.timeIntervalSince(currentToken.expiresOn)
+            let actionPeriod = shouldRefresh()
+                ? tokenTtl / refreshAfterTTLDivider
+                : tokenTtl - proactiveRefreshingInterval * 60
+        }
         proactiveRefreshTimer?.invalidate()
 
         proactiveRefreshTimer = Timer.scheduledTimer(withTimeInterval: actionPeriod, repeats: false) { [weak self] _ in
             self?.getValue { _, _ in }
         }
+    }
+
+    private func isTokenExpired(accessToken: CommunicationAccessToken?) -> Bool {
+        return accessToken == nil || Date() >= accessToken!.expiresOn
     }
 
     deinit {
