@@ -1,4 +1,3 @@
-
 #!/bin/sh
 
 #  podlint.sh
