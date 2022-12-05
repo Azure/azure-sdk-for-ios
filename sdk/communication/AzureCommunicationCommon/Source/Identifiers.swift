@@ -160,16 +160,17 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
         }
     }
 
+    // swiftlint:disable nsobject_prefer_isequal
     /**
      Returns a Boolean value indicating whether two values are equal.
         Note: In Objective-C favor isEqual() method
      - Parameter lhs PhoneNumberIdentifier to compare.
      - Parameter rhs  Another PhoneNumberIdentifier to compare.
      */
-    // swiftlint:disable nsobject_prefer_isequal
     public static func == (lhs: PhoneNumberIdentifier, rhs: PhoneNumberIdentifier) -> Bool {
         return lhs.rawId == rhs.rawId
     }
+    // swiftlint:enable nsobject_prefer_isequal
 
     /**
      Returns a Boolean value that indicates whether the receiver is equal to another given object.
