@@ -1,5 +1,9 @@
 # Release History
 
+## 1.0.0-beta.16 (Unreleased)
+### New Features
+- Added async wrappers to PageCollection nextPage and nextItem
+
 ## 1.0.0-beta.15 (2022-03-08)
 ### Bugs Fixed
 - Fixed issue where pipeline calls multiple callback if a bad status code was received.
