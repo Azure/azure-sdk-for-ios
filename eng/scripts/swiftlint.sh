@@ -12,9 +12,9 @@ fi
 
 if which swiftlint >/dev/null; then
     echo "Correcting Swift files at paths $@"
-    swiftlint autocorrect --quiet --config "$REPO_ROOT/.swiftlint.yml" --path $@
+    swiftlint autocorrect --quiet --config "$REPO_ROOT/.swiftlint.yml" $@
     echo "Linting Swift files at paths $@"
-    swiftlint lint --quiet --config "$REPO_ROOT/.swiftlint.yml" --path $@
+    swiftlint lint --quiet --config "$REPO_ROOT/.swiftlint.yml" $@
 else
     echo "warning: SwiftLint not installed. Download from https://github.com/realm/SwiftLint"
 fi
