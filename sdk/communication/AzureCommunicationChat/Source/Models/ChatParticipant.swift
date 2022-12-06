@@ -36,7 +36,8 @@ public struct ChatParticipant: Codable {
     public let id: CommunicationIdentifier
     /// Display name for the participant.
     public let displayName: String?
-    /// Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    /// Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format:
+    /// `yyyy-MM-ddTHH:mm:ssZ`.
     public let shareHistoryTime: Iso8601Date?
 
     // MARK: Initializers
@@ -58,7 +59,8 @@ public struct ChatParticipant: Codable {
     /// - Parameters:
     ///   - id: The  identifier of the participant.
     ///   - displayName: Display name for the participant.
-    ///   - shareHistoryTime: Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    ///   - shareHistoryTime: Time from which the chat history is shared with the participant. The timestamp is in
+    /// RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public init(
         id: CommunicationIdentifier,
         displayName: String? = nil,

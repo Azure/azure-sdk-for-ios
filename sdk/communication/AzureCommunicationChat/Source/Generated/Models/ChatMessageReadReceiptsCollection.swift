@@ -29,7 +29,8 @@ public struct ChatMessageReadReceiptsCollection: Codable {
     /// Initialize a `ChatMessageReadReceiptsCollection` structure.
     /// - Parameters:
     ///   - value: Collection of chat message read receipts.
-    ///   - nextLink: If there are more chat message read receipts that can be retrieved, the next link will be populated.
+    ///   - nextLink: If there are more chat message read receipts that can be retrieved, the next link will be
+    /// populated.
     public init(
         value: [ChatMessageReadReceipt], nextLink: String? = nil
     ) {

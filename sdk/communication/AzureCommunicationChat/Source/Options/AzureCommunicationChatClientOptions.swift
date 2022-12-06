@@ -85,7 +85,8 @@ public struct AzureCommunicationChatClientOptions: ClientOptions {
     ///   - logger: The `ClientLogger` to be used by this client.
     ///   - telemetryOptions: Options for configuring telemetry sent by this client.
     ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.
-    ///   - dispatchQueue: The default dispatch queue on which to call all completion handler. Defaults to `DispatchQueue.main`.
+    ///   - dispatchQueue: The default dispatch queue on which to call all completion handler. Defaults to
+    /// `DispatchQueue.main`.
     ///   - signalingErrorHandler: This handler is called if a CommunicationSignalingError occurs.
     public init(
         apiVersion: AzureCommunicationChatClientOptions.ApiVersion = .latest,

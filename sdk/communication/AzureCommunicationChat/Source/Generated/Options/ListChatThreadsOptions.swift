@@ -19,7 +19,8 @@ import Foundation
 public struct ListChatThreadsOptions: RequestOptions {
     /// The maximum number of chat threads returned per page.
     public let maxPageSize: Int32?
-    /// The earliest point in time to get chat threads up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    /// The earliest point in time to get chat threads up to. The timestamp should be in RFC3339 format:
+    /// `yyyy-MM-ddTHH:mm:ssZ`.
     public let startTime: Iso8601Date?
 
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
@@ -38,8 +39,10 @@ public struct ListChatThreadsOptions: RequestOptions {
     /// Initialize a `ListChatThreadsOptions` structure.
     /// - Parameters:
     ///   - maxPageSize: The maximum number of chat threads returned per page.
-    ///   - startTime: The earliest point in time to get chat threads up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    ///   - clientRequestId: A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
+    ///   - startTime: The earliest point in time to get chat threads up to. The timestamp should be in RFC3339 format:
+    /// `yyyy-MM-ddTHH:mm:ssZ`.
+    ///   - clientRequestId: A client-generated, opaque value with 1KB character limit that is recorded in analytics
+    /// logs.
     ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.
     ///   - dispatchQueue: A dispatch queue on which to call the completion handler. Defaults to `DispatchQueue.main`.
     ///   - context: A `PipelineContext` object to associate with the request.

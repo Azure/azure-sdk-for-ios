@@ -45,7 +45,8 @@ public class PushNotificationChatMessageEvent {
     public var recipient: CommunicationIdentifier
     /// Sender display name.
     public var senderDisplayName: String?
-    /// The timestamp when the message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    /// The timestamp when the message arrived at the server. The timestamp is in RFC3339 format:
+    /// `yyyy-MM-ddTHH:mm:ssZ`.
     public var originalArrivalTime: Iso8601Date?
     /// Version of the message.
     public var version: String

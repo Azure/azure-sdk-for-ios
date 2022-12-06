@@ -160,13 +160,13 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
         }
     }
 
+    // swiftlint:disable:next nsobject_prefer_isequal
     /**
      Returns a Boolean value indicating whether two values are equal.
         Note: In Objective-C favor isEqual() method
      - Parameter lhs PhoneNumberIdentifier to compare.
      - Parameter rhs  Another PhoneNumberIdentifier to compare.
      */
-    // swiftlint:disable nsobject_prefer_isequal
     public static func == (lhs: PhoneNumberIdentifier, rhs: PhoneNumberIdentifier) -> Bool {
         return lhs.rawId == rhs.rawId
     }
@@ -246,13 +246,13 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
         self.init(userId: userId, isAnonymous: isAnonymous, rawId: nil, cloudEnvironment: .Public)
     }
 
+    // swiftlint:disable:next nsobject_prefer_isequal
     /**
      Returns a Boolean value indicating whether two values are equal.
         Note: In Objective-C favor isEqual() method
      - Parameter lhs MicrosoftTeamsUserIdentifier to compare.
      - Parameter rhs  Another MicrosoftTeamsUserIdentifier to compare.
      */
-    // swiftlint:disable nsobject_prefer_isequal
     public static func == (lhs: MicrosoftTeamsUserIdentifier, rhs: MicrosoftTeamsUserIdentifier) -> Bool {
         return lhs.rawId == rhs.rawId
     }

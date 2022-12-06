@@ -21,7 +21,8 @@ public struct SendChatMessageRequest: Codable {
 
     /// Chat message content.
     public let content: String
-    /// The display name of the chat message sender. This property is used to populate sender name for push notifications.
+    /// The display name of the chat message sender. This property is used to populate sender name for push
+    /// notifications.
     public let senderDisplayName: String?
     /// The chat message type.
     public let type: ChatMessageType?
@@ -33,7 +34,8 @@ public struct SendChatMessageRequest: Codable {
     /// Initialize a `SendChatMessageRequest` structure.
     /// - Parameters:
     ///   - content: Chat message content.
-    ///   - senderDisplayName: The display name of the chat message sender. This property is used to populate sender name for push notifications.
+    ///   - senderDisplayName: The display name of the chat message sender. This property is used to populate sender
+    /// name for push notifications.
     ///   - type: The chat message type.
     ///   - metadata: Message metadata.
     public init(

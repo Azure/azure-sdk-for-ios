@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,7 +14,6 @@
 		0AA5963725AF8ACA00E77E33 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AA5963625AF8ACA00E77E33 /* Assets.xcassets */; };
 		0AA5963A25AF8ACA00E77E33 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AA5963825AF8ACA00E77E33 /* LaunchScreen.storyboard */; };
 		0AA5964325AF8CDF00E77E33 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 0AA5964225AF8CDF00E77E33 /* Podfile */; };
-		7AB095C925BFB7F50026A2A5 /* Pods_AzureSDKSmokeTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303D7126DE2A9D98936A45FE /* Pods_AzureSDKSmokeTest.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,7 +36,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7AB095C925BFB7F50026A2A5 /* Pods_AzureSDKSmokeTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,6 +181,7 @@
 		};
 		7AB0953925BF91E70026A2A5 /* Format And Lint */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);

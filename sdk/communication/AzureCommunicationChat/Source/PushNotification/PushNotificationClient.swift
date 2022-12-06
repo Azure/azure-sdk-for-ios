@@ -83,7 +83,9 @@ internal class PushNotificationClient {
                             self.aesKey = encryptionKeys[0]
                             self.authKey = encryptionKeys[1]
                         } else {
-                            // If the Contoso doesn't want to implement encryption and we get an empty encrytionKey, we just register two fake values. Encryption keys are required for a successful registration.
+                            // If the Contoso doesn't want to implement encryption and we get an empty encrytionKey, we
+                            // just register two fake values. Encryption keys are required for a successful
+                            // registration.
                             self.aesKey = "0000000000000000B00000000000000000000000AES="
                             self.authKey = "0000000000000000B0000000000000000000000AUTH="
                         }

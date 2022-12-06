@@ -281,7 +281,8 @@ public class CurlFormattedRequestLoggingPolicy: PipelineStage {
             }
 
             if header.requestString == HTTPHeader.acceptEncoding.requestString,
-               value.caseInsensitiveCompare("identity") != .orderedSame {
+               value.caseInsensitiveCompare("identity") != .orderedSame
+            {
                 compressed = true
             }
 

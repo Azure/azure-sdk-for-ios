@@ -44,13 +44,16 @@ public struct ChatMessage: Codable {
     public let content: ChatMessageContent?
     /// The display name of the message sender. This property is used to populate sender name for push notifications.
     public let senderDisplayName: String?
-    /// The timestamp when the message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    /// The timestamp when the message arrived at the server. The timestamp is in RFC3339 format:
+    /// `yyyy-MM-ddTHH:mm:ssZ`.
     public let createdOn: Iso8601Date
     /// The sender of the message.
     public let sender: CommunicationIdentifier?
-    /// The timestamp (if applicable) when the message was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    /// The timestamp (if applicable) when the message was deleted. The timestamp is in RFC3339 format:
+    /// `yyyy-MM-ddTHH:mm:ssZ`.
     public let deletedOn: Iso8601Date?
-    /// The last timestamp (if applicable) when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    /// The last timestamp (if applicable) when the message was edited. The timestamp is in RFC3339 format:
+    /// `yyyy-MM-ddTHH:mm:ssZ`.
     public let editedOn: Iso8601Date?
     /// Optional metadata provided when sending the ChatMessage, data is stringified.
     public let metadata: [String: String?]?
@@ -97,11 +100,15 @@ public struct ChatMessage: Codable {
     ///   - sequenceId: Sequence of the message in the conversation.
     ///   - version: Version of the message.
     ///   - content: Content of a message.
-    ///   - senderDisplayName: The display name of the message sender. This property is used to populate sender name for push notifications.
-    ///   - createdOn: The timestamp when the message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    ///   - senderDisplayName: The display name of the message sender. This property is used to populate sender name for
+    /// push notifications.
+    ///   - createdOn: The timestamp when the message arrived at the server. The timestamp is in RFC3339 format:
+    /// `yyyy-MM-ddTHH:mm:ssZ`.
     ///   - sender: The sender of the message.
-    ///   - deletedOn: The timestamp (if applicable) when the message was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    ///   - editedOn: The last timestamp (if applicable) when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    ///   - deletedOn: The timestamp (if applicable) when the message was deleted. The timestamp is in RFC3339 format:
+    /// `yyyy-MM-ddTHH:mm:ssZ`.
+    ///   - editedOn: The last timestamp (if applicable) when the message was edited. The timestamp is in RFC3339
+    /// format: `yyyy-MM-ddTHH:mm:ssZ`.
     public init(
         id: String,
         type: ChatMessageType,
