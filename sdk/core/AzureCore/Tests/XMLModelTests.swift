@@ -27,8 +27,6 @@
 @testable import AzureCore
 import XCTest
 
-// swiftlint:disable force_try identifier_name
-
 protocol Thing {
     var attr: String { get }
     var reqString: String { get }
