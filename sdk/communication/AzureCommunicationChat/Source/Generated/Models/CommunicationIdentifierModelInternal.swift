@@ -15,7 +15,9 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
-/// Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
+/// Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure
+/// communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be
+/// set.
 internal struct CommunicationIdentifierModelInternal: Codable {
     // MARK: Properties
 

@@ -29,6 +29,7 @@ import AzureCore
 import Foundation
 
 /// ChatThreadClient class for operations within a ChatThread.
+// swiftlint:disable:next type_body_length
 public class ChatThreadClient {
     // MARK: Properties
 

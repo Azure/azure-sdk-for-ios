@@ -66,9 +66,11 @@ public struct ChatThreadProperties: Codable {
     /// - Parameters:
     ///   - id: Thread id.
     ///   - topic: Thread topic.
-    ///   - createdOn: The timestamp when the thread was created. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    ///   - createdOn: The timestamp when the thread was created. The timestamp is in RFC3339 format:
+    /// `yyyy-MM-ddTHH:mm:ssZ`.
     ///   - createdBy: The thread owner.
-    ///   - deletedOn: The timestamp when the thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    ///   - deletedOn: The timestamp when the thread was deleted. The timestamp is in RFC3339 format:
+    /// `yyyy-MM-ddTHH:mm:ssZ`.
     public init(
         id: String,
         topic: String,

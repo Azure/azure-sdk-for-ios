@@ -294,12 +294,11 @@ public class PagedCollection<SingleElement: Codable> {
     @available(iOS 13.0.0, *)
     public func nextItem() async throws -> SingleElement {
         return try await withCheckedThrowingContinuation { continuation in
-            nextItem() { result in
+            nextItem { result in
                 continuation.resume(with: result)
             }
         }
     }
-
 
     public func forEachPage(progressHandler: @escaping (Element) -> Bool) {
         let dispatchQueue = client.commonOptions.dispatchQueue ?? DispatchQueue(label: "ForEachPage", qos: .utility)

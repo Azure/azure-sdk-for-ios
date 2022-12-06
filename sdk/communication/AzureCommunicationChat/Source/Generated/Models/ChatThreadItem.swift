@@ -25,7 +25,8 @@ public struct ChatThreadItem: Codable {
     public let topic: String
     /// The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public let deletedOn: Iso8601Date?
-    /// The timestamp when the last message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    /// The timestamp when the last message arrived at the server. The timestamp is in RFC3339 format:
+    /// `yyyy-MM-ddTHH:mm:ssZ`.
     public let lastMessageReceivedOn: Iso8601Date?
 
     // MARK: Initializers
@@ -34,8 +35,10 @@ public struct ChatThreadItem: Codable {
     /// - Parameters:
     ///   - id: Chat thread id.
     ///   - topic: Chat thread topic.
-    ///   - deletedOn: The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    ///   - lastMessageReceivedOn: The timestamp when the last message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    ///   - deletedOn: The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format:
+    /// `yyyy-MM-ddTHH:mm:ssZ`.
+    ///   - lastMessageReceivedOn: The timestamp when the last message arrived at the server. The timestamp is in
+    /// RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public init(
         id: String, topic: String, deletedOn: Iso8601Date? = nil, lastMessageReceivedOn: Iso8601Date? = nil
     ) {

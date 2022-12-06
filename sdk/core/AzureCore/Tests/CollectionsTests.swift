@@ -211,7 +211,6 @@ class CollectionsTests: XCTestCase {
         do {
             let noMore = try await paged.nextItem()
             XCTFail("Error should have been thrown")
-        } catch {
-        }
+        } catch {}
     }
 }

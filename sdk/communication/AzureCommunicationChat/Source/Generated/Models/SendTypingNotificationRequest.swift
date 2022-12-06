@@ -19,14 +19,16 @@ import Foundation
 public struct SendTypingNotificationRequest: Codable {
     // MARK: Properties
 
-    /// The display name of the typing notification sender. This property is used to populate sender name for push notifications.
+    /// The display name of the typing notification sender. This property is used to populate sender name for push
+    /// notifications.
     public let senderDisplayName: String?
 
     // MARK: Initializers
 
     /// Initialize a `SendTypingNotificationRequest` structure.
     /// - Parameters:
-    ///   - senderDisplayName: The display name of the typing notification sender. This property is used to populate sender name for push notifications.
+    ///   - senderDisplayName: The display name of the typing notification sender. This property is used to populate
+    /// sender name for push notifications.
     public init(
         senderDisplayName: String? = nil
     ) {

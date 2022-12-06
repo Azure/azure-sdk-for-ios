@@ -339,7 +339,8 @@ public class ChatClient {
 
         if !signalingClientStarted,
            event != ChatEventId.realTimeNotificationConnected,
-           event != ChatEventId.realTimeNotificationDisconnected {
+           event != ChatEventId.realTimeNotificationDisconnected
+        {
             options.logger
                 .warning(
                     "Signaling client is not started, cannot register handler. Ensure startRealtimeNotifications() is called first."
@@ -382,8 +383,10 @@ public class ChatClient {
         deviceToken: String,
         completionHandler: @escaping (Result<HTTPResponse?, AzureError>) -> Void
     ) {
-        // If the PushNotification has already been started, return success to avoid unnecessary re-registration. Theoretically this "pre-validation" mechanism can only work when app is alive.
-        // In the case that the app is killed and relaunched, the chatClient will be initilized again so it will inevitably perform a new registration.
+        // If the PushNotification has already been started, return success to avoid unnecessary re-registration.
+        // Theoretically this "pre-validation" mechanism can only work when app is alive.
+        // In the case that the app is killed and relaunched, the chatClient will be initilized again so it will
+        // inevitably perform a new registration.
         guard self.pushNotificationClient?.pushNotificationsStarted != true else {
             options.logger.warning("Warning: PushNotification has already been started.")
             completionHandler(.success(nil))

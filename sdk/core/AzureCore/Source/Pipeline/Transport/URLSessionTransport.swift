@@ -101,7 +101,8 @@ public class URLSessionTransport: TransportStage {
                 return
             }
             if let cancellationToken = pipelineRequest.context?
-                .value(forKey: .cancellationToken) as? CancellationToken {
+                .value(forKey: .cancellationToken) as? CancellationToken
+            {
                 if cancellationToken.isCanceled {
                     completionHandler(.failure(AzureError.client("Request canceled")), nil)
                     return

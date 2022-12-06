@@ -142,7 +142,7 @@ jobs:
         displayName: Lint PodSpecs
 
       - script: |
-          brew install swiftlint@0.49.1
+          brew install swiftlint
           case "${{parameters.BuildScheme}}" in
             all)
               swiftlint lint --path . --quiet --reporter emoji

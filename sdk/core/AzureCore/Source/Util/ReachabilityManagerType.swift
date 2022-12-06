@@ -108,7 +108,8 @@ import Foundation
         lhs: NetworkReachabilityStatus,
         rhs: NetworkReachabilityStatus
     )
-        -> Bool {
+        -> Bool
+    {
         switch (lhs, rhs) {
         case (.unknown, .unknown):
             return true

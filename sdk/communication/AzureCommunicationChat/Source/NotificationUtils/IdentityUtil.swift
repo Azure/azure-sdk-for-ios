@@ -127,7 +127,8 @@ internal func getIdentifier(from id: String) -> CommunicationIdentifier {
             rawId: id
         )
     } else if id.starts(with: acsUserPrefix) || id.starts(with: spoolUserPrefix) || id
-        .starts(with: dodAcsUserPrefix) || id.starts(with: gcchAcsUserPrefix) {
+        .starts(with: dodAcsUserPrefix) || id.starts(with: gcchAcsUserPrefix)
+    {
         return CommunicationUserIdentifier(id)
     } else {
         return UnknownIdentifier(id)

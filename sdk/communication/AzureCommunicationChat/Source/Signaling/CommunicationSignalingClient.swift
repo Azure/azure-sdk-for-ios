@@ -161,7 +161,8 @@ class CommunicationSkypeTokenProvider: NSObject, TrouterSkypetokenProvider {
     /// - Parameters:
     ///   - token: The token to cache.
     ///   - credential: CommunicationTokenCredential for refreshing the token.
-    ///   - tokenRefreshHandler: Called when the token is expired, stopSignalingClient will be true if retry attempts are exceeded.
+    ///   - tokenRefreshHandler: Called when the token is expired, stopSignalingClient will be true if retry attempts
+    /// are exceeded.
     init(
         token: String,
         credential: CommunicationTokenCredential,

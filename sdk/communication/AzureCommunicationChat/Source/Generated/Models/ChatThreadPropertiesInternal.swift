@@ -25,7 +25,9 @@ internal struct ChatThreadPropertiesInternal: Codable {
     internal let topic: String
     /// The timestamp when the chat thread was created. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     internal let createdOn: Iso8601Date
-    /// Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
+    /// Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an
+    /// Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further
+    /// property may be set.
     internal let createdByCommunicationIdentifier: CommunicationIdentifierModelInternal
     /// The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     internal let deletedOn: Iso8601Date?
@@ -36,9 +38,13 @@ internal struct ChatThreadPropertiesInternal: Codable {
     /// - Parameters:
     ///   - id: Chat thread id.
     ///   - topic: Chat thread topic.
-    ///   - createdOn: The timestamp when the chat thread was created. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    ///   - createdByCommunicationIdentifier: Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
-    ///   - deletedOn: The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    ///   - createdOn: The timestamp when the chat thread was created. The timestamp is in RFC3339 format:
+    /// `yyyy-MM-ddTHH:mm:ssZ`.
+    ///   - createdByCommunicationIdentifier: Identifies a participant in Azure Communication services. A participant
+    /// is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart
+    /// from rawId, at most one further property may be set.
+    ///   - deletedOn: The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format:
+    /// `yyyy-MM-ddTHH:mm:ssZ`.
     internal init(
         id: String, topic: String, createdOn: Iso8601Date,
         createdByCommunicationIdentifier: CommunicationIdentifierModelInternal, deletedOn: Iso8601Date? = nil

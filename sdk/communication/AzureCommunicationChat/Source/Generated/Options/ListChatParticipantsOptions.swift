@@ -39,7 +39,8 @@ public struct ListChatParticipantsOptions: RequestOptions {
     /// - Parameters:
     ///   - maxPageSize: The maximum number of participants to be returned per page.
     ///   - skip: Skips participants up to a specified position in response.
-    ///   - clientRequestId: A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
+    ///   - clientRequestId: A client-generated, opaque value with 1KB character limit that is recorded in analytics
+    /// logs.
     ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.
     ///   - dispatchQueue: A dispatch queue on which to call the completion handler. Defaults to `DispatchQueue.main`.
     ///   - context: A `PipelineContext` object to associate with the request.

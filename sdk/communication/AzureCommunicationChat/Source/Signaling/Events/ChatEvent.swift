@@ -37,7 +37,8 @@ public struct SignalingChatParticipant {
     public let id: CommunicationIdentifier?
     /// Display name for the participant.
     public let displayName: String?
-    /// Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    /// Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format:
+    /// `yyyy-MM-ddTHH:mm:ssZ`.
     public let shareHistoryTime: Iso8601Date?
 
     // MARK: Initializers
@@ -46,7 +47,8 @@ public struct SignalingChatParticipant {
     /// - Parameters:
     ///   - id: The  identifier of the participant.
     ///   - displayName: Display name for the participant.
-    ///   - shareHistoryTime: Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    ///   - shareHistoryTime: Time from which the chat history is shared with the participant. The timestamp is in
+    /// RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     init(id: CommunicationIdentifier?, displayName: String? = nil, shareHistoryTime: Iso8601Date? = nil) {
         self.id = id
         self.displayName = displayName
@@ -126,7 +128,8 @@ public class BaseChatMessageEvent: BaseChatEvent {
 
     /// The id of the message. This id is server generated.
     public var id: String
-    /// The timestamp when the message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    /// The timestamp when the message arrived at the server. The timestamp is in RFC3339 format:
+    /// `yyyy-MM-ddTHH:mm:ssZ`.
     public var createdOn: Iso8601Date?
     /// Version of the message.
     public var version: String
