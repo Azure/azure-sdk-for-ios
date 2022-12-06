@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A79C80C293FB83800E15C3C /* Pods_AzureSDKSmokeTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303D7126DE2A9D98936A45FE /* Pods_AzureSDKSmokeTest.framework */; };
 		0AA5962E25AF8AC900E77E33 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA5962D25AF8AC900E77E33 /* AppDelegate.swift */; };
 		0AA5963025AF8AC900E77E33 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA5962F25AF8AC900E77E33 /* SceneDelegate.swift */; };
 		0AA5963225AF8AC900E77E33 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA5963125AF8AC900E77E33 /* ViewController.swift */; };
@@ -36,6 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A79C80C293FB83800E15C3C /* Pods_AzureSDKSmokeTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,7 +105,6 @@
 				0AA5962625AF8AC900E77E33 /* Sources */,
 				0AA5962725AF8AC900E77E33 /* Frameworks */,
 				0AA5962825AF8AC900E77E33 /* Resources */,
-				7AB0953925BF91E70026A2A5 /* Format And Lint */,
 				470B05212DACF6B51F5CE03E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
@@ -178,25 +179,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AzureSDKSmokeTest/Pods-AzureSDKSmokeTest-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
-		};
-		7AB0953925BF91E70026A2A5 /* Format And Lint */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Format And Lint";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "BUILD_PATH=$(pwd)\nROOT_PATH=$(pwd | rev | cut -d'/' -f3- | rev) \n$ROOT_PATH/eng/scripts/swiftlint.sh $BUILD_PATH\n";
 		};
 		7D4CC6286407055AFC02234F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
