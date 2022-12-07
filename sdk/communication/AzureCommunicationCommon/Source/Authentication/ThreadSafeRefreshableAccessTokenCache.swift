@@ -76,6 +76,13 @@ internal class ThreadSafeRefreshableAccessTokenCache {
 
             do {
                 let newAccessToken = try JwtTokenParser.createAccessToken(newToken!)
+                guard !self.isTokenExpired(accessToken: newAccessToken) else {
+                    throw NSError(
+                        domain: "AzureCommunicationCommon.ThreadSafeRefreshableAccessTokenCache.refreshAccessToken",
+                        code: 0,
+                        userInfo: ["message": "The token returned from the tokenRefresher is expired."]
+                    )
+                }
                 completionHandler(newAccessToken, nil)
             } catch {
                 completionHandler(nil, error)
@@ -135,13 +142,12 @@ internal class ThreadSafeRefreshableAccessTokenCache {
         var actionPeriod = TimeInterval.zero
         if !isTokenExpired(accessToken: currentToken) {
             let now = Date()
-            let tokenTtl = now.timeIntervalSince(currentToken.expiresOn)
-            let actionPeriod = shouldRefresh()
+            let tokenTtl = currentToken.expiresOn.timeIntervalSince(now)
+            actionPeriod = shouldRefresh()
                 ? tokenTtl / refreshAfterTTLDivider
-                : tokenTtl - proactiveRefreshingInterval * 60
+                : tokenTtl - proactiveRefreshingInterval
         }
         proactiveRefreshTimer?.invalidate()
-
         proactiveRefreshTimer = Timer.scheduledTimer(withTimeInterval: actionPeriod, repeats: false) { [weak self] _ in
             self?.getValue { _, _ in }
         }
