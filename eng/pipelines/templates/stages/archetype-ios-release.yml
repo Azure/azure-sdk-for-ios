@@ -29,7 +29,7 @@ stages:
               - template: ../variables/globals.yml
             pool:
               name: Azure Pipelines
-              vmImage: windows-2019
+              vmImage: windows-2022
             strategy:
               runOnce:
                 deploy:
