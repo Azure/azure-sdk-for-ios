@@ -120,10 +120,10 @@ class CommunicationTokenCredentialTests: XCTestCase {
 
     func test_RefreshTokenProactively_ShouldNotBeCalledBeforeExpiringTime() throws {
         let expectation = XCTestExpectation()
-        let tokenValidForHour = generateTokenValidForSeconds(15 * 60)
+        let tokenValidFor15Mins = generateTokenValidForSeconds(15 * 60)
 
         let tokenRefreshOptions = CommunicationTokenRefreshOptions(
-            initialToken: tokenValidForHour,
+            initialToken: tokenValidFor15Mins,
             refreshProactively: true,
             tokenRefresher: creatTokenRefresher()
         )
@@ -134,7 +134,7 @@ class CommunicationTokenCredentialTests: XCTestCase {
             userCredential.token { (accessToken: CommunicationAccessToken?, error: Error?) in
                 XCTAssertNotNil(accessToken)
                 XCTAssertNil(error)
-                XCTAssertEqual(accessToken?.token, tokenValidForHour)
+                XCTAssertEqual(accessToken?.token, tokenValidFor15Mins)
                 XCTAssertEqual(self.fetchTokenCallCount, 0)
 
                 expectation.fulfill()
