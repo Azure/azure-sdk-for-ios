@@ -265,6 +265,27 @@ class CommunicationTokenCredentialTests: XCTestCase {
         wait(for: [expectation], timeout: timeout)
     }
 
+    func test_RefreshTokenProactively_fractionalBackoffAppliedWhenTokenExpiring() throws {
+        let expectation = XCTestExpectation()
+        let validForSeconds = 7
+        let expectedTotalCallsTillLastSecond = floor(log2(Double(validForSeconds)))
+        let dispatchAfter = DispatchTimeInterval.seconds(validForSeconds)
+        let refreshedToken = generateTokenValidForSeconds(validForSeconds)
+        let tokenRefreshOptions = CommunicationTokenRefreshOptions(
+            initialToken: refreshedToken,
+            refreshProactively: true,
+            tokenRefresher: creatTokenRefresher(refreshedToken: refreshedToken)
+        )
+        let userCredential = try CommunicationTokenCredential(withOptions: tokenRefreshOptions)
+        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + dispatchAfter) {
+            userCredential.token { (_: CommunicationAccessToken?, _: Error?) in
+                XCTAssertEqual(self.fetchTokenCallCount, Int(expectedTotalCallsTillLastSecond))
+                expectation.fulfill()
+            }
+        }
+        wait(for: [expectation], timeout: timeout)
+    }
+
     func test_RefreshTokenProactively_ShouldNotCallWhenTokenStillValid() throws {
         let expectation = XCTestExpectation()
         let refreshedToken = generateTokenValidForSeconds(15 * 60)
