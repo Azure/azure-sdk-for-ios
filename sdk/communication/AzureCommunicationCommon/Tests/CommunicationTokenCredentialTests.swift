@@ -369,7 +369,7 @@ class CommunicationTokenCredentialTests: XCTestCase {
         wait(for: [expectation], timeout: timeout)
     }
 
-    func test_RefreshTokenOnDemand_SyncRefresh() throws {
+    func test_RefreshTokenOnDemand_SyncRefresh_ShouldBeCalledImmediatelyWithExpiredToken() throws {
         let expectation = XCTestExpectation()
 
         let expectedToken = sampleToken
@@ -388,6 +388,109 @@ class CommunicationTokenCredentialTests: XCTestCase {
                 XCTAssertNil(error)
                 XCTAssertEqual(accessToken?.token, expectedToken)
                 XCTAssertEqual(accessToken?.expiresOn.timeIntervalSince1970, expectedTokenExpiry)
+
+                expectation.fulfill()
+            }
+        }
+
+        wait(for: [expectation], timeout: timeout)
+    }
+
+    func test_RefreshTokenOnDemand_ShouldNotBeCalledBeforeExpiringTime() throws {
+        let expectation = XCTestExpectation()
+        let tokenValidFor15Mins = generateTokenValidForSeconds(15 * 60)
+
+        let tokenRefreshOptions = CommunicationTokenRefreshOptions(
+            initialToken: tokenValidFor15Mins,
+            refreshProactively: false,
+            tokenRefresher: creatTokenRefresher()
+        )
+
+        let userCredential = try CommunicationTokenCredential(withOptions: tokenRefreshOptions)
+
+        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 1) {
+            userCredential.token { (accessToken: CommunicationAccessToken?, error: Error?) in
+                XCTAssertNotNil(accessToken)
+                XCTAssertNil(error)
+                XCTAssertEqual(accessToken?.token, tokenValidFor15Mins)
+                XCTAssertEqual(self.fetchTokenCallCount, 0)
+
+                expectation.fulfill()
+            }
+        }
+
+        wait(for: [expectation], timeout: timeout)
+    }
+
+    func test_RefreshTokenOnDemand_ShouldGetCalledImmediatelyWithoutInitialToken() throws {
+        let expectation = XCTestExpectation()
+
+        let tokenRefreshOptions = CommunicationTokenRefreshOptions(
+            refreshProactively: false,
+            tokenRefresher: creatTokenRefresher()
+        )
+
+        let userCredential = try CommunicationTokenCredential(withOptions: tokenRefreshOptions)
+
+        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 1) {
+            userCredential.token { (accessToken: CommunicationAccessToken?, error: Error?) in
+                XCTAssertNotNil(accessToken)
+                XCTAssertNil(error)
+                XCTAssertEqual(accessToken?.token, self.sampleToken)
+                XCTAssertEqual(self.fetchTokenCallCount, 1)
+
+                expectation.fulfill()
+            }
+        }
+
+        wait(for: [expectation], timeout: timeout)
+    }
+
+    func test_RefreshTokenOnDemand_FetchTokenReturnsError() throws {
+        let expectation = XCTestExpectation()
+
+        let tokenRefreshOptions = CommunicationTokenRefreshOptions(
+            initialToken: sampleExpiredToken,
+            refreshProactively: false,
+            tokenRefresher: fetchTokenSyncWithError
+        )
+
+        let userCredential = try CommunicationTokenCredential(withOptions: tokenRefreshOptions)
+
+        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 1) {
+            userCredential.token { (accessToken: CommunicationAccessToken?, error: Error?) in
+                XCTAssertNotNil(error)
+                XCTAssertEqual(error.debugDescription.contains("Error while fetching token"), true)
+                XCTAssertNil(accessToken)
+                XCTAssertEqual(self.fetchTokenCallCount, 1)
+
+                expectation.fulfill()
+            }
+        }
+
+        wait(for: [expectation], timeout: timeout)
+    }
+
+    func test_RefreshTokenOnDemand_ShouldThrowExceptionOnExpiredTokenReturn() throws {
+        let expectation = XCTestExpectation()
+
+        let tokenRefreshOptions = CommunicationTokenRefreshOptions(
+            initialToken: sampleExpiredToken,
+            refreshProactively: false,
+            tokenRefresher: creatTokenRefresher(refreshedToken: sampleExpiredToken)
+        )
+
+        let userCredential = try CommunicationTokenCredential(withOptions: tokenRefreshOptions)
+
+        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 1) {
+            userCredential.token { (accessToken: CommunicationAccessToken?, error: Error?) in
+                XCTAssertNotNil(error)
+                XCTAssertEqual(
+                    error.debugDescription.contains("The token returned from the tokenRefresher is expired."),
+                    true
+                )
+                XCTAssertNil(accessToken)
+                XCTAssertEqual(self.fetchTokenCallCount, 1)
 
                 expectation.fulfill()
             }
