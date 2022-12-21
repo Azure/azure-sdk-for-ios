@@ -1,5 +1,10 @@
 # Release History
 
+## 2.2.1 (2022-12-21)
+
+ ### Features Added
+  - Added support for [EU Data Boundary(EUDB)](https://blogs.microsoft.com/eupolicy/2021/12/16/eu-data-boundary-for-the-microsoft-cloud-a-progress-report)
+
 ## 2.3.0-beta.2 (2022-11-07)
 
 ### Features Added
