@@ -1,5 +1,18 @@
 # Release History
 
+## 2.3.0-beta.3 (2022-12-22)
+
+### Features Added
+Added support for [EU Data Boundary(EUDB)](https://blogs.microsoft.com/eupolicy/2021/12/16/eu-data-boundary-for-the-microsoft-cloud-a-progress-report)
+
+### Bug Fixes 
+* Fixed a bug when call was started with audio muted, the options were not being read in the CallKit implementation.
+
+### Breaking Changes
+* Removing `AudioDeviceCategory` enumeration.
+* Removing `audioDeviceCategory` property from `LocalAudioStream` and `RemoteAudioStream`.
+* Removing `init(audioDeviceCategory: AudioDeviceCategory)`.
+
 ## 2.2.1 (2022-12-21)
 
  ### Features Added
