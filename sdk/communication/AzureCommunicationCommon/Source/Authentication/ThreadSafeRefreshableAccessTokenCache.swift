@@ -38,6 +38,7 @@ internal class ThreadSafeRefreshableAccessTokenCache {
 
     private let proactiveRefreshingInterval = TimeInterval(600)
     private let onDemandRefreshingInterval = TimeInterval(120)
+    private let refreshAfterTTLDivider = 2.0
 
     private let tokenRefresher: TokenRefreshAction
     let anyThreadRefreshing = DispatchSemaphore(value: 1)
@@ -75,6 +76,13 @@ internal class ThreadSafeRefreshableAccessTokenCache {
 
             do {
                 let newAccessToken = try JwtTokenParser.createAccessToken(newToken!)
+                guard !self.isTokenExpired(accessToken: newAccessToken) else {
+                    throw NSError(
+                        domain: "AzureCommunicationCommon.ThreadSafeRefreshableAccessTokenCache.refreshAccessToken",
+                        code: 0,
+                        userInfo: ["message": "The token returned from the tokenRefresher is expired."]
+                    )
+                }
                 completionHandler(newAccessToken, nil)
             } catch {
                 completionHandler(nil, error)
@@ -131,16 +139,22 @@ internal class ThreadSafeRefreshableAccessTokenCache {
         if !scheduleProactivelyRefreshing {
             return
         }
-
-        let actionPeriod = shouldRefresh()
-            ? TimeInterval.zero
-            : (currentToken.expiresOn - proactiveRefreshingInterval).timeIntervalSinceNow
-
+        var actionPeriod = TimeInterval.zero
+        if !isTokenExpired(accessToken: currentToken) {
+            let now = Date()
+            let tokenTtl = currentToken.expiresOn.timeIntervalSince(now)
+            actionPeriod = shouldRefresh()
+                ? tokenTtl / refreshAfterTTLDivider
+                : tokenTtl - proactiveRefreshingInterval
+        }
         proactiveRefreshTimer?.invalidate()
-
         proactiveRefreshTimer = Timer.scheduledTimer(withTimeInterval: actionPeriod, repeats: false) { [weak self] _ in
             self?.getValue { _, _ in }
         }
+    }
+
+    private func isTokenExpired(accessToken: CommunicationAccessToken?) -> Bool {
+        return accessToken == nil || Date() >= accessToken!.expiresOn
     }
 
     deinit {
