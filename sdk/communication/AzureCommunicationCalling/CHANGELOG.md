@@ -1,4 +1,8 @@
 # Release History
+## 2.3.0-beta.4 (2023-01-05)
+
+### Bug Fixes 
+* Fixes issue where one cannot unmute speaker when a call is started with the microphone muted.
 
 ## 2.3.0-beta.3 (2022-12-22)
 
