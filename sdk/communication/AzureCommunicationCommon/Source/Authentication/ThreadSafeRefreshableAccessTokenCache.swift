@@ -25,8 +25,9 @@
 // --------------------------------------------------------------------------
 
 import Foundation
+import Combine
 
-internal class ThreadSafeRefreshableAccessTokenCache {
+internal class ThreadSafeRefreshableAccessTokenCache: Cancellable {
     private var currentToken: CommunicationAccessToken {
         didSet {
             maybeScheduleRefresh()
@@ -155,6 +156,10 @@ internal class ThreadSafeRefreshableAccessTokenCache {
 
     private func isTokenExpired(accessToken: CommunicationAccessToken?) -> Bool {
         return accessToken == nil || Date() >= accessToken!.expiresOn
+    }
+    
+    public func cancel() {
+        proactiveRefreshTimer?.invalidate()
     }
 
     deinit {

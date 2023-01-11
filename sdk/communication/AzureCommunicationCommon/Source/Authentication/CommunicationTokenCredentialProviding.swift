@@ -25,10 +25,11 @@
 // --------------------------------------------------------------------------
 
 import Foundation
+import Combine
 /**
  Protocol defining the shape of credentials used with Azure Communication Services.
  */
-public protocol CommunicationTokenCredentialProviding {
+public protocol CommunicationTokenCredentialProviding: Cancellable {
     /**
      Retrieve an access token from the credential.
      - Parameter completionHandler: Closure that accepts an optional `AccessToken` or optional `Error` as parameters. `AccessToken` returns a token and an expiry date if applicable.

@@ -25,16 +25,16 @@
 // --------------------------------------------------------------------------
 
 import Foundation
-
+import Combine
 public typealias CommunicationTokenCompletionHandler = (CommunicationAccessToken?, Error?) -> Void
 public typealias TokenRefreshHandler = (String?, Error?) -> Void
 
 /**
  The Azure Communication Services User token credential. This class is used to cache/refresh the access token required by Azure Communication Services.
  */
-@objcMembers public class CommunicationTokenCredential: NSObject {
+@objcMembers public class CommunicationTokenCredential: NSObject, Cancellable {
     private let userTokenCredential: CommunicationTokenCredentialProviding
-
+    private var isCancelled = false;
     /**
      Creates a static `CommunicationTokenCredential` object from the provided token.
 
@@ -64,8 +64,24 @@ public typealias TokenRefreshHandler = (String?, Error?) -> Void
      Retrieve an access token from the credential.
      - Parameter completionHandler: Closure that accepts an optional `AccessToken` or optional `Error` as parameters.
      `AccessToken` returns a token and an expiry date if applicable. `Error` returns `nil` if the current token can be returned.
+     - Throws: `NSError` if the CommunicationTokenCredential is canceled.
      */
-    public func token(completionHandler: @escaping CommunicationTokenCompletionHandler) {
+    public func token(completionHandler: @escaping CommunicationTokenCompletionHandler) throws {
+        guard !self.isCancelled else {
+            throw NSError(
+                domain: "AzureCommunicationCommon.CommunicationTokenCredential.token",
+                code: 0,
+                userInfo: ["message": "An instance of CommunicationTokenCredential cannot be reused once it has been canceled."]
+            )
+        }
         userTokenCredential.token(completionHandler: completionHandler)
+    }
+    
+    /**
+     Disposes the CommunicationTokenCredential and cancels any internal auto-refresh operation.
+     */
+    public func cancel() {
+        self.isCancelled = true
+        userTokenCredential.cancel()
     }
 }
