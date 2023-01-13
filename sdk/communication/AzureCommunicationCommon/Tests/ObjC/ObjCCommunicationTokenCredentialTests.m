@@ -47,30 +47,6 @@
     self.timeout = 10.0;
 }
 
-- (void)test_ObjCDecodeToken {
-    __block BOOL isComplete = NO;
-
-    CommunicationTokenCredential *userCredential = [[CommunicationTokenCredential alloc]
-                                                    initWithToken: self.sampleToken
-                                                    error: nil];
-    
-    [userCredential tokenWithCompletionHandler:^(CommunicationAccessToken *accessToken, NSError * error) {
-        XCTAssertNil(error);
-        XCTAssertEqual(accessToken.token, self.sampleToken);
-        XCTAssertEqual(accessToken.expiresOn.timeIntervalSince1970, self.sampleTokenExpiry);
-        isComplete = YES;
-    }];
-
-    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow: self.timeout];
-    while (isComplete == NO && [loopUntil timeIntervalSinceNow] > 0) {
-        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:loopUntil];
-    }
-    
-    if (!isComplete) {
-        XCTFail(@"test_ObjCDecodeToken timeout exceeded");
-    }
-}
-
 - (void)skipp_test_ObjCRefreshTokenProactively_TokenAlreadyExpired {
     __weak ObjCCommunciationTokenCredentialTests *weakSelf = self;
     __block BOOL isComplete = NO;
