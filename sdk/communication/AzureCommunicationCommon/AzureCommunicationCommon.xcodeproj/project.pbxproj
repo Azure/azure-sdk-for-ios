@@ -13,6 +13,7 @@
 		11A73D26294B481800C910FD /* StaticTokenCredentialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A73D25294B481800C910FD /* StaticTokenCredentialTests.swift */; };
 		11F54EF72971475E00ED02C4 /* ObjCTokenParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F1F56F254A07BC00876BC4 /* ObjCTokenParserTests.m */; };
 		11F54EFE29714EB400ED02C4 /* ObjCStaticTokenCredentialTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 11F54EFD29714EB400ED02C4 /* ObjCStaticTokenCredentialTests.m */; };
+		11F54F0029715D8B00ED02C4 /* ObjCAutoRefreshOnDemandTokenCredentialTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 11F54EFF29715D8B00ED02C4 /* ObjCAutoRefreshOnDemandTokenCredentialTests.m */; };
 		1D07222D24C8FB0F00C2EF4E /* CommunicationTokenCredentialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D07222C24C8FB0F00C2EF4E /* CommunicationTokenCredentialTests.swift */; };
 		1D2E7F7024E4589100447964 /* Identifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2E7F6F24E4589100447964 /* Identifiers.swift */; };
 		1DE4DB7724C0FE8300631921 /* AutoRefreshTokenCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE4DB7624C0FE8300631921 /* AutoRefreshTokenCredential.swift */; };
@@ -55,6 +56,7 @@
 		11A73D23294B3F5B00C910FD /* AutoRefreshProactiveTokenCredentialTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRefreshProactiveTokenCredentialTests.swift; sourceTree = "<group>"; };
 		11A73D25294B481800C910FD /* StaticTokenCredentialTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticTokenCredentialTests.swift; sourceTree = "<group>"; };
 		11F54EFD29714EB400ED02C4 /* ObjCStaticTokenCredentialTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjCStaticTokenCredentialTests.m; sourceTree = "<group>"; };
+		11F54EFF29715D8B00ED02C4 /* ObjCAutoRefreshOnDemandTokenCredentialTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjCAutoRefreshOnDemandTokenCredentialTests.m; sourceTree = "<group>"; };
 		1D07222C24C8FB0F00C2EF4E /* CommunicationTokenCredentialTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationTokenCredentialTests.swift; sourceTree = "<group>"; };
 		1D2E7F6F24E4589100447964 /* Identifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifiers.swift; sourceTree = "<group>"; };
 		1DC3550524D9F02D0095ABD9 /* Supporting Files */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Supporting Files"; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 				8856CEE4253E3AEF00044559 /* ObjCCommunicationTokenCredentialTests.m */,
 				88CC8C34254750260028977C /* ObjCCommunicationTokenCredentialAsyncTests.m */,
 				11F54EFD29714EB400ED02C4 /* ObjCStaticTokenCredentialTests.m */,
+				11F54EFF29715D8B00ED02C4 /* ObjCAutoRefreshOnDemandTokenCredentialTests.m */,
 			);
 			path = ObjC;
 			sourceTree = "<group>";
@@ -405,6 +408,7 @@
 				F1540EC125BFD6910056B087 /* CommunicationIdentifierTest.swift in Sources */,
 				1D07222D24C8FB0F00C2EF4E /* CommunicationTokenCredentialTests.swift in Sources */,
 				11A73D24294B3F5B00C910FD /* AutoRefreshProactiveTokenCredentialTests.swift in Sources */,
+				11F54F0029715D8B00ED02C4 /* ObjCAutoRefreshOnDemandTokenCredentialTests.m in Sources */,
 				11F54EFE29714EB400ED02C4 /* ObjCStaticTokenCredentialTests.m in Sources */,
 				88CC8C35254750260028977C /* ObjCCommunicationTokenCredentialAsyncTests.m in Sources */,
 				11A73D22294B3EF500C910FD /* AutoRefreshOnDemandTokenCredentialTests.swift in Sources */,
