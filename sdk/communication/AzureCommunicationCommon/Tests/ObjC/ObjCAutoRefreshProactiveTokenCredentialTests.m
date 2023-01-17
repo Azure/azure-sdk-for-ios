@@ -26,27 +26,12 @@
 
 #import <XCTest/XCTest.h>
 #import <AzureCommunicationCommon/AzureCommunicationCommon-Swift.h>
+#import "ObjCCommunicationTokenCredentialTests.h"
 
-@interface ObjCAutoRefreshProactiveTokenCredentialTests : XCTestCase
-@property (nonatomic, strong) NSString *sampleToken;
-@property (nonatomic, strong) NSString *sampleExpiredToken;
-@property (nonatomic) double sampleTokenExpiry;
-@property (nonatomic) double sampleExpiredTokenExpiry;
-@property (nonatomic) int fetchTokenCallCount;
-@property (nonatomic) NSTimeInterval timeout;
+@interface ObjCAutoRefreshProactiveTokenCredentialTests : ObjCCommunicationTokenCredentialTests
 @end
 
 @implementation ObjCAutoRefreshProactiveTokenCredentialTests
-
-- (void)setUp {
-    [super setUp];
-    self.sampleToken = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjMyNTAzNjgwMDAwfQ.9i7FNNHHJT8cOzo-yrAUJyBSfJ-tPPk2emcHavOEpWc";
-    self.sampleExpiredToken = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjEwMH0.1h_scYkNp-G98-O4cW6KvfJZwiz54uJMyeDACE4nypg";
-    self.sampleTokenExpiry = 32503680000;
-    self.sampleExpiredTokenExpiry = 100;
-    self.fetchTokenCallCount = 0;
-    self.timeout = 10.0;
-}
 
 - (void)test_ShouldNotBeCalledBeforeExpiringTime {
     XCTestExpectation *expectation = [self expectationWithDescription:@"test_ShouldNotBeCalledBeforeExpiringTime"];
@@ -83,12 +68,6 @@
                 weakSelf.fetchTokenCallCount += 1;
                 block(refreshedToken, nil);
             }];
-}
-
--(void)failForTimeout:(NSError * _Nullable) error testName:(NSString *)testName {
-    if(error != NULL){
-        XCTFail(@"%@ timeout exceeded!", testName);
-    }
 }
 
 - (void)test_ShouldBeCalledImmediatelyWithExpiredToken {
@@ -144,7 +123,6 @@
             }];
         });
         dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-        
     }
     
     [self waitForExpectationsWithTimeout:self.timeout handler:^(NSError * _Nullable error) {
@@ -158,7 +136,7 @@
     NSString *errorDesc = @"Error while fetching token";
     CommunicationTokenRefreshOptions *tokenRefreshOptions = [[CommunicationTokenRefreshOptions alloc]
                                                 initWithInitialToken:self.sampleExpiredToken
-                                                refreshProactively:NO
+                                                refreshProactively:YES
                                                 tokenRefresher:^(void (^ block)
                                                                  (NSString * _Nullable token,
                                                                   NSError * _Nullable error)) {
@@ -176,7 +154,7 @@
             XCTAssertNotNil(error);
             XCTAssertEqual([error.localizedDescription containsString: errorDesc], YES);
             XCTAssertNil(accessToken);
-            XCTAssertEqual(weakSelf.fetchTokenCallCount, 1);
+            XCTAssertEqual(weakSelf.fetchTokenCallCount, 2);
             [expectation fulfill];
         }];
     });
@@ -313,28 +291,6 @@
     [self waitForExpectationsWithTimeout:self.timeout handler:^(NSError * _Nullable error) {
         [self failForTimeout:error testName:expectation.expectationDescription];
     }];
-}
-
-
-- (NSString *)generateTokenValidForSeconds: (int) seconds {
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
-    dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZ";
-    NSDate *currentDate = [NSDate date];
-    NSString *d = [dateFormatter stringFromDate:currentDate];
-    NSDate *expiresOn = [[dateFormatter dateFromString:d]
-                        dateByAddingTimeInterval:(seconds)];
-    NSTimeInterval timeInterval = [expiresOn timeIntervalSince1970];
-    NSString *tokenString = [NSString stringWithFormat:@"{\"exp\":%f}", timeInterval];
-    NSData *tokenStringData = [tokenString dataUsingEncoding: NSASCIIStringEncoding];
-    NSString *kSampleTokenHeader = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
-    NSString *kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs";
-    NSString *validToken = [NSString stringWithFormat:@"%@.%@.%@",
-                            kSampleTokenHeader,
-                            [tokenStringData base64EncodedStringWithOptions:NSDataBase64Encoding76CharacterLineLength],
-                            kSampleTokenSignature];
-    
-    return validToken;
 }
 
 @end
