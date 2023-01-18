@@ -130,8 +130,8 @@
     }];
 }
 
-- (void)test_FetchTokenReturnsError {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"test_FetchTokenReturnsError"];
+- (void)test_ShouldThrowWhenTokenRefresherThrows {
+    XCTestExpectation *expectation = [self expectationWithDescription:@"test_ShouldThrowWhenTokenRefresherThrows"];
     __weak ObjCAutoRefreshProactiveTokenCredentialTests *weakSelf = self;
     NSString *errorDesc = @"Error while fetching token";
     CommunicationTokenRefreshOptions *tokenRefreshOptions = [[CommunicationTokenRefreshOptions alloc]

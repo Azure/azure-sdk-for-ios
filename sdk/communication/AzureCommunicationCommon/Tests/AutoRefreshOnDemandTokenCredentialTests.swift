@@ -102,7 +102,7 @@ class AutoRefreshOnDemandTokenCredentialTests: CommunicationTokenCredentialTests
         wait(for: [expectation], timeout: timeout)
     }
 
-    func test_FetchTokenReturnsError() throws {
+    func test_ShouldThrowWhenTokenRefresherThrows() throws {
         let expectation = XCTestExpectation()
 
         let tokenRefreshOptions = CommunicationTokenRefreshOptions(
