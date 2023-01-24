@@ -266,7 +266,7 @@ class AutoRefreshProactiveTokenCredentialTests: CommunicationTokenCredentialTest
         wait(for: [expectation], timeout: timeout)
     }
 
-    func test_shouldThrowIfTokenRequestedAfterCancelled() throws {
+    func test_ThrowIfTokenRequestedAfterCancelled() throws {
         let expectation = XCTestExpectation()
 
         let tokenRefreshOptions = creatTokenRefreshOptions(initialToken: sampleToken)

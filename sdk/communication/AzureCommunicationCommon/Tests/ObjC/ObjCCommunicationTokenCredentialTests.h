@@ -28,6 +28,7 @@
 #define ObjCCommunicationTokenCredentialTests_h
 #import <XCTest/XCTest.h>
 
+extern NSString *const credentialCancelledError;
 @interface ObjCCommunicationTokenCredentialTests : XCTestCase
 @property (nonatomic, strong, nonnull) NSString *sampleToken;
 @property (nonatomic, strong, nonnull) NSString *sampleExpiredToken;

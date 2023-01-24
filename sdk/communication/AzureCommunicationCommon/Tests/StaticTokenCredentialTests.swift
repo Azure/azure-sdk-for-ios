@@ -70,7 +70,7 @@ class StaticTokenCredentialTests: CommunicationTokenCredentialTests {
         }
     }
 
-    func test_shouldThrowIfTokenRequestedAfterCancelled() throws {
+    func test_ThrowIfTokenRequestedAfterCancelled() throws {
         let userCredential = try CommunicationTokenCredential(token: sampleToken)
         userCredential.cancel()
         userCredential.token { (accessToken: CommunicationAccessToken?, error: Error?) in

@@ -138,7 +138,7 @@
         [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
                                                  NSError * _Nullable error) {
             XCTAssertNotNil(error);
-            XCTAssertEqual([error.localizedDescription containsString: errorDesc], YES);
+            XCTAssertTrue([error.localizedDescription containsString: errorDesc]);
             XCTAssertNil(accessToken);
             XCTAssertEqual(weakSelf.fetchTokenCallCount, 1);
             [expectation fulfill];
@@ -161,9 +161,33 @@
         [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
                                                  NSError * _Nullable error) {
             XCTAssertNotNil(error);
-            XCTAssertEqual([error.debugDescription containsString: @"The token returned from the tokenRefresher is expired."], YES);
+            XCTAssertTrue([error.debugDescription containsString: @"The token returned from the tokenRefresher is expired."]);
             XCTAssertNil(accessToken);
             XCTAssertEqual(weakSelf.fetchTokenCallCount, 1);
+            [expectation fulfill];
+        }];
+    });
+    
+    [self waitForExpectationsWithTimeout:self.timeout handler:^(NSError * _Nullable error) {
+        [self failForTimeout:error testName:expectation.expectationDescription];
+    }];
+}
+
+- (void)test_ThrowsIfTokenRequestedAfterCancelled {
+    XCTestExpectation *expectation = [self expectationWithDescription:@"test_ThrowsIfTokenRequestedAfterCancelled"];
+    __weak ObjCAutoRefreshOnDemandTokenCredentialTests *weakSelf = self;
+    CommunicationTokenRefreshOptions *tokenRefreshOptions = [self createTokenRefreshOptions:weakSelf initialToken:weakSelf.sampleToken refreshedToken:weakSelf.sampleToken];
+    CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
+                                                initWithOptions: tokenRefreshOptions
+                                                error:nil];
+    [credential cancel];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
+                                                 NSError * _Nullable error) {
+            XCTAssertNotNil(error);
+            XCTAssertTrue([error.debugDescription containsString: credentialCancelledError]);
+            XCTAssertNil(accessToken);
+            XCTAssertEqual(weakSelf.fetchTokenCallCount, 0);
             [expectation fulfill];
         }];
     });
