@@ -24,8 +24,8 @@
 //
 // --------------------------------------------------------------------------
 
-import Foundation
 import Combine
+import Foundation
 /**
  Protocol defining the shape of credentials used with Azure Communication Services.
  */

@@ -24,8 +24,8 @@
 //
 // --------------------------------------------------------------------------
 
-import Foundation
 import Combine
+import Foundation
 
 internal class ThreadSafeRefreshableAccessTokenCache: Cancellable {
     private var currentToken: CommunicationAccessToken {
@@ -157,7 +157,7 @@ internal class ThreadSafeRefreshableAccessTokenCache: Cancellable {
     private func isTokenExpired(accessToken: CommunicationAccessToken?) -> Bool {
         return accessToken == nil || Date() >= accessToken!.expiresOn
     }
-    
+
     public func cancel() {
         proactiveRefreshTimer?.invalidate()
     }
