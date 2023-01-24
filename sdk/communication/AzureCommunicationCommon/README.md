@@ -92,7 +92,7 @@ platform :ios, '12.0'
 use_frameworks!
 
 target 'MyTarget' do
-  pod 'AzureCommunicationCommon', '1.0.0'
+  pod 'AzureCommunicationCommon', '1.2.0'
   ...
 end
 ```
@@ -106,10 +106,14 @@ $ pod install
 ## Key concepts
 
 ### CommunicationTokenCredential
-A `CommunicationTokenCredential` authenticates a user with Communication Services, such as Chat or Calling. It optionally
-provides an auto-refresh mechanism to ensure a continuously stable authentication state during communications. User
-tokens are created by the application developer using the Communication Administration SDK - once created, they are
-provided to the various Communication Services client libraries by way of a `CommunicationTokenCredential` object.
+The `CommunicationTokenCredential` object is used to authenticate a user with Communication Services, such as Chat or Calling. It optionally provides an auto-refresh mechanism to ensure a continuously stable authentication state during communications.
+
+Depending on your scenario, you may want to initialize the `CommunicationTokenCredential` with:
+
+- a static token (suitable for short-lived clients used to e.g. send one-off Chat messages) or
+- a callback function that ensures a continuous authentication state (ideal e.g. for long Calling sessions).
+
+The tokens supplied to the `CommunicationTokenCredential` either through the constructor or via the token refresher callback can be obtained using the Azure Communication Identity library.
 
 ## Examples
 The following sections provide several code snippets showing different ways to use a `CommunicationTokenCredential`:
@@ -118,6 +122,8 @@ The following sections provide several code snippets showing different ways to u
 * [Creating a credential that refreshes asynchronously](#creating-a-credential-that-refreshes-asynchronously)
 
 ### Creating a credential with a static token
+For short-lived clients, refreshing the token upon expiry is not necessary and `CommunicationTokenCredential` may be instantiated with a static token.
+
 ```swift
 import AzureCommunicationCommon
 
@@ -126,6 +132,13 @@ let credential = try CommunicationTokenCredential(token: sampleToken)
 ```
 
 ### Creating a credential that refreshes asynchronously
+Alternatively, for long-lived clients, you can create a `CommunicationTokenCredential` with a callback to renew tokens if expired.
+Here we assume that a function `fetchTokenSync` makes a network request to retrieve a token string for a user.
+It's necessary that the `fetchTokenSync` function returns a valid token (with an expiration date set in the future) at all times.
+
+Optionally, you can enable proactive token refreshing where a fresh token will be acquired as soon as the
+previous token approaches expiry. Using this method, your requests are less likely to be blocked to acquire a fresh token:
+
 ```swift
 import AzureCommunicationCommon
 
@@ -147,6 +160,12 @@ credential = try CommunicationTokenCredential(with: options)
 credential.token { (accessToken: AccessToken?, error: Error?) in
   ...
 }
+
+```
+Use the `cancel` method of `CommunicationTokenCredential` to dispose the credential by canceling scheduled refresh actions when the proactive refreshing is enabled:
+
+```swift
+credential.cancel()
 
 ```
 
