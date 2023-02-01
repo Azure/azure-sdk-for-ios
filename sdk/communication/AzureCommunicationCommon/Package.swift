@@ -61,9 +61,7 @@ let package = Package(
             exclude: [
                 "Info.plist",
                 "AzureCommunicationCommonTests-Bridging-Header.h",
-                "ObjCCommunicationTokenCredentialTests.m",
-                "ObjCCommunicationTokenCredentialAsyncTests.m",
-                "ObjCTokenParserTests.m"
+                "ObjC"
             ]
         )
     ],
