@@ -24,6 +24,10 @@
   "pod_target_xcconfig": {
     "DEFINES_MODULE": "YES"
   },
-  "dependencies": {},
+  "dependencies": {
+      "AzureCore": [
+        "1.0.0-beta.15"
+      ]
+  },
   "swift_version": "5.0"
 }

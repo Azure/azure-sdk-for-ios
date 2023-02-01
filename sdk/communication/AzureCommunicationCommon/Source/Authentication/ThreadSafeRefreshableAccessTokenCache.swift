@@ -24,10 +24,10 @@
 //
 // --------------------------------------------------------------------------
 
-import Combine
+import AzureCore
 import Foundation
 
-internal class ThreadSafeRefreshableAccessTokenCache: Cancellable {
+internal class ThreadSafeRefreshableAccessTokenCache: AzureTask {
     private var currentToken: CommunicationAccessToken {
         didSet {
             maybeScheduleRefresh()
