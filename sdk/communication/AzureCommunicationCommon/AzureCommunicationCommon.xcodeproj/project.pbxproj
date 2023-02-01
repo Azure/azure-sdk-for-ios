@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0A3A5EC22316DB1E00473FDA /* AzureCommunicationCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5EB82316DB1E00473FDA /* AzureCommunicationCommon.framework */; };
-		111F8244298A83C300EDDC07 /* AzureCore in Frameworks */ = {isa = PBXBuildFile; productRef = 111F8243298A83C300EDDC07 /* AzureCore */; };
 		11A73D22294B3EF500C910FD /* AutoRefreshOnDemandTokenCredentialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A73D21294B3EF500C910FD /* AutoRefreshOnDemandTokenCredentialTests.swift */; };
 		11A73D24294B3F5B00C910FD /* AutoRefreshProactiveTokenCredentialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A73D23294B3F5B00C910FD /* AutoRefreshProactiveTokenCredentialTests.swift */; };
 		11A73D26294B481800C910FD /* StaticTokenCredentialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A73D25294B481800C910FD /* StaticTokenCredentialTests.swift */; };
@@ -92,7 +91,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C1ABE73016C6539A7175199B /* Pods_AzureCommunicationCommon.framework in Frameworks */,
-				111F8244298A83C300EDDC07 /* AzureCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,9 +236,6 @@
 			dependencies = (
 			);
 			name = AzureCommunicationCommon;
-			packageProductDependencies = (
-				111F8243298A83C300EDDC07 /* AzureCore */,
-			);
 			productName = AzureCSComputerVision;
 			productReference = 0A3A5EB82316DB1E00473FDA /* AzureCommunicationCommon.framework */;
 			productType = "com.apple.product-type.framework";
@@ -293,9 +288,6 @@
 				Base,
 			);
 			mainGroup = 0A3A5EAE2316DB1E00473FDA;
-			packageReferences = (
-				111F8242298A83C300EDDC07 /* XCRemoteSwiftPackageReference "SwiftPM-AzureCore" */,
-			);
 			productRefGroup = 0A3A5EB92316DB1E00473FDA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -702,7 +694,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		111F8242298A83C300EDDC07 /* XCRemoteSwiftPackageReference "SwiftPM-AzureCore" */ = {
+		111F8245298A87C300EDDC07 /* XCRemoteSwiftPackageReference "SwiftPM-AzureCore" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Azure/SwiftPM-AzureCore.git";
 			requirement = {
@@ -711,14 +703,6 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		111F8243298A83C300EDDC07 /* AzureCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 111F8242298A83C300EDDC07 /* XCRemoteSwiftPackageReference "SwiftPM-AzureCore" */;
-			productName = AzureCore;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0A3A5EAF2316DB1E00473FDA /* Project object */;
 }
