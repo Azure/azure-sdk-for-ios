@@ -24,12 +24,20 @@
 //
 // --------------------------------------------------------------------------
 
-import AzureCore
 import Foundation
+
+/**
+ A protocol indicating that an operation supports cancellation.
+ */
+public protocol Cancellable {
+    /// Cancel the operation and also stops side effects such as timers, schedulers, network access.
+    func cancel()
+}
+
 /**
  Protocol defining the shape of credentials used with Azure Communication Services.
  */
-public protocol CommunicationTokenCredentialProviding: AzureTask {
+public protocol CommunicationTokenCredentialProviding: Cancellable {
     /**
      Retrieve an access token from the credential.
      - Parameter completionHandler: Closure that accepts an optional `AccessToken` or optional `Error` as parameters. `AccessToken` returns a token and an expiry date if applicable.

@@ -236,8 +236,6 @@
 			dependencies = (
 			);
 			name = AzureCommunicationCommon;
-			packageProductDependencies = (
-			);
 			productName = AzureCSComputerVision;
 			productReference = 0A3A5EB82316DB1E00473FDA /* AzureCommunicationCommon.framework */;
 			productType = "com.apple.product-type.framework";
@@ -290,8 +288,6 @@
 				Base,
 			);
 			mainGroup = 0A3A5EAE2316DB1E00473FDA;
-			packageReferences = (
-			);
 			productRefGroup = 0A3A5EB92316DB1E00473FDA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
