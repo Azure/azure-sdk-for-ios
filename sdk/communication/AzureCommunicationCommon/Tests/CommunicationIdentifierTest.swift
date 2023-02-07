@@ -89,6 +89,83 @@ class CommunicationIdentifierTest: XCTestCase {
         XCTAssertEqual(teamsUserIdentifier.rawId, expectedRawId)
     }
 
+    // swiftlint:enable function_body_length
+    func test_MicrosoftTeamsUserIdentifier_DefaultCloudIsPublic() throws {
+        XCTAssertEqual(
+            CommunicationCloudEnvironment.Public,
+            MicrosoftTeamsUserIdentifier(
+                userId: testUserId,
+                isAnonymous: true,
+                rawId: testRawId
+            ).cloudEnviroment
+        )
+    }
+
+    func test_MicrosoftBotIdentifier_IfRawIdIsNull_RawIdIsGeneratedProperly() {
+        let expectedRawIdGlobal = "28:" + testUserId
+        var botIdentifier = MicrosoftBotIdentifier(
+            microsoftBotId: testUserId,
+            isGlobal: true
+        )
+        XCTAssertEqual(botIdentifier.rawId, expectedRawIdGlobal)
+
+        let expectedRawId = "28:orgid:" + testUserId
+        botIdentifier = MicrosoftBotIdentifier(microsoftBotId: testUserId)
+        XCTAssertEqual(botIdentifier.rawId, expectedRawId)
+
+        let expectedRawIdAndCloudDod = "28:dod:" + testUserId
+        botIdentifier = MicrosoftBotIdentifier(
+            microsoftBotId: testUserId,
+            cloudEnvironment: .Dod
+        )
+        XCTAssertEqual(botIdentifier.rawId, expectedRawIdAndCloudDod)
+
+        let expectedRawIdAndCloudDodGlobal = "28:dod-global:" + testUserId
+        botIdentifier = MicrosoftBotIdentifier(
+            microsoftBotId: testUserId,
+            isGlobal: true,
+            cloudEnvironment: .Dod
+        )
+        XCTAssertEqual(botIdentifier.rawId, expectedRawIdAndCloudDodGlobal)
+
+        let expectedRawIdAndCloudGcch = "28:gcch:" + testUserId
+        botIdentifier = MicrosoftBotIdentifier(
+            microsoftBotId: testUserId,
+            cloudEnvironment: .Gcch
+        )
+        XCTAssertEqual(botIdentifier.rawId, expectedRawIdAndCloudGcch)
+
+        let expectedRawIdAndCloudGcchGlobal = "28:gcch-global:" + testUserId
+        botIdentifier = MicrosoftBotIdentifier(
+            microsoftBotId: testUserId,
+            isGlobal: true,
+            cloudEnvironment: .Gcch
+        )
+        XCTAssertEqual(botIdentifier.rawId, expectedRawIdAndCloudGcchGlobal)
+    }
+
+    // swiftlint:enable function_body_length
+    func test_MicrosoftBotIdentifier_DefaultCloudIsPublic() throws {
+        XCTAssertEqual(
+            CommunicationCloudEnvironment.Public,
+            MicrosoftBotIdentifier(
+                microsoftBotId: testUserId,
+                isGlobal: true,
+                rawId: testRawId
+            ).cloudEnviroment
+        )
+    }
+
+    // swiftlint:enable function_body_length
+    func test_MicrosoftBotIdentifier_DefaultGlobalIsFalse() throws {
+        XCTAssertFalse(
+            MicrosoftBotIdentifier(
+                microsoftBotId: testUserId,
+                rawId: testRawId
+            ).isGlobal
+        )
+    }
+
     // swiftlint:disable function_body_length
     func test_IfRawIdIsOptional_EqualityCheckingOnlyRawId() {
         XCTAssertFalse(
@@ -171,17 +248,50 @@ class CommunicationIdentifierTest: XCTestCase {
                     rawId: testRawId
                 )
         )
-    }
-
-    // swiftlint:enable function_body_length
-    func test_MicrosoftTeamsUserIdentifier_DefaultCloudIsPublic() throws {
-        XCTAssertEqual(
-            CommunicationCloudEnvironment.Public,
-            MicrosoftTeamsUserIdentifier(
-                userId: testUserId,
-                isAnonymous: true,
+        XCTAssertFalse(
+            MicrosoftBotIdentifier(
+                microsoftBotId: testUserId,
+                isGlobal: true,
                 rawId: testRawId
-            ).cloudEnviroment
+            ) ==
+                MicrosoftBotIdentifier(
+                    microsoftBotId: testUserId,
+                    isGlobal: true
+                )
+        )
+        XCTAssertFalse(
+            MicrosoftBotIdentifier(
+                microsoftBotId: testUserId,
+                isGlobal: true
+            ) ==
+                MicrosoftBotIdentifier(
+                    microsoftBotId: testUserId,
+                    isGlobal: true,
+                    rawId: testRawId
+                )
+        )
+        var botIdentifier = MicrosoftBotIdentifier(
+            microsoftBotId: testUserId,
+            isGlobal: true,
+            rawId: "some id"
+        )
+        XCTAssertFalse(
+            botIdentifier ==
+                MicrosoftBotIdentifier(
+                    microsoftBotId: testUserId,
+                    isGlobal: true,
+                    rawId: testRawId
+                )
+        )
+
+        XCTAssertFalse(
+            botIdentifier.isEqual(
+                MicrosoftBotIdentifier(
+                    microsoftBotId: testUserId,
+                    isGlobal: true,
+                    rawId: testRawId
+                )
+            )
         )
     }
 }

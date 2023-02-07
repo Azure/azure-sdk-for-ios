@@ -34,6 +34,7 @@ import Foundation
     public static let communicationUser = IdentifierKind(rawValue: "communicationUser")
     public static let phoneNumber = IdentifierKind(rawValue: "phoneNumber")
     public static let microsoftTeamsUser = IdentifierKind(rawValue: "microsoftTeamsUser")
+    public static let microsoftBot = IdentifierKind(rawValue: "microsoftBot")
     public static let unknown = IdentifierKind(rawValue: "unknown")
 
     public init(rawValue: String) {
@@ -64,10 +65,18 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
     let spoolUser = "8:spool:"
     let dodAcsUser = "8:dod-acs:"
     let gcchAcsUser = "8:gcch-acs:"
+    let botGcchGlobal = "28:gcch-global:"
+    let botPublic = "28:orgid:"
+    let botDodGlobal = "28:dod-global:"
+    let botGcch = "28:gcch:"
+    let botDod = "28:dod:"
     if rawId.hasPrefix(phoneNumberPrefix) {
         return PhoneNumberIdentifier(phoneNumber: String(rawId.dropFirst(phoneNumberPrefix.count)), rawId: rawId)
     }
     let segments = rawId.split(separator: ":")
+    if segments.count == 2, segments[0] == "28" {
+        return buildMicrosoftBotIdentifier(microsoftBotId: String(segments[1]), cloud: "global", rawId: rawId)
+    }
     if segments.count < 3 {
         return UnknownIdentifier(rawId)
     }
@@ -97,11 +106,36 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
             rawId: rawId,
             cloudEnvironment: .Gcch
         )
+    case botPublic, botDod, botDodGlobal, botGcch, botGcchGlobal:
+        return buildMicrosoftBotIdentifier(microsoftBotId: suffix, cloud: String(segments[1]), rawId: rawId)
     case acsUser, spoolUser, dodAcsUser, gcchAcsUser:
         return CommunicationUserIdentifier(rawId)
     default:
         return UnknownIdentifier(rawId)
     }
+}
+
+private func buildMicrosoftBotIdentifier(
+    microsoftBotId: String,
+    cloud: String,
+    rawId: String
+) -> CommunicationIdentifier {
+    let cloudEnvironment: CommunicationCloudEnvironment
+
+    switch cloud {
+    case "gcch-global", "gcch":
+        cloudEnvironment = CommunicationCloudEnvironment.Gcch
+    case "dod-global", "dod":
+        cloudEnvironment = CommunicationCloudEnvironment.Dod
+    default:
+        cloudEnvironment = CommunicationCloudEnvironment.Public
+    }
+    return MicrosoftBotIdentifier(
+        microsoftBotId: microsoftBotId,
+        isGlobal: cloud.contains("global"),
+        rawId: rawId,
+        cloudEnvironment: cloudEnvironment
+    )
 }
 
 /**
@@ -226,8 +260,6 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
                     self.rawId = "8:dod:" + userId
                 case .Gcch:
                     self.rawId = "8:gcch:" + userId
-                case .Public:
-                    self.rawId = "8:orgid:" + userId
                 default:
                     self.rawId = "8:orgid:" + userId
                 }
@@ -264,6 +296,84 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
      */
     override public func isEqual(_ object: Any?) -> Bool {
         guard let object = object as? MicrosoftTeamsUserIdentifier else {
+            return false
+        }
+
+        return rawId == object.rawId
+    }
+}
+
+/**
+ Communication identifier for Microsoft bots.
+ */
+@objcMembers public class MicrosoftBotIdentifier: NSObject, CommunicationIdentifier {
+    public let microsoftBotId: String
+    public let isGlobal: Bool
+    public let cloudEnviroment: CommunicationCloudEnvironment
+    public private(set) var rawId: String
+    public var kind: IdentifierKind { return .microsoftBot }
+
+    /**
+     Creates a MicrosoftBotIdentifier object
+     - Parameter microsoftBotId: The unique Microsoft app ID for the bot as registered with the Bot Framework.
+     - Parameter isGlobal: Set this to true if the bot is global and false (or missing) if the bot is tenantized.
+     - Parameter rawId: The optional raw id of the Microsoft Bot identifier.
+     - Parameter cloudEnvironment: The cloud that the Microsoft Bot belongs to.
+                                    A null value translates to the Public cloud.
+     */
+    public init(
+        microsoftBotId: String,
+        isGlobal: Bool = false,
+        rawId: String? = nil,
+        cloudEnvironment: CommunicationCloudEnvironment = .Public
+    ) {
+        self.microsoftBotId = microsoftBotId
+        self.isGlobal = isGlobal
+        self.cloudEnviroment = cloudEnvironment
+
+        if let rawId = rawId {
+            self.rawId = rawId
+        } else {
+            if isGlobal {
+                switch cloudEnvironment {
+                case .Dod:
+                    self.rawId = "28:dod-global:" + microsoftBotId
+                case .Gcch:
+                    self.rawId = "28:gcch-global:" + microsoftBotId
+                default:
+                    self.rawId = "28:" + microsoftBotId
+                }
+            } else {
+                switch cloudEnvironment {
+                case .Dod:
+                    self.rawId = "28:dod:" + microsoftBotId
+                case .Gcch:
+                    self.rawId = "28:gcch:" + microsoftBotId
+                default:
+                    self.rawId = "28:orgid:" + microsoftBotId
+                }
+            }
+        }
+    }
+
+    // swiftlint:disable:next nsobject_prefer_isequal
+    /**
+     Returns a Boolean value indicating whether two values are equal.
+        Note: In Objective-C favor isEqual() method
+     - Parameter lhs MicrosoftBotIdentifier to compare.
+     - Parameter rhs  Another MicrosoftBotIdentifier to compare.
+     */
+    public static func == (lhs: MicrosoftBotIdentifier, rhs: MicrosoftBotIdentifier) -> Bool {
+        return lhs.rawId == rhs.rawId
+    }
+
+    /**
+     Returns a Boolean value that indicates whether the receiver is equal to another given object.
+     This will automatically return false if object being compared to is not a MicrosoftBotIdentifier.
+     - Parameter object The object with which to compare the receiver.
+     */
+    override public func isEqual(_ object: Any?) -> Bool {
+        guard let object = object as? MicrosoftBotIdentifier else {
             return false
         }
 
