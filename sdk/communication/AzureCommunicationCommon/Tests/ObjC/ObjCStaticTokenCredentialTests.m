@@ -26,29 +26,11 @@
 
 #import <XCTest/XCTest.h>
 #import <AzureCommunicationCommon/AzureCommunicationCommon-Swift.h>
+#import "ObjCCommunicationTokenCredentialTests.h"
 
-@interface ObjCStaticTokenCredentialTests : XCTestCase
-@property (nonatomic, strong) NSString *sampleToken;
-@property (nonatomic, strong) NSString *sampleExpiredToken;
-@property (nonatomic) double sampleTokenExpiry;
-@property (nonatomic) double sampleExpiredTokenExpiry;
-@property (nonatomic) NSTimeInterval timeout;
-@end
-
-@implementation ObjCStaticTokenCredentialTests
-
-- (void)setUp {
-    [super setUp];
-        self.sampleToken = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjMyNTAzNjgwMDAwfQ.9i7FNNHHJT8cOzo-yrAUJyBSfJ-tPPk2emcHavOEpWc";
-        self.sampleExpiredToken = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjEwMH0.1h_scYkNp-G98-O4cW6KvfJZwiz54uJMyeDACE4nypg";
-        self.sampleTokenExpiry = 32503680000;
-        self.sampleExpiredTokenExpiry = 100;
-        self.timeout = 10.0;
-}
+@implementation ObjCStaticTokenCredentialTests: ObjCCommunicationTokenCredentialTests
 
 - (void)test_StaticTokenCredential_ShouldStoreAnyToken {
-    __block BOOL isComplete = NO;
-
     CommunicationTokenCredential *userCredential = [[CommunicationTokenCredential alloc]
                                                     initWithToken: self.sampleExpiredToken
                                                     error: nil];
@@ -57,23 +39,11 @@
         XCTAssertNil(error);
         XCTAssertEqual(accessToken.token, self.sampleExpiredToken);
         XCTAssertEqual(accessToken.expiresOn.timeIntervalSince1970, self.sampleExpiredTokenExpiry);
-        isComplete = YES;
     }];
-
-    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow: self.timeout];
-    while (isComplete == NO && [loopUntil timeIntervalSinceNow] > 0) {
-        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:loopUntil];
-    }
-    
-    if (!isComplete) {
-        XCTFail(@"test_ObjCDecodeToken timeout exceeded");
-    }
 }
 
 
 - (void)test_ObjCDecodeToken {
-    __block BOOL isComplete = NO;
-
     CommunicationTokenCredential *userCredential = [[CommunicationTokenCredential alloc]
                                                     initWithToken: self.sampleToken
                                                     error: nil];
@@ -82,17 +52,7 @@
         XCTAssertNil(error);
         XCTAssertEqual(accessToken.token, self.sampleToken);
         XCTAssertEqual(accessToken.expiresOn.timeIntervalSince1970, self.sampleTokenExpiry);
-        isComplete = YES;
     }];
-
-    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow: self.timeout];
-    while (isComplete == NO && [loopUntil timeIntervalSinceNow] > 0) {
-        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:loopUntil];
-    }
-    
-    if (!isComplete) {
-        XCTFail(@"test_ObjCDecodeToken timeout exceeded");
-    }
 }
 
 - (void)test_ThrowsIfInvalidToken {
@@ -107,4 +67,15 @@
     }
 }
 
+- (void)test_ThrowsIfTokenRequestedAfterCancelled {
+    CommunicationTokenCredential *userCredential = [[CommunicationTokenCredential alloc]
+                                                    initWithToken: self.sampleToken
+                                                    error: nil];
+    [userCredential cancel];
+    [userCredential tokenWithCompletionHandler:^(CommunicationAccessToken *accessToken, NSError * error) {
+        XCTAssertNil(accessToken);
+        XCTAssertNotNil(error);
+        XCTAssertTrue([error.debugDescription containsString:credentialCancelledError]);
+    }];
+}
 @end

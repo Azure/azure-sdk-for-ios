@@ -67,4 +67,11 @@ internal class AutoRefreshTokenCredential: CommunicationTokenCredentialProviding
             completionHandler(newAccessToken, error)
         }
     }
+
+    /**
+     Cancels any internal auto-refresh operation.
+     */
+    public func cancel() {
+        accessTokenCache.cancel()
+    }
 }

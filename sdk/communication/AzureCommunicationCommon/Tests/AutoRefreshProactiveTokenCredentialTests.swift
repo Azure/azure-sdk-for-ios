@@ -265,4 +265,26 @@ class AutoRefreshProactiveTokenCredentialTests: CommunicationTokenCredentialTest
 
         wait(for: [expectation], timeout: timeout)
     }
+
+    func test_ThrowIfTokenRequestedAfterCancelled() throws {
+        let expectation = XCTestExpectation()
+
+        let tokenRefreshOptions = creatTokenRefreshOptions(initialToken: sampleToken)
+        let userCredential = try CommunicationTokenCredential(withOptions: tokenRefreshOptions)
+        userCredential.cancel()
+        DispatchQueue.global(qos: .utility).async {
+            userCredential.token { (accessToken: CommunicationAccessToken?, error: Error?) in
+                XCTAssertNil(accessToken)
+                XCTAssertNotNil(error)
+                XCTAssertTrue(
+                    error.debugDescription
+                        .contains(self.credentialCancelledError)
+                )
+                XCTAssertEqual(self.fetchTokenCallCount, 0)
+                expectation.fulfill()
+            }
+        }
+
+        wait(for: [expectation], timeout: timeout)
+    }
 }

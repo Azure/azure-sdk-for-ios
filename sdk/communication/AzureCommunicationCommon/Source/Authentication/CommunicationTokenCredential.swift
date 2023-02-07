@@ -25,16 +25,15 @@
 // --------------------------------------------------------------------------
 
 import Foundation
-
 public typealias CommunicationTokenCompletionHandler = (CommunicationAccessToken?, Error?) -> Void
 public typealias TokenRefreshHandler = (String?, Error?) -> Void
 
 /**
  The Azure Communication Services User token credential. This class is used to cache/refresh the access token required by Azure Communication Services.
  */
-@objcMembers public class CommunicationTokenCredential: NSObject {
+@objcMembers public class CommunicationTokenCredential: NSObject, Cancellable {
     private let userTokenCredential: CommunicationTokenCredentialProviding
-
+    private var isCancelled = false
     /**
      Creates a static `CommunicationTokenCredential` object from the provided token.
 
@@ -66,6 +65,25 @@ public typealias TokenRefreshHandler = (String?, Error?) -> Void
      `AccessToken` returns a token and an expiry date if applicable. `Error` returns `nil` if the current token can be returned.
      */
     public func token(completionHandler: @escaping CommunicationTokenCompletionHandler) {
+        guard !isCancelled else {
+            let exception = NSError(
+                domain: "AzureCommunicationCommon.CommunicationTokenCredential.token",
+                code: 0,
+                userInfo: [
+                    "message": "An instance of CommunicationTokenCredential cannot be reused once it has been canceled."
+                ]
+            )
+            completionHandler(nil, exception)
+            return
+        }
         userTokenCredential.token(completionHandler: completionHandler)
+    }
+
+    /**
+     Disposes the CommunicationTokenCredential and cancels any internal auto-refresh operation.
+     */
+    public func cancel() {
+        isCancelled = true
+        userTokenCredential.cancel()
     }
 }

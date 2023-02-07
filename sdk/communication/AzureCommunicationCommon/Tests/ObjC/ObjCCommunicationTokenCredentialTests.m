@@ -25,6 +25,8 @@
 // --------------------------------------------------------------------------
 #import "ObjCCommunicationTokenCredentialTests.h"
 
+NSString *const credentialCancelledError = @"An instance of CommunicationTokenCredential cannot be reused once it has been canceled.";
+
 @implementation ObjCCommunicationTokenCredentialTests
 
 - (void)setUp {

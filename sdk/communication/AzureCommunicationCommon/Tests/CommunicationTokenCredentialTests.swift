@@ -35,6 +35,8 @@ enum FetchTokenError: Error {
 }
 
 class CommunicationTokenCredentialTests: XCTestCase {
+    let credentialCancelledError =
+        "An instance of CommunicationTokenCredential cannot be reused once it has been canceled."
     let sampleToken =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjMyNTAzNjgwMDAwfQ.9i7FNNHHJT8cOzo-yrAUJyBSfJ-tPPk2emcHavOEpWc"
     let sampleTokenExpiry: Double = 32_503_680_000

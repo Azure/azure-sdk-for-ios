@@ -53,4 +53,9 @@ internal class StaticTokenCredential: CommunicationTokenCredentialProviding {
     public func token(completionHandler: CommunicationTokenCompletionHandler) {
         completionHandler(accessToken, nil)
     }
+
+    /**
+     Intentionally empty as it does not have any internal auto-refresh operation.
+     */
+    public func cancel() {}
 }
