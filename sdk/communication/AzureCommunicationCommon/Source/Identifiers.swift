@@ -51,90 +51,81 @@ import Foundation
     var kind: IdentifierKind { get }
 }
 
+internal enum Prefix {
+    public static let PhoneNumber = "4:"
+    public static let Bot = "28"
+    public static let BotPublicCloud = "28:orgid:"
+    public static let BotDodCloud = "28:dod:"
+    public static let BotDodCloudGlobal = "28:dod-global:"
+    public static let BotGcchCloud = "28:gcch:"
+    public static let BotGcchCloudGlobal = "28:gcch-global:"
+    public static let TeamUserAnonymous = "8:teamsvisitor:"
+    public static let TeamUserPublicCloud = "8:orgid:"
+    public static let TeamUserDodCloud = "8:dod:"
+    public static let TeamUserGcchCloud = "8:gcch:"
+    public static let AcsUser = "8:acs:"
+    public static let AcsUserDodCloud = "8:dod-acs:"
+    public static let AcsUserGcchCloud = "8:gcch-acs:"
+    public static let SpoolUser = "8:spool:"
+}
+
 /**
  Creates a CommunicationIdentifierKind from a given rawId. When storing rawIds use this function to restore the identifier that was encoded in the rawId.
  - Parameter fromRawId: Id of the Microsoft Teams user. If the user isn't anonymous,The rawId to be translated to its identifier representation.
  */
 public func createCommunicationIdentifier(fromRawId rawId: String) -> CommunicationIdentifier {
-    let phoneNumberPrefix = "4:"
-    let teamUserAnonymousPrefix = "8:teamsvisitor:"
-    let teamUserPublicCloudPrefix = "8:orgid:"
-    let teamUserDODCloudPrefix = "8:dod:"
-    let teamUserGCCHCloudPrefix = "8:gcch:"
-    let acsUser = "8:acs:"
-    let spoolUser = "8:spool:"
-    let dodAcsUser = "8:dod-acs:"
-    let gcchAcsUser = "8:gcch-acs:"
-    let botGcchGlobal = "28:gcch-global:"
-    let botPublic = "28:orgid:"
-    let botDodGlobal = "28:dod-global:"
-    let botGcch = "28:gcch:"
-    let botDod = "28:dod:"
-    if rawId.hasPrefix(phoneNumberPrefix) {
-        return PhoneNumberIdentifier(phoneNumber: String(rawId.dropFirst(phoneNumberPrefix.count)), rawId: rawId)
+    if rawId.hasPrefix(Prefix.PhoneNumber) {
+        return PhoneNumberIdentifier(phoneNumber: String(rawId.dropFirst(Prefix.PhoneNumber.count)), rawId: rawId)
     }
     let segments = rawId.split(separator: ":")
-    if segments.count == 2, segments[0] == "28" {
-        return buildMicrosoftBotIdentifier(microsoftBotId: String(segments[1]), cloud: "global", rawId: rawId)
+    if segments.count == 2, segments[0] == Prefix.Bot {
+        return createBotIdentifier(microsoftBotId: String(segments[1]), cloud: "global", rawId: rawId)
     }
     if segments.count < 3 {
         return UnknownIdentifier(rawId)
     }
     let scope = segments[0] + ":" + segments[1] + ":"
-    let suffix = String(rawId.dropFirst(scope.count))
     switch scope {
-    case teamUserAnonymousPrefix:
-        return MicrosoftTeamsUserIdentifier(userId: suffix, isAnonymous: true)
-    case teamUserPublicCloudPrefix:
+    case Prefix.TeamUserAnonymous,
+         Prefix.TeamUserPublicCloud,
+         Prefix.TeamUserDodCloud,
+         Prefix.TeamUserGcchCloud:
         return MicrosoftTeamsUserIdentifier(
-            userId: suffix,
-            isAnonymous: false,
+            userId: String(segments[2]),
+            isAnonymous: scope == Prefix.TeamUserAnonymous,
             rawId: rawId,
-            cloudEnvironment: .Public
+            cloudEnvironment: CommunicationCloudEnvironment.create(fromCloudValue: String(segments[1]))
         )
-    case teamUserDODCloudPrefix:
-        return MicrosoftTeamsUserIdentifier(
-            userId: suffix,
-            isAnonymous: false,
-            rawId: rawId,
-            cloudEnvironment: .Dod
+    case Prefix.BotPublicCloud,
+         Prefix.BotDodCloud,
+         Prefix.BotDodCloudGlobal,
+         Prefix.BotGcchCloud,
+         Prefix.BotGcchCloudGlobal:
+        return createBotIdentifier(
+            microsoftBotId: String(segments[2]),
+            cloud: String(segments[1]),
+            rawId: rawId
         )
-    case teamUserGCCHCloudPrefix:
-        return MicrosoftTeamsUserIdentifier(
-            userId: suffix,
-            isAnonymous: false,
-            rawId: rawId,
-            cloudEnvironment: .Gcch
-        )
-    case botPublic, botDod, botDodGlobal, botGcch, botGcchGlobal:
-        return buildMicrosoftBotIdentifier(microsoftBotId: suffix, cloud: String(segments[1]), rawId: rawId)
-    case acsUser, spoolUser, dodAcsUser, gcchAcsUser:
+    case Prefix.AcsUser,
+         Prefix.SpoolUser,
+         Prefix.AcsUserDodCloud,
+         Prefix.AcsUserGcchCloud:
         return CommunicationUserIdentifier(rawId)
     default:
         return UnknownIdentifier(rawId)
     }
 }
 
-private func buildMicrosoftBotIdentifier(
+private func createBotIdentifier(
     microsoftBotId: String,
     cloud: String,
     rawId: String
-) -> CommunicationIdentifier {
-    let cloudEnvironment: CommunicationCloudEnvironment
-
-    switch cloud {
-    case "gcch-global", "gcch":
-        cloudEnvironment = CommunicationCloudEnvironment.Gcch
-    case "dod-global", "dod":
-        cloudEnvironment = CommunicationCloudEnvironment.Dod
-    default:
-        cloudEnvironment = CommunicationCloudEnvironment.Public
-    }
+) -> MicrosoftBotIdentifier {
     return MicrosoftBotIdentifier(
         microsoftBotId: microsoftBotId,
         isGlobal: cloud.contains("global"),
         rawId: rawId,
-        cloudEnvironment: cloudEnvironment
+        cloudEnvironment: CommunicationCloudEnvironment.create(fromCloudValue: cloud)
     )
 }
 
@@ -253,15 +244,15 @@ private func buildMicrosoftBotIdentifier(
             self.rawId = rawId
         } else {
             if isAnonymous {
-                self.rawId = "8:teamsvisitor:" + userId
+                self.rawId = Prefix.TeamUserAnonymous + userId
             } else {
                 switch cloudEnvironment {
                 case .Dod:
-                    self.rawId = "8:dod:" + userId
+                    self.rawId = Prefix.TeamUserDodCloud + userId
                 case .Gcch:
-                    self.rawId = "8:gcch:" + userId
+                    self.rawId = Prefix.TeamUserGcchCloud + userId
                 default:
-                    self.rawId = "8:orgid:" + userId
+                    self.rawId = Prefix.TeamUserPublicCloud + userId
                 }
             }
         }
@@ -337,20 +328,20 @@ private func buildMicrosoftBotIdentifier(
             if isGlobal {
                 switch cloudEnvironment {
                 case .Dod:
-                    self.rawId = "28:dod-global:" + microsoftBotId
+                    self.rawId = Prefix.BotDodCloudGlobal + microsoftBotId
                 case .Gcch:
-                    self.rawId = "28:gcch-global:" + microsoftBotId
+                    self.rawId = Prefix.BotGcchCloudGlobal + microsoftBotId
                 default:
-                    self.rawId = "28:" + microsoftBotId
+                    self.rawId = "\(Prefix.Bot):\(microsoftBotId)"
                 }
             } else {
                 switch cloudEnvironment {
                 case .Dod:
-                    self.rawId = "28:dod:" + microsoftBotId
+                    self.rawId = Prefix.BotDodCloud + microsoftBotId
                 case .Gcch:
-                    self.rawId = "28:gcch:" + microsoftBotId
+                    self.rawId = Prefix.BotGcchCloud + microsoftBotId
                 default:
-                    self.rawId = "28:orgid:" + microsoftBotId
+                    self.rawId = Prefix.BotPublicCloud + microsoftBotId
                 }
             }
         }

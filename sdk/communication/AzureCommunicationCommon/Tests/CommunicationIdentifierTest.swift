@@ -102,25 +102,25 @@ class CommunicationIdentifierTest: XCTestCase {
     }
 
     func test_MicrosoftBotIdentifier_IfRawIdIsNull_RawIdIsGeneratedProperly() {
-        let expectedRawIdGlobal = "28:" + testUserId
+        let expectedRawIdGlobal = "\(Prefix.Bot):\(testUserId)"
         var botIdentifier = MicrosoftBotIdentifier(
             microsoftBotId: testUserId,
             isGlobal: true
         )
         XCTAssertEqual(botIdentifier.rawId, expectedRawIdGlobal)
 
-        let expectedRawId = "28:orgid:" + testUserId
+        let expectedRawId = Prefix.BotPublicCloud + testUserId
         botIdentifier = MicrosoftBotIdentifier(microsoftBotId: testUserId)
         XCTAssertEqual(botIdentifier.rawId, expectedRawId)
 
-        let expectedRawIdAndCloudDod = "28:dod:" + testUserId
+        let expectedRawIdAndCloudDod = Prefix.BotDodCloud + testUserId
         botIdentifier = MicrosoftBotIdentifier(
             microsoftBotId: testUserId,
             cloudEnvironment: .Dod
         )
         XCTAssertEqual(botIdentifier.rawId, expectedRawIdAndCloudDod)
 
-        let expectedRawIdAndCloudDodGlobal = "28:dod-global:" + testUserId
+        let expectedRawIdAndCloudDodGlobal = Prefix.BotDodCloudGlobal + testUserId
         botIdentifier = MicrosoftBotIdentifier(
             microsoftBotId: testUserId,
             isGlobal: true,
@@ -128,14 +128,14 @@ class CommunicationIdentifierTest: XCTestCase {
         )
         XCTAssertEqual(botIdentifier.rawId, expectedRawIdAndCloudDodGlobal)
 
-        let expectedRawIdAndCloudGcch = "28:gcch:" + testUserId
+        let expectedRawIdAndCloudGcch = Prefix.BotGcchCloud + testUserId
         botIdentifier = MicrosoftBotIdentifier(
             microsoftBotId: testUserId,
             cloudEnvironment: .Gcch
         )
         XCTAssertEqual(botIdentifier.rawId, expectedRawIdAndCloudGcch)
 
-        let expectedRawIdAndCloudGcchGlobal = "28:gcch-global:" + testUserId
+        let expectedRawIdAndCloudGcchGlobal = Prefix.BotGcchCloudGlobal + testUserId
         botIdentifier = MicrosoftBotIdentifier(
             microsoftBotId: testUserId,
             isGlobal: true,
