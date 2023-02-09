@@ -78,10 +78,10 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
         return PhoneNumberIdentifier(phoneNumber: String(rawId.dropFirst(Prefix.PhoneNumber.count)), rawId: rawId)
     }
     let segments = rawId.split(separator: ":")
-    if segments.count == 2, segments[0] == Prefix.Bot {
-        return createBotIdentifier(microsoftBotId: String(segments[1]), cloud: "global", rawId: rawId)
-    }
     if segments.count < 3 {
+        if segments.count == 2, segments[0] == Prefix.Bot {
+            return createBotIdentifier(microsoftBotId: String(segments[1]), cloud: "global", rawId: rawId)
+        }
         return UnknownIdentifier(rawId)
     }
     let scope = segments[0] + ":" + segments[1] + ":"

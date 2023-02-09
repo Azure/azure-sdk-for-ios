@@ -114,8 +114,8 @@ public class PushNotificationChatMessageReceivedEvent: PushNotificationChatMessa
             messageId: pushNotificationMessageReceivedPayload.messageId,
             type: ChatMessageType(pushNotificationMessageReceivedPayload.messageType),
             threadId: pushNotificationMessageReceivedPayload.groupId,
-            sender: getIdentifier(from: pushNotificationMessageReceivedPayload.senderId),
-            recipient: getIdentifier(from: pushNotificationMessageReceivedPayload.recipientId),
+            sender: createCommunicationIdentifier(fromRawId: pushNotificationMessageReceivedPayload.senderId),
+            recipient: createCommunicationIdentifier(fromRawId: pushNotificationMessageReceivedPayload.recipientId),
             senderDisplayName: pushNotificationMessageReceivedPayload.senderDisplayName,
             originalArrivalTime: Iso8601Date(string: pushNotificationMessageReceivedPayload.originalArrivalTime),
             version: pushNotificationMessageReceivedPayload.version
