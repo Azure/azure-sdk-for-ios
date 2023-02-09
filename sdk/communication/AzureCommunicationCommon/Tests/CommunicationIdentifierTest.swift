@@ -57,25 +57,25 @@ class CommunicationIdentifierTest: XCTestCase {
     }
 
     func test_MicrosoftTeamsUserIdentifier_IfRawIdIsNull_RawIdIsGeneratedProperly_AnonymousUserIsFalse() {
-        let expectedRawId = "8:orgid:User Id"
+        let expectedRawId = Prefix.TeamUserPublicCloud + "User Id"
         var teamsUserIdentifier = MicrosoftTeamsUserIdentifier(userId: testUserId)
         XCTAssertEqual(teamsUserIdentifier.rawId, expectedRawId)
 
-        let expectedRawIdAndCloudDod = "8:dod:User Id"
+        let expectedRawIdAndCloudDod = Prefix.TeamUserDodCloud + "User Id"
         teamsUserIdentifier = MicrosoftTeamsUserIdentifier(
             userId: testUserId,
             cloudEnvironment: .Dod
         )
         XCTAssertEqual(teamsUserIdentifier.rawId, expectedRawIdAndCloudDod)
 
-        let expectedRawIdAndCloudGcch = "8:gcch:User Id"
+        let expectedRawIdAndCloudGcch = Prefix.TeamUserGcchCloud + "User Id"
         teamsUserIdentifier = MicrosoftTeamsUserIdentifier(
             userId: testUserId,
             cloudEnvironment: .Gcch
         )
         XCTAssertEqual(teamsUserIdentifier.rawId, expectedRawIdAndCloudGcch)
 
-        let expectedRawIdAndCloudPublic = "8:orgid:User Id"
+        let expectedRawIdAndCloudPublic = Prefix.TeamUserPublicCloud + "User Id"
         teamsUserIdentifier = MicrosoftTeamsUserIdentifier(
             userId: testUserId,
             cloudEnvironment: .Public
@@ -84,7 +84,7 @@ class CommunicationIdentifierTest: XCTestCase {
     }
 
     func test_MicrosoftTeamsUserIdentifier_IfRawIdIsNull_RawIdIsGeneratedProperly_AnonymousUserIsTrue() {
-        let expectedRawId = "8:teamsvisitor:User Id"
+        let expectedRawId = Prefix.TeamUserAnonymous + "User Id"
         let teamsUserIdentifier = MicrosoftTeamsUserIdentifier(userId: testUserId, isAnonymous: true)
         XCTAssertEqual(teamsUserIdentifier.rawId, expectedRawId)
     }
