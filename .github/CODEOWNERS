@@ -2,6 +2,14 @@
 # https://github.com/Azure/azure-sdk/blob/main/docs/policies/opensource.md#codeowners
 
 ################
+# Orphaned paths
+################
+# As of 2/9/2023 these paths have no owners:
+
+# /**
+# /AzureSDK.xcworkspace/
+
+################
 # Automation
 ################
 
@@ -39,4 +47,3 @@
 # Eng Sys
 ###########
 /eng/                                               @benbp @weshaggard
-/**/ci.yml                                          @benbp
