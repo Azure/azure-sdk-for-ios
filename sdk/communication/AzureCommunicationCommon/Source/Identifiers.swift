@@ -53,7 +53,7 @@ import Foundation
 
 internal enum Prefix {
     public static let PhoneNumber = "4:"
-    public static let Bot = "28"
+    public static let Bot = "28:"
     public static let BotPublicCloud = "28:orgid:"
     public static let BotDodCloud = "28:dod:"
     public static let BotDodCloudGlobal = "28:dod-global:"
@@ -79,19 +79,20 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
     }
     let segments = rawId.split(separator: ":")
     if segments.count < 3 {
-        if segments.count == 2, segments[0] == Prefix.Bot {
+        if segments.count == 2, rawId.hasPrefix(Prefix.Bot) {
             return createBotIdentifier(microsoftBotId: String(segments[1]), cloud: "global", rawId: rawId)
         }
         return UnknownIdentifier(rawId)
     }
     let scope = segments[0] + ":" + segments[1] + ":"
+    let suffix = String(segments[2])
     switch scope {
     case Prefix.TeamUserAnonymous,
          Prefix.TeamUserPublicCloud,
          Prefix.TeamUserDodCloud,
          Prefix.TeamUserGcchCloud:
         return MicrosoftTeamsUserIdentifier(
-            userId: String(segments[2]),
+            userId: suffix,
             isAnonymous: scope == Prefix.TeamUserAnonymous,
             rawId: rawId,
             cloudEnvironment: CommunicationCloudEnvironment.create(fromCloudValue: String(segments[1]))
@@ -101,11 +102,7 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
          Prefix.BotDodCloudGlobal,
          Prefix.BotGcchCloud,
          Prefix.BotGcchCloudGlobal:
-        return createBotIdentifier(
-            microsoftBotId: String(segments[2]),
-            cloud: String(segments[1]),
-            rawId: rawId
-        )
+        return createBotIdentifier(microsoftBotId: suffix, cloud: String(segments[1]), rawId: rawId)
     case Prefix.AcsUser,
          Prefix.SpoolUser,
          Prefix.AcsUserDodCloud,
@@ -332,7 +329,7 @@ private func createBotIdentifier(
                 case .Gcch:
                     self.rawId = Prefix.BotGcchCloudGlobal + microsoftBotId
                 default:
-                    self.rawId = "\(Prefix.Bot):\(microsoftBotId)"
+                    self.rawId = Prefix.Bot + microsoftBotId
                 }
             } else {
                 switch cloudEnvironment {

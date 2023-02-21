@@ -214,7 +214,7 @@ class CreateCommunicationIdentifier: XCTestCase {
 
     func test_createMicrosoftBotIdentifierGlobal() {
         let testCases = [
-            (CommunicationCloudEnvironment.Public, Prefix.Bot + ":" + rawIdSuffix),
+            (CommunicationCloudEnvironment.Public, Prefix.Bot + rawIdSuffix),
             (CommunicationCloudEnvironment.Dod, Prefix.BotDodCloudGlobal + rawIdSuffix),
             (CommunicationCloudEnvironment.Gcch, Prefix.BotGcchCloudGlobal + rawIdSuffix)
         ]

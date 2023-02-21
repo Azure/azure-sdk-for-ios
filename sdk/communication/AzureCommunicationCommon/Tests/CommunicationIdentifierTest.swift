@@ -102,7 +102,7 @@ class CommunicationIdentifierTest: XCTestCase {
     }
 
     func test_MicrosoftBotIdentifier_IfRawIdIsNull_RawIdIsGeneratedProperly() {
-        let expectedRawIdGlobal = "\(Prefix.Bot):\(testUserId)"
+        let expectedRawIdGlobal = Prefix.Bot + testUserId
         var botIdentifier = MicrosoftBotIdentifier(
             microsoftBotId: testUserId,
             isGlobal: true
