@@ -203,7 +203,7 @@ class CreateCommunicationIdentifier: XCTestCase {
             case .microsoftBot:
                 guard let identifier = identifier as? MicrosoftBotIdentifier else { return }
                 XCTAssertEqual(identifier.rawId, rawId)
-                XCTAssertEqual(identifier.microsoftBotId, rawIdSuffix)
+                XCTAssertEqual(identifier.botId, rawIdSuffix)
                 XCTAssertEqual(identifier.isGlobal, false)
                 XCTAssertEqual(identifier.cloudEnviroment, cloud)
             default:
@@ -226,7 +226,7 @@ class CreateCommunicationIdentifier: XCTestCase {
             case .microsoftBot:
                 guard let identifier = identifier as? MicrosoftBotIdentifier else { return }
                 XCTAssertEqual(identifier.rawId, rawId)
-                XCTAssertEqual(identifier.microsoftBotId, rawIdSuffix)
+                XCTAssertEqual(identifier.botId, rawIdSuffix)
                 XCTAssertEqual(identifier.isGlobal, true)
                 XCTAssertEqual(identifier.cloudEnviroment, cloud)
             default:

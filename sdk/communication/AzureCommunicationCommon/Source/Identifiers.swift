@@ -119,7 +119,7 @@ private func createBotIdentifier(
     rawId: String
 ) -> MicrosoftBotIdentifier {
     return MicrosoftBotIdentifier(
-        microsoftBotId: microsoftBotId,
+        botId: microsoftBotId,
         isGlobal: cloud.contains("global"),
         rawId: rawId,
         cloudEnvironment: CommunicationCloudEnvironment.create(fromCloudValue: cloud)
@@ -295,7 +295,7 @@ private func createBotIdentifier(
  Communication identifier for Microsoft bots.
  */
 @objcMembers public class MicrosoftBotIdentifier: NSObject, CommunicationIdentifier {
-    public let microsoftBotId: String
+    public let botId: String
     public let isGlobal: Bool
     public let cloudEnviroment: CommunicationCloudEnvironment
     public private(set) var rawId: String
@@ -303,19 +303,19 @@ private func createBotIdentifier(
 
     /**
      Creates a MicrosoftBotIdentifier object
-     - Parameter microsoftBotId: The unique Microsoft app ID for the bot as registered with the Bot Framework.
+     - Parameter botId: The unique Microsoft app ID for the bot as registered with the Bot Framework.
      - Parameter isGlobal: Set this to true if the bot is global and false (or missing) if the bot is tenantized.
      - Parameter rawId: The optional raw id of the Microsoft Bot identifier.
      - Parameter cloudEnvironment: The cloud that the Microsoft Bot belongs to.
                                     A null value translates to the Public cloud.
      */
     public init(
-        microsoftBotId: String,
+        botId: String,
         isGlobal: Bool = false,
         rawId: String? = nil,
         cloudEnvironment: CommunicationCloudEnvironment = .Public
     ) {
-        self.microsoftBotId = microsoftBotId
+        self.botId = botId
         self.isGlobal = isGlobal
         self.cloudEnviroment = cloudEnvironment
 
@@ -325,20 +325,20 @@ private func createBotIdentifier(
             if isGlobal {
                 switch cloudEnvironment {
                 case .Dod:
-                    self.rawId = Prefix.BotDodCloudGlobal + microsoftBotId
+                    self.rawId = Prefix.BotDodCloudGlobal + botId
                 case .Gcch:
-                    self.rawId = Prefix.BotGcchCloudGlobal + microsoftBotId
+                    self.rawId = Prefix.BotGcchCloudGlobal + botId
                 default:
-                    self.rawId = Prefix.Bot + microsoftBotId
+                    self.rawId = Prefix.Bot + botId
                 }
             } else {
                 switch cloudEnvironment {
                 case .Dod:
-                    self.rawId = Prefix.BotDodCloud + microsoftBotId
+                    self.rawId = Prefix.BotDodCloud + botId
                 case .Gcch:
-                    self.rawId = Prefix.BotGcchCloud + microsoftBotId
+                    self.rawId = Prefix.BotGcchCloud + botId
                 default:
-                    self.rawId = Prefix.BotPublicCloud + microsoftBotId
+                    self.rawId = Prefix.BotPublicCloud + botId
                 }
             }
         }

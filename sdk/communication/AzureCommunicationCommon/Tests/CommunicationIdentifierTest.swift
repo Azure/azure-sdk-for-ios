@@ -104,25 +104,25 @@ class CommunicationIdentifierTest: XCTestCase {
     func test_MicrosoftBotIdentifier_IfRawIdIsNull_RawIdIsGeneratedProperly() {
         let expectedRawIdGlobal = Prefix.Bot + testUserId
         var botIdentifier = MicrosoftBotIdentifier(
-            microsoftBotId: testUserId,
+            botId: testUserId,
             isGlobal: true
         )
         XCTAssertEqual(botIdentifier.rawId, expectedRawIdGlobal)
 
         let expectedRawId = Prefix.BotPublicCloud + testUserId
-        botIdentifier = MicrosoftBotIdentifier(microsoftBotId: testUserId)
+        botIdentifier = MicrosoftBotIdentifier(botId: testUserId)
         XCTAssertEqual(botIdentifier.rawId, expectedRawId)
 
         let expectedRawIdAndCloudDod = Prefix.BotDodCloud + testUserId
         botIdentifier = MicrosoftBotIdentifier(
-            microsoftBotId: testUserId,
+            botId: testUserId,
             cloudEnvironment: .Dod
         )
         XCTAssertEqual(botIdentifier.rawId, expectedRawIdAndCloudDod)
 
         let expectedRawIdAndCloudDodGlobal = Prefix.BotDodCloudGlobal + testUserId
         botIdentifier = MicrosoftBotIdentifier(
-            microsoftBotId: testUserId,
+            botId: testUserId,
             isGlobal: true,
             cloudEnvironment: .Dod
         )
@@ -130,14 +130,14 @@ class CommunicationIdentifierTest: XCTestCase {
 
         let expectedRawIdAndCloudGcch = Prefix.BotGcchCloud + testUserId
         botIdentifier = MicrosoftBotIdentifier(
-            microsoftBotId: testUserId,
+            botId: testUserId,
             cloudEnvironment: .Gcch
         )
         XCTAssertEqual(botIdentifier.rawId, expectedRawIdAndCloudGcch)
 
         let expectedRawIdAndCloudGcchGlobal = Prefix.BotGcchCloudGlobal + testUserId
         botIdentifier = MicrosoftBotIdentifier(
-            microsoftBotId: testUserId,
+            botId: testUserId,
             isGlobal: true,
             cloudEnvironment: .Gcch
         )
@@ -149,7 +149,7 @@ class CommunicationIdentifierTest: XCTestCase {
         XCTAssertEqual(
             CommunicationCloudEnvironment.Public,
             MicrosoftBotIdentifier(
-                microsoftBotId: testUserId,
+                botId: testUserId,
                 isGlobal: true,
                 rawId: testRawId
             ).cloudEnviroment
@@ -160,7 +160,7 @@ class CommunicationIdentifierTest: XCTestCase {
     func test_MicrosoftBotIdentifier_DefaultGlobalIsFalse() throws {
         XCTAssertFalse(
             MicrosoftBotIdentifier(
-                microsoftBotId: testUserId,
+                botId: testUserId,
                 rawId: testRawId
             ).isGlobal
         )
@@ -250,35 +250,35 @@ class CommunicationIdentifierTest: XCTestCase {
         )
         XCTAssertFalse(
             MicrosoftBotIdentifier(
-                microsoftBotId: testUserId,
+                botId: testUserId,
                 isGlobal: true,
                 rawId: testRawId
             ) ==
                 MicrosoftBotIdentifier(
-                    microsoftBotId: testUserId,
+                    botId: testUserId,
                     isGlobal: true
                 )
         )
         XCTAssertFalse(
             MicrosoftBotIdentifier(
-                microsoftBotId: testUserId,
+                botId: testUserId,
                 isGlobal: true
             ) ==
                 MicrosoftBotIdentifier(
-                    microsoftBotId: testUserId,
+                    botId: testUserId,
                     isGlobal: true,
                     rawId: testRawId
                 )
         )
         var botIdentifier = MicrosoftBotIdentifier(
-            microsoftBotId: testUserId,
+            botId: testUserId,
             isGlobal: true,
             rawId: "some id"
         )
         XCTAssertFalse(
             botIdentifier ==
                 MicrosoftBotIdentifier(
-                    microsoftBotId: testUserId,
+                    botId: testUserId,
                     isGlobal: true,
                     rawId: testRawId
                 )
@@ -287,7 +287,7 @@ class CommunicationIdentifierTest: XCTestCase {
         XCTAssertFalse(
             botIdentifier.isEqual(
                 MicrosoftBotIdentifier(
-                    microsoftBotId: testUserId,
+                    botId: testUserId,
                     isGlobal: true,
                     rawId: testRawId
                 )
