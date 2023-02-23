@@ -63,6 +63,31 @@ class CreateCommunicationIdentifier: XCTestCase {
         }
     }
 
+    func test_createUnkownUdentifier_withInvalidMRI() {
+        let testCases = [
+            "\(Prefix.Bot)\(rawIdSuffix):newformat",
+            "\(Prefix.BotPublicCloud)\(rawIdSuffix):newFormat:with more segments",
+            "\(Prefix.BotGcchCloudGlobal):abc-global:\(rawIdSuffix)",
+            "\(Prefix.BotDodCloudGlobal):abc-global:\(rawIdSuffix)",
+            "\(Prefix.AcsUser)abc:def:1234",
+            "\(Prefix.AcsUserDodCloud)1:2:3:4:5:6:7:8:9",
+            "\(Prefix.AcsUserGcchCloud)1:2:3",
+            "\(Prefix.SpoolUser): other format: :123: 90",
+            "\(Prefix.TeamUserPublicCloud): other format: :123: 90"
+        ]
+
+        testCases.forEach { rawId in
+            let identifier = createCommunicationIdentifier(fromRawId: rawId)
+            switch identifier.kind {
+            case .unknown:
+                guard let identifier = identifier as? UnknownIdentifier else { return }
+                XCTAssertEqual(identifier.rawId, rawId)
+            default:
+                XCTFail("test_createUnknownIdentifier created the wrong type")
+            }
+        }
+    }
+
     func test_createPhoneNumberIdentifier() {
         let phoneNumberRawId = "\(Prefix.PhoneNumber)12345556789"
         let identifier = createCommunicationIdentifier(fromRawId: phoneNumberRawId)

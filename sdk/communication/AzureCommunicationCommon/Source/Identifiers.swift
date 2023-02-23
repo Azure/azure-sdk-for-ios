@@ -78,31 +78,44 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
         return PhoneNumberIdentifier(phoneNumber: String(rawId.dropFirst(Prefix.PhoneNumber.count)), rawId: rawId)
     }
     let segments = rawId.split(separator: ":")
-    if segments.count < 3 {
-        if segments.count == 2, rawId.hasPrefix(Prefix.Bot) {
-            return createBotIdentifier(microsoftBotId: String(segments[1]), cloud: "global", rawId: rawId)
+    let segmentCounts = segments.count
+    if segmentCounts != 3 {
+        if segmentCounts == 2, rawId.hasPrefix(Prefix.Bot) {
+            return MicrosoftBotIdentifier(botId: String(segments[1]), isGlobal: true, rawId: rawId)
         }
         return UnknownIdentifier(rawId)
     }
     let scope = segments[0] + ":" + segments[1] + ":"
     let suffix = String(segments[2])
     switch scope {
-    case Prefix.TeamUserAnonymous,
-         Prefix.TeamUserPublicCloud,
-         Prefix.TeamUserDodCloud,
-         Prefix.TeamUserGcchCloud:
+    case Prefix.TeamUserAnonymous:
+        return MicrosoftTeamsUserIdentifier(userId: suffix, isAnonymous: true)
+    case Prefix.TeamUserPublicCloud:
+        return MicrosoftTeamsUserIdentifier(userId: suffix, isAnonymous: false, rawId: rawId, cloudEnvironment: .Public)
+    case Prefix.TeamUserDodCloud:
         return MicrosoftTeamsUserIdentifier(
             userId: suffix,
-            isAnonymous: scope == Prefix.TeamUserAnonymous,
+            isAnonymous: false,
             rawId: rawId,
-            cloudEnvironment: CommunicationCloudEnvironment.create(fromCloudValue: String(segments[1]))
+            cloudEnvironment: .Dod
         )
-    case Prefix.BotPublicCloud,
-         Prefix.BotDodCloud,
-         Prefix.BotDodCloudGlobal,
-         Prefix.BotGcchCloud,
-         Prefix.BotGcchCloudGlobal:
-        return createBotIdentifier(microsoftBotId: suffix, cloud: String(segments[1]), rawId: rawId)
+    case Prefix.TeamUserGcchCloud:
+        return MicrosoftTeamsUserIdentifier(
+            userId: suffix,
+            isAnonymous: false,
+            rawId: rawId,
+            cloudEnvironment: .Gcch
+        )
+    case Prefix.BotPublicCloud:
+        return MicrosoftBotIdentifier(botId: suffix, isGlobal: false, rawId: rawId)
+    case Prefix.BotDodCloud:
+        return MicrosoftBotIdentifier(botId: suffix, isGlobal: false, rawId: rawId, cloudEnvironment: .Dod)
+    case Prefix.BotDodCloudGlobal:
+        return MicrosoftBotIdentifier(botId: suffix, isGlobal: true, rawId: rawId, cloudEnvironment: .Dod)
+    case Prefix.BotGcchCloud:
+        return MicrosoftBotIdentifier(botId: suffix, isGlobal: false, rawId: rawId, cloudEnvironment: .Gcch)
+    case Prefix.BotGcchCloudGlobal:
+        return MicrosoftBotIdentifier(botId: suffix, isGlobal: true, rawId: rawId, cloudEnvironment: .Gcch)
     case Prefix.AcsUser,
          Prefix.SpoolUser,
          Prefix.AcsUserDodCloud,
@@ -111,19 +124,6 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
     default:
         return UnknownIdentifier(rawId)
     }
-}
-
-private func createBotIdentifier(
-    microsoftBotId: String,
-    cloud: String,
-    rawId: String
-) -> MicrosoftBotIdentifier {
-    return MicrosoftBotIdentifier(
-        botId: microsoftBotId,
-        isGlobal: cloud.contains("global"),
-        rawId: rawId,
-        cloudEnvironment: CommunicationCloudEnvironment.create(fromCloudValue: cloud)
-    )
 }
 
 /**

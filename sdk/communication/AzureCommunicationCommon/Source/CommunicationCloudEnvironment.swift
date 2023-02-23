@@ -48,15 +48,4 @@ import Foundation
             return false
         }
     }
-
-    internal static func create(fromCloudValue: String) -> CommunicationCloudEnvironment {
-        switch fromCloudValue {
-        case Gcch.environmentValue, "gcch-global":
-            return CommunicationCloudEnvironment.Gcch
-        case Dod.environmentValue, "dod-global":
-            return CommunicationCloudEnvironment.Dod
-        default:
-            return CommunicationCloudEnvironment.Public
-        }
-    }
 }
