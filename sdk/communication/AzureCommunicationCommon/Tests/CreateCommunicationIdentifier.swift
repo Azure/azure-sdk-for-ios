@@ -65,15 +65,15 @@ class CreateCommunicationIdentifier: XCTestCase {
 
     func test_createUnkownUdentifier_withInvalidMRI() {
         let testCases = [
-            "\(Prefix.Bot)\(rawIdSuffix):newformat",
-            "\(Prefix.BotPublicCloud)\(rawIdSuffix):newFormat:with more segments",
-            "\(Prefix.BotGcchCloudGlobal):abc-global:\(rawIdSuffix)",
-            "\(Prefix.BotDodCloudGlobal):abc-global:\(rawIdSuffix)",
-            "\(Prefix.AcsUser)abc:def:1234",
-            "\(Prefix.AcsUserDodCloud)1:2:3:4:5:6:7:8:9",
-            "\(Prefix.AcsUserGcchCloud)1:2:3",
-            "\(Prefix.SpoolUser): other format: :123: 90",
-            "\(Prefix.TeamUserPublicCloud): other format: :123: 90"
+            "28:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14:newformat",
+            "28:orgid:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14:newFormat:with more segments",
+            "28:orgid:abc-global:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14",
+            "28:dod-global:abc-global:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14",
+            "8:acs:abc:def:1234",
+            "8:dod-acs:1:2:3:4:5:6:7:8:9",
+            "8:gcch-acs:1:2:3",
+            "8:spool: other format: :123: 90",
+            "8:orgid: other format: :123: 90"
         ]
 
         testCases.forEach { rawId in
@@ -89,7 +89,7 @@ class CreateCommunicationIdentifier: XCTestCase {
     }
 
     func test_createPhoneNumberIdentifier() {
-        let phoneNumberRawId = "\(Prefix.PhoneNumber)12345556789"
+        let phoneNumberRawId = "4:12345556789"
         let identifier = createCommunicationIdentifier(fromRawId: phoneNumberRawId)
 
         switch identifier.kind {
@@ -103,7 +103,7 @@ class CreateCommunicationIdentifier: XCTestCase {
     }
 
     func test_createCommunicationUserIdentifier_usingACS() {
-        let acsRawId = Prefix.AcsUser + rawIdSuffix
+        let acsRawId = "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
         let identifier = createCommunicationIdentifier(fromRawId: acsRawId)
         switch identifier.kind {
         case .communicationUser:
@@ -116,7 +116,7 @@ class CreateCommunicationIdentifier: XCTestCase {
     }
 
     func test_createCommunicationUserIdentifier_usingSpool() {
-        let spoolRawId = Prefix.SpoolUser + rawIdSuffix
+        let spoolRawId = "8:spool:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
         let identifier = createCommunicationIdentifier(fromRawId: spoolRawId)
         switch identifier.kind {
         case .communicationUser:
@@ -129,7 +129,7 @@ class CreateCommunicationIdentifier: XCTestCase {
     }
 
     func test_createCommunicationUserIdentifier_usingDoDACS() {
-        let dodAcsRawId = Prefix.AcsUserDodCloud + rawIdSuffix
+        let dodAcsRawId = "8:dod-acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
         let identifier = createCommunicationIdentifier(fromRawId: dodAcsRawId)
         switch identifier.kind {
         case .communicationUser:
@@ -142,7 +142,7 @@ class CreateCommunicationIdentifier: XCTestCase {
     }
 
     func test_createCommunicationUserIdentifier_usingGcchACS() {
-        let gcchAcsRawId = Prefix.AcsUserGcchCloud + rawIdSuffix
+        let gcchAcsRawId = "8:gcch-acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
         let identifier = createCommunicationIdentifier(fromRawId: gcchAcsRawId)
         switch identifier.kind {
         case .communicationUser:
@@ -155,7 +155,7 @@ class CreateCommunicationIdentifier: XCTestCase {
     }
 
     func test_createMicrosoftTeamsUserIdentifierAnonymousScope() {
-        let teamUserAnonymousScope = Prefix.TeamUserAnonymous + rawIdSuffix
+        let teamUserAnonymousScope = "8:teamsvisitor:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
         let identifier = createCommunicationIdentifier(fromRawId: teamUserAnonymousScope)
         switch identifier.kind {
         case .microsoftTeamsUser:
@@ -170,7 +170,7 @@ class CreateCommunicationIdentifier: XCTestCase {
     }
 
     func test_createMicrosoftTeamsUserIdentifierPublicScope() {
-        let teamUserPublicCloudScope = Prefix.TeamUserPublicCloud + rawIdSuffix
+        let teamUserPublicCloudScope = "8:orgid:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
         let identifier = createCommunicationIdentifier(fromRawId: teamUserPublicCloudScope)
         switch identifier.kind {
         case .microsoftTeamsUser:
@@ -185,7 +185,7 @@ class CreateCommunicationIdentifier: XCTestCase {
     }
 
     func test_createMicrosoftTeamsUserIdentifierDODScope() {
-        let teamUserDODCloudScope = Prefix.TeamUserDodCloud + rawIdSuffix
+        let teamUserDODCloudScope = "8:dod:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
         let identifier = createCommunicationIdentifier(fromRawId: teamUserDODCloudScope)
         switch identifier.kind {
         case .microsoftTeamsUser:
@@ -200,7 +200,7 @@ class CreateCommunicationIdentifier: XCTestCase {
     }
 
     func test_createMicrosoftTeamsUserIdentifierGCCHScope() {
-        let teamUserGCCHCloudScope = Prefix.TeamUserGcchCloud + rawIdSuffix
+        let teamUserGCCHCloudScope = "8:gcch:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
         let identifier = createCommunicationIdentifier(fromRawId: teamUserGCCHCloudScope)
         switch identifier.kind {
         case .microsoftTeamsUser:
@@ -216,9 +216,9 @@ class CreateCommunicationIdentifier: XCTestCase {
 
     func test_createMicrosoftBotIdentifier() {
         let testCases = [
-            (CommunicationCloudEnvironment.Public, Prefix.BotPublicCloud + rawIdSuffix),
-            (CommunicationCloudEnvironment.Dod, Prefix.BotDodCloud + rawIdSuffix),
-            (CommunicationCloudEnvironment.Gcch, Prefix.BotGcchCloud + rawIdSuffix)
+            (CommunicationCloudEnvironment.Public, "28:orgid:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"),
+            (CommunicationCloudEnvironment.Dod, "28:dod:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"),
+            (CommunicationCloudEnvironment.Gcch, "28:gcch:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14")
         ]
 
         testCases.forEach { cloud, rawId in
@@ -239,9 +239,9 @@ class CreateCommunicationIdentifier: XCTestCase {
 
     func test_createMicrosoftBotIdentifierGlobal() {
         let testCases = [
-            (CommunicationCloudEnvironment.Public, Prefix.Bot + rawIdSuffix),
-            (CommunicationCloudEnvironment.Dod, Prefix.BotDodCloudGlobal + rawIdSuffix),
-            (CommunicationCloudEnvironment.Gcch, Prefix.BotGcchCloudGlobal + rawIdSuffix)
+            (CommunicationCloudEnvironment.Public, "28:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"),
+            (CommunicationCloudEnvironment.Dod, "28:dod-global:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"),
+            (CommunicationCloudEnvironment.Gcch, "28:gcch-global:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14")
         ]
 
         testCases.forEach { cloud, rawId in
@@ -262,36 +262,36 @@ class CreateCommunicationIdentifier: XCTestCase {
 
     func test_rawIdStaysTheSameAfterConversionToIdentifierAndBack() {
         assertRoundTrip(
-            rawId: "\(Prefix.AcsUser)bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130"
+            rawId: "8:acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130"
         )
         assertRoundTrip(
-            rawId: "\(Prefix.SpoolUser)bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130"
+            rawId: "8:spool:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130"
         )
         assertRoundTrip(
-            rawId: "\(Prefix.AcsUserDodCloud)bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130"
+            rawId: "8:dod-acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130"
         )
         assertRoundTrip(
-            rawId: "\(Prefix.AcsUserGcchCloud)bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130"
+            rawId: "8:gcch-acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130"
         )
-        assertRoundTrip(rawId: "\(Prefix.AcsUser)something")
-        assertRoundTrip(rawId: "\(Prefix.TeamUserPublicCloud)45ab2481-1c1c-4005-be24-0ffb879b1130")
-        assertRoundTrip(rawId: "\(Prefix.TeamUserDodCloud)45ab2481-1c1c-4005-be24-0ffb879b1130")
-        assertRoundTrip(rawId: "\(Prefix.TeamUserGcchCloud)45ab2481-1c1c-4005-be24-0ffb879b1130")
-        assertRoundTrip(rawId: "\(Prefix.TeamUserAnonymous)45ab2481-1c1c-4005-be24-0ffb879b1130")
-        assertRoundTrip(rawId: "\(Prefix.TeamUserPublicCloud)legacyFormat")
-        assertRoundTrip(rawId: "\(Prefix.PhoneNumber)112345556789")
-        assertRoundTrip(rawId: "\(Prefix.PhoneNumber)+112345556789")
-        assertRoundTrip(rawId: "\(Prefix.PhoneNumber)207ffef6-9444-41fb-92ab-20eacaae2768")
+        assertRoundTrip(rawId: "8:acs:something")
+        assertRoundTrip(rawId: "8:orgid:45ab2481-1c1c-4005-be24-0ffb879b1130")
+        assertRoundTrip(rawId: "8:dod:45ab2481-1c1c-4005-be24-0ffb879b1130")
+        assertRoundTrip(rawId: "8:gcch:45ab2481-1c1c-4005-be24-0ffb879b1130")
+        assertRoundTrip(rawId: "8:teamsvisitor:45ab2481-1c1c-4005-be24-0ffb879b1130")
+        assertRoundTrip(rawId: "8:orgid:legacyFormat")
+        assertRoundTrip(rawId: "4:112345556789")
+        assertRoundTrip(rawId: "4:+112345556789")
+        assertRoundTrip(rawId: "4:207ffef6-9444-41fb-92ab-20eacaae2768")
         assertRoundTrip(
-            rawId: "\(Prefix.PhoneNumber)207ffef6-9444-41fb-92ab-20eacaae2768_207ffef6-9444-41fb-92ab-20eacaae2768"
+            rawId: "4:207ffef6-9444-41fb-92ab-20eacaae2768_207ffef6-9444-41fb-92ab-20eacaae2768"
         )
-        assertRoundTrip(rawId: "\(Prefix.PhoneNumber)+112345556789_207ffef6-9444-41fb-92ab-20eacaae2768")
-        assertRoundTrip(rawId: "\(Prefix.Bot)45ab2481-1c1c-4005-be24-0ffb879b1130")
-        assertRoundTrip(rawId: "\(Prefix.BotPublicCloud)45ab2481-1c1c-4005-be24-0ffb879b1130")
-        assertRoundTrip(rawId: "\(Prefix.BotDodCloud)45ab2481-1c1c-4005-be24-0ffb879b1130")
-        assertRoundTrip(rawId: "\(Prefix.BotDodCloudGlobal)45ab2481-1c1c-4005-be24-0ffb879b1130")
-        assertRoundTrip(rawId: "\(Prefix.BotGcchCloud)45ab2481-1c1c-4005-be24-0ffb879b1130")
-        assertRoundTrip(rawId: "\(Prefix.BotGcchCloudGlobal)45ab2481-1c1c-4005-be24-0ffb879b1130")
+        assertRoundTrip(rawId: "4:+112345556789_207ffef6-9444-41fb-92ab-20eacaae2768")
+        assertRoundTrip(rawId: "28:45ab2481-1c1c-4005-be24-0ffb879b1130")
+        assertRoundTrip(rawId: "28:orgid:45ab2481-1c1c-4005-be24-0ffb879b1130")
+        assertRoundTrip(rawId: "28:dod:45ab2481-1c1c-4005-be24-0ffb879b1130")
+        assertRoundTrip(rawId: "28:dod-global:45ab2481-1c1c-4005-be24-0ffb879b1130")
+        assertRoundTrip(rawId: "28:gcch:45ab2481-1c1c-4005-be24-0ffb879b1130")
+        assertRoundTrip(rawId: "28:gcch-global:45ab2481-1c1c-4005-be24-0ffb879b1130")
     }
 
     private func assertRoundTrip(rawId: String) {
