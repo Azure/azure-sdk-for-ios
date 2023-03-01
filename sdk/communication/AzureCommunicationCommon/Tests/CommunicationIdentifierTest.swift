@@ -97,7 +97,7 @@ class CommunicationIdentifierTest: XCTestCase {
                 userId: testUserId,
                 isAnonymous: true,
                 rawId: testRawId
-            ).cloudEnviroment
+            ).cloudEnvironment
         )
     }
 
@@ -151,7 +151,7 @@ class CommunicationIdentifierTest: XCTestCase {
             MicrosoftBotIdentifier(
                 botId: testUserId,
                 isGlobal: true
-            ).cloudEnviroment
+            ).cloudEnvironment
         )
     }
 

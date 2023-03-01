@@ -205,7 +205,9 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
     public let isAnonymous: Bool
     public private(set) var rawId: String
     public var kind: IdentifierKind { return .microsoftTeamsUser }
+    @available(*, deprecated, renamed: "cloudEnvironment")
     public let cloudEnviroment: CommunicationCloudEnvironment
+    public let cloudEnvironment: CommunicationCloudEnvironment
 
     /**
      Creates a MicrosoftTeamsUserIdentifier object
@@ -226,7 +228,7 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
         self.userId = userId
         self.isAnonymous = isAnonymous
         self.cloudEnviroment = cloudEnvironment
-
+        self.cloudEnvironment = cloudEnvironment
         if let rawId = rawId {
             self.rawId = rawId
         } else {
@@ -287,7 +289,7 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
 @objcMembers public class MicrosoftBotIdentifier: NSObject, CommunicationIdentifier {
     public let botId: String
     public let isGlobal: Bool
-    public let cloudEnviroment: CommunicationCloudEnvironment
+    public let cloudEnvironment: CommunicationCloudEnvironment
     public var rawId: String
     public var kind: IdentifierKind { return .microsoftBot }
 
@@ -305,9 +307,9 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
     ) {
         self.botId = botId
         self.isGlobal = isGlobal
-        self.cloudEnviroment = cloudEnvironment
+        self.cloudEnvironment = cloudEnvironment
         if isGlobal {
-            switch cloudEnviroment {
+            switch cloudEnvironment {
             case .Dod:
                 self.rawId = Prefix.BotDodCloudGlobal + botId
             case .Gcch:
@@ -316,7 +318,7 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
                 self.rawId = Prefix.Bot + botId
             }
         } else {
-            switch cloudEnviroment {
+            switch cloudEnvironment {
             case .Dod:
                 self.rawId = Prefix.BotDodCloud + botId
             case .Gcch:
