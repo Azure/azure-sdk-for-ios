@@ -23,10 +23,6 @@
   "source_files": "sdk/communication/AzureCommunicationChat/Source/**/*.{swift,h,m}",
   "pod_target_xcconfig": {
     "DEFINES_MODULE": "YES",
-    "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "arm64"
-  },
-  "user_target_xcconfig": {
-    "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "arm64"
   },
   "dependencies": {
     "AzureCore": [
@@ -36,7 +32,7 @@
       "~> 1.0"
     ],
     "Trouter": [
-      "0.1.0"
+      "0.2.0"
     ]
   },
   "swift_version": "5.0"
