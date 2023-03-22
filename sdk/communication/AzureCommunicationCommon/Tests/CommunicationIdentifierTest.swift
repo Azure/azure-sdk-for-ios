@@ -105,7 +105,7 @@ class CommunicationIdentifierTest: XCTestCase {
         let expectedRawIdGlobal = "28:User Id"
         var botIdentifier = MicrosoftBotIdentifier(
             botId: testUserId,
-            isGlobal: true
+            isResourceAccountConfigured: false
         )
         XCTAssertEqual(botIdentifier.rawId, expectedRawIdGlobal)
 
@@ -123,7 +123,7 @@ class CommunicationIdentifierTest: XCTestCase {
         let expectedRawIdAndCloudDodGlobal = "28:dod-global:User Id"
         botIdentifier = MicrosoftBotIdentifier(
             botId: testUserId,
-            isGlobal: true,
+            isResourceAccountConfigured: false,
             cloudEnvironment: .Dod
         )
         XCTAssertEqual(botIdentifier.rawId, expectedRawIdAndCloudDodGlobal)
@@ -138,7 +138,7 @@ class CommunicationIdentifierTest: XCTestCase {
         let expectedRawIdAndCloudGcchGlobal = "28:gcch-global:User Id"
         botIdentifier = MicrosoftBotIdentifier(
             botId: testUserId,
-            isGlobal: true,
+            isResourceAccountConfigured: false,
             cloudEnvironment: .Gcch
         )
         XCTAssertEqual(botIdentifier.rawId, expectedRawIdAndCloudGcchGlobal)
@@ -150,17 +150,17 @@ class CommunicationIdentifierTest: XCTestCase {
             CommunicationCloudEnvironment.Public,
             MicrosoftBotIdentifier(
                 botId: testUserId,
-                isGlobal: true
+                isResourceAccountConfigured: true
             ).cloudEnvironment
         )
     }
 
     // swiftlint:enable function_body_length
     func test_MicrosoftBotIdentifier_DefaultGlobalIsFalse() throws {
-        XCTAssertFalse(
+        XCTAssertTrue(
             MicrosoftBotIdentifier(
                 botId: testUserId
-            ).isGlobal
+            ).isResourceAccountConfigured
         )
     }
 
@@ -246,9 +246,9 @@ class CommunicationIdentifierTest: XCTestCase {
                     rawId: testRawId
                 )
         )
-        var botIdentifier = MicrosoftBotIdentifier(botId: testUserId, isGlobal: true)
+        var botIdentifier = MicrosoftBotIdentifier(botId: testUserId, isResourceAccountConfigured: false)
         botIdentifier.rawId = testRawId
-        var otherBotIdentifier = MicrosoftBotIdentifier(botId: testUserId, isGlobal: true)
+        var otherBotIdentifier = MicrosoftBotIdentifier(botId: testUserId, isResourceAccountConfigured: false)
         XCTAssertFalse(botIdentifier == otherBotIdentifier)
         XCTAssertFalse(otherBotIdentifier == botIdentifier)
 

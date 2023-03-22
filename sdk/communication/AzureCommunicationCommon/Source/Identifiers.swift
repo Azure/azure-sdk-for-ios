@@ -81,7 +81,7 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
     let segmentCounts = segments.count
     if segmentCounts != 3 {
         if segmentCounts == 2, rawId.hasPrefix(Prefix.Bot) {
-            return MicrosoftBotIdentifier(botId: String(segments[1]), isGlobal: true)
+            return MicrosoftBotIdentifier(botId: String(segments[1]), isResourceAccountConfigured: false)
         }
         return UnknownIdentifier(rawId)
     }
@@ -97,15 +97,15 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
     case Prefix.TeamUserGcchCloud:
         return MicrosoftTeamsUserIdentifier(userId: suffix, isAnonymous: false, rawId: rawId, cloudEnvironment: .Gcch)
     case Prefix.BotPublicCloud:
-        return MicrosoftBotIdentifier(botId: suffix, isGlobal: false)
+        return MicrosoftBotIdentifier(botId: suffix, isResourceAccountConfigured: true)
     case Prefix.BotDodCloud:
-        return MicrosoftBotIdentifier(botId: suffix, isGlobal: false, cloudEnvironment: .Dod)
+        return MicrosoftBotIdentifier(botId: suffix, isResourceAccountConfigured: true, cloudEnvironment: .Dod)
     case Prefix.BotDodCloudGlobal:
-        return MicrosoftBotIdentifier(botId: suffix, isGlobal: true, cloudEnvironment: .Dod)
+        return MicrosoftBotIdentifier(botId: suffix, isResourceAccountConfigured: false, cloudEnvironment: .Dod)
     case Prefix.BotGcchCloud:
-        return MicrosoftBotIdentifier(botId: suffix, isGlobal: false, cloudEnvironment: .Gcch)
+        return MicrosoftBotIdentifier(botId: suffix, isResourceAccountConfigured: true, cloudEnvironment: .Gcch)
     case Prefix.BotGcchCloudGlobal:
-        return MicrosoftBotIdentifier(botId: suffix, isGlobal: true, cloudEnvironment: .Gcch)
+        return MicrosoftBotIdentifier(botId: suffix, isResourceAccountConfigured: false, cloudEnvironment: .Gcch)
     case Prefix.AcsUser,
          Prefix.SpoolUser,
          Prefix.AcsUserDodCloud,
@@ -205,8 +205,6 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
     public let isAnonymous: Bool
     public private(set) var rawId: String
     public var kind: IdentifierKind { return .microsoftTeamsUser }
-    @available(*, deprecated, renamed: "cloudEnvironment")
-    public let cloudEnviroment: CommunicationCloudEnvironment
     public let cloudEnvironment: CommunicationCloudEnvironment
 
     /**
@@ -227,7 +225,6 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
     ) {
         self.userId = userId
         self.isAnonymous = isAnonymous
-        self.cloudEnviroment = cloudEnvironment
         self.cloudEnvironment = cloudEnvironment
         if let rawId = rawId {
             self.rawId = rawId
@@ -288,7 +285,7 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
  */
 @objcMembers public class MicrosoftBotIdentifier: NSObject, CommunicationIdentifier {
     public let botId: String
-    public let isGlobal: Bool
+    public let isResourceAccountConfigured: Bool
     public let cloudEnvironment: CommunicationCloudEnvironment
     public var rawId: String
     public var kind: IdentifierKind { return .microsoftBot }
@@ -296,19 +293,20 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
     /**
      Creates a MicrosoftBotIdentifier object
      - Parameter botId: The unique Microsoft app ID for the bot as registered with the Bot Framework.
-     - Parameter isGlobal: Set this to true if the bot is global and false (or missing) if the bot is tenantized.
+     - Parameter isResourceAccountConfigured: Set this to true if the bot is tenantized.
+                                It is false if the bot is global and no resource account is configured.
      - Parameter cloudEnvironment: The cloud that the Microsoft Bot belongs to.
                                     A null value translates to the Public cloud.
      */
     public init(
         botId: String,
-        isGlobal: Bool = false,
+        isResourceAccountConfigured: Bool = true,
         cloudEnvironment: CommunicationCloudEnvironment = .Public
     ) {
         self.botId = botId
-        self.isGlobal = isGlobal
+        self.isResourceAccountConfigured = isResourceAccountConfigured
         self.cloudEnvironment = cloudEnvironment
-        if isGlobal {
+        if !isResourceAccountConfigured {
             switch cloudEnvironment {
             case .Dod:
                 self.rawId = Prefix.BotDodCloudGlobal + botId

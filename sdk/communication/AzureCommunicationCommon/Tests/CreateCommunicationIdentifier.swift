@@ -240,7 +240,7 @@ class CreateCommunicationIdentifier: XCTestCase {
                 guard let identifier = identifier as? MicrosoftBotIdentifier else { return }
                 XCTAssertEqual(identifier.rawId, rawId)
                 XCTAssertEqual(identifier.botId, rawIdSuffix)
-                XCTAssertEqual(identifier.isGlobal, false)
+                XCTAssertEqual(identifier.isResourceAccountConfigured, true)
                 XCTAssertEqual(identifier.cloudEnvironment, cloud)
             default:
                 XCTFail("test_createMicrosoftBotIdentifier created the wrong type")
@@ -272,7 +272,7 @@ class CreateCommunicationIdentifier: XCTestCase {
                 guard let identifier = identifier as? MicrosoftBotIdentifier else { return }
                 XCTAssertEqual(identifier.rawId, rawId)
                 XCTAssertEqual(identifier.botId, rawIdSuffix)
-                XCTAssertEqual(identifier.isGlobal, true)
+                XCTAssertEqual(identifier.isResourceAccountConfigured, false)
                 XCTAssertEqual(identifier.cloudEnvironment, cloud)
             default:
                 XCTFail("test_createMicrosoftBotIdentifierGlobal created the wrong type")
