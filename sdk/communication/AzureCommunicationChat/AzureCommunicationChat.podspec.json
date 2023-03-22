@@ -18,7 +18,7 @@
   "swift_versions": "5.0",
   "source": {
     "git": "https://github.com/Azure/azure-sdk-for-ios.git",
-    "tag": "AzureCommunicationChat_1.3.0"
+    "tag": "AzureCommunicationChat_1.3.1"
   },
   "source_files": "sdk/communication/AzureCommunicationChat/Source/**/*.{swift,h,m}",
   "pod_target_xcconfig": {
