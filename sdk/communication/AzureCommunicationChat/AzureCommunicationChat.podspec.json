@@ -22,7 +22,7 @@
   },
   "source_files": "sdk/communication/AzureCommunicationChat/Source/**/*.{swift,h,m}",
   "pod_target_xcconfig": {
-    "DEFINES_MODULE": "YES",
+    "DEFINES_MODULE": "YES"
   },
   "dependencies": {
     "AzureCore": [
