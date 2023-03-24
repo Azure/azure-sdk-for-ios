@@ -35,7 +35,7 @@
 /sdk/communication/                                 @Azure/azure-sdk-communication-code-reviewers
 
 # PRLabel: %Communication - Common
-/sdk/communication/AzureCommunicationCommon/      @petrsvihlik @AikoBB @maximrytych-ms @ostoliarova-msft @mjafferi-msft
+/sdk/communication/AzureCommunicationCommon/        @AikoBB @maximrytych-ms @mjafferi-msft
 
 # PRLabel: %Azure.Identity
 /sdk/identity/                                      @tjprescott @mpodwysocki
