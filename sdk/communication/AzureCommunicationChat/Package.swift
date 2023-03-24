@@ -48,7 +48,7 @@ let package = Package(
         .package(
             name: "Trouter",
             url: "https://github.com/microsoft/trouter-client-ios.git",
-            .exact("0.1.0")
+            .exact("0.2.0")
         ),
         .package(
             name: "AzureTest",
