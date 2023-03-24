@@ -932,6 +932,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 05AC340FD3A45F007FCB0F95 /* Pods-AzureCoreTests.debug.xcconfig */;
 			buildSettings = {
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -949,6 +950,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D344FB2DAF4D22248D4FF45 /* Pods-AzureCoreTests.release.xcconfig */;
 			buildSettings = {
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
