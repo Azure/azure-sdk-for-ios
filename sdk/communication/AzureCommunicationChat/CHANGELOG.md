@@ -1,5 +1,9 @@
 # Release History
 
+## 1.3.1 (2023-03-27)
+### Bugs Fixed
+- Added ARM64 simulator support
+
 ## 1.3.0 (2022-09-13)
 ### New Features
 - `ChatClient` now supports Push Notifications for Chat events
