@@ -238,8 +238,8 @@ public class ChatMessageReceivedEvent: BaseChatMessageEvent {
 
         super.init(
             threadId: messageReceivedPayload.groupId,
-            sender: getIdentifier(from: messageReceivedPayload.senderId),
-            recipient: getIdentifier(from: messageReceivedPayload.recipientMri),
+            sender: createCommunicationIdentifier(fromRawId: messageReceivedPayload.senderId),
+            recipient: createCommunicationIdentifier(fromRawId: messageReceivedPayload.recipientMri),
             id: messageReceivedPayload.messageId,
             senderDisplayName: messageReceivedPayload.senderDisplayName,
             createdOn: Iso8601Date(string: messageReceivedPayload.originalArrivalTime),
@@ -323,8 +323,8 @@ public class ChatMessageEditedEvent: BaseChatMessageEvent {
 
         super.init(
             threadId: chatMessageEditedPayload.groupId,
-            sender: getIdentifier(from: chatMessageEditedPayload.senderId),
-            recipient: getIdentifier(from: chatMessageEditedPayload.recipientMri),
+            sender: createCommunicationIdentifier(fromRawId: chatMessageEditedPayload.senderId),
+            recipient: createCommunicationIdentifier(fromRawId: chatMessageEditedPayload.recipientMri),
             id: chatMessageEditedPayload.messageId,
             senderDisplayName: chatMessageEditedPayload.senderDisplayName,
             createdOn: Iso8601Date(string: chatMessageEditedPayload.originalArrivalTime),
@@ -391,8 +391,8 @@ public class ChatMessageDeletedEvent: BaseChatMessageEvent {
         self.deletedOn = Iso8601Date(string: chatMessageDeletedPayload.deletetime)
         super.init(
             threadId: chatMessageDeletedPayload.groupId,
-            sender: getIdentifier(from: chatMessageDeletedPayload.senderId),
-            recipient: getIdentifier(from: chatMessageDeletedPayload.recipientMri),
+            sender: createCommunicationIdentifier(fromRawId: chatMessageDeletedPayload.senderId),
+            recipient: createCommunicationIdentifier(fromRawId: chatMessageDeletedPayload.recipientMri),
             id: chatMessageDeletedPayload.messageId,
             senderDisplayName: chatMessageDeletedPayload.senderDisplayName,
             createdOn: Iso8601Date(string: chatMessageDeletedPayload.originalArrivalTime),
@@ -453,8 +453,8 @@ public class TypingIndicatorReceivedEvent: BaseChatEvent {
         self.senderDisplayName = typingIndicatorReceivedPayload.senderDisplayName
         super.init(
             threadId: typingIndicatorReceivedPayload.groupId,
-            sender: getIdentifier(from: typingIndicatorReceivedPayload.senderId),
-            recipient: getIdentifier(from: typingIndicatorReceivedPayload.recipientMri)
+            sender: createCommunicationIdentifier(fromRawId: typingIndicatorReceivedPayload.senderId),
+            recipient: createCommunicationIdentifier(fromRawId: typingIndicatorReceivedPayload.recipientMri)
         )
     }
 }
@@ -520,8 +520,8 @@ public class ReadReceiptReceivedEvent: BaseChatEvent {
         self.readOn = Iso8601Date(readOnDate)
         super.init(
             threadId: readReceiptReceivedPayload.groupId,
-            sender: getIdentifier(from: readReceiptReceivedPayload.senderId),
-            recipient: getIdentifier(from: readReceiptReceivedPayload.recipientMri)
+            sender: createCommunicationIdentifier(fromRawId: readReceiptReceivedPayload.senderId),
+            recipient: createCommunicationIdentifier(fromRawId: readReceiptReceivedPayload.recipientMri)
         )
     }
 }
@@ -585,7 +585,7 @@ public class ChatThreadCreatedEvent: BaseChatThreadEvent {
             .decode(ChatParticipantPayload.self, from: createdByJsonData)
         let createdBy =
             SignalingChatParticipant(
-                id: getIdentifier(from: createdByPayload.participantId),
+                id: createCommunicationIdentifier(fromRawId: createdByPayload.participantId),
                 displayName: createdByPayload.displayName
             )
 
@@ -598,7 +598,7 @@ public class ChatThreadCreatedEvent: BaseChatThreadEvent {
         let participants: [SignalingChatParticipant] = membersPayload
             .map { (memberPayload: ChatParticipantPayload) -> SignalingChatParticipant in
                 SignalingChatParticipant(
-                    id: getIdentifier(from: memberPayload.participantId),
+                    id: createCommunicationIdentifier(fromRawId: memberPayload.participantId),
                     displayName: memberPayload.displayName
                 )
             }
@@ -673,7 +673,7 @@ public class ChatThreadPropertiesUpdatedEvent: BaseChatThreadEvent {
             .decode(ChatParticipantPayload.self, from: updatedByJsonData)
         let updatedBy =
             SignalingChatParticipant(
-                id: getIdentifier(from: updatedByPayload.participantId),
+                id: createCommunicationIdentifier(fromRawId: updatedByPayload.participantId),
                 displayName: updatedByPayload.displayName
             )
 
@@ -740,7 +740,7 @@ public class ChatThreadDeletedEvent: BaseChatThreadEvent {
         let deletedByPayload: ChatParticipantPayload = try JSONDecoder()
             .decode(ChatParticipantPayload.self, from: deletedByJsonData)
         let deletedBy = SignalingChatParticipant(
-            id: getIdentifier(from: deletedByPayload.participantId),
+            id: createCommunicationIdentifier(fromRawId: deletedByPayload.participantId),
             displayName: deletedByPayload.displayName
         )
 
@@ -803,7 +803,7 @@ public class ParticipantsAddedEvent: BaseChatThreadEvent {
         let addedByPayload: ChatParticipantPayload = try JSONDecoder()
             .decode(ChatParticipantPayload.self, from: addeddByJsonData)
         let addedBy = SignalingChatParticipant(
-            id: getIdentifier(from: addedByPayload.participantId),
+            id: createCommunicationIdentifier(fromRawId: addedByPayload.participantId),
             displayName: addedByPayload.displayName
         )
 
@@ -817,7 +817,7 @@ public class ParticipantsAddedEvent: BaseChatThreadEvent {
         let participants: [SignalingChatParticipant] = participantsPayload
             .map { (memberPayload: ChatParticipantPayload) -> SignalingChatParticipant in
                 SignalingChatParticipant(
-                    id: getIdentifier(from: memberPayload.participantId),
+                    id: createCommunicationIdentifier(fromRawId: memberPayload.participantId),
                     displayName: memberPayload.displayName,
                     shareHistoryTime: Iso8601Date(
                         string: TrouterEventUtil
@@ -886,7 +886,7 @@ public class ParticipantsRemovedEvent: BaseChatThreadEvent {
         let removedByPayload: ChatParticipantPayload = try JSONDecoder()
             .decode(ChatParticipantPayload.self, from: removedByJsonData)
         let removedBy = SignalingChatParticipant(
-            id: getIdentifier(from: removedByPayload.participantId),
+            id: createCommunicationIdentifier(fromRawId: removedByPayload.participantId),
             displayName: removedByPayload.displayName
         )
 
@@ -899,7 +899,7 @@ public class ParticipantsRemovedEvent: BaseChatThreadEvent {
         let participants: [SignalingChatParticipant] = participantsPayload
             .map { (memberPayload: ChatParticipantPayload) -> SignalingChatParticipant in
                 SignalingChatParticipant(
-                    id: getIdentifier(from: memberPayload.participantId),
+                    id: createCommunicationIdentifier(fromRawId: memberPayload.participantId),
                     displayName: memberPayload.displayName,
                     shareHistoryTime: Iso8601Date(
                         string: TrouterEventUtil

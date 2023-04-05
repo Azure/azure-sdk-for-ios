@@ -25,15 +25,17 @@
 // --------------------------------------------------------------------------
 
 import Foundation
+import os.log
+
 /**
  The IdentifierKind for a given CommunicationIdentifier.
  */
-
 @objcMembers public class IdentifierKind: NSObject {
     private var rawValue: String
     public static let communicationUser = IdentifierKind(rawValue: "communicationUser")
     public static let phoneNumber = IdentifierKind(rawValue: "phoneNumber")
     public static let microsoftTeamsUser = IdentifierKind(rawValue: "microsoftTeamsUser")
+    public static let microsoftBot = IdentifierKind(rawValue: "microsoftBot")
     public static let unknown = IdentifierKind(rawValue: "unknown")
 
     public init(rawValue: String) {
@@ -50,54 +52,65 @@ import Foundation
     var kind: IdentifierKind { get }
 }
 
+internal enum Prefix {
+    public static let PhoneNumber = "4:"
+    public static let Bot = "28:"
+    public static let BotPublicCloud = "28:orgid:"
+    public static let BotDodCloud = "28:dod:"
+    public static let BotDodCloudGlobal = "28:dod-global:"
+    public static let BotGcchCloud = "28:gcch:"
+    public static let BotGcchCloudGlobal = "28:gcch-global:"
+    public static let TeamUserAnonymous = "8:teamsvisitor:"
+    public static let TeamUserPublicCloud = "8:orgid:"
+    public static let TeamUserDodCloud = "8:dod:"
+    public static let TeamUserGcchCloud = "8:gcch:"
+    public static let AcsUser = "8:acs:"
+    public static let AcsUserDodCloud = "8:dod-acs:"
+    public static let AcsUserGcchCloud = "8:gcch-acs:"
+    public static let SpoolUser = "8:spool:"
+}
+
 /**
  Creates a CommunicationIdentifierKind from a given rawId. When storing rawIds use this function to restore the identifier that was encoded in the rawId.
  - Parameter fromRawId: Id of the Microsoft Teams user. If the user isn't anonymous,The rawId to be translated to its identifier representation.
  */
 public func createCommunicationIdentifier(fromRawId rawId: String) -> CommunicationIdentifier {
-    let phoneNumberPrefix = "4:"
-    let teamUserAnonymousPrefix = "8:teamsvisitor:"
-    let teamUserPublicCloudPrefix = "8:orgid:"
-    let teamUserDODCloudPrefix = "8:dod:"
-    let teamUserGCCHCloudPrefix = "8:gcch:"
-    let acsUser = "8:acs:"
-    let spoolUser = "8:spool:"
-    let dodAcsUser = "8:dod-acs:"
-    let gcchAcsUser = "8:gcch-acs:"
-    if rawId.hasPrefix(phoneNumberPrefix) {
-        return PhoneNumberIdentifier(phoneNumber: String(rawId.dropFirst(phoneNumberPrefix.count)), rawId: rawId)
+    if rawId.hasPrefix(Prefix.PhoneNumber) {
+        return PhoneNumberIdentifier(phoneNumber: String(rawId.dropFirst(Prefix.PhoneNumber.count)), rawId: rawId)
     }
     let segments = rawId.split(separator: ":")
-    if segments.count < 3 {
+    let segmentCounts = segments.count
+    if segmentCounts != 3 {
+        if segmentCounts == 2, rawId.hasPrefix(Prefix.Bot) {
+            return MicrosoftBotIdentifier(botId: String(segments[1]), isResourceAccountConfigured: false)
+        }
         return UnknownIdentifier(rawId)
     }
     let scope = segments[0] + ":" + segments[1] + ":"
-    let suffix = String(rawId.dropFirst(scope.count))
+    let suffix = String(segments[2])
     switch scope {
-    case teamUserAnonymousPrefix:
+    case Prefix.TeamUserAnonymous:
         return MicrosoftTeamsUserIdentifier(userId: suffix, isAnonymous: true)
-    case teamUserPublicCloudPrefix:
-        return MicrosoftTeamsUserIdentifier(
-            userId: suffix,
-            isAnonymous: false,
-            rawId: rawId,
-            cloudEnvironment: .Public
-        )
-    case teamUserDODCloudPrefix:
-        return MicrosoftTeamsUserIdentifier(
-            userId: suffix,
-            isAnonymous: false,
-            rawId: rawId,
-            cloudEnvironment: .Dod
-        )
-    case teamUserGCCHCloudPrefix:
-        return MicrosoftTeamsUserIdentifier(
-            userId: suffix,
-            isAnonymous: false,
-            rawId: rawId,
-            cloudEnvironment: .Gcch
-        )
-    case acsUser, spoolUser, dodAcsUser, gcchAcsUser:
+    case Prefix.TeamUserPublicCloud:
+        return MicrosoftTeamsUserIdentifier(userId: suffix, isAnonymous: false, rawId: rawId, cloudEnvironment: .Public)
+    case Prefix.TeamUserDodCloud:
+        return MicrosoftTeamsUserIdentifier(userId: suffix, isAnonymous: false, rawId: rawId, cloudEnvironment: .Dod)
+    case Prefix.TeamUserGcchCloud:
+        return MicrosoftTeamsUserIdentifier(userId: suffix, isAnonymous: false, rawId: rawId, cloudEnvironment: .Gcch)
+    case Prefix.BotPublicCloud:
+        return MicrosoftBotIdentifier(botId: suffix, isResourceAccountConfigured: true)
+    case Prefix.BotDodCloud:
+        return MicrosoftBotIdentifier(botId: suffix, isResourceAccountConfigured: true, cloudEnvironment: .Dod)
+    case Prefix.BotDodCloudGlobal:
+        return MicrosoftBotIdentifier(botId: suffix, isResourceAccountConfigured: false, cloudEnvironment: .Dod)
+    case Prefix.BotGcchCloud:
+        return MicrosoftBotIdentifier(botId: suffix, isResourceAccountConfigured: true, cloudEnvironment: .Gcch)
+    case Prefix.BotGcchCloudGlobal:
+        return MicrosoftBotIdentifier(botId: suffix, isResourceAccountConfigured: false, cloudEnvironment: .Gcch)
+    case Prefix.AcsUser,
+         Prefix.SpoolUser,
+         Prefix.AcsUserDodCloud,
+         Prefix.AcsUserGcchCloud:
         return CommunicationUserIdentifier(rawId)
     default:
         return UnknownIdentifier(rawId)
@@ -123,6 +136,7 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
 
 /**
  Catch-all for all other Communication identifiers for Communication Services
+ It is not advisable to rely on this type of identifier, as UnknownIdentifier could become a new or existing distinct type in the future.
  */
 @objcMembers public class UnknownIdentifier: NSObject, CommunicationIdentifier {
     public var rawId: String { return identifier }
@@ -135,6 +149,22 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
     @objc(initWithIdentifier:)
     public init(_ identifier: String) {
         self.identifier = identifier
+        super.init()
+        logUsageWarning()
+    }
+
+    private func logUsageWarning() {
+        let subsystem = "com.azure"
+        let category = "AzureCommunicationCommon"
+        let message = "It is not advisable to rely on this type of identifier"
+            + "as UnknownIdentifier could become a new or existing distinct type in the future."
+        let osLog = OSLog(subsystem: subsystem, category: category)
+        if #available(macOS 11.0, iOS 14.0, watchOS 7.0, tvOS 14.0, *) {
+            let logger = Logger(osLog)
+            logger.info("\(message)")
+        } else {
+            os_log("%@", log: osLog, type: .info, message)
+        }
     }
 }
 
@@ -193,7 +223,9 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
     public let isAnonymous: Bool
     public private(set) var rawId: String
     public var kind: IdentifierKind { return .microsoftTeamsUser }
+    @available(*, deprecated, renamed: "cloudEnvironment")
     public let cloudEnviroment: CommunicationCloudEnvironment
+    public let cloudEnvironment: CommunicationCloudEnvironment
 
     /**
      Creates a MicrosoftTeamsUserIdentifier object
@@ -213,23 +245,21 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
     ) {
         self.userId = userId
         self.isAnonymous = isAnonymous
+        self.cloudEnvironment = cloudEnvironment
         self.cloudEnviroment = cloudEnvironment
-
         if let rawId = rawId {
             self.rawId = rawId
         } else {
             if isAnonymous {
-                self.rawId = "8:teamsvisitor:" + userId
+                self.rawId = Prefix.TeamUserAnonymous + userId
             } else {
                 switch cloudEnvironment {
                 case .Dod:
-                    self.rawId = "8:dod:" + userId
+                    self.rawId = Prefix.TeamUserDodCloud + userId
                 case .Gcch:
-                    self.rawId = "8:gcch:" + userId
-                case .Public:
-                    self.rawId = "8:orgid:" + userId
+                    self.rawId = Prefix.TeamUserGcchCloud + userId
                 default:
-                    self.rawId = "8:orgid:" + userId
+                    self.rawId = Prefix.TeamUserPublicCloud + userId
                 }
             }
         }
@@ -264,6 +294,78 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
      */
     override public func isEqual(_ object: Any?) -> Bool {
         guard let object = object as? MicrosoftTeamsUserIdentifier else {
+            return false
+        }
+
+        return rawId == object.rawId
+    }
+}
+
+/**
+ Communication identifier for Microsoft bots.
+ */
+@objcMembers public class MicrosoftBotIdentifier: NSObject, CommunicationIdentifier {
+    public let botId: String
+    public let isResourceAccountConfigured: Bool
+    public let cloudEnvironment: CommunicationCloudEnvironment
+    public var rawId: String
+    public var kind: IdentifierKind { return .microsoftBot }
+
+    /**
+     Creates a MicrosoftBotIdentifier object
+     - Parameter botId: The unique Microsoft app ID for the bot as registered with the Bot Framework.
+     - Parameter isResourceAccountConfigured: Set this to true if the bot is tenantized.
+                                It is false if the bot is global and no resource account is configured.
+     - Parameter cloudEnvironment: The cloud that the Microsoft Bot belongs to.
+                                    A null value translates to the Public cloud.
+     */
+    public init(
+        botId: String,
+        isResourceAccountConfigured: Bool = true,
+        cloudEnvironment: CommunicationCloudEnvironment = .Public
+    ) {
+        self.botId = botId
+        self.isResourceAccountConfigured = isResourceAccountConfigured
+        self.cloudEnvironment = cloudEnvironment
+        if !isResourceAccountConfigured {
+            switch cloudEnvironment {
+            case .Dod:
+                self.rawId = Prefix.BotDodCloudGlobal + botId
+            case .Gcch:
+                self.rawId = Prefix.BotGcchCloudGlobal + botId
+            default:
+                self.rawId = Prefix.Bot + botId
+            }
+        } else {
+            switch cloudEnvironment {
+            case .Dod:
+                self.rawId = Prefix.BotDodCloud + botId
+            case .Gcch:
+                self.rawId = Prefix.BotGcchCloud + botId
+            default:
+                self.rawId = Prefix.BotPublicCloud + botId
+            }
+        }
+    }
+
+    // swiftlint:disable:next nsobject_prefer_isequal
+    /**
+     Returns a Boolean value indicating whether two values are equal.
+        Note: In Objective-C favor isEqual() method
+     - Parameter lhs MicrosoftBotIdentifier to compare.
+     - Parameter rhs  Another MicrosoftBotIdentifier to compare.
+     */
+    public static func == (lhs: MicrosoftBotIdentifier, rhs: MicrosoftBotIdentifier) -> Bool {
+        return lhs.rawId == rhs.rawId
+    }
+
+    /**
+     Returns a Boolean value that indicates whether the receiver is equal to another given object.
+     This will automatically return false if object being compared to is not a MicrosoftBotIdentifier.
+     - Parameter object The object with which to compare the receiver.
+     */
+    override public func isEqual(_ object: Any?) -> Bool {
+        guard let object = object as? MicrosoftBotIdentifier else {
             return false
         }
 

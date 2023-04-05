@@ -1055,14 +1055,14 @@ class TrouterEventUtilTests: XCTestCase {
 
     func test_getCommunicationIdentifier_withAcsGcchUserRawId() {
         let userId = "8:gcch-acs:user"
-        let result = getIdentifier(from: userId)
+        let result = createCommunicationIdentifier(fromRawId: userId)
         XCTAssertTrue(result is CommunicationUserIdentifier)
         XCTAssertEqual(userId, (result as? CommunicationUserIdentifier)?.identifier)
     }
 
     func test_getCommunicationIdentifier_withAcsDodUserRawId() {
         let userId = "8:dod-acs:user"
-        let result = getIdentifier(from: userId)
+        let result = createCommunicationIdentifier(fromRawId: userId)
         XCTAssertTrue(result is CommunicationUserIdentifier)
         XCTAssertEqual(userId, (result as? CommunicationUserIdentifier)?.identifier)
     }
