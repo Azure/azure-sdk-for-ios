@@ -25,10 +25,11 @@
 // --------------------------------------------------------------------------
 
 import Foundation
+import os.log
+
 /**
  The IdentifierKind for a given CommunicationIdentifier.
  */
-
 @objcMembers public class IdentifierKind: NSObject {
     private var rawValue: String
     public static let communicationUser = IdentifierKind(rawValue: "communicationUser")
@@ -135,6 +136,7 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
 
 /**
  Catch-all for all other Communication identifiers for Communication Services
+ It is not advisable to rely on this type of identifier, as UnknownIdentifier could become a new or existing distinct type in the future.
  */
 @objcMembers public class UnknownIdentifier: NSObject, CommunicationIdentifier {
     public var rawId: String { return identifier }
@@ -147,6 +149,22 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
     @objc(initWithIdentifier:)
     public init(_ identifier: String) {
         self.identifier = identifier
+        super.init()
+        logUsageWarning()
+    }
+
+    private func logUsageWarning() {
+        let subsystem = "com.azure"
+        let category = "AzureCommunicationCommon"
+        let message = "It is not advisable to rely on this type of identifier"
+            + "as UnknownIdentifier could become a new or existing distinct type in the future."
+        let osLog = OSLog(subsystem: subsystem, category: category)
+        if #available(macOS 11.0, iOS 14.0, watchOS 7.0, tvOS 14.0, *) {
+            let logger = Logger(osLog)
+            logger.info("\(message)")
+        } else {
+            os_log("%@", log: osLog, type: .info, message)
+        }
     }
 }
 
@@ -205,6 +223,8 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
     public let isAnonymous: Bool
     public private(set) var rawId: String
     public var kind: IdentifierKind { return .microsoftTeamsUser }
+    @available(*, deprecated, renamed: "cloudEnvironment")
+    public let cloudEnviroment: CommunicationCloudEnvironment
     public let cloudEnvironment: CommunicationCloudEnvironment
 
     /**
@@ -226,6 +246,7 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
         self.userId = userId
         self.isAnonymous = isAnonymous
         self.cloudEnvironment = cloudEnvironment
+        self.cloudEnviroment = cloudEnvironment
         if let rawId = rawId {
             self.rawId = rawId
         } else {
