@@ -1,4 +1,13 @@
 # Release History
+
+## 2.3.0-beta.5 (2023-04-11)
+
+### Features Added
+* New Teams captions feature that allows ACS users to enable closed captions in Teams meeting and allows Microsoft 365 users on ACS SDK to use closed captions in one to one and group calls. Users will also have the ability to update spoken language for the call and caption language for themselves (requires Teams Premium).
+* New raise Hand feature on ACS and Teams meetings.
+* New user facing diagnostics feature.
+* CallKit support improvements.
+
 ## 2.3.0-beta.4 (2023-01-05)
 
 ### Bug Fixes 
