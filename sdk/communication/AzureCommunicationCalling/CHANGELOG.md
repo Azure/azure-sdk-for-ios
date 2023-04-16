@@ -1,5 +1,11 @@
 # Release History
 
+## 2.3.0 (2023-04-14)
+
+### Features Added
+- Dominant Speakers
+  - Dominant speakers is an extended feature that allows you to obtain a list of the active speakers in the call. The dominant speakers list can change dynamically according to the activity of the participants on the call.
+
 ## 2.3.0-beta.5 (2023-04-11)
 
 ### Features Added
