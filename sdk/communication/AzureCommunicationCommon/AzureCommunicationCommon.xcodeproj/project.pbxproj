@@ -333,7 +333,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "BUILD_PATH=$(pwd)\nROOT_PATH=$(pwd | rev | cut -d'/' -f4- | rev) \n$ROOT_PATH/eng/scripts/swiftlint.sh $BUILD_PATH\n";
+			shellScript = "BUILD_PATH=$(pwd)\nROOT_PATH=$(pwd | rev | cut -d'/' -f4- | rev) \n\"$ROOT_PATH/eng/scripts/swiftlint.sh\" \"$BUILD_PATH\"\n";
 		};
 		892BA074040FFB4A74C86592 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -394,7 +394,6 @@
 				F1540EBD25BF893C0056B087 /* CommunicationCloudEnvironment.swift in Sources */,
 				882F28D425A632CA009689E3 /* CommunicationTokenRefreshOptions.swift in Sources */,
 				F183A5FE24AFF1B100F0E0D5 /* JwtTokenParser.swift in Sources */,
-				D112634825B7969B00F437C6 /* (null) in Sources */,
 				D1A42CF825CCA1C100408C0F /* CommunicationTokenCredential.swift in Sources */,
 				F183A5FA24AFB37900F0E0D5 /* StaticTokenCredential.swift in Sources */,
 			);
