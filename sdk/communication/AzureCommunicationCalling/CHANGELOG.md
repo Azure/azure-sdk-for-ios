@@ -2,7 +2,7 @@
 ## 2.3.0-beta.6 (2023-05-26)
 
 ### Features Added
-* Added support for raw audio in CallKit.
+* Added support for Raw Audio.
 
 ### Bug Fixes 
 * Fixed a bug when call goes from connecting to disconnected.
