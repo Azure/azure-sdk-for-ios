@@ -1,4 +1,11 @@
 # Release History
+## 2.3.0-beta.6 (2023-05-26)
+
+### Features Added
+* Added support for raw audio in CallKit.
+
+### Bug Fixes 
+* Fixed a bug when call goes from connecting to disconnected.
 
 ## 2.3.0 (2023-04-14)
 
