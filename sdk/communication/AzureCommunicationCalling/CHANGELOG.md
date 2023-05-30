@@ -1,5 +1,16 @@
 # Release History
 
+## 2.4.0 (2023-05-30)
+
+### Features Added
+Added support for Callkit Integration
+- Application will be able to configure call capabilities with CallKitOptions.
+- Application will be able to pass the means to reach a call recipient and the display name with CallKitRemoteInfo.
+- Application will be able to use reportIncomingCallToCallKit to handle notification when the app is in kill state.
+
+Added support for Raw Outgoing Video
+Added support for Raw Audio
+
 ## 2.3.0 (2023-04-14)
 
 ### Features Added
