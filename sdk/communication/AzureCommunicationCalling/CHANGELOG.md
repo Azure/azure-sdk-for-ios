@@ -1,5 +1,10 @@
 # Release History
 
+## 2.4.1 (2023-06-13)
+
+### Bugs Fixed
+- Fixed issue with handling incoming call when the app is running in background or in kill mode.
+
 ## 2.4.0 (2023-05-30)
 
 ### Features Added
