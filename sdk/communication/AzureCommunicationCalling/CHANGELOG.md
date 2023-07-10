@@ -1,5 +1,17 @@
 # Release History
 
+## 2.5.0 (2023-07-10)
+
+### Features Added
+* Added support for Background Blur Video Effect for local video streams.
+* Added support for Raise Hand feature on ACS and Teams meetings.
+* Added support for joining a Room.
+
+### Bug Fixes 
+* Fixed the issue where outgoing video is available and cannot be turned off when User turns off camera while in Lobby.
+* Fixed bug when incoming call is not picked up by the receiver and not able to place any other calls.
+* Fix bug when raw audio stops and start event is raised.
+
 ## 2.4.1 (2023-06-13)
 
 ### Bugs Fixed
