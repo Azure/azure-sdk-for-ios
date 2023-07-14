@@ -1,5 +1,10 @@
 # Release History
 
+## 2.5.1 (2023-07-14)
+
+### Features Added
+* Added support for simulators on M1 machines.
+
 ## 2.5.0 (2023-07-10)
 
 ### Features Added
