@@ -1,5 +1,14 @@
 # Release History
 
+## 2.6.0-beta.1 (2023-07-20)
+
+### Features Added
+* Added support for simulators on M1 machines.
+* Added support for Background Blur Video Effect for local video streams.
+* Added support for Raw Outgoing Video.
+* Added support for Raw Audio.
+* Various miscellaneous updates.
+
 ## 2.5.1 (2023-07-14)
 
 ### Features Added
