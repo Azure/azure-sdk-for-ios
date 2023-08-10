@@ -23,7 +23,7 @@
   "public_header_files": "AzureCommunicationCalling.xcframework/*/AzureCommunicationCalling.framework/Headers/*.h",
   "vendored_frameworks": "AzureCommunicationCalling.xcframework",
   "pod_target_xcconfig": {
-    "DEFINES_MODULE": "YES",
+    "DEFINES_MODULE": "YES"
   },
   "user_target_xcconfig": {
   },
