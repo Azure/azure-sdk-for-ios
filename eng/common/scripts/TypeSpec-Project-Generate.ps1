@@ -6,7 +6,6 @@ param (
     [ValidateNotNullOrEmpty()]
     [string] $ProjectDirectory,
     [string] $TypespecAdditionalOptions = $null, ## addtional typespec emitter options, separated by semicolon if more than one, e.g. option1=value1;option2=value2
-    [string] $NpmrcPath = $null, ## path to a preauthenticated .npmrc file to use for npm install
     [switch] $SaveInputs = $false ## saves the temporary files during execution, default false
 )
 
@@ -39,28 +38,50 @@ function NpmInstallForProject([string]$workingDirectory) {
 
         #default to root/eng/emitter-package.json but you can override by writing
         #Get-${Language}-EmitterPackageJsonPath in your Language-Settings.ps1
-        $replacementPackageJson = Join-Path $PSScriptRoot "../../emitter-package.json"
+        $emitterPackageJson = Join-Path $RepoRoot "eng/emitter-package.json"
+        
         if (Test-Path "Function:$GetEmitterPackageJsonPathFn") {
-            $replacementPackageJson = &$GetEmitterPackageJsonPathFn
+          $emitterPackageJson = &$GetEmitterPackageJsonPathFn
         }
 
-        Write-Host("Copying package.json from $replacementPackageJson")
-        Copy-Item -Path $replacementPackageJson -Destination "package.json" -Force
+        #default to root/eng/emitter-package.json but you can override by writing
+        #Get-${Language}-EmitterPackageLockPath in your Language-Settings.ps1
+        $emitterPackageLock = Join-Path $RepoRoot "eng/emitter-package-lock.json"
 
-        $useAlphaNpmRegistry = (Get-Content $replacementPackageJson -Raw).Contains("-alpha.")
+        if (Test-Path "Function:$GetEmitterPackageLockPathFn") {
+            $emitterPackageLock = &$GetEmitterPackageLockPathFn
+        }
+
+        Write-Host("Copying package.json from $emitterPackageJson")
+        Copy-Item -Path $emitterPackageJson -Destination "package.json" -Force
+
+        if (Test-Path $emitterPackageLock) {
+          Write-Host("Copying package-lock.json from $emitterPackageJson")
+          Copy-Item -Path $emitterPackageLock -Destination "package-lock.json" -Force
+        }
+
+        Write-Host "Creating .npmrc using public/azure-sdk-for-js-test-autorest feed."
+        $useAlphaNpmRegistry = (Get-Content $emitterPackageJson -Raw).Contains("-alpha.")
 
         if ($useAlphaNpmRegistry) {
-          if ($NpmrcPath) {
-            Copy-Item -Path $NpmrcPath -Destination ".npmrc" -Force
-          }
-          else {
-            Write-Host "Package.json contains '-alpha.' in the version, Creating .npmrc using public/azure-sdk-for-js-test-autorest feed."
-            "registry=https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-js-test-autorest/npm/registry/ `n`nalways-auth=true" | Out-File '.npmrc'
-          }
+          $npmrcPath = "$workingDirectory/.npmrc"
+          Write-Host "Package.json contains '-alpha.' in the version, Creating .npmrc using public/azure-sdk-for-js-test-autorest feed."
+          "registry=https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-js-test-autorest@local/npm/registry/ `n`nalways-auth=true" | Out-File $npmrcPath
         }
 
-        npm install --no-lock-file
-        if ($LASTEXITCODE) { exit $LASTEXITCODE }
+        npm install | Tee-Object -Variable npmInstallOutput
+
+        if ($LASTEXITCODE) { 
+          if ($npmInstallOutput -contains "code E401") {
+            Write-Host ""
+            Write-Host "npm install failed with code E401. This is likely due to missing or stale credentials."
+            Write-Host "Install and run the vsts-npm-auth package to refresh your credentials:"
+            Write-Host "    npm install -g vsts-npm-auth --registry https://registry.npmjs.com --always-auth false"
+            Write-Host "    vsts-npm-auth -config `"$npmrcPath`""
+          }
+
+          exit $LASTEXITCODE
+        }
     }
     finally {
         Pop-Location
