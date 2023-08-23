@@ -62,6 +62,8 @@ $GetEmitterAdditionalOptionsFn = "Get-${Language}-EmitterAdditionalOptions"
 $GetEmitterNameFn = "Get-${Language}-EmitterName"
 $GetEmitterPackageJsonPathFn = "Get-${Language}-EmitterPackageJsonPath"
 $GetEmitterPackageLockPathFn = "Get-${Language}-EmitterPackageLockPath"
+
+# Expected to be set in eng/scripts/docs/Docs-Onboarding.ps1
 $SetDocsPackageOnboarding = "Set-${Language}-DocsPackageOnboarding"
 $GetDocsPackagesAlreadyOnboarded = "Get-${Language}-DocsPackagesAlreadyOnboarded"
 $GetPackageIdentity = "Get-${Language}-PackageIdentity"
