@@ -40,6 +40,7 @@ if (!(Get-Variable -Name "LanguageDisplayName" -ValueOnly -ErrorAction "Ignore")
 }
 
 # Transformed Functions
+# Expected to be set in eng/scripts/Language-Settings.ps1
 $GetPackageInfoFromRepoFn = "Get-${Language}-PackageInfoFromRepo"
 $GetPackageInfoFromPackageFileFn = "Get-${Language}-PackageInfoFromPackageFile"
 $PublishGithubIODocsFn = "Publish-${Language}-GithubIODocs"
@@ -61,3 +62,6 @@ $GetEmitterAdditionalOptionsFn = "Get-${Language}-EmitterAdditionalOptions"
 $GetEmitterNameFn = "Get-${Language}-EmitterName"
 $GetEmitterPackageJsonPathFn = "Get-${Language}-EmitterPackageJsonPath"
 $GetEmitterPackageLockPathFn = "Get-${Language}-EmitterPackageLockPath"
+$SetDocsPackageOnboarding = "Set-${Language}-DocsPackageOnboarding"
+$GetDocsPackagesAlreadyOnboarded = "Get-${Language}-DocsPackagesAlreadyOnboarded"
+$GetPackageIdentity = "Get-${Language}-PackageIdentity"
