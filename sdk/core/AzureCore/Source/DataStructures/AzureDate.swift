@@ -150,7 +150,7 @@ public struct Rfc1123Date: AzureDate {
     }
 
     public init?(string: String?) {
-        guard let date = Self.formatter.date(from: string ?? "") else { return nil }
+        guard let date = Rfc1123Date.formatter.date(from: string ?? "") else { return nil }
         self.value = date
     }
 
@@ -165,7 +165,7 @@ public struct Rfc1123Date: AzureDate {
         (decoder as? JSONDecoder)?.dateDecodingStrategy = .formatted(Self.formatter)
         let container = try decoder.singleValueContainer()
         let dateString = try container.decode(String.self)
-        if let decoded = Self.formatter.date(from: dateString) {
+        if let decoded = Rfc1123Date.formatter.date(from: dateString) {
             self.value = decoded
         } else {
             let context = DecodingError.Context(codingPath: [], debugDescription: "Invalid date string: \(dateString).")
@@ -229,7 +229,7 @@ public struct SimpleDate: AzureDate {
         (decoder as? JSONDecoder)?.dateDecodingStrategy = .formatted(Self.formatter)
         let container = try decoder.singleValueContainer()
         let dateString = try container.decode(String.self)
-        if let decoded = Self.formatter.date(from: dateString) {
+        if let decoded = SimpleDate.formatter.date(from: dateString) {
             self.value = decoded
         } else {
             let context = DecodingError.Context(codingPath: [], debugDescription: "Invalid date string: \(dateString).")
@@ -342,7 +342,7 @@ public struct SimpleTime: Codable, Comparable, RequestStringConvertible {
     }
 
     public init?(string: String?) {
-        guard let date = Self.formatter.date(from: string ?? "") else { return nil }
+        guard let date = SimpleTime.formatter.date(from: string ?? "") else { return nil }
         self.value = date
     }
 
@@ -357,7 +357,7 @@ public struct SimpleTime: Codable, Comparable, RequestStringConvertible {
         (decoder as? JSONDecoder)?.dateDecodingStrategy = .formatted(Self.formatter)
         let container = try decoder.singleValueContainer()
         let timeString = try container.decode(String.self)
-        if let decoded = Self.formatter.date(from: timeString) {
+        if let decoded = SimpleTime.formatter.date(from: timeString) {
             self.value = decoded
         } else {
             let context = DecodingError.Context(codingPath: [], debugDescription: "Invalid time string: \(timeString).")
