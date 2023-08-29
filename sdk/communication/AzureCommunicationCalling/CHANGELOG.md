@@ -1,5 +1,11 @@
 # Release History
 
+## 2.6.1 (2023-08-29)
+
+### Bug Fixes 
+* Fixed crash related to cameras being updated. 
+* Fixed orientation issue when in landscape mode. 
+
 ## 2.7.0-beta.2 (2023-08-22)
 
 ### Bug Fixes 
