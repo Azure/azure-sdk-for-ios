@@ -33,6 +33,14 @@ import XCTest
 // swiftlint:disable all
 class TrouterSettingsUnitTests: XCTestCase {
     private var testSettings = TestSettings()
+    var eudbToken: String = {
+        let fakeValue =
+            "{\"iss\":\"ACS\",\"iat\": 1608152725,\"exp\": 1739688725,\"aud\": \"\",\"sub\": \"\",\"resourceLocation\": \"europe\"}"
+                .base64EncodedString()
+        let token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9." + fakeValue + ".EMS0ExXqRuobm34WKJE8mAfZ7KppU5kEHl0OFdyree8"
+        return token
+    }()
+
     var gcchToken: String = {
         let fakeValue =
             "{\"skypeid\":\"gcch:c17ab671\",\"iss\":\"ACS\",\"iat\": 1608152725,\"exp\": 1739688725,\"aud\": \"\",\"sub\": \"\"}"
@@ -53,6 +61,16 @@ class TrouterSettingsUnitTests: XCTestCase {
         do {
             let settings = try getTrouterSettings(token: testSettings.token)
             XCTAssertEqual(settings.trouterHostname, defaultTrouterHostname)
+            XCTAssertEqual(settings.registrarHostnameAndBasePath, defaultRegistrarHostnameAndBasePath)
+        } catch {
+            XCTFail()
+        }
+    }
+
+    func test_GetTrouterSettings_ReturnEudbServiceUrl() {
+        do {
+            let settings = try getTrouterSettings(token: eudbToken)
+            XCTAssertEqual(settings.trouterHostname, eudbTrouterHostname)
             XCTAssertEqual(settings.registrarHostnameAndBasePath, defaultRegistrarHostnameAndBasePath)
         } catch {
             XCTFail()
