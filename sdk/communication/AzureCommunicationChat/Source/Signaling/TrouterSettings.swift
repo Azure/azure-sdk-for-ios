@@ -39,7 +39,7 @@ let defaultRegistrationData: TrouterUrlRegistrationData? = TrouterUrlRegistratio
 
 let defaultClientVersion: String = "1.0.0"
 let defaultTrouterHostname: String = "go.trouter.teams.microsoft.com/v4/a"
-let defaultRegistrarHostnameAndBasePath: String = "teams.microsoft.com/registrar/prod/v3/registrations"
+let defaultRegistrarHostnameAndBasePath: String = "teams.microsoft.com/registrar/prod"
 
 let eudbTrouterHostname: String = "go-eu.trouter.teams.microsoft.com/v4/a";
 let eudbCountries: Set = ["europe", "france", "germany", "norway", "switzerland", "sweden"]
@@ -65,10 +65,9 @@ func getTrouterSettings(token: String) throws
         }
     }
 
-    if let resourceLocation = jwt["resourceLocation"] as? String {
-        if eudbCountries.contains(resourceLocation) {
-            return (eudbTrouterHostname, defaultRegistrarHostnameAndBasePath)
-        }
+    if let resourceLocation = jwt["resourceLocation"] as? String,
+       eudbCountries.contains(resourceLocation) {
+        return (eudbTrouterHostname, defaultRegistrarHostnameAndBasePath)
     }
 
     return (defaultTrouterHostname, defaultRegistrarHostnameAndBasePath)
