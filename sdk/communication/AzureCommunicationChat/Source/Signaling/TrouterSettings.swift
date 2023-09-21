@@ -38,8 +38,11 @@ let defaultRegistrationData: TrouterUrlRegistrationData? = TrouterUrlRegistratio
 ) as? TrouterUrlRegistrationData
 
 let defaultClientVersion: String = "1.0.0"
-let defaultTrouterHostname: String = "go.trouter.skype.com/v4/a"
-let defaultRegistrarHostnameAndBasePath: String = "edge.skype.com/registrar/prod"
+let defaultTrouterHostname: String = "go.trouter.teams.microsoft.com/v4/a"
+let defaultRegistrarHostnameAndBasePath: String = "teams.microsoft.com/registrar/prod"
+
+let eudbTrouterHostname: String = "go-eu.trouter.teams.microsoft.com/v4/a";
+let eudbCountries: Set = ["europe", "france", "germany", "norway", "switzerland", "sweden"]
 
 // GCC High gov cloud URLs
 let gcchTrouterHostname: String = "go.trouter.gov.teams.microsoft.us/v4/a"
@@ -53,13 +56,18 @@ func getTrouterSettings(token: String) throws
     -> (trouterHostname: String, registrarHostnameAndBasePath: String)
 {
     let jwt = try decode(jwtToken: token)
-    if let skypeToken = jwt["skypeid"] as? String {
-        if isGcch(id: skypeToken) {
+    if let skypeId = jwt["skypeid"] as? String {
+        if isGcch(id: skypeId) {
             return (gcchTrouterHostname, gcchRegistrarHostnameAndBasePath)
         }
-        if isDod(id: skypeToken) {
+        if isDod(id: skypeId) {
             return (dodTrouterHostname, dodRegistrarHostnameAndBasePath)
         }
+    }
+
+    if let resourceLocation = jwt["resourceLocation"] as? String,
+       eudbCountries.contains(resourceLocation) {
+        return (eudbTrouterHostname, defaultRegistrarHostnameAndBasePath)
     }
 
     return (defaultTrouterHostname, defaultRegistrarHostnameAndBasePath)

@@ -32,7 +32,7 @@ class TestSettings: TestSettingsProtocol {
     var user1 = "user1"
     var user2 = "user2"
     var token: String = {
-        let fakeValue = "{\"iss\":\"ACS\",\"iat\": 1608152725,\"exp\": 1739688725,\"aud\": \"\",\"sub\": \"\"}"
+        let fakeValue = "{\"iss\":\"ACS\",\"iat\": 1608152725,\"exp\": 1739688725,\"aud\": \"\",\"sub\": \"\",\"resourceLocation\": \"unitedstates\"}"
             .base64EncodedString()
         let token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9." + fakeValue + ".EMS0ExXqRuobm34WKJE8mAfZ7KppU5kEHl0OFdyree8"
         return token
