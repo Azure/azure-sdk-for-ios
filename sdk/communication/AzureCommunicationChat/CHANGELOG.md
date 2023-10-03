@@ -1,5 +1,9 @@
 # Release History
 
+## 1.3.2 (2023-10-03)
+### Feature Added
+- Added support for [EU Data Boundary(EUDB)](https://blogs.microsoft.com/eupolicy/2021/12/16/eu-data-boundary-for-the-microsoft-cloud-a-progress-report)
+
 ## 1.3.1 (2023-03-27)
 ### Bugs Fixed
 - Added ARM64 simulator support
