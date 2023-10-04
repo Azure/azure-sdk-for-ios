@@ -1,6 +1,6 @@
 # Release History
 
-## 1.3.2 (2023-10-03)
+## 1.3.2 (2023-10-04)
 ### Feature Added
 - Added support for [EU Data Boundary(EUDB)](https://blogs.microsoft.com/eupolicy/2021/12/16/eu-data-boundary-for-the-microsoft-cloud-a-progress-report)
 
