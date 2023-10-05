@@ -1,5 +1,18 @@
 # Release History
 
+## 2.7.0-beta.3 (2023-10-05)
+
+### Features Added
+* Added support for Spotlight Feature.
+* Added support for CallNetworkOptions that allows setting up proxy address. 
+* Added support for CallDebugInfo. 
+* Various miscellaneous updates.
+
+### Bug Fixes 
+* Fixed crash while turning off and switching local video stream. 
+* Fixed crash while raising cameras updated event. 
+* Known issue: Crash while switching cameras rapidly.
+
 ## 2.6.1 (2023-08-29)
 
 ### Bug Fixes 
