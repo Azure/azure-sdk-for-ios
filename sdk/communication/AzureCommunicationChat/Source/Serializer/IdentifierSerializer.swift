@@ -123,7 +123,7 @@ internal enum IdentifierSerializer {
                         .isAnonymous,
                     cloud: serialize(
                         cloud: teamsUser
-                            .cloudEnvironment
+                            .cloudEnviroment
                     )
                 )
             )
