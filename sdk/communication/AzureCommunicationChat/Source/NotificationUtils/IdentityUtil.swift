@@ -70,13 +70,3 @@ func isGcch(id: String) -> Bool {
     let gcchAcsUserPrefix = "gcch-acs:"
     return (id.starts(with: gcchTeamsUserPrefix) || id.starts(with: gcchAcsUserPrefix))
 }
-
-/// Parses out the id/phone number portion of a user id.
-/// - Parameters:
-///   - id: The string id.
-///   - prefix: The id prefix.
-/// - Returns: The part of the id after the prefix that corresponds to the user id or phone number of a user.
-private func parse(id: String, prefix: String) -> String {
-    let index = id.index(id.startIndex, offsetBy: prefix.count)
-    return String(id.suffix(from: index))
-}
