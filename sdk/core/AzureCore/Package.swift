@@ -36,7 +36,9 @@ let package = Package(
     products: [
         .library(name: "AzureCore", targets: ["AzureCore"])
     ],
-    dependencies: [],
+    dependencies: [
+    .package(url: "https://github.com/Azure/azure-sdk-for-ios.git", from: "1.0.0")
+    ],
     targets: [
         // Build targets
         .target(
