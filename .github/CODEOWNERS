@@ -28,9 +28,6 @@
 # PRLabel: %Azure.Core
 /sdk/core/                                          @tjprescott @mpodwysocki
 
-# PRLabel: %Storage
-/sdk/storage/                                       @tjprescott @mpodwysocki
-
 # PRLabel: %Communication
 /sdk/communication/                                 @Azure/azure-sdk-communication-code-reviewers
 
