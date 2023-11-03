@@ -1,5 +1,11 @@
 # Release History
 
+## 2.7.0 (2023-11-02)
+
+### Features Added
+* Added support for Spotlight Feature.
+* Added support for CallDebugInfo. 
+
 ## 2.7.0-beta.3 (2023-10-05)
 
 ### Features Added
