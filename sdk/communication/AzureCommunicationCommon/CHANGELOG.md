@@ -1,5 +1,12 @@
 # Release History
 
+## 1.3.0 (upcoming)
+### Features Added
+- Added support for a new communication identifier `MicrosoftTeamsAppIdentifier`.
+
+### Breaking Changes
+- Introduction of `MicrosoftTeamsAppIdentifier` is a breaking change. It will impact any code that previously depended on the use of UnknownIdentifier with rawIDs starting with `28:orgid:`, `28:dod:`, or `28:gcch:`.
+
 ## 1.2.0-beta.1 (2023-04-11)
 ### Features Added
 - Optimization added: When the proactive refreshing is enabled and the token refresher fails to provide a token that's not about to expire soon, the subsequent refresh attempts will be scheduled for when the token reaches half of its remaining lifetime until a token with long enough validity (>10 minutes) is obtained.
