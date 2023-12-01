@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>VisionSource Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/VisionSource" class="dashAnchor"></a>
+    <a title="VisionSource Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">AzureAIVisionCore Docs</a> (88% documented)</p>
+        <div class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </div>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">AzureAIVisionCore Reference</a>
+        <img id="carat" src="../img/carat.png" alt=""/>
+        VisionSource Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/VisionCamera.html">VisionCamera</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/VisionCoreHTTPClient.html">VisionCoreHTTPClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/VisionCoreUtil.html">VisionCoreUtil</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/VisionDiagnostics.html">VisionDiagnostics</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/VisionFrame.html">VisionFrame</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/VisionFrameFormat.html">VisionFrameFormat</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/VisionFrameReader.html">VisionFrameReader</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/VisionFrameSource.html">VisionFrameSource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/VisionFrameWriter.html">VisionFrameWriter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/VisionServiceAdvancedOptions.html">VisionServiceAdvancedOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/VisionServiceOptions.html">VisionServiceOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/VisionSource.html">VisionSource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/VisionSourceOptions.html">VisionSourceOptions</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/VisionServiceOption.html">VisionServiceOption</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/VisionSourceDeviceOption.html">VisionSourceDeviceOption</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/VisionCoreURLSessionDataTaskProtocol.html">VisionCoreURLSessionDataTaskProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VisionCoreURLSessionProtocol.html">VisionCoreURLSessionProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VisionPropertyCollection.html">VisionPropertyCollection</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Type%20Definitions.html">Type Definitions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Type%20Definitions.html#/c:AZVisionFrameSource.h@T@AZVisionFrameSourceCallbackHandler">VisionFrameSourceCallbackHandler</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/Rect2DInt.html">Rect2DInt</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/URLSession.html">URLSession</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions.html#/URLSessionDataTask">URLSessionDataTask</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>VisionSource</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">VisionSource</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">AZVisionObjectHandle</span></code></pre>
+
+                </div>
+              </div>
+            
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)AZVisionSource(py)properties"></a>
+                    <a name="//apple_ref/swift/Property/properties" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)AZVisionSource(py)properties">properties</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The collection of properties and their values defined for this AZVisionFrameSource.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">properties</span><span class="p">:</span> <span class="kt"><a href="../Protocols/VisionPropertyCollection.html">VisionPropertyCollection</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)AZVisionSource(im)initWithSourceOptions:error:"></a>
+                    <a name="//apple_ref/swift/Method/init(sourceOptions:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)AZVisionSource(im)initWithSourceOptions:error:">init(sourceOptions:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initializes a new instance of a vision source using the provided capture device configuration.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">sourceOptions</span> <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Classes/VisionSourceOptions.html">VisionSourceOptions</a></span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A AZVisionSourceOptions object predefined device configuration</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>outError</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>error information.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>a vision source instance.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)AZVisionSource(im)initWithDeviceAttributes:error:"></a>
+                    <a name="//apple_ref/swift/Method/init(deviceAttributes:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)AZVisionSource(im)initWithDeviceAttributes:error:">init(deviceAttributes:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initializes a new instance of the AZVisionSource class using the capture device specified.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">deviceAttributes</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>deviceAttributes</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A string that specifies the attributes of the device (e.g. &ldquo;front=true;&rdquo;, &hellip;).</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>a vision source instance.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)AZVisionSource(im)initWithFile:frameFormat:error:"></a>
+                    <a name="//apple_ref/swift/Method/init(file:frameFormat:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)AZVisionSource(im)initWithFile:frameFormat:error:">init(file:<wbr>frameFormat:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initializes a new instance of the AZVisionSource class using the locally accessible file specified.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">file</span> <span class="nv">filePath</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">frameFormat</span><span class="p">:</span> <span class="kt"><a href="../Classes/VisionFrameFormat.html">VisionFrameFormat</a></span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>filePath</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A string that specifies the locally accessible file.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>a vision source instance.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)AZVisionSource(im)initWithUIImage:error:"></a>
+                    <a name="//apple_ref/swift/Method/init(uiImage:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)AZVisionSource(im)initWithUIImage:error:">init(uiImage:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initializes a new instance of the AZVisionSource class using the specified UIImage.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">uiImage</span> <span class="nv">image</span><span class="p">:</span> <span class="kt">UIImage</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>image</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A UIImage object that specifies the image file.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>a vision source instance.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)AZVisionSource(im)initWithUrl:error:"></a>
+                    <a name="//apple_ref/swift/Method/init(url:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)AZVisionSource(im)initWithUrl:error:">init(url:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initializes a new instance of the AZVisionSource class using the internet accessible URL specified.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>url</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A string that specifies the internet accessible URL</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>a vision source instance.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)AZVisionSource(im)initWithFrameSource:error:"></a>
+                    <a name="//apple_ref/swift/Method/init(frameSource:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)AZVisionSource(im)initWithFrameSource:error:">init(frameSource:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initializes a new instance of the AZVisionSource class with a FrameSource w/ a FrameWriter.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">frameSource</span><span class="p">:</span> <span class="kt"><a href="../Classes/VisionFrameSource.html">VisionFrameSource</a></span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>frameSource</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A FrameSource object</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>a vision source instance.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)AZVisionSource(im)getVisionCamera"></a>
+                    <a name="//apple_ref/swift/Method/getVisionCamera()" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)AZVisionSource(im)getVisionCamera">getVisionCamera()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Gets the handle to AZVisionCamera object for specific capture device control.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getVisionCamera</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/VisionCamera.html">VisionCamera</a></span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2023 <a class="link" href="" target="_blank" rel="external noopener"></a>. All rights reserved. (Last updated: 2023-12-01)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.4</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</html>

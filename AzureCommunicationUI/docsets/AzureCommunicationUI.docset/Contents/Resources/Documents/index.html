@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>AzureCommunicationUI  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+
+    <a title="AzureCommunicationUI  Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="index.html">
+          AzureCommunicationUI 1.1.0-beta.1 Docs
+        </a>
+         (100% documented)
+      </p>
+    
+      <div class="header-col--secondary">
+        <form role="search" action="search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </div>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/Azure/communication-ui-library-ios">
+            <img class="header-icon" src="img/gh.png" alt="GitHub"/>
+            View on GitHub
+          </a>
+        </p>
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="index.html">AzureCommunicationUI Reference</a>
+      <img class="carat" src="img/carat.png" alt=""/>
+      AzureCommunicationUI  Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/CallComposite.html">CallComposite</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/ThemeConfiguration.html">ThemeConfiguration</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/CallCompositeErrorCode.html">CallCompositeErrorCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/CallCompositeOptions.html">CallCompositeOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/CommunicationUIErrorEvent.html">CommunicationUIErrorEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/GroupCallOptions.html">GroupCallOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/LocalizationConfiguration.html">LocalizationConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/LocalizationConfiguration/LanguageCode.html">– LanguageCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/TeamsMeetingOptions.html">TeamsMeetingOptions</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content top-matter">
+            
+            <p><img src="/docs/images/mobile-ui-library-hero-image.png" alt="Hero Imaage"></p>
+<h1 id='azure-communication-ui-mobile-library-for-ios' class='heading'>Azure Communication UI Mobile Library for iOS</h1>
+
+<p><img src="https://img.shields.io/cocoapods/l/AzureCommunicationUI" alt="Cocoapods">
+<img src="https://img.shields.io/cocoapods/v/AzureCommunicationUI" alt="CocoaPods Compatible">
+<img src="https://img.shields.io/cocoapods/p/AzureCommunicationUI" alt="Cocoapods platforms"></p>
+
+<p>Azure Communication <a href="https://docs.microsoft.com/en-us/azure/communication-services/concepts/ui-library/ui-library-overview">UI Mobile Library</a> is an Azure Communication Services capability focused on providing UI components for common business-to-consumer and business-to-business calling interactions.</p>
+<h2 id='getting-started' class='heading'>Getting Started</h2>
+
+<p>Get started with Azure Communication Services by using the UI Library to integrate communication experiences into your applications. For detailed instructions to quickly integrate the UI Library functionalities visit the <a href="https://docs.microsoft.com/en-us/azure/communication-services/quickstarts/ui-library/get-started-call?tabs=kotlin&pivots=platform-ios">Quick-start Documentation</a>.</p>
+<h3 id='prerequisites' class='heading'>Prerequisites</h3>
+
+<ul>
+<li>An Azure account with an active subscription. <a href="https://azure.microsoft.com/free/?WT.mc_id=A261C142F">Create an account for free</a>.</li>
+<li>A Mac running <a href="https://go.microsoft.com/fwLink/p/?LinkID=266532">Xcode</a>, along with a valid developer certificate installed into your Keychain. <a href="https://cocoapods.org/">CocoaPods</a> must also be installed to fetch dependencies.</li>
+<li>A deployed Communication Services resource. Create a <a href="https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource">Communication Services resource</a>.</li>
+<li>Azure Communication Services Token. <a href="https://docs.microsoft.com/en-us/azure/communication-services/quickstarts/identity/quick-create-identity">See example</a>.</li>
+</ul>
+<h3 id='installation' class='heading'>Installation</h3>
+<h4 id='requirements' class='heading'>Requirements</h4>
+
+<ul>
+<li>iOS 13+</li>
+<li>Xcode 11+</li>
+<li>Swift 5.0+</li>
+</ul>
+<h4 id='using-cocoapods' class='heading'>Using CocoaPods</h4>
+
+<p>CocoaPods is a dependency manager for Cocoa projects. To set up with CocoaPods visit their <a href="https://guides.cocoapods.org/using/getting-started.html">Getting Started Guide</a>. To integrate UI Mobile Library into your Xcode project using CocoaPods, specify it in your <code>Podfile</code>:</p>
+<pre class="highlight ruby"><code><span class="n">pod</span> <span class="s1">'AzureCommunicationUI'</span><span class="p">,</span> <span class="s1">'1.0.0-beta.2'</span>
+</code></pre>
+<h4 id='manual-installation' class='heading'>Manual Installation</h4>
+
+<p>If you prefer importing Mobile UI Library as an Embedded Framework to your project, please visit our <a href="docs/manual-installation.md">Manual Installation</a> guide.</p>
+<h3 id='quick-sample' class='heading'>Quick Sample</h3>
+
+<p>Replace <code>&lt;GROUP_CALL_ID&gt;</code> with your group id for your call, <code>&lt;DISPLAY_NAME&gt;</code> with your name, and <code>&lt;USER_ACCESS_TOKEN&gt;</code> with your token.</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">callCompositeOptions</span> <span class="o">=</span> <span class="kt">CallCompositeOptions</span><span class="p">()</span>
+<span class="k">let</span> <span class="nv">callComposite</span> <span class="o">=</span> <span class="kt">CallComposite</span><span class="p">(</span><span class="nv">withOptions</span><span class="p">:</span> <span class="n">callCompositeOptions</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">communicationTokenCredential</span> <span class="o">=</span> <span class="k">try!</span> <span class="kt">CommunicationTokenCredential</span><span class="p">(</span><span class="nv">token</span><span class="p">:</span> <span class="s">"&lt;USER_ACCESS_TOKEN&gt;"</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">options</span> <span class="o">=</span> <span class="kt">GroupCallOptions</span><span class="p">(</span><span class="nv">credential</span><span class="p">:</span> <span class="n">communicationTokenCredential</span><span class="p">,</span>
+                               <span class="nv">groupId</span><span class="p">:</span> <span class="kt">UUID</span><span class="p">(</span><span class="s">"&lt;GROUP_CALL_ID&gt;"</span><span class="p">)</span><span class="o">!</span><span class="p">,</span>
+                               <span class="nv">displayName</span><span class="p">:</span> <span class="s">"&lt;DISPLAY_NAME&gt;"</span><span class="p">)</span>
+<span class="n">callComposite</span><span class="o">.</span><span class="nf">launch</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="n">options</span><span class="p">)</span>
+</code></pre>
+
+<p>For more details on Mobile UI Library functionalities visit the <a href="docs/api/CallComposite/Reference.md">API Reference Documentation</a>.</p>
+<h2 id='contributing-to-the-library-or-sample' class='heading'>Contributing to the Library or Sample</h2>
+
+<p>Before developing and contributing to Communication Mobile UI Library, check out our <a href="docs/contributing-guide.md">making a contribution guide</a>.<br>
+Included in this repository is a demo of using Mobile UI Library to start a call. You can find the detail of using and developing the UI Library in the <a href="AzureCommunicationUI/AzureCommunicationUIDemoApp">Demo Guide</a>.</p>
+
+<p>This project has adopted the <a href="https://opensource.microsoft.com/codeofconduct/">Microsoft Open Source Code of Conduct</a>. For more information see the <a href="https://opensource.microsoft.com/codeofconduct/faq/">Code of Conduct FAQ</a> or contact <a href="mailto:opencode@microsoft.com">opencode@microsoft.com</a> with any additional questions or comments. Also, please check our <a href="CONTRIBUTING.md">Contribution Policy</a>. </p>
+<h2 id='community-help-and-support' class='heading'>Community Help and Support</h2>
+
+<p>If you find a bug or have a feature request, please raise the issue on <a href="https://github.com/Azure/azure-communication-ui-library-ios/issues">GitHub Issues</a>.</p>
+<h2 id='known-issues' class='heading'>Known Issues</h2>
+
+<p>Please refer to the <a href="https://github.com/Azure/azure-communication-ui-library-ios/wiki/Known-Issues">wiki</a> for known issues related to the library.</p>
+<h2 id='further-reading' class='heading'>Further Reading</h2>
+
+<ul>
+<li><a href="https://docs.microsoft.com/azure/communication-services/concepts/ui-framework/ui-sdk-overview">Azure Communication UI Library Conceptual Documentation</a></li>
+<li><a href="https://docs.microsoft.com/en-us/azure/communication-services/overview">Azure Communication Service</a></li>
+<li><a href="https://docs.microsoft.com/en-us/azure/communication-services/concepts/client-and-server-architecture">Azure Communication Client and Server Architecture</a></li>
+<li><a href="https://docs.microsoft.com/en-us/azure/communication-services/concepts/authentication">Azure Communication Authentication</a></li>
+<li><a href="https://docs.microsoft.com/en-us/azure/communication-services/concepts/troubleshooting-info">Azure Communication Service Troubleshooting</a></li>
+</ul>
+
+          </div>
+        </section>
+
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2022 <a class="link" href="https://azure.github.io/azure-sdk/" target="_blank" rel="external noopener">Microsoft</a>. All rights reserved. (Last updated: 2022-04-20)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>SupportedLocale Structure Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+    <a name="//apple_ref/swift/Struct/SupportedLocale" class="dashAnchor"></a>
+
+    <a title="SupportedLocale Structure Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="../index.html">
+          AzureCommunicationUICalling 1.4.0 Docs
+        </a>
+         (94% documented)
+      </p>
+    
+      <div class="header-col--secondary">
+        <form role="search" action="../search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </div>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/Azure/communication-ui-library-ios">
+            <img class="header-icon" src="../img/gh.png" alt="GitHub"/>
+            View on GitHub
+          </a>
+        </p>
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="../index.html">AzureCommunicationUICalling Reference</a>
+      <img class="carat" src="../img/carat.png" alt=""/>
+      SupportedLocale Structure Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/CallComposite.html">CallComposite</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/CallComposite/Events.html">– Events</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/JoinLocator.html">JoinLocator</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/SetParticipantViewDataError.html">SetParticipantViewDataError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/ThemeOptions.html">ThemeOptions</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CallCompositeDismissed.html">CallCompositeDismissed</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CallCompositeError.html">CallCompositeError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CallCompositeErrorCode.html">CallCompositeErrorCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CallCompositeOptions.html">CallCompositeOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CallHistoryRecord.html">CallHistoryRecord</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CallState.html">CallState</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/DebugInfo.html">DebugInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/LocalOptions.html">LocalOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/LocalizationOptions.html">LocalizationOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/OrientationOptions.html">OrientationOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ParticipantViewData.html">ParticipantViewData</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/RemoteOptions.html">RemoteOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/SetupScreenViewData.html">SetupScreenViewData</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/SupportedLocale.html">SupportedLocale</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content top-matter">
+            <h1>SupportedLocale</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">SupportedLocale</span></code></pre>
+
+                </div>
+              </div>
+            <p>SupportedLocale representing the supported locales.</p>
+
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-content">
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV2ar10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/ar" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV2ar10Foundation0E0VvpZ">ar</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Arabic</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">ar</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV4arSA10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/arSA" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV4arSA10Foundation0E0VvpZ">arSA</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Arabic (Saudi Arabia)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">arSA</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV2zh10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/zh" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV2zh10Foundation0E0VvpZ">zh</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Chinese, Simplified</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">zh</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV6zhHans10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/zhHans" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV6zhHans10Foundation0E0VvpZ">zhHans</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Chinese, Simplified</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">zhHans</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV8zhHansCN10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/zhHansCN" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV8zhHansCN10Foundation0E0VvpZ">zhHansCN</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Chinese, Simplified (China mainland)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">zhHansCN</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV6zhHant10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/zhHant" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV6zhHant10Foundation0E0VvpZ">zhHant</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Chinese, Traditional</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">zhHant</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV8zhHantTW10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/zhHantTW" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV8zhHantTW10Foundation0E0VvpZ">zhHantTW</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Chinese, Traditional (Taiwan)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">zhHantTW</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV2nl10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/nl" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV2nl10Foundation0E0VvpZ">nl</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Dutch</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">nl</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV4nlNL10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/nlNL" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV4nlNL10Foundation0E0VvpZ">nlNL</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Dutch (Netherlands)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">nlNL</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV2en10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/en" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV2en10Foundation0E0VvpZ">en</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>English</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">en</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV4enGB10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/enGB" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV4enGB10Foundation0E0VvpZ">enGB</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>English (United Kingdom)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">enGB</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV4enUS10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/enUS" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV4enUS10Foundation0E0VvpZ">enUS</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>English (United States)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">enUS</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV2fi10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/fi" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV2fi10Foundation0E0VvpZ">fi</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Finnish</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">fi</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV4fiFI10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/fiFI" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV4fiFI10Foundation0E0VvpZ">fiFI</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Finnish (Finland)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">fiFI</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV2fr10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/fr" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV2fr10Foundation0E0VvpZ">fr</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>French</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">fr</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV4frFR10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/frFR" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV4frFR10Foundation0E0VvpZ">frFR</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>French (France)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">frFR</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV2de10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/de" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV2de10Foundation0E0VvpZ">de</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>German</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">de</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV4deDE10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/deDE" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV4deDE10Foundation0E0VvpZ">deDE</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>German (Germany)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">deDE</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV2he10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/he" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV2he10Foundation0E0VvpZ">he</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Hebrew</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">he</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV4heIL10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/heIL" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV4heIL10Foundation0E0VvpZ">heIL</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Hebrew (Israel)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">heIL</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV2it10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/it" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV2it10Foundation0E0VvpZ">it</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Italian</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">it</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV4itIT10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/itIT" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV4itIT10Foundation0E0VvpZ">itIT</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Italian (Italy)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">itIT</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV2ja10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/ja" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV2ja10Foundation0E0VvpZ">ja</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Japanese</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">ja</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV4jaJP10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/jaJP" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV4jaJP10Foundation0E0VvpZ">jaJP</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Japanese (Japan)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">jaJP</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV2ko10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/ko" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV2ko10Foundation0E0VvpZ">ko</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Korean</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">ko</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV4koKR10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/koKR" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV4koKR10Foundation0E0VvpZ">koKR</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Korean (South Korea)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">koKR</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV2nb10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/nb" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV2nb10Foundation0E0VvpZ">nb</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Norwegian Bokmål</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">nb</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV4nbNO10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/nbNO" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV4nbNO10Foundation0E0VvpZ">nbNO</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Norwegian Bokmål (Norway)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">nbNO</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV2pl10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/pl" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV2pl10Foundation0E0VvpZ">pl</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Polish</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">pl</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV4plPL10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/plPL" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV4plPL10Foundation0E0VvpZ">plPL</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Polish (Poland)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">plPL</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV2pt10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/pt" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV2pt10Foundation0E0VvpZ">pt</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Portuguese</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">pt</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV4ptBR10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/ptBR" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV4ptBR10Foundation0E0VvpZ">ptBR</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Portuguese (Brazil)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">ptBR</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV2ru10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/ru" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV2ru10Foundation0E0VvpZ">ru</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Russian</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">ru</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV4ruRU10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/ruRU" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV4ruRU10Foundation0E0VvpZ">ruRU</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Russian (Russia)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">ruRU</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV2es10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/es" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV2es10Foundation0E0VvpZ">es</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Spanish</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">es</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV4esES10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/esES" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV4esES10Foundation0E0VvpZ">esES</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Spanish (Spain)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">esES</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV2sv10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/sv" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV2sv10Foundation0E0VvpZ">sv</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Swedish</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">sv</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV4svSE10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/svSE" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV4svSE10Foundation0E0VvpZ">svSE</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Swedish (Sweden)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">svSE</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV2tr10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/tr" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV2tr10Foundation0E0VvpZ">tr</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Turkish</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">tr</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV4trTR10Foundation0E0VvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/trTR" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV4trTR10Foundation0E0VvpZ">trTR</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Turkish (Turkey)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">trTR</span><span class="p">:</span> <span class="kt">Locale</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling15SupportedLocaleV6valuesSay10Foundation0E0VGvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/values" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling15SupportedLocaleV6valuesSay10Foundation0E0VGvpZ">values</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get supported locales the AzureCommunicationUICalling has predefined translations.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">values</span><span class="p">:</span> <span class="p">[</span><span class="kt">Locale</span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Get supported Locales the AzureCommunicationUICalling
+has predefined translations.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2023 <a class="link" href="https://azure.github.io/azure-sdk/" target="_blank" rel="external noopener">Microsoft</a>. All rights reserved. (Last updated: 2023-09-08)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+    </section>
+  </body>
+</html>

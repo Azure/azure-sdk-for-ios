@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>FaceAnalyzer Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/FaceAnalyzer" class="dashAnchor"></a>
+    <a title="FaceAnalyzer Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">AzureAIVisionFace Docs</a> (95% documented)</p>
+        <div class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </div>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">AzureAIVisionFace Reference</a>
+        <img id="carat" src="../img/carat.png" alt=""/>
+        FaceAnalyzer Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/AnalyzedFace.html">AnalyzedFace</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/AnalyzingFace.html">AnalyzingFace</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FaceActionRequiredFromApplicationTask.html">FaceActionRequiredFromApplicationTask</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FaceAnalysisOptions.html">FaceAnalysisOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FaceAnalyzedDetails.html">FaceAnalyzedDetails</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FaceAnalyzedResult.html">FaceAnalyzedResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FaceAnalyzer.html">FaceAnalyzer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FaceAnalyzerCreateOptions.html">FaceAnalyzerCreateOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FaceAnalyzingResult.html">FaceAnalyzingResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FaceLivenessResult.html">FaceLivenessResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FaceRecognitionResult.html">FaceRecognitionResult</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/FaceActionRequiredFromApplication.html">FaceActionRequiredFromApplication</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FaceAnalyzerMode.html">FaceAnalyzerMode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FaceAnalyzingFeedbackForFace.html">FaceAnalyzingFeedbackForFace</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FaceAnalyzingWarning.html">FaceAnalyzingWarning</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FaceLivenessFailureReason.html">FaceLivenessFailureReason</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FaceLivenessStatus.html">FaceLivenessStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FaceNotRecognizedReason.html">FaceNotRecognizedReason</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FaceRecognitionFailureReason.html">FaceRecognitionFailureReason</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FaceRecognitionMode.html">FaceRecognitionMode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FaceRecognitionStatus.html">FaceRecognitionStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FaceSelectionMode.html">FaceSelectionMode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FaceSessionStoppedReason.html">FaceSessionStoppedReason</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FaceTrackingState.html">FaceTrackingState</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Type%20Definitions.html">Type Definitions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Type%20Definitions.html#/c:AZFaceAnalyzer.h@T@AZFaceAnalyzedEventHandler">FaceAnalyzedEventHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Type%20Definitions.html#/c:AZFaceAnalyzer.h@T@AZFaceAnalyzingEventHandler">FaceAnalyzingEventHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Type%20Definitions.html#/c:AZFaceAnalyzer.h@T@AZFaceSessionStartedEventHandler">FaceSessionStartedEventHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Type%20Definitions.html#/c:AZFaceAnalyzer.h@T@AZFaceSessionStoppedEventHandler">FaceSessionStoppedEventHandler</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/FaceAnalysisOptions.html">FaceAnalysisOptions</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>FaceAnalyzer</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">FaceAnalyzer</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+                </div>
+              </div>
+            <p>Performs face analysis on the specified image/camera input, and gets analysed
+face as result.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)AZFaceAnalyzer(py)properties"></a>
+                    <a name="//apple_ref/swift/Property/properties" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)AZFaceAnalyzer(py)properties">properties</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The collection of properties and their values defined for this
+AZFaceAnalyzer.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">properties</span><span class="p">:</span> <span class="kt">VisionPropertyCollection</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)AZFaceAnalyzer(py)sessionId"></a>
+                    <a name="//apple_ref/swift/Property/sessionId" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)AZFaceAnalyzer(py)sessionId">sessionId</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The unique Session ID for this FaceAnalyzer.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">sessionId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)AZFaceAnalyzer(cm)createWithServiceOptions:input:createOptions:completionHandler:"></a>
+                    <a name="//apple_ref/swift/Method/create(serviceOptions:input:createOptions:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)AZFaceAnalyzer(cm)createWithServiceOptions:input:createOptions:completionHandler:">create(serviceOptions:<wbr>input:<wbr>createOptions:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new instance of the FaceAnalyzer class.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">create</span><span class="p">(</span><span class="nv">serviceOptions</span><span class="p">:</span> <span class="kt">VisionServiceOptions</span><span class="p">?,</span> <span class="nv">input</span><span class="p">:</span> <span class="kt">VisionSource</span><span class="p">,</span> <span class="nv">createOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/FaceAnalyzerCreateOptions.html">FaceAnalyzerCreateOptions</a></span><span class="p">?)</span> <span class="n">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">FaceAnalyzer</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>serviceOptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>vision service options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>input</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>vision source input.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>createOptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>options for creating the FaceAnalyzer.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the block function to be called when the async operation has been completed.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>an instance of face analyzer.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)AZFaceAnalyzer(im)analyzeOnceUsingOptions:error:"></a>
+                    <a name="//apple_ref/swift/Method/analyzeOnce(using:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)AZFaceAnalyzer(im)analyzeOnceUsingOptions:error:">analyzeOnce(using:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Analyze one FaceAnalyzedResult from the input.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">analyzeOnce</span><span class="p">(</span><span class="n">using</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">FaceAnalysisOptions</span><span class="p">?)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/FaceAnalyzedResult.html">FaceAnalyzedResult</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional options for performing analysis.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>outError</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>error information.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>the result of face analysis.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)AZFaceAnalyzer(im)analyzeOnceUsingOptions:completionHandler:"></a>
+                    <a name="//apple_ref/swift/Method/analyzeOnce(using:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)AZFaceAnalyzer(im)analyzeOnceUsingOptions:completionHandler:">analyzeOnce(using:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Analyze one FaceAnalyzedResult from the input, asynchronously.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">analyzeOnce</span><span class="p">(</span><span class="n">using</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">FaceAnalysisOptions</span><span class="p">?)</span> <span class="n">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/FaceAnalyzedResult.html">FaceAnalyzedResult</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional options for performing analysis.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>resultReceivedHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the block function to be called when the face
+has been analyzed.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)AZFaceAnalyzer(im)stopAnalyzeOnce:"></a>
+                    <a name="//apple_ref/swift/Method/stopAnalyzeOnce()" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)AZFaceAnalyzer(im)stopAnalyzeOnce:">stopAnalyzeOnce()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Stops analyzing results from the input.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">stopAnalyzeOnce</span><span class="p">()</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>outError</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>error information.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)AZFaceAnalyzer(im)startContinuousAnalysisUsingOptions:error:"></a>
+                    <a name="//apple_ref/swift/Method/startContinuousAnalysis(using:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)AZFaceAnalyzer(im)startContinuousAnalysisUsingOptions:error:">startContinuousAnalysis(using:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Starts analyzing results from the input, continuously.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">startContinuousAnalysis</span><span class="p">(</span><span class="n">using</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">FaceAnalysisOptions</span><span class="p">?)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional options for performing analysis.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>outError</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>error information.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)AZFaceAnalyzer(im)stopContinuousAnalysis:"></a>
+                    <a name="//apple_ref/swift/Method/stopContinuousAnalysis()" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)AZFaceAnalyzer(im)stopContinuousAnalysis:">stopContinuousAnalysis()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Stops continuous analysis.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">stopContinuousAnalysis</span><span class="p">()</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>outError</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>error information.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)AZFaceAnalyzer(im)waitForStop:"></a>
+                    <a name="//apple_ref/swift/Method/waitForStop()" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)AZFaceAnalyzer(im)waitForStop:">waitForStop()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Wait for analysis to stop.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">waitForStop</span><span class="p">()</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>outError</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>error information.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)AZFaceAnalyzer(im)waitForStopWithTimeout:error:"></a>
+                    <a name="//apple_ref/swift/Method/waitForStop(withTimeout:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)AZFaceAnalyzer(im)waitForStopWithTimeout:error:">waitForStop(withTimeout:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Wait for analysis to stop with timeout.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">waitForStop</span><span class="p">(</span><span class="n">withTimeout</span> <span class="nv">timeout</span><span class="p">:</span> <span class="n">uint</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>timeout</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>time to wait for stop in milliseconds.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>outError</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>error information.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)AZFaceAnalyzer(im)addAnalyzingEventHandler:"></a>
+                    <a name="//apple_ref/swift/Method/addAnalyzingEventHandler(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)AZFaceAnalyzer(im)addAnalyzingEventHandler:">addAnalyzingEventHandler(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Subscribes to the Analyzing event which indicates that an intermediate result has been recognized.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">addAnalyzingEventHandler</span><span class="p">(</span><span class="n">_</span> <span class="nv">eventHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Type%20Definitions.html#/c:AZFaceAnalyzer.h@T@AZFaceAnalyzingEventHandler">FaceAnalyzingEventHandler</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)AZFaceAnalyzer(im)addAnalyzedEventHandler:"></a>
+                    <a name="//apple_ref/swift/Method/addAnalyzedEventHandler(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)AZFaceAnalyzer(im)addAnalyzedEventHandler:">addAnalyzedEventHandler(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Subscribes to the Analyzed event which indicates that a final result has been recognized.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">addAnalyzedEventHandler</span><span class="p">(</span><span class="n">_</span> <span class="nv">eventHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Type%20Definitions.html#/c:AZFaceAnalyzer.h@T@AZFaceAnalyzedEventHandler">FaceAnalyzedEventHandler</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)AZFaceAnalyzer(im)addSessionStartedEventHandler:"></a>
+                    <a name="//apple_ref/swift/Method/addSessionStartedEventHandler(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)AZFaceAnalyzer(im)addSessionStartedEventHandler:">addSessionStartedEventHandler(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Subscribes to the SessionStarted event indicating the start of a recognition session (operation).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">addSessionStartedEventHandler</span><span class="p">(</span><span class="n">_</span> <span class="nv">eventHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Type%20Definitions.html#/c:AZFaceAnalyzer.h@T@AZFaceSessionStartedEventHandler">FaceSessionStartedEventHandler</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)AZFaceAnalyzer(im)addSessionStoppedEventHandler:"></a>
+                    <a name="//apple_ref/swift/Method/addSessionStoppedEventHandler(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)AZFaceAnalyzer(im)addSessionStoppedEventHandler:">addSessionStoppedEventHandler(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Subscribes to the SessionStopped event indicating the end of a recognition session (operation).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">addSessionStoppedEventHandler</span><span class="p">(</span><span class="n">_</span> <span class="nv">eventHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Type%20Definitions.html#/c:AZFaceAnalyzer.h@T@AZFaceSessionStoppedEventHandler">FaceSessionStoppedEventHandler</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2023 <a class="link" href="" target="_blank" rel="external noopener"></a>. All rights reserved. (Last updated: 2023-12-01)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.4</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</html>

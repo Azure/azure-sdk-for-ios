@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CallComposite Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+    <a name="//apple_ref/swift/Class/CallComposite" class="dashAnchor"></a>
+
+    <a title="CallComposite Class Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="../index.html">
+          AzureCommunicationUICalling 1.4.0 Docs
+        </a>
+         (94% documented)
+      </p>
+    
+      <div class="header-col--secondary">
+        <form role="search" action="../search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </div>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/Azure/communication-ui-library-ios">
+            <img class="header-icon" src="../img/gh.png" alt="GitHub"/>
+            View on GitHub
+          </a>
+        </p>
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="../index.html">AzureCommunicationUICalling Reference</a>
+      <img class="carat" src="../img/carat.png" alt=""/>
+      CallComposite Class Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/CallComposite.html">CallComposite</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/CallComposite/Events.html">– Events</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/JoinLocator.html">JoinLocator</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/SetParticipantViewDataError.html">SetParticipantViewDataError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/ThemeOptions.html">ThemeOptions</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CallCompositeDismissed.html">CallCompositeDismissed</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CallCompositeError.html">CallCompositeError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CallCompositeErrorCode.html">CallCompositeErrorCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CallCompositeOptions.html">CallCompositeOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CallHistoryRecord.html">CallHistoryRecord</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CallState.html">CallState</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/DebugInfo.html">DebugInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/LocalOptions.html">LocalOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/LocalizationOptions.html">LocalizationOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/OrientationOptions.html">OrientationOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ParticipantViewData.html">ParticipantViewData</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/RemoteOptions.html">RemoteOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/SetupScreenViewData.html">SetupScreenViewData</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/SupportedLocale.html">SupportedLocale</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content top-matter">
+            <h1>CallComposite</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">CallComposite</span></code></pre>
+
+                </div>
+              </div>
+            <p>The main class representing the entry point for the Call Composite.</p>
+
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-content">
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling13CallCompositeC6EventsC"></a>
+                    <a name="//apple_ref/swift/Class/Events" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling13CallCompositeC6EventsC">Events</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The class to configure events closures for Call Composite.</p>
+
+                        <a href="../Classes/CallComposite/Events.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">Events</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling13CallCompositeC6eventsAC6EventsCvp"></a>
+                    <a name="//apple_ref/swift/Property/events" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling13CallCompositeC6eventsAC6EventsCvp">events</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The events handler for Call Composite</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">events</span><span class="p">:</span> <span class="kt"><a href="../Classes/CallComposite/Events.html">Events</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling13CallCompositeC9debugInfoAA05DebugG0Vvp"></a>
+                    <a name="//apple_ref/swift/Property/debugInfo" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling13CallCompositeC9debugInfoAA05DebugG0Vvp">debugInfo</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get debug information for the Call Composite.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">debugInfo</span><span class="p">:</span> <span class="kt"><a href="../Structs/DebugInfo.html">DebugInfo</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling13CallCompositeC9callStateAA0dG0Vvp"></a>
+                    <a name="//apple_ref/swift/Property/callState" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling13CallCompositeC9callStateAA0dG0Vvp">callState</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get call state for the Call Composite.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">callState</span><span class="p">:</span> <span class="kt"><a href="../Structs/CallState.html">CallState</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling13CallCompositeC11withOptionsAcA0deG0VSg_tcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(withOptions:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling13CallCompositeC11withOptionsAcA0deG0VSg_tcfc">init(withOptions:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create an instance of CallComposite with options.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">withOptions</span> <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/CallCompositeOptions.html">CallCompositeOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The CallCompositeOptions used to configure the experience.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling13CallCompositeC7dismissyyF"></a>
+                    <a name="//apple_ref/swift/Method/dismiss()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling13CallCompositeC7dismissyyF">dismiss()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Dismiss call composite. If call is in progress, user will leave a call.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">dismiss</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling13CallCompositeC6launch13remoteOptions05localH0yAA06RemoteH0V_AA05LocalH0VSgtF"></a>
+                    <a name="//apple_ref/swift/Method/launch(remoteOptions:localOptions:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling13CallCompositeC6launch13remoteOptions05localH0yAA06RemoteH0V_AA05LocalH0VSgtF">launch(remoteOptions:<wbr>localOptions:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Start Call Composite experience with joining a Teams meeting.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">launch</span><span class="p">(</span><span class="nv">remoteOptions</span><span class="p">:</span> <span class="kt"><a href="../Structs/RemoteOptions.html">RemoteOptions</a></span><span class="p">,</span>
+                   <span class="nv">localOptions</span><span class="p">:</span> <span class="kt"><a href="../Structs/LocalOptions.html">LocalOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>remoteOptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>RemoteOptions used to send to ACS to locate the call.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>localOptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>LocalOptions used to set the user participants information for the call.
+                       This is data is not sent up to ACS.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:27AzureCommunicationUICalling13CallCompositeC3set25remoteParticipantViewData3for17completionHandleryAA0hiJ0V_0aB6Common0B10Identifier_pys6ResultOyytAA03SethiJ5ErrorOGcSgtF"></a>
+                    <a name="//apple_ref/swift/Method/set(remoteParticipantViewData:for:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:27AzureCommunicationUICalling13CallCompositeC3set25remoteParticipantViewData3for17completionHandleryAA0hiJ0V_0aB6Common0B10Identifier_pys6ResultOyytAA03SethiJ5ErrorOGcSgtF">set(remoteParticipantViewData:<wbr>for:<wbr>completionHandler:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Set ParticipantViewData to be displayed for the remote participant. This is data is not sent up to ACS.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">set</span><span class="p">(</span><span class="nv">remoteParticipantViewData</span><span class="p">:</span> <span class="kt"><a href="../Structs/ParticipantViewData.html">ParticipantViewData</a></span><span class="p">,</span>
+                <span class="k">for</span> <span class="nv">identifier</span><span class="p">:</span> <span class="kt">CommunicationIdentifier</span><span class="p">,</span>
+                <span class="nv">completionHandler</span><span class="p">:</span> <span class="p">((</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt"><a href="../Enums/SetParticipantViewDataError.html">SetParticipantViewDataError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>remoteParticipantViewData</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>ParticipantViewData used to set the participant&rsquo;s information for the call.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>identifier</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The communication identifier for the remote participant.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The completion handler that receives <code>Result</code> enum value with either
+               a <code>Void</code> or an <code><a href="../Enums/SetParticipantViewDataError.html">SetParticipantViewDataError</a></code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2023 <a class="link" href="https://azure.github.io/azure-sdk/" target="_blank" rel="external noopener">Microsoft</a>. All rights reserved. (Last updated: 2023-09-08)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+    </section>
+  </body>
+</html>
