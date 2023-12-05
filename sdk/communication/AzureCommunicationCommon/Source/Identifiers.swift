@@ -52,15 +52,15 @@ import os.log
     var kind: IdentifierKind { get }
 }
 
-enum Prefix {
+internal enum Prefix {
     public static let PhoneNumber = "4:"
     public static let TeamsAppPublicCloud = "28:orgid:"
     public static let TeamsAppDodCloud = "28:dod:"
     public static let TeamsAppGcchCloud = "28:gcch:"
-    public static let TeamUserAnonymous = "8:teamsvisitor:"
-    public static let TeamUserPublicCloud = "8:orgid:"
-    public static let TeamUserDodCloud = "8:dod:"
-    public static let TeamUserGcchCloud = "8:gcch:"
+    public static let TeamsUserAnonymous = "8:teamsvisitor:"
+    public static let TeamsUserPublicCloud = "8:orgid:"
+    public static let TeamsUserDodCloud = "8:dod:"
+    public static let TeamsUserGcchCloud = "8:gcch:"
     public static let AcsUser = "8:acs:"
     public static let AcsUserDodCloud = "8:dod-acs:"
     public static let AcsUserGcchCloud = "8:gcch-acs:"
@@ -83,20 +83,20 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
     let scope = segments[0] + ":" + segments[1] + ":"
     let suffix = String(segments[2])
     switch scope {
-    case Prefix.TeamUserAnonymous:
+    case Prefix.TeamsUserAnonymous:
         return MicrosoftTeamsUserIdentifier(userId: suffix, isAnonymous: true)
-    case Prefix.TeamUserPublicCloud:
+    case Prefix.TeamsUserPublicCloud:
         return MicrosoftTeamsUserIdentifier(userId: suffix, isAnonymous: false, rawId: rawId, cloudEnvironment: .Public)
-    case Prefix.TeamUserDodCloud:
+    case Prefix.TeamsUserDodCloud:
         return MicrosoftTeamsUserIdentifier(userId: suffix, isAnonymous: false, rawId: rawId, cloudEnvironment: .Dod)
-    case Prefix.TeamUserGcchCloud:
+    case Prefix.TeamsUserGcchCloud:
         return MicrosoftTeamsUserIdentifier(userId: suffix, isAnonymous: false, rawId: rawId, cloudEnvironment: .Gcch)
     case Prefix.TeamsAppPublicCloud:
-        return MicrosoftTeamsAppIdentifier(teamsAppId: suffix, cloudEnvironment: .Public)
+        return MicrosoftTeamsAppIdentifier(appId: suffix, cloudEnvironment: .Public)
     case Prefix.TeamsAppDodCloud:
-        return MicrosoftTeamsAppIdentifier(teamsAppId: suffix, cloudEnvironment: .Dod)
+        return MicrosoftTeamsAppIdentifier(appId: suffix, cloudEnvironment: .Dod)
     case Prefix.TeamsAppGcchCloud:
-        return MicrosoftTeamsAppIdentifier(teamsAppId: suffix, cloudEnvironment: .Gcch)
+        return MicrosoftTeamsAppIdentifier(appId: suffix, cloudEnvironment: .Gcch)
     case Prefix.AcsUser,
          Prefix.SpoolUser,
          Prefix.AcsUserDodCloud,
@@ -241,15 +241,15 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
             self.rawId = rawId
         } else {
             if isAnonymous {
-                self.rawId = Prefix.TeamUserAnonymous + userId
+                self.rawId = Prefix.TeamsUserAnonymous + userId
             } else {
                 switch cloudEnvironment {
                 case .Dod:
-                    self.rawId = Prefix.TeamUserDodCloud + userId
+                    self.rawId = Prefix.TeamsUserDodCloud + userId
                 case .Gcch:
-                    self.rawId = Prefix.TeamUserGcchCloud + userId
+                    self.rawId = Prefix.TeamsUserGcchCloud + userId
                 default:
-                    self.rawId = Prefix.TeamUserPublicCloud + userId
+                    self.rawId = Prefix.TeamsUserPublicCloud + userId
                 }
             }
         }
@@ -295,31 +295,31 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
  Communication identifier for Microsoft Teams applications.
  */
 @objcMembers public class MicrosoftTeamsAppIdentifier: NSObject, CommunicationIdentifier {
-    public let teamsAppId: String
+    public let appId: String
     public let cloudEnvironment: CommunicationCloudEnvironment
     public var rawId: String
     public var kind: IdentifierKind { return .microsoftTeamsApp }
 
     /**
      Creates a MicrosoftTeamsAppIdentifier object
-     - Parameter teamsAppId: The id of the Microsoft Teams application.
+     - Parameter appId: The id of the Microsoft Teams application.
      - Parameter cloudEnvironment: The cloud that the Microsoft Teams application belongs to.
                                     A null value translates to the Public cloud.
      */
     public init(
-        teamsAppId: String,
+        appId: String,
         cloudEnvironment: CommunicationCloudEnvironment = .Public
     ) {
-        self.teamsAppId = teamsAppId
+        self.appId = appId
         self.cloudEnvironment = cloudEnvironment
 
         switch cloudEnvironment {
         case .Dod:
-            self.rawId = Prefix.TeamsAppDodCloud + teamsAppId
+            self.rawId = Prefix.TeamsAppDodCloud + appId
         case .Gcch:
-            self.rawId = Prefix.TeamsAppGcchCloud + teamsAppId
+            self.rawId = Prefix.TeamsAppGcchCloud + appId
         default:
-            self.rawId = Prefix.TeamsAppPublicCloud + teamsAppId
+            self.rawId = Prefix.TeamsAppPublicCloud + appId
         }
     }
 

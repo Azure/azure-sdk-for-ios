@@ -103,19 +103,19 @@ class CommunicationIdentifierTest: XCTestCase {
 
     func test_MicrosoftTeamsAppIdentifier_IfRawIdIsNull_RawIdIsGeneratedProperly() {
         let expectedRawId = "28:orgid:User Id"
-        var teamsAppIdentifier = MicrosoftTeamsAppIdentifier(teamsAppId: testUserId)
+        var teamsAppIdentifier = MicrosoftTeamsAppIdentifier(appId: testUserId)
         XCTAssertEqual(teamsAppIdentifier.rawId, expectedRawId)
 
         let expectedRawIdAndCloudDod = "28:dod:User Id"
         teamsAppIdentifier = MicrosoftTeamsAppIdentifier(
-            teamsAppId: testUserId,
+            appId: testUserId,
             cloudEnvironment: .Dod
         )
         XCTAssertEqual(teamsAppIdentifier.rawId, expectedRawIdAndCloudDod)
 
         let expectedRawIdAndCloudGcch = "28:gcch:User Id"
         teamsAppIdentifier = MicrosoftTeamsAppIdentifier(
-            teamsAppId: testUserId,
+            appId: testUserId,
             cloudEnvironment: .Gcch
         )
         XCTAssertEqual(teamsAppIdentifier.rawId, expectedRawIdAndCloudGcch)
@@ -126,7 +126,7 @@ class CommunicationIdentifierTest: XCTestCase {
         XCTAssertEqual(
             CommunicationCloudEnvironment.Public,
             MicrosoftTeamsAppIdentifier(
-                teamsAppId: testUserId
+                appId: testUserId
             ).cloudEnvironment
         )
     }
@@ -213,9 +213,9 @@ class CommunicationIdentifierTest: XCTestCase {
                     rawId: testRawId
                 )
         )
-        var teamsAppIdentifier = MicrosoftTeamsAppIdentifier(teamsAppId: testUserId)
+        var teamsAppIdentifier = MicrosoftTeamsAppIdentifier(appId: testUserId)
         teamsAppIdentifier.rawId = testRawId
-        var otherTeamsAppIdentifier = MicrosoftTeamsAppIdentifier(teamsAppId: testUserId)
+        var otherTeamsAppIdentifier = MicrosoftTeamsAppIdentifier(appId: testUserId)
         XCTAssertFalse(teamsAppIdentifier == otherTeamsAppIdentifier)
         XCTAssertFalse(otherTeamsAppIdentifier == teamsAppIdentifier)
 
