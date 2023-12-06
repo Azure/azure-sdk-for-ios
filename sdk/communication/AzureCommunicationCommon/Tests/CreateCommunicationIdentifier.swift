@@ -155,13 +155,13 @@ class CreateCommunicationIdentifier: XCTestCase {
     }
 
     func test_createMicrosoftTeamsUserIdentifierAnonymousScope() {
-        let teamUserAnonymousScope =
+        let teamsUserAnonymousScope =
             "8:teamsvisitor:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
-        let identifier = createCommunicationIdentifier(fromRawId: teamUserAnonymousScope)
+        let identifier = createCommunicationIdentifier(fromRawId: teamsUserAnonymousScope)
         switch identifier.kind {
         case .microsoftTeamsUser:
             guard let identifier = identifier as? MicrosoftTeamsUserIdentifier else { return }
-            XCTAssertEqual(identifier.rawId, teamUserAnonymousScope)
+            XCTAssertEqual(identifier.rawId, teamsUserAnonymousScope)
             XCTAssertEqual(identifier.userId, rawIdSuffix)
             XCTAssertEqual(identifier.isAnonymous, true)
             XCTAssertEqual(identifier.cloudEnvironment, .Public)
@@ -171,13 +171,13 @@ class CreateCommunicationIdentifier: XCTestCase {
     }
 
     func test_createMicrosoftTeamsUserIdentifierPublicScope() {
-        let teamUserPublicCloudScope =
+        let teamsUserPublicCloudScope =
             "8:orgid:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
-        let identifier = createCommunicationIdentifier(fromRawId: teamUserPublicCloudScope)
+        let identifier = createCommunicationIdentifier(fromRawId: teamsUserPublicCloudScope)
         switch identifier.kind {
         case .microsoftTeamsUser:
             guard let identifier = identifier as? MicrosoftTeamsUserIdentifier else { return }
-            XCTAssertEqual(identifier.rawId, teamUserPublicCloudScope)
+            XCTAssertEqual(identifier.rawId, teamsUserPublicCloudScope)
             XCTAssertEqual(identifier.userId, rawIdSuffix)
             XCTAssertEqual(identifier.isAnonymous, false)
             XCTAssertEqual(identifier.cloudEnvironment, .Public)
@@ -187,12 +187,12 @@ class CreateCommunicationIdentifier: XCTestCase {
     }
 
     func test_createMicrosoftTeamsUserIdentifierDODScope() {
-        let teamUserDODCloudScope = "8:dod:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
-        let identifier = createCommunicationIdentifier(fromRawId: teamUserDODCloudScope)
+        let teamsUserDODCloudScope = "8:dod:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
+        let identifier = createCommunicationIdentifier(fromRawId: teamsUserDODCloudScope)
         switch identifier.kind {
         case .microsoftTeamsUser:
             guard let identifier = identifier as? MicrosoftTeamsUserIdentifier else { return }
-            XCTAssertEqual(identifier.rawId, teamUserDODCloudScope)
+            XCTAssertEqual(identifier.rawId, teamsUserDODCloudScope)
             XCTAssertEqual(identifier.userId, rawIdSuffix)
             XCTAssertEqual(identifier.isAnonymous, false)
             XCTAssertEqual(identifier.cloudEnvironment, .Dod)
@@ -202,12 +202,12 @@ class CreateCommunicationIdentifier: XCTestCase {
     }
 
     func test_createMicrosoftTeamsUserIdentifierGCCHScope() {
-        let teamUserGCCHCloudScope = "8:gcch:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
-        let identifier = createCommunicationIdentifier(fromRawId: teamUserGCCHCloudScope)
+        let teamsUserGCCHCloudScope = "8:gcch:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
+        let identifier = createCommunicationIdentifier(fromRawId: teamsUserGCCHCloudScope)
         switch identifier.kind {
         case .microsoftTeamsUser:
             guard let identifier = identifier as? MicrosoftTeamsUserIdentifier else { return }
-            XCTAssertEqual(identifier.rawId, teamUserGCCHCloudScope)
+            XCTAssertEqual(identifier.rawId, teamsUserGCCHCloudScope)
             XCTAssertEqual(identifier.userId, rawIdSuffix)
             XCTAssertEqual(identifier.isAnonymous, false)
             XCTAssertEqual(identifier.cloudEnvironment, .Gcch)
@@ -216,7 +216,7 @@ class CreateCommunicationIdentifier: XCTestCase {
         }
     }
 
-    func test_createMicrosoftBotIdentifier() {
+    func test_createMicrosoftTeamsAppIdentifier() {
         let testCases = [
             (
                 CommunicationCloudEnvironment.Public,
@@ -236,46 +236,13 @@ class CreateCommunicationIdentifier: XCTestCase {
 
             let identifier = createCommunicationIdentifier(fromRawId: rawId)
             switch identifier.kind {
-            case .microsoftBot:
-                guard let identifier = identifier as? MicrosoftBotIdentifier else { return }
+            case .microsoftTeamsApp:
+                guard let identifier = identifier as? MicrosoftTeamsAppIdentifier else { return }
                 XCTAssertEqual(identifier.rawId, rawId)
-                XCTAssertEqual(identifier.botId, rawIdSuffix)
-                XCTAssertEqual(identifier.isResourceAccountConfigured, true)
+                XCTAssertEqual(identifier.appId, rawIdSuffix)
                 XCTAssertEqual(identifier.cloudEnvironment, cloud)
             default:
-                XCTFail("test_createMicrosoftBotIdentifier created the wrong type")
-            }
-        }
-    }
-
-    func test_createMicrosoftBotIdentifierGlobal() {
-        let testCases = [
-            (
-                CommunicationCloudEnvironment.Public,
-                "28:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
-            ),
-            (
-                CommunicationCloudEnvironment.Dod,
-                "28:dod-global:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
-            ),
-            (
-                CommunicationCloudEnvironment.Gcch,
-                "28:gcch-global:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
-            )
-        ]
-
-        testCases.forEach { cloud, rawId in
-
-            let identifier = createCommunicationIdentifier(fromRawId: rawId)
-            switch identifier.kind {
-            case .microsoftBot:
-                guard let identifier = identifier as? MicrosoftBotIdentifier else { return }
-                XCTAssertEqual(identifier.rawId, rawId)
-                XCTAssertEqual(identifier.botId, rawIdSuffix)
-                XCTAssertEqual(identifier.isResourceAccountConfigured, false)
-                XCTAssertEqual(identifier.cloudEnvironment, cloud)
-            default:
-                XCTFail("test_createMicrosoftBotIdentifierGlobal created the wrong type")
+                XCTFail("test_createMicrosoftTeamsAppIdentifier created the wrong type")
             }
         }
     }

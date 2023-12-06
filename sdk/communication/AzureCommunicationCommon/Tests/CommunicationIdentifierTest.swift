@@ -101,66 +101,33 @@ class CommunicationIdentifierTest: XCTestCase {
         )
     }
 
-    func test_MicrosoftBotIdentifier_IfRawIdIsNull_RawIdIsGeneratedProperly() {
-        let expectedRawIdGlobal = "28:User Id"
-        var botIdentifier = MicrosoftBotIdentifier(
-            botId: testUserId,
-            isResourceAccountConfigured: false
-        )
-        XCTAssertEqual(botIdentifier.rawId, expectedRawIdGlobal)
-
+    func test_MicrosoftTeamsAppIdentifier_IfRawIdIsNull_RawIdIsGeneratedProperly() {
         let expectedRawId = "28:orgid:User Id"
-        botIdentifier = MicrosoftBotIdentifier(botId: testUserId)
-        XCTAssertEqual(botIdentifier.rawId, expectedRawId)
+        var teamsAppIdentifier = MicrosoftTeamsAppIdentifier(appId: testUserId)
+        XCTAssertEqual(teamsAppIdentifier.rawId, expectedRawId)
 
         let expectedRawIdAndCloudDod = "28:dod:User Id"
-        botIdentifier = MicrosoftBotIdentifier(
-            botId: testUserId,
+        teamsAppIdentifier = MicrosoftTeamsAppIdentifier(
+            appId: testUserId,
             cloudEnvironment: .Dod
         )
-        XCTAssertEqual(botIdentifier.rawId, expectedRawIdAndCloudDod)
-
-        let expectedRawIdAndCloudDodGlobal = "28:dod-global:User Id"
-        botIdentifier = MicrosoftBotIdentifier(
-            botId: testUserId,
-            isResourceAccountConfigured: false,
-            cloudEnvironment: .Dod
-        )
-        XCTAssertEqual(botIdentifier.rawId, expectedRawIdAndCloudDodGlobal)
+        XCTAssertEqual(teamsAppIdentifier.rawId, expectedRawIdAndCloudDod)
 
         let expectedRawIdAndCloudGcch = "28:gcch:User Id"
-        botIdentifier = MicrosoftBotIdentifier(
-            botId: testUserId,
+        teamsAppIdentifier = MicrosoftTeamsAppIdentifier(
+            appId: testUserId,
             cloudEnvironment: .Gcch
         )
-        XCTAssertEqual(botIdentifier.rawId, expectedRawIdAndCloudGcch)
-
-        let expectedRawIdAndCloudGcchGlobal = "28:gcch-global:User Id"
-        botIdentifier = MicrosoftBotIdentifier(
-            botId: testUserId,
-            isResourceAccountConfigured: false,
-            cloudEnvironment: .Gcch
-        )
-        XCTAssertEqual(botIdentifier.rawId, expectedRawIdAndCloudGcchGlobal)
+        XCTAssertEqual(teamsAppIdentifier.rawId, expectedRawIdAndCloudGcch)
     }
 
     // swiftlint:enable function_body_length
-    func test_MicrosoftBotIdentifier_DefaultCloudIsPublic() throws {
+    func test_MicrosoftTeamsAppIdentifier_DefaultCloudIsPublic() throws {
         XCTAssertEqual(
             CommunicationCloudEnvironment.Public,
-            MicrosoftBotIdentifier(
-                botId: testUserId,
-                isResourceAccountConfigured: true
+            MicrosoftTeamsAppIdentifier(
+                appId: testUserId
             ).cloudEnvironment
-        )
-    }
-
-    // swiftlint:enable function_body_length
-    func test_MicrosoftBotIdentifier_DefaultGlobalIsFalse() throws {
-        XCTAssertTrue(
-            MicrosoftBotIdentifier(
-                botId: testUserId
-            ).isResourceAccountConfigured
         )
     }
 
@@ -246,15 +213,15 @@ class CommunicationIdentifierTest: XCTestCase {
                     rawId: testRawId
                 )
         )
-        var botIdentifier = MicrosoftBotIdentifier(botId: testUserId, isResourceAccountConfigured: false)
-        botIdentifier.rawId = testRawId
-        var otherBotIdentifier = MicrosoftBotIdentifier(botId: testUserId, isResourceAccountConfigured: false)
-        XCTAssertFalse(botIdentifier == otherBotIdentifier)
-        XCTAssertFalse(otherBotIdentifier == botIdentifier)
+        var teamsAppIdentifier = MicrosoftTeamsAppIdentifier(appId: testUserId)
+        teamsAppIdentifier.rawId = testRawId
+        var otherTeamsAppIdentifier = MicrosoftTeamsAppIdentifier(appId: testUserId)
+        XCTAssertFalse(teamsAppIdentifier == otherTeamsAppIdentifier)
+        XCTAssertFalse(otherTeamsAppIdentifier == teamsAppIdentifier)
 
-        botIdentifier.rawId = "some id"
-        otherBotIdentifier.rawId = testRawId
-        XCTAssertFalse(botIdentifier == otherBotIdentifier)
-        XCTAssertFalse(botIdentifier.isEqual(otherBotIdentifier))
+        teamsAppIdentifier.rawId = "some id"
+        otherTeamsAppIdentifier.rawId = testRawId
+        XCTAssertFalse(teamsAppIdentifier == otherTeamsAppIdentifier)
+        XCTAssertFalse(teamsAppIdentifier.isEqual(otherTeamsAppIdentifier))
     }
 }
