@@ -3,5 +3,4 @@ author_url: https://azure.github.io/azure-sdk/
 github_url: https://github.com/Azure-Samples/azure-ai-vision-sdk
 module: AzureAIVisionFace
 ref: docs/ios/AzureAIVisionFace/0.16.0-beta.1
-no_jazzy_mode: pre-generated
 output: ../build/jazzy/AzureAIVisionFace
