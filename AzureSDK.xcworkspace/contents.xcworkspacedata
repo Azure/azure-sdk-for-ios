@@ -510,6 +510,18 @@
       location = "group:/Users/travisprescott/repos/azure-sdk-for-ios/jazzy"
       name = "jazzy">
       <FileRef
+         location = "group:AzureAIVisionCore.yml">
+      </FileRef>
+      <FileRef
+         location = "group:AzureAIVisionFace.yml">
+      </FileRef>
+      <FileRef
+         location = "group:AzureCommunicationUIChat.yml">
+      </FileRef>
+      <FileRef
+         location = "group:index.html">
+      </FileRef>
+      <FileRef
          location = "group:AzureCommunicationUICalling.yml">
       </FileRef>
       <FileRef
