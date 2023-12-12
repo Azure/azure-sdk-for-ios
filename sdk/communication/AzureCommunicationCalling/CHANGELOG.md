@@ -1,5 +1,17 @@
 # Release History
 
+## 2.8.0-beta.1 (2023-12-12)
+
+### Features Added
+* Added support for audio issues.
+* Added support for call lobby.
+* Added support for soft mute.
+* Added support for call issues.
+* Added support for call survey.
+* Added support for ContentSharingCallFeature.
+* Added support for audio filters.
+* Added support for IceServerInfo.
+
 ## 2.7.0 (2023-11-02)
 
 ### Features Added
