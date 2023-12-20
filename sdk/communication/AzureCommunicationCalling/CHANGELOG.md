@@ -1,5 +1,12 @@
 # Release History
 
+## 2.8.0-beta.2 (2023-12-20)
+
+### Features Added
+* Renamed `CallNetworkOptions` with `CallNetworkConfigurationOptions`. 
+* Renamed `IceServerInfo` with `IceServerOptions`.
+* Renamed `CallBase` with `CommonCall`. 
+
 ## 2.8.0-beta.1 (2023-12-12)
 
 ### Features Added
