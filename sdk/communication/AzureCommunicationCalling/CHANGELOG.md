@@ -1,5 +1,10 @@
 # Release History
 
+## 2.8.0-beta.3 (2023-12-29)
+
+### Features Added
+* Updated media proxy feature.
+
 ## 2.8.0-beta.2 (2023-12-20)
 
 ### Features Added
