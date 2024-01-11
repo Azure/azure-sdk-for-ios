@@ -1,5 +1,11 @@
 # Release History
 
+## 2.8.0 (2024-01-11)
+
+### Features Added
+* Added support for Teams Meeting Lobby.
+* Added support for Outgoing Audio Filters to allow configuring of settings for echo cancellation, automatic gain control, and noise suppression.
+
 ## 2.8.0-beta.3 (2023-12-29)
 
 ### Features Added
