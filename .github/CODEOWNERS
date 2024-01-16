@@ -9,13 +9,6 @@
 # /**
 # /AzureSDK.xcworkspace/
 
-################
-# Automation
-################
-
-# Git Hub integration and bot rules
-/.github/                                          @jsquire @ronniegeraghty
-
 ###########
 # SDK
 ###########
