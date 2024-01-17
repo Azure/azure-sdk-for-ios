@@ -25,9 +25,7 @@
 // --------------------------------------------------------------------------
 
 import Foundation
-#if canImport(UIKit)
-    import UIKit
-#endif
+import UIKit
 
 public enum ApplicationUtil {
     // MARK: Static Methods
@@ -41,9 +39,8 @@ public enum ApplicationUtil {
         return mainBundlePath.hasSuffix("appex")
     }
 
-    #if canImport(UIKit)
-
         /// Simple access to the shared application when not executing within an app extension.
+        @available(iOSApplicationExtension, unavailable)
         public static var sharedApplication: UIApplication? {
             guard !isExecutingInAppExtension else { return nil }
             return UIApplication.shared
@@ -52,6 +49,7 @@ public enum ApplicationUtil {
         /// Returns the current `UIViewController` for a parent controller.
         /// - Parameter parent: The parent `UIViewController`. If none provided, will attempt to discover the most
         /// relevant controller.
+        @available(iOSApplicationExtension, unavailable)
         public static func currentViewController(forParent parent: UIViewController? = nil) -> UIViewController? {
             // return the current view controller of the parent
             if let parent = parent {
@@ -69,6 +67,7 @@ public enum ApplicationUtil {
 
         /// Attempt to find the top-most view controller for a given root view controller.
         /// - Parameter root: The root `UIViewController`.
+        @available(iOSApplicationExtension, unavailable)
         public static func currentViewController(withRootViewController root: UIViewController?) -> UIViewController? {
             if let tabBarController = root as? UITabBarController {
                 return currentViewController(withRootViewController: tabBarController.selectedViewController)
@@ -80,6 +79,4 @@ public enum ApplicationUtil {
                 return root
             }
         }
-
-    #endif
 }
