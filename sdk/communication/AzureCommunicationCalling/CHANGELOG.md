@@ -1,6 +1,6 @@
 # Release History
 
-## 2.8.0 (2024-01-11)
+## 2.8.0 (2024-01-23)
 
 ### Features Added
 * Added support for Teams Meeting Lobby.
