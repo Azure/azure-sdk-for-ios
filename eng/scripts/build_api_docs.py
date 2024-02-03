@@ -83,25 +83,21 @@ if __name__ == "__main__":
                 contents = yaml.safe_load(config_file)
                 github_url = contents.get("github_url", None)
                 ref = contents.get("ref", None)
-                no_jazzy_mode = contents.get("no_jazzy_mode", None)
-                no_jazzy_mode_pregenerated = True if no_jazzy_mode == "pre-generated" else False
+                copy_only_mode = ref is not None
                 if not github_url.endswith("/azure-sdk-for-ios"):
                     print(f"Cloning repo: {github_url}...")
-                    _clone_github_repo(path=github_url, ref=ref, pod_install=(not no_jazzy_mode_pregenerated))
+                    _clone_github_repo(path=github_url, ref=ref, pod_install=(not copy_only_mode))
 
             print(f"Generating docs for: {path}...")
-            if no_jazzy_mode is None:
+            if not copy_only_mode:
                 stdout, stderr = _run(f"jazzy --config {path}")
-            elif no_jazzy_mode_pregenerated:
+            else:
                 time.sleep(5)
                 output = "build/" + contents.get("output", None)
                 input_dir = "build/" + os.path.split(github_url)[-1]
                 print(f"Copying {input_dir} to {output}...")
                 stdout, stderr = _run(f"mkdir -p {output}")
                 stdout, stderr = _run(f"mv {input_dir}/* {output}", shell=True)
-
-            else:
-                logging.error(f"no_jazzy_mode specified but don't know how to handle '{no_jazzy_mode}'.")
             if "RuntimeError" in stderr:
                 logging.error(f"==BEGIN STDERR==.\n{stderr}\n==END STDERR==\nError generating docs.")
             else:
