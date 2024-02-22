@@ -1,5 +1,10 @@
 # Release History
 
+## 2.9.0-beta.1 (2024-02-22)
+
+### Features Added
+* Updated Media Statistics feature.
+
 ## 2.8.0 (2024-01-23)
 
 ### Features Added
