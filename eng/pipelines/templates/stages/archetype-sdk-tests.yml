@@ -73,6 +73,8 @@ stages:
         - template: /eng/common/pipelines/templates/jobs/archetype-sdk-tests-generate.yml
           parameters:
             JobTemplatePath: /eng/pipelines/templates/jobs/live.tests.yml
+            OsVmImage: azsdk-pool-mms-ubuntu-2004-1espt
+            Pool: azsdk-pool-mms-ubuntu-2004-1es-pt
             AdditionalParameters:
               PreSteps: ${{ parameters.PreSteps }}
               PostSteps: ${{ parameters.PostSteps }}

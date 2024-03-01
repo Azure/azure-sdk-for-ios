@@ -9,6 +9,8 @@ jobs:
 
     pool:
       vmImage: '$(OSVmImage)'
+      name: 'Azure Pipelines'
+      os: macOS
 
     steps:
       - script: |
@@ -25,34 +27,38 @@ jobs:
         displayName: 'Install dependencies'
 
       - script: |
+          mkdir $(Build.ArtifactStagingDirectory)/iphonesimulator/
           set -o pipefail
           xcodebuild archive \
                      -workspace AzureSDK.xcworkspace \
                      -scheme ${{parameters.BuildScheme}} \
                      -sdk iphonesimulator \
                      -configuration Release \
-                     -archivePath $(Build.ArtifactStagingDirectory)/AzureSDK-iphonesimulator.xcarchive \
+                     -archivePath $(Build.ArtifactStagingDirectory)/iphonesimulator/AzureSDK-iphonesimulator.xcarchive \
                      SKIP_INSTALL=NO | xcpretty -c
         displayName: 'Build and archive libraries for release [iphonesimulator]'
 
-      - publish: $(Build.ArtifactStagingDirectory)/AzureSDK-iphonesimulator.xcarchive
-        displayName: 'Publish release archive [iphonesimulator]'
-        artifact: 'archive-release-iphonesimulator'
+      - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
+        parameters:
+          ArtifactPath: $(Build.ArtifactStagingDirectory)/iphonesimulator/
+          ArtifactName: 'archive-release-iphonesimulator'
 
       - script: |
+          mkdir $(Build.ArtifactStagingDirectory)/iphoneos/
           set -o pipefail
           xcodebuild archive \
                      -workspace AzureSDK.xcworkspace \
                      -scheme ${{parameters.BuildScheme}} \
                      -sdk iphoneos \
                      -configuration Release \
-                     -archivePath $(Build.ArtifactStagingDirectory)/AzureSDK-iphoneos.xcarchive \
+                     -archivePath $(Build.ArtifactStagingDirectory)/iphoneos/AzureSDK-iphoneos.xcarchive \
                      SKIP_INSTALL=NO | xcpretty -c
         displayName: 'Build and archive libraries for release [iphoneos]'
 
-      - publish: $(Build.ArtifactStagingDirectory)/AzureSDK-iphoneos.xcarchive
-        displayName: 'Publish release archive [iphoneos]'
-        artifact: 'archive-release-iphoneos'
+      - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
+        parameters:
+          ArtifactPath: $(Build.ArtifactStagingDirectory)/iphoneos/
+          ArtifactName: 'archive-release-iphoneos'
 
       - ${{if eq(variables['System.TeamProject'], 'internal') }}:
         - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
@@ -117,7 +123,9 @@ jobs:
       - template: ../variables/globals.yml
 
     pool:
-      vmImage: '$(OSVmImage)'
+      vmImage: "$(OSVmImage)"
+      name: "Azure Pipelines"
+      os: macOS
 
     steps:
 
@@ -177,6 +185,8 @@ jobs:
 
     pool:
       vmImage: '$(OSVmImage)'
+      name: "Azure Pipelines"
+      os: macOS
 
     steps:
       - script: sudo xcode-select --switch /Applications/Xcode_$(XcodeVersion).app
@@ -200,10 +210,11 @@ jobs:
                      test | xcpretty -c
         displayName: 'Build and test libraries'
 
-      - publish: $(Build.ArtifactStagingDirectory)/Logs/Test
-        displayName: 'Preserve logs on failure'
-        artifact: 'test-failure-logs'
-        condition: failed()
+      - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
+        parameters:
+          ArtifactPath: '$(Build.ArtifactStagingDirectory)/Logs/Test'
+          ArtifactName: 'test-failure-logs'
+          customCondition: failed()
 
       - script: trainer --path $(Build.ArtifactStagingDirectory) --fail_build false
         env:
@@ -267,6 +278,8 @@ jobs:
 
     pool:
       vmImage: '$(OSVmImage)'
+      name: "Azure Pipelines"
+      os: macOS
 
     steps:
       - script: sudo xcode-select --switch /Applications/Xcode_$(XcodeVersion).app
