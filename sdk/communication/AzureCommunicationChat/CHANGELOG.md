@@ -1,5 +1,9 @@
 # Release History
 
+## 1.3.4 (2024-03-05)
+### Bugs Fixed
+- The SDK now incorporates a more recent Trouter template to prevent IOS devices from receiving duplicate real-time notifications.
+
 ## 1.3.3 (2023-10-11)
 ### Bugs Fixed
 - Reverted reference to .cloudEnvironment enum that's only available in AzureCommunicationCommon version 1.2.0-beta.1 onwards. This resolves the issue in releasing AzureCommunicationChat version 1.3.2
