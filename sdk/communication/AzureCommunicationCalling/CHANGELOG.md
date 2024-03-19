@@ -1,5 +1,14 @@
 # Release History
 
+## 2.9.0 (2024-03-19)
+
+### Features Added
+* Added support for `Media Statistics` feature.
+* Added support for `Data Channel` feature.
+* Added support for `Background Replacement Effect`.
+* Added support for `CallNetworkOptions` that allows setting up proxy address.
+* Added support for setting custom `Time To Live` for push notifications.
+
 ## 2.9.0-beta.1 (2024-02-22)
 
 ### Features Added
