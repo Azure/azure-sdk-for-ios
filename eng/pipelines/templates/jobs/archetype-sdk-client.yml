@@ -38,7 +38,7 @@ jobs:
                      SKIP_INSTALL=NO | xcpretty -c
         displayName: 'Build and archive libraries for release [iphonesimulator]'
 
-      - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
+      - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
         parameters:
           ArtifactPath: $(Build.ArtifactStagingDirectory)/iphonesimulator/
           ArtifactName: 'archive-release-iphonesimulator'
@@ -55,7 +55,7 @@ jobs:
                      SKIP_INSTALL=NO | xcpretty -c
         displayName: 'Build and archive libraries for release [iphoneos]'
 
-      - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
+      - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
         parameters:
           ArtifactPath: $(Build.ArtifactStagingDirectory)/iphoneos/
           ArtifactName: 'archive-release-iphoneos'
@@ -67,7 +67,7 @@ jobs:
           inputs:
             BuildDropPath: $(Build.ArtifactStagingDirectory)
 
-        - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
+        - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
           parameters:
             ArtifactPath: '$(Build.ArtifactStagingDirectory)/_manifest'
             ArtifactName: 'manifest'
@@ -210,7 +210,7 @@ jobs:
                      test | xcpretty -c
         displayName: 'Build and test libraries'
 
-      - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
+      - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
         parameters:
           ArtifactPath: '$(Build.ArtifactStagingDirectory)/Logs/Test'
           ArtifactName: 'test-failure-logs'
