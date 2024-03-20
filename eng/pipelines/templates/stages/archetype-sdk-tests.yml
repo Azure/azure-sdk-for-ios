@@ -74,8 +74,6 @@ stages:
         - template: /eng/common/pipelines/templates/jobs/generate-job-matrix.yml
           parameters:
             JobTemplatePath: /eng/pipelines/templates/jobs/live.tests.yml
-            OsVmImage: $(LINUXVMIMAGE)
-            Pool: $(LINUXPOOL)
             AdditionalParameters:
               PreSteps: ${{ parameters.PreSteps }}
               PostSteps: ${{ parameters.PostSteps }}
