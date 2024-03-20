@@ -59,7 +59,7 @@ jobs:
 
       - template: /eng/common/pipelines/templates/steps/verify-agent-os.yml
         parameters:
-          AgentImage: $(OSVmImage)
+          AgentImage: ${{ parameters.OSName }}
 
       - template: /eng/common/TestResources/build-test-resource-config.yml
         parameters:

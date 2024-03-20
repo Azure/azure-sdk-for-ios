@@ -62,6 +62,7 @@ parameters:
 
 variables:
   - template: ../variables/globals.yml
+  - template: ../variables/image.yml
 
 stages:
 - ${{ each cloud in parameters.CloudConfig }}:
@@ -70,11 +71,11 @@ stages:
       - stage: ${{ cloud.key }}
         dependsOn: []
         jobs:
-        - template: /eng/common/pipelines/templates/jobs/archetype-sdk-tests-generate.yml
+        - template: /eng/common/pipelines/templates/jobs/generate-job-matrix.yml
           parameters:
             JobTemplatePath: /eng/pipelines/templates/jobs/live.tests.yml
-            OsVmImage: azsdk-pool-mms-ubuntu-2004-1espt
-            Pool: azsdk-pool-mms-ubuntu-2004-1es-pt
+            OsVmImage: $(LINUXVMIMAGE)
+            Pool: $(LINUXPOOL)
             AdditionalParameters:
               PreSteps: ${{ parameters.PreSteps }}
               PostSteps: ${{ parameters.PostSteps }}

@@ -8,8 +8,8 @@ jobs:
       - template: ../variables/globals.yml
 
     pool:
-      vmImage: '$(OSVmImage)'
-      name: 'Azure Pipelines'
+      vmImage: $(MACVMIMAGE)
+      name: $(MACPOOL)
       os: macOS
 
     steps:
@@ -123,8 +123,8 @@ jobs:
       - template: ../variables/globals.yml
 
     pool:
-      vmImage: "$(OSVmImage)"
-      name: "Azure Pipelines"
+      vmImage: $(MACVMIMAGE)
+      name: $(MACPOOL)
       os: macOS
 
     steps:
@@ -184,8 +184,8 @@ jobs:
       - template: ../variables/globals.yml
 
     pool:
-      vmImage: '$(OSVmImage)'
-      name: "Azure Pipelines"
+      vmImage: $(MACVMIMAGE)
+      name: $(MACPOOL)
       os: macOS
 
     steps:
@@ -277,8 +277,8 @@ jobs:
       - template: ../variables/globals.yml
 
     pool:
-      vmImage: '$(OSVmImage)'
-      name: "Azure Pipelines"
+      vmImage: $(MACVMIMAGE)
+      name: $(MACPOOL)
       os: macOS
 
     steps:

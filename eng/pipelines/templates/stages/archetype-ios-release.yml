@@ -28,8 +28,8 @@ stages:
             variables:
               - template: ../variables/globals.yml
             pool:
-              name: azsdk-pool-mms-win-2022-1es-pt
-              vmImage: azsdk-pool-mms-win-2022-1espt
+              name: azsdk-pool-mms-win-2022-general
+              image: azsdk-pool-mms-win-2022-1espt
               os: windows
             strategy:
               runOnce:
@@ -75,8 +75,8 @@ stages:
               variables:
                 - template: ../variables/globals.yml
               pool:
-                name: azsdk-pool-mms-ubuntu-2004-1es-pt
-                vmImage: azsdk-pool-mms-ubuntu-2004-1espt
+                name: azsdk-pool-mms-ubuntu-2004-general
+                image: azsdk-pool-mms-ubuntu-2004-1espt
                 os: linux
               strategy:
                 runOnce:
