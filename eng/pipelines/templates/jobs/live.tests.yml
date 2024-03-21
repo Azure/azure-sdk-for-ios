@@ -31,6 +31,9 @@ parameters:
 - name: UsePlatformContainer
   type: boolean
   default: false
+- name: OSName
+  type: string
+  default: ''
 
 jobs:
   - job:
@@ -45,6 +48,7 @@ jobs:
     pool:
       name: $(Pool)
       vmImage: $(OSVmImage)
+      os: ${{ parameters.OSName }}
 
     ${{ if eq(parameters.UsePlatformContainer, 'true') }}:
       # Add a default so the job doesn't fail when the matrix is empty
@@ -55,7 +59,7 @@ jobs:
 
       - template: /eng/common/pipelines/templates/steps/verify-agent-os.yml
         parameters:
-          AgentImage: $(OSVmImage)
+          AgentImage: ${{ parameters.OSName }}
 
       - template: /eng/common/TestResources/build-test-resource-config.yml
         parameters:

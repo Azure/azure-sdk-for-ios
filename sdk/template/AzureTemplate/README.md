@@ -48,7 +48,7 @@ specifying the clone URL of this repository and the version specifier you wish t
 // swift-tools-version:5.3
     dependencies: [
         ...
-        .package(name: "AzureTemplate", url: "https://github.com/Azure/SwiftPM-AzureTemplate.git", from: "1.7.0-beta.1")
+        .package(name: "AzureTemplate", url: "https://github.com/Azure/SwiftPM-AzureTemplate.git", from: "1.7.0-beta.2")
     ],
 ```
 
@@ -86,7 +86,7 @@ platform :ios, '12.0'
 use_frameworks!
 
 target 'MyTarget' do
-  pod 'AzureTemplate', '1.7.0-beta.1'
+  pod 'AzureTemplate', '1.7.0-beta.2'
   ...
 end
 ```
