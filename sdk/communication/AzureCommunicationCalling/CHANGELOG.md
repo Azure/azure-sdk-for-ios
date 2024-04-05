@@ -5,7 +5,7 @@
 ### Features Added
 * Various updates for `DataChannelCallFeature`.
 * Various updates for `MediaStatistics`.
-* Various updates for `CallAgentOptions`. 
+* Various updates for start/join call options. 
 
 ## 2.9.0 (2024-03-19)
 
