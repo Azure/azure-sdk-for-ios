@@ -1,5 +1,12 @@
 # Release History
 
+## 2.10.0-beta.1 (2024-04-05)
+
+### Features Added
+* Various updates for `DataChannelCallFeature`.
+* Various updates for `MediaStatistics`.
+* Various updates for `CallAgentOptions`. 
+
 ## 2.9.0 (2024-03-19)
 
 ### Features Added
