@@ -1,5 +1,11 @@
 # Release History
-
+## 2.11.0-beta.1 (2024-05-23)
+### Features Added
+* Added `CapabilitiesCallFeature` for Rooms/Teams Meeting.
+* Various updates for `MediaStatistics`. 
+* Various updates for `PrecallDiagnostics`. 
+* Added `TeamsMeetingIdLocator` for joining Teams.
+  
 ## 2.10.0-beta.1 (2024-04-05)
 
 ### Features Added
