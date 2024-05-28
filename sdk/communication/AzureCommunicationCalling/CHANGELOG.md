@@ -1,4 +1,8 @@
 # Release History
+## 2.10.1 (2024-05-28)
+### Bug Fixes
+* Performance improvements.
+
 ## 2.11.0-beta.1 (2024-05-23)
 ### Features Added
 * Added `CapabilitiesCallFeature` for Rooms/Teams Meeting.
