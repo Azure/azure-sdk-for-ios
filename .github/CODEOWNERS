@@ -37,3 +37,4 @@
 # Eng Sys
 ###########
 /eng/                                               @benbp @weshaggard
+/eng/common/                                        @Azure/azure-sdk-eng
