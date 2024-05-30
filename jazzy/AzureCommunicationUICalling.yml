@@ -2,7 +2,7 @@ author: Microsoft
 author_url: https://azure.github.io/azure-sdk/
 github_url: https://github.com/Azure/communication-ui-library-ios
 module: AzureCommunicationUICalling
-module_version: 1.6.0
+module_version: 1.7.0
 readme: ../build/communication-ui-library-ios/AzureCommunicationUI/sdk/AzureCommunicationUICalling/README.md
 skip_undocumented: false
 hide_unlisted_documentation: false
