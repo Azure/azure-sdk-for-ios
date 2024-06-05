@@ -1,4 +1,10 @@
 # Release History
+
+## 2.11.0 (2024-06-05)
+### Features Added
+* Added `CapabilitiesCallFeature` for Rooms/Teams Meeting.
+* Added `TeamsMeetingIdLocator` for joining Teams.
+
 ## 2.10.1 (2024-05-28)
 ### Bug Fixes
 * Performance improvements.
