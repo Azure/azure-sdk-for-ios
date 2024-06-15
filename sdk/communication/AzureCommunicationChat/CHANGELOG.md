@@ -1,5 +1,8 @@
 # Release History
 
+## 1.3.5 (2024-06-13)
+Updated AzureCommunicationCommon package version to 1.2.0.
+
 ## 1.3.4 (2024-03-05)
 ### Bugs Fixed
 - The SDK now incorporates a more recent Trouter template to prevent IOS devices from receiving duplicate real-time notifications.
