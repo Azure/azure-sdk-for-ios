@@ -56,7 +56,7 @@ specifying the clone URL of this repository and the version specifier you wish t
 // swift-tools-version:5.3
     dependencies: [
         ...
-        .package(name: "AzureCommunicationChat", url: "https://github.com/Azure/SwiftPM-AzureCommunicationChat.git", from: "1.3.4")
+        .package(name: "AzureCommunicationChat", url: "https://github.com/Azure/SwiftPM-AzureCommunicationChat.git", from: "1.3.5")
     ],
 ```
 
@@ -94,7 +94,7 @@ platform :ios, '13.0'
 use_frameworks!
 
 target 'MyTarget' do
-  pod 'AzureCommunicationChat', '1.3.4'
+  pod 'AzureCommunicationChat', '1.3.5'
   ...
 end
 ```
