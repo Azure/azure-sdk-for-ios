@@ -1,5 +1,9 @@
 # Release History
-
+## 2.12.0-beta.1 (2024-06-27)
+## Features Added
+* Added `CallSurvey`.
+* Added `RemoteUserDiagnostics`.
+  
 ## 2.11.0 (2024-06-05)
 ### Features Added
 * Added `CapabilitiesCallFeature` for Rooms/Teams Meeting.
