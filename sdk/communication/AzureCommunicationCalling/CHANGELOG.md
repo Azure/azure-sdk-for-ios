@@ -1,4 +1,9 @@
 # Release History
+
+## 2.12.0-beta.2 (2024-07-11)
+## Features Added
+* Added delegates to various call options.
+
 ## 2.12.0-beta.1 (2024-06-27)
 ## Features Added
 * Added `CallSurvey`.
