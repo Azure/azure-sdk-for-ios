@@ -1,4 +1,18 @@
 # Release History
+
+## 2.12.0 (2024-07-24)
+### Features Added
+* Added support for`Call Survey`. 
+* Added ability to pass options when adding a new participant to a Teams call. 
+* Added `CommunicationCaptions` feature.
+* Added `OutgoingVideoConstraints` feature.
+* Added `PreCallDiagnostics` feature.
+* Added `didChangeActiveCaptionsType` event for `CaptionsCallFeature`.
+* Added `muteAllRemoteParticipants` feature.
+* Added `ContentSharing` feature. 
+* Added support for `IncomingUnmixedAudio`.
+* Added `RemoteUserDiagnostics`.
+
 ## 2.12.0-beta.1 (2024-06-27)
 ## Features Added
 * Added `CallSurvey`.
