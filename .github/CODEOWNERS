@@ -38,3 +38,4 @@
 ###########
 /eng/                                               @benbp @weshaggard
 /eng/common/                                        @Azure/azure-sdk-eng
+/.github/workflows/                                 @Azure/azure-sdk-eng
