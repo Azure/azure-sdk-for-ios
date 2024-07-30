@@ -1,5 +1,12 @@
 # Release History
 
+## 2.12.0 (2024-07-24)
+### Features Added
+* Added support for`Call Survey`. 
+* Added `OutgoingVideoConstraints` feature.
+* Added `didChangeActiveCaptionsType` event for `CaptionsCallFeature`.
+* Added support for `CommunicationCaptions`.
+
 ## 2.12.0-beta.2 (2024-07-11)
 ## Features Added
 * Added delegates to various call options.
