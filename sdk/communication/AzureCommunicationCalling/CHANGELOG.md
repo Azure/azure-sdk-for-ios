@@ -1,5 +1,9 @@
 # Release History
 
+## 2.13.0-beta.1 (2024-07-31)
+## Features Added
+* Added event didUpdateStartTime to track start time changes of a call.
+
 ## 2.12.0 (2024-07-24)
 ### Features Added
 * Added support for`Call Survey`. 
