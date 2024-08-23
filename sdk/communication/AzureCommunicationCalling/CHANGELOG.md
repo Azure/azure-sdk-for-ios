@@ -1,5 +1,10 @@
 # Release History
 
+## 2.13.0-beta.2 (2024-08-23)
+## Features Added
+* Added support for muting other participants in a call.
+* Added support for system audio sharing during a call.
+
 ## 2.13.0-beta.1 (2024-07-31)
 ## Features Added
 * Added event didUpdateStartTime to track start time changes of a call.
