@@ -133,6 +133,9 @@
 		E034C0F2282B4D4300E3F985 /* PushNotificationEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E034C0F0282B4D4300E3F985 /* PushNotificationEvent.swift */; };
 		E034C0F4282B4F1900E3F985 /* CryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E034C0F3282B4F1900E3F985 /* CryptoUtils.swift */; };
 		E034C0F5282B4F1900E3F985 /* CryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E034C0F3282B4F1900E3F985 /* CryptoUtils.swift */; };
+		E03D0DE72C7E61CF006BFC37 /* RealTimeNotificationConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03D0DE62C7E61CF006BFC37 /* RealTimeNotificationConfiguration.swift */; };
+		E03D0DE82C7E61CF006BFC37 /* RealTimeNotificationConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03D0DE62C7E61CF006BFC37 /* RealTimeNotificationConfiguration.swift */; };
+		E03D0DE92C7E61CF006BFC37 /* RealTimeNotificationConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03D0DE62C7E61CF006BFC37 /* RealTimeNotificationConfiguration.swift */; };
 		E03DAFD4280763C600389C43 /* PushNotificationClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03DAFD3280763C600389C43 /* PushNotificationClient.swift */; };
 		E03DAFD5280763C600389C43 /* PushNotificationClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03DAFD3280763C600389C43 /* PushNotificationClient.swift */; };
 		E03DAFD82807660700389C43 /* RegistrarClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03DAFD72807660700389C43 /* RegistrarClient.swift */; };
@@ -384,6 +387,7 @@
 		E034C0ED282B4D1D00E3F985 /* PushNotificationBaseEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationBaseEvent.swift; sourceTree = "<group>"; };
 		E034C0F0282B4D4300E3F985 /* PushNotificationEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationEvent.swift; sourceTree = "<group>"; };
 		E034C0F3282B4F1900E3F985 /* CryptoUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoUtils.swift; sourceTree = "<group>"; };
+		E03D0DE62C7E61CF006BFC37 /* RealTimeNotificationConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealTimeNotificationConfiguration.swift; sourceTree = "<group>"; };
 		E03DAFD3280763C600389C43 /* PushNotificationClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationClient.swift; sourceTree = "<group>"; };
 		E03DAFD72807660700389C43 /* RegistrarClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrarClient.swift; sourceTree = "<group>"; };
 		E03DAFDA2807661A00389C43 /* RegistrarSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrarSettings.swift; sourceTree = "<group>"; };
@@ -576,6 +580,7 @@
 		0AF8C46F26A894890052FBFF /* Signaling */ = {
 			isa = PBXGroup;
 			children = (
+				E03D0DE62C7E61CF006BFC37 /* RealTimeNotificationConfiguration.swift */,
 				0AF8C47026A894890052FBFF /* CommunicationSignalingClient.swift */,
 				0AF8C47126A894890052FBFF /* TrouterNotificationPayload.swift */,
 				0AF8C47226A894890052FBFF /* TrouterSettings.swift */,
@@ -1066,6 +1071,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D147E64025CE244F001CFB5D /* ChatThreadClientUnitTests.swift in Sources */,
+				E03D0DE92C7E61CF006BFC37 /* RealTimeNotificationConfiguration.swift in Sources */,
 				D1AEA09C2608EE3700849D5C /* Util.swift in Sources */,
 				D187D9B126151DB900C233B7 /* IdentifierSerializerTests.swift in Sources */,
 				D10F55FB26E186F200742727 /* TestSettings.swift in Sources */,
@@ -1119,6 +1125,7 @@
 				E04440A62807759F00A6DA24 /* GetChatMessageOptions.swift in Sources */,
 				E034C0F2282B4D4300E3F985 /* PushNotificationEvent.swift in Sources */,
 				E04440C12807773A00A6DA24 /* CommunicationErrorResponse.swift in Sources */,
+				E03D0DE82C7E61CF006BFC37 /* RealTimeNotificationConfiguration.swift in Sources */,
 				E04440B1280775E700A6DA24 /* ChatMessageReadReceipt.swift in Sources */,
 				E04440BC2807772700A6DA24 /* ChatError.swift in Sources */,
 				E04440D32807778100A6DA24 /* ChatMessageContentInternal.swift in Sources */,
@@ -1199,6 +1206,7 @@
 				E034C0F1282B4D4300E3F985 /* PushNotificationEvent.swift in Sources */,
 				D17F8AB726B0A480005648EA /* ChatThreadsItemCollection.swift in Sources */,
 				D17F8AB826B0A480005648EA /* ChatParticipantInternal.swift in Sources */,
+				E03D0DE72C7E61CF006BFC37 /* RealTimeNotificationConfiguration.swift in Sources */,
 				E03DAFD4280763C600389C43 /* PushNotificationClient.swift in Sources */,
 				D17F8AB926B0A480005648EA /* CommunicationIdentifierModelInternal.swift in Sources */,
 				D17F8ABA26B0A480005648EA /* UpdateChatThreadRequestInternal.swift in Sources */,
