@@ -47,6 +47,7 @@ public class CommunicationSignalingClient {
     private var logger: ClientLogger
     private var communicationHandlers: [ChatEventId: CommunicationHandler] = [:]
     private var configuration: RealTimeNotificationConfiguration?
+    private var configApiVersion: String
 
     // Step 1: Initialize with basic properties
     init(
@@ -55,6 +56,7 @@ public class CommunicationSignalingClient {
     ) throws {
         self.logger = logger
         self.communicationSkypeTokenProvider = communicationSkypeTokenProvider
+        self.configApiVersion = "2024-09-01"
     }
 
     // Step 2: Configure with fetched TrouterSettings
@@ -69,12 +71,11 @@ public class CommunicationSignalingClient {
                 )
                 
                 // Remove the "https://" prefix from the URLs
-                let trouterHostname = configuration.trouterServiceUrl.replacingOccurrences(of: "https://", with: "")
-                let registrarUrlWithoutScheme = configuration.registrarServiceUrl.replacingOccurrences(of: "https://", with: "")
+                var trouterHostname = configuration.trouterServiceUrl.replacingOccurrences(of: "https://", with: "")
+                let registrarBasePath = configuration.registrarServiceUrl.replacingOccurrences(of: "https://", with: "")
                 
-                // Remove the "v3/registrations" or "V3/registrations" suffix from the regsitrar URL
-                let registrarBasePath = registrarUrlWithoutScheme
-                                .replacingOccurrences(of: "/v3/registrations", with: "", options: .caseInsensitive)
+                // Add the suffix "/v3/a" to trouterHostname
+                trouterHostname += "/v4/a"
 
                 self.selfHostedTrouterClient = SelfHostedTrouterClient.create(
                     withClientVersion: defaultClientVersion,
@@ -165,7 +166,7 @@ public class CommunicationSignalingClient {
             endpoint: String,
             completionHandler: @escaping (Result<RealTimeNotificationConfiguration, AzureError>) -> Void
         ) {
-            let urlString = "\(endpoint)/chat/config/realTimeNotifications?api-version=2024-09-01"
+            let urlString = "\(endpoint)/chat/config/realTimeNotifications?api-version=\(configApiVersion)"
             guard let url = URL(string: urlString) else {
                 completionHandler(.failure(AzureError.client("Invalid URL constructed for real-time notifications settings.")))
                 return
@@ -329,4 +330,5 @@ class CommunicationHandler: NSObject, TrouterListener {
         logger.info("Sent a response to Trouter: \(result)")
     }
 }
+
 

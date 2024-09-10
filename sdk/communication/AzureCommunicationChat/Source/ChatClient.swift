@@ -278,8 +278,6 @@ public class ChatClient {
                 )
 
                 self.signalingClient = signalingClient
-                
-                
 
                 // Configure the signaling client
                 signalingClient.configure(token: token, endpoint: self.endpoint) { result in
