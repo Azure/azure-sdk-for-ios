@@ -26,8 +26,8 @@
 
 import Foundation
 
-public struct RealTimeNotificationConfiguration: Codable {
-    public let trouterServiceUrl: String
-    public let registrarServiceUrl: String
-    public let cloudType: String
+struct RealTimeNotificationConfiguration: Codable {
+    let trouterServiceUrl: String
+    let registrarServiceUrl: String
+    let cloudType: String
 }

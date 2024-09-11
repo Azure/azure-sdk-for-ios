@@ -40,7 +40,7 @@ public typealias CommunicationSignalingErrorHandler = (CommunicationSignalingErr
 /// TrouterTokenRefreshHandler for fetching tokens.
 internal typealias TrouterTokenRefreshHandler = (_ stopSignalingClient: Bool, Error?) -> Void
 
-public class CommunicationSignalingClient {
+class CommunicationSignalingClient {
     private var selfHostedTrouterClient: SelfHostedTrouterClient?
     private var communicationSkypeTokenProvider: CommunicationSkypeTokenProvider
     private var trouterUrlRegistrar: TrouterUrlRegistrar?
