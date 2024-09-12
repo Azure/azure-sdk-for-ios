@@ -247,7 +247,7 @@ public class ChatClient {
                 guard let token = accessToken?.token else {
                     throw AzureError.client("Failed to get token from credential.", error)
                 }
-
+                
                 let tokenProvider = CommunicationSkypeTokenProvider(
                     token: token,
                     credential: self.credential,
@@ -270,7 +270,7 @@ public class ChatClient {
                         self.options.logger.warning("Attempting to refresh token for realtime-notifications.")
                     }
                 )
-
+                
                 // Initialize the signaling client
                 let signalingClient = try CommunicationSignalingClient(
                     communicationSkypeTokenProvider: tokenProvider,
@@ -279,19 +279,28 @@ public class ChatClient {
 
                 self.signalingClient = signalingClient
 
-                if let handler = self.realTimeNotificationConnectedHandler {
-                    signalingClient.on(event: ChatEventId.realTimeNotificationConnected, handler: handler)
+                // Configure the signaling client
+                signalingClient.configure(token: token, endpoint: self.endpoint) { result in
+                    switch result {
+                    case .success():
+                        // After successful configuration, set the handlers
+                        if let handler = self.realTimeNotificationConnectedHandler {
+                            signalingClient.on(event: ChatEventId.realTimeNotificationConnected, handler: handler)
+                        }
+
+                        if let handler = self.realTimeNotificationDisconnectedHandler {
+                            signalingClient.on(event: ChatEventId.realTimeNotificationDisconnected, handler: handler)
+                        }
+                        
+                        // Start the signaling client only after successful configuration
+                        self.signalingClientStarted = true
+                        signalingClient.start()
+
+                        completionHandler(.success(()))
+                    case .failure(let error):
+                        completionHandler(.failure(error))
+                    }
                 }
-
-                if let handler = self.realTimeNotificationDisconnectedHandler {
-                    signalingClient.on(event: ChatEventId.realTimeNotificationDisconnected, handler: handler)
-                }
-
-                // After successful initialization, start notifications
-                self.signalingClientStarted = true
-                signalingClient.start()
-
-                completionHandler(.success(()))
             } catch {
                 let azureError = AzureError.client("Failed to start realtime notifications.", error)
                 completionHandler(.failure(azureError))
@@ -477,3 +486,4 @@ public class ChatClient {
         }
     }
 }
+

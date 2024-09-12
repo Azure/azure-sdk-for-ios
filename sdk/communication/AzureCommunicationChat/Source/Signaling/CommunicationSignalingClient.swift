@@ -41,55 +41,93 @@ public typealias CommunicationSignalingErrorHandler = (CommunicationSignalingErr
 internal typealias TrouterTokenRefreshHandler = (_ stopSignalingClient: Bool, Error?) -> Void
 
 class CommunicationSignalingClient {
-    private var selfHostedTrouterClient: SelfHostedTrouterClient
+    private var selfHostedTrouterClient: SelfHostedTrouterClient?
     private var communicationSkypeTokenProvider: CommunicationSkypeTokenProvider
-    private var trouterUrlRegistrar: TrouterUrlRegistrar
+    private var trouterUrlRegistrar: TrouterUrlRegistrar?
     private var logger: ClientLogger
     private var communicationHandlers: [ChatEventId: CommunicationHandler] = [:]
+    private var configuration: RealTimeNotificationConfiguration?
+    private var configApiVersion: String
 
+    // Step 1: Initialize with basic properties
     init(
         communicationSkypeTokenProvider: CommunicationSkypeTokenProvider,
         logger: ClientLogger = ClientLoggers.default(tag: "AzureCommunicationSignalingClient")
     ) throws {
         self.logger = logger
         self.communicationSkypeTokenProvider = communicationSkypeTokenProvider
-
-        let trouterSkypeTokenHeaderProvider = TrouterSkypetokenAuthHeaderProvider(
-            skypetokenProvider: communicationSkypeTokenProvider
-        )
-
-        let trouterSettings = try getTrouterSettings(token: communicationSkypeTokenProvider.token)
-
-        self.selfHostedTrouterClient = SelfHostedTrouterClient.create(
-            withClientVersion: defaultClientVersion,
-            authHeadersProvider: trouterSkypeTokenHeaderProvider,
-            dataCache: nil,
-            trouterHostname: trouterSettings.trouterHostname
-        )
-
-        guard let regData = defaultRegistrationData else {
-            throw AzureError.client("Failed to create TrouterUrlRegistrationData.")
-        }
-
-        guard let trouterUrlRegistrar = TrouterUrlRegistrar.create(
-            with: communicationSkypeTokenProvider,
-            registrationData: regData,
-            registrarHostnameAndBasePath: trouterSettings.registrarHostnameAndBasePath,
-            maxRegistrationTtlS: 3600
-        ) as? TrouterUrlRegistrar else {
-            throw AzureError.client("Failed to create TrouterUrlRegistrar.")
-        }
-
-        self.trouterUrlRegistrar = trouterUrlRegistrar
+        self.configApiVersion = "2024-09-01"
     }
 
+    // Step 2: Configure with fetched TrouterSettings
+    public func configure(token: String, endpoint: String, completionHandler: @escaping (Result<Void, AzureError>) -> Void) {
+        self.getTrouterSettings(token: token, endpoint: endpoint) { result in
+            switch result {
+            case .success(let configuration):
+                self.configuration = configuration
+
+                let trouterSkypeTokenHeaderProvider = TrouterSkypetokenAuthHeaderProvider(
+                    skypetokenProvider: self.communicationSkypeTokenProvider
+                )
+                
+                // Remove the "https://" prefix from the URLs
+                var trouterHostname = configuration.trouterServiceUrl.replacingOccurrences(of: "https://", with: "")
+                let registrarBasePath = configuration.registrarServiceUrl.replacingOccurrences(of: "https://", with: "")
+                
+                // Add the suffix "/v3/a" to trouterHostname
+                trouterHostname += "/v4/a"
+
+                self.selfHostedTrouterClient = SelfHostedTrouterClient.create(
+                    withClientVersion: defaultClientVersion,
+                    authHeadersProvider: trouterSkypeTokenHeaderProvider,
+                    dataCache: nil,
+                    trouterHostname: trouterHostname
+                )
+
+                guard let regData = defaultRegistrationData else {
+                    completionHandler(.failure(AzureError.client("Failed to create TrouterUrlRegistrationData.")))
+                    return
+                }
+
+                guard let trouterUrlRegistrar = TrouterUrlRegistrar.create(
+                    with: self.communicationSkypeTokenProvider,
+                    registrationData: regData,
+                    registrarHostnameAndBasePath: registrarBasePath,
+                    maxRegistrationTtlS: 3600
+                ) as? TrouterUrlRegistrar else {
+                    completionHandler(.failure(AzureError.client("Failed to create TrouterUrlRegistrar.")))
+                    return
+                }
+
+                self.trouterUrlRegistrar = trouterUrlRegistrar
+                completionHandler(.success(()))
+
+            case .failure(let error):
+                completionHandler(.failure(error))
+            }
+        }
+    }
+    
     func start() {
+        // Guard to check if selfHostedTrouterClient and trouterUrlRegistrar are initialized
+        guard let selfHostedTrouterClient = self.selfHostedTrouterClient,
+              let trouterUrlRegistrar = self.trouterUrlRegistrar else {
+            logger.error("Failed to start: SelfHostedTrouterClient or TrouterUrlRegistrar is not initialized.")
+            return
+        }
+        
         selfHostedTrouterClient.withRegistrar(trouterUrlRegistrar)
         selfHostedTrouterClient.start()
         selfHostedTrouterClient.setUserActivityState(UserActivityState.TrouterUserActivityStateActive)
     }
 
     func stop() {
+        // Guard to check if selfHostedTrouterClient is initialized
+        guard let selfHostedTrouterClient = self.selfHostedTrouterClient else {
+            logger.error("Failed to stop: SelfHostedTrouterClient is not initialized.")
+            return
+        }
+        
         selfHostedTrouterClient.stop()
         communicationHandlers.forEach { _, handler in
             selfHostedTrouterClient.unregisterListener(handler)
@@ -98,6 +136,12 @@ class CommunicationSignalingClient {
     }
 
     func on(event: ChatEventId, handler: @escaping TrouterEventHandler) {
+        // Guard to check if selfHostedTrouterClient is initialized
+        guard let selfHostedTrouterClient = self.selfHostedTrouterClient else {
+            logger.error("Failed to register event handler: SelfHostedTrouterClient is not initialized.")
+            return
+        }
+        
         let logger = ClientLoggers.default(tag: "AzureCommunicationHandler-\(event)")
         let communicationHandler = CommunicationHandler(handler: handler, logger: logger)
         selfHostedTrouterClient.register(communicationHandler, forPath: "/\(event)")
@@ -105,11 +149,60 @@ class CommunicationSignalingClient {
     }
 
     func off(event: ChatEventId) {
+        // Guard to check if selfHostedTrouterClient is initialized
+        guard let selfHostedTrouterClient = self.selfHostedTrouterClient else {
+            logger.error("Failed to unregister event handler: SelfHostedTrouterClient is not initialized.")
+            return
+        }
+        
         if let communicationHandler = communicationHandlers[event] {
             selfHostedTrouterClient.unregisterListener(communicationHandler)
             communicationHandlers.removeValue(forKey: event)
         }
     }
+    
+    private func getTrouterSettings(
+            token: String,
+            endpoint: String,
+            completionHandler: @escaping (Result<RealTimeNotificationConfiguration, AzureError>) -> Void
+        ) {
+            let urlString = "\(endpoint)/chat/config/realTimeNotifications?api-version=\(configApiVersion)"
+            guard let url = URL(string: urlString) else {
+                completionHandler(.failure(AzureError.client("Invalid URL constructed for real-time notifications settings.")))
+                return
+            }
+
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+
+            let session = URLSession.shared
+            session.dataTask(with: request) { data, response, error in
+                if let error = error {
+                    completionHandler(.failure(AzureError.service("Error", error)))
+                    return
+                }
+
+                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                    completionHandler(.failure(AzureError.client("Received non-200 response from server.")))
+                    return
+                }
+
+                guard let data = data else {
+                    completionHandler(.failure(AzureError.client("No data received from the server.")))
+                    return
+                }
+
+                do {
+                    let decoder = JSONDecoder()
+                    let trouterSettings = try decoder.decode(RealTimeNotificationConfiguration.self, from: data)
+                    
+                    completionHandler(.success(trouterSettings))
+                } catch {
+                    completionHandler(.failure(AzureError.client("Failed to decode trouter settings: \(error.localizedDescription)")))
+                }
+            }.resume()
+        }
 }
 
 class CommunicationSkypeTokenProvider: NSObject, TrouterSkypetokenProvider {
@@ -237,3 +330,5 @@ class CommunicationHandler: NSObject, TrouterListener {
         logger.info("Sent a response to Trouter: \(result)")
     }
 }
+
+
