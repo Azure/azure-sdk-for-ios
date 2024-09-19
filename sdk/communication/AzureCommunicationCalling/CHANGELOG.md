@@ -1,5 +1,9 @@
 # Release History
 
+## 2.12.1 (2024-09-19)
+### Bugs Fixed
+* Fixed a crash issue to ensure compatibility with Xcode 16.
+
 ## 2.13.0-beta.2 (2024-08-23)
 ## Features Added
 * Added support for muting other participants in a call.
