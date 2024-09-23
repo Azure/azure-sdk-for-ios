@@ -1,5 +1,9 @@
 # Release History
 
+## 2.13.0 (2024-09-23)
+### Features Added
+* Added support for`Soft Mute` feature.
+
 ## 2.12.1 (2024-09-19)
 ### Bugs Fixed
 * Fixed a crash issue to ensure compatibility with Xcode 16.
