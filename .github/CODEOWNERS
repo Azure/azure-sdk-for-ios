@@ -38,6 +38,7 @@
 ###########
 /eng/                                               @benbp @weshaggard
 /eng/common/                                        @Azure/azure-sdk-eng
-/.github/workflows/                                 @Azure/azure-sdk-eng
-
 /.config/1espt/                                     @benbp @weshaggard
+/.github/workflows/                                 @Azure/azure-sdk-eng
+/.github/CODEOWNERS                                 @tjprescott @Azure/azure-sdk-eng
+/eng/common/pipelines/codeowners-linter.yml         @tjprescott
