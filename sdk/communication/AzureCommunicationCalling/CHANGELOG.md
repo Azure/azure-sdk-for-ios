@@ -1,5 +1,13 @@
 # Release History
 
+## 2.14.0-beta.1 (2024-09-30)
+### Features Added
+* Reactions support.
+* Support of MicrosoftTeamsApp identifier (not on ACS SDK API level).
+* Error info updates.
+### Bugs Fixed
+* Stopped ACS events after calls reached disconnected state.
+
 ## 2.13.0 (2024-09-23)
 ### Features Added
 * Added support for`Soft Mute` feature.
