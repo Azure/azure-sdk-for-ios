@@ -1,4 +1,7 @@
 # Release History
+## 2.13.1 (2024-10-14)
+### Bugs Fixed
+* Fixes small issues of video rendering when switch renderers to enter PiP mode.
 
 ## 2.14.0-beta.1 (2024-09-30)
 ### Features Added
