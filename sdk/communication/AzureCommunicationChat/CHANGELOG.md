@@ -1,5 +1,9 @@
 # Release History
 
+## 1.3.6 (2024-10-16)
+### Feature Added
+- Retrieved the real-time notification configuration from chat backend service rather than hardcode it in SDK.
+
 ## 1.3.5 (2024-06-13)
 Updated AzureCommunicationCommon package version to 1.2.0.
 
