@@ -1,7 +1,7 @@
 # Release History
 ## 2.14.0-beta.2 (2024-10-31)
 ### Bugs Fixed
-* Fixed call state change events.
+* Fixed call state change missing events.
 * Fixed unexpected CallAgent type crash.
 * Added support for improved error handling.
 * Fixed blurry quality from remote participant incoming video screenshare..
