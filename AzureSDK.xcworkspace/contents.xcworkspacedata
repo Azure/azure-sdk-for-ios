@@ -504,7 +504,7 @@
          location = "group:AzureAIVisionCore.yml">
       </FileRef>
       <FileRef
-         location = "group:AzureAIVisionFace.yml">
+         location = "group:AzureAIVisionFaceUI.yml">
       </FileRef>
       <FileRef
          location = "group:AzureCommunicationUIChat.yml">
