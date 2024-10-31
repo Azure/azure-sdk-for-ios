@@ -4,7 +4,7 @@
 * Fixed call state change events.
 * Fixed unexpected CallAgent type crash.
 * Added support for improved error handling.
-* Fixed blurry incoming screenshare for iOS User is blurry.
+* Fixed blurry quality from remote participant incoming video screenshare..
 
 ## 2.13.1 (2024-10-14)
 ### Bugs Fixed
