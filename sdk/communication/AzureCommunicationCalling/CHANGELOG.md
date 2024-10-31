@@ -1,4 +1,11 @@
 # Release History
+## 2.14.0-beta.2 (2024-10-31)
+### Bugs Fixed
+* Fixed call state change events.
+* Fixed unexpected CallAgent type crash.
+* Added support for improved error handling.
+* Fixed blurry incoming screenshare for iOS User is blurry.
+
 ## 2.13.1 (2024-10-14)
 ### Bugs Fixed
 * Fixes small issues of video rendering when switch renderers to enter PiP mode.
