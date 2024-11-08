@@ -2,5 +2,5 @@ author: Microsoft
 author_url: https://azure.github.io/azure-sdk/
 github_url: https://github.com/Azure-Samples/azure-ai-vision-sdk
 module: AzureAIVisionCore
-ref: docs/ios/AzureAIVisionCore/0.16.3-beta.3
+ref: docs/ios/AzureAIVisionCore/0.18.0-beta.2
 output: ../build/jazzy/AzureAIVisionCore
