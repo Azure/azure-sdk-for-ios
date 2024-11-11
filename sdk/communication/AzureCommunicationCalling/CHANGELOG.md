@@ -1,4 +1,8 @@
 # Release History
+## 2.14.0-beta.3 (2024-11-08)
+### Bugs Fixed
+* Code size improvements. Binary for distribution has now debug symbols striped.
+
 ## 2.14.0-beta.2 (2024-10-31)
 ### Bugs Fixed
 * Fixed call state change missing events.
