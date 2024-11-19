@@ -1,4 +1,8 @@
 # Release History
+## 2.14.0 (2024-11-19)
+### Features Added
+* Starttime on Call object to track call progress.
+
 ## 2.14.0-beta.3 (2024-11-08)
 ### Bugs Fixed
 * Code size improvements. Binary for distribution has now debug symbols striped.
