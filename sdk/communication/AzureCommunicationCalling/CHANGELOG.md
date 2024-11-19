@@ -3,6 +3,11 @@
 ### Features Added
 * Start call time.
 
+### Bugs Fixed
+* Fix a crash when trying to send raw audio with `.hz16000` sample rate.
+* Fix a crash when attempting to mute others with captions on.
+* Fix a bug where the video from remote participant may appear frozen after application going to background and coming back to foreground while on hold.
+
 ## 2.14.0-beta.3 (2024-11-08)
 ### Bugs Fixed
 * Code size improvements. Binary for distribution has now debug symbols striped.
