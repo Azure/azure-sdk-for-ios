@@ -1,4 +1,8 @@
 # Release History
+## 2.14.1 (2024-11-29)
+### Bugs Fixed
+* Fix a crash at load time when trying to run in calling SDK in the simulator.
+
 ## 2.14.0 (2024-11-19)
 ### Features Added
 * Start call time.
