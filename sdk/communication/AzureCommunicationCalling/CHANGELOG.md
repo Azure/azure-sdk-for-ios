@@ -1,4 +1,9 @@
 # Release History
+## 2.15.0-beta.1 (2025-01-08)
+### Features Added
+* Added support of Realtime Text feature.
+* Added call server id retrieval.
+
 ## 2.14.1 (2024-11-29)
 ### Bugs Fixed
 * Fix a crash at load time when trying to run in calling SDK in the simulator.
