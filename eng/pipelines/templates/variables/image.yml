@@ -15,7 +15,7 @@ variables:
   - name: WINDOWSVMIMAGE
     value: azsdk-pool-mms-win-2022-1espt
   - name: MACVMIMAGE
-    value: macOS-12
+    value: macOS-14
 
   # Values required for pool.os field in 1es pipeline templates
   - name: LINUXOS
