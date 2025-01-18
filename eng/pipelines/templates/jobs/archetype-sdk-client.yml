@@ -153,13 +153,13 @@ jobs:
           brew install swiftlint
           case "${{parameters.BuildScheme}}" in
             all)
-              swiftlint lint --path . --quiet --reporter emoji
+              swiftlint lint --quiet --reporter emoji .
               ;;
             sdk|examples)
-              swiftlint lint --path ${{parameters.BuildScheme}} --quiet --reporter emoji
+              swiftlint lint --quiet --reporter emoji ${{parameters.BuildScheme}}
               ;;
             *)
-              swiftlint lint --path sdk/${{parameters.BuildScheme}} --quiet --reporter emoji
+              swiftlint lint --quiet --reporter emoji sdk/${{parameters.BuildScheme}}
               ;;
           esac
         displayName: 'Lint sources'
