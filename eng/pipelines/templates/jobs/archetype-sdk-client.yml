@@ -183,6 +183,8 @@ jobs:
     variables:
       - template: ../variables/globals.yml
 
+    condition: and(succeeded(), ne(variables['Skip.Test'], 'true'))
+
     pool:
       vmImage: $(MACVMIMAGE)
       name: $(MACPOOL)
