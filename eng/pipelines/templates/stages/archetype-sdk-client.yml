@@ -14,6 +14,9 @@ parameters:
   - name: Artifacts
     type: object
     default: []
+  - name: SDLStageRepositoriesToScan
+    type: object
+    default: []
 
 extends:
   ${{ if eq(variables['System.TeamProject'], 'internal') }}:
@@ -46,8 +49,8 @@ extends:
       credscan:
         toolVersion: 2.3.12.23
       sourceRepositoriesToScan:
-        exclude:
-          - repository: SwiftPM-AzureTemplate
+        include:
+         - ${{ parameters.SDLStageRepositoriesToScan}}
 
     stages:
       - stage: Build
