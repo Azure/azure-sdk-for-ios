@@ -50,7 +50,7 @@ extends:
         toolVersion: 2.3.12.23
       sourceRepositoriesToScan:
         include:
-         - ${{ parameters.repositoriesToScan}}
+         - ${{ parameters.SDLStageRepositoriesToScan}}
 
     stages:
       - stage: Build

@@ -42,6 +42,6 @@ extends:
     - name: AzureCommunicationChat
     - name: AzureCommunicationCalling
       skipSwiftPackageManager: true
-    SourceRepositoriesToScan:
+    SDLStageRepositoriesToScan:
       - repository: SwiftPM-AzureCommunicationCommon
       - repository: SwiftPM-AzureCommunicationChat

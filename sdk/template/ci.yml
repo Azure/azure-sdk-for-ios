@@ -35,5 +35,5 @@ extends:
     ServiceDirectory: template
     Artifacts:
     - name: AzureTemplate
-    SourceRepositoriesToScan:
+    SDLStageRepositoriesToScan:
       - repository: SwiftPM-AzureTemplate
