@@ -1,4 +1,13 @@
 # Release History
+## 2.15.1 (2025-03-19)
+### Bugs Fixed
+* Bug fix for PSTN mute/unmute
+  
+## 2.15.0 (2025-02-12)
+### Features Added
+* Real time text
+* New getServerCallId() API for call recording
+  
 ## 2.15.0-beta.1 (2025-01-08)
 ### Features Added
 * Added support of Realtime Text feature.
