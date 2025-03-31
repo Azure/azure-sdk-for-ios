@@ -32,7 +32,7 @@ public protocol RequestStringConvertible {
 }
 
 public extension RequestStringConvertible {
-    static func == (lhs: RequestStringConvertible, rhs: RequestStringConvertible) -> Bool {
+    static func == (lhs: Self, rhs: Self) -> Bool {
         return lhs.requestString == rhs.requestString
     }
 }
