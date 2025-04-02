@@ -67,7 +67,7 @@ public final class CancellationToken: Codable, Equatable {
     }
 
     /// Reset the cancellation token and allow it to be restarted.
-    internal func reset() {
+    func reset() {
         guard timeout != nil else { return }
         isStarted = false
         isCanceled = false

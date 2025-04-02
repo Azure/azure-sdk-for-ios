@@ -41,8 +41,8 @@ import Foundation
         /// The dispatch queue to execute the `listener` closure on.
         private var listenerQueue = DispatchQueue.main
 
-        internal var listener: ReachabilityStatusListener?
-        internal var previousStatus = NetworkReachabilityStatus.unknown
+        var listener: ReachabilityStatusListener?
+        var previousStatus = NetworkReachabilityStatus.unknown
 
         private let reachability: SCNetworkReachability
         private var previousFlags: SCNetworkReachabilityFlags

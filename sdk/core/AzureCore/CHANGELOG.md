@@ -1,6 +1,9 @@
 # Release History
 
-## 1.0.0-beta.16 (Unreleased)
+## 1.0.0-beta.16 (2025-04-02)
+### Bugs Fixed
+- Fixed compilation error on XCode 16.3 with `Equatable` and `Comparable` protocols.
+
 ### New Features
 - Added async wrappers to PageCollection nextPage and nextItem
 

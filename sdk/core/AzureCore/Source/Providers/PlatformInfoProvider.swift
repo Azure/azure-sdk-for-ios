@@ -35,7 +35,7 @@ public protocol PlatformInfoProvider {
 
 // MARK: DevicePlatformInfoProvider
 
-internal struct DevicePlatformInfoProvider: PlatformInfoProvider {
+struct DevicePlatformInfoProvider: PlatformInfoProvider {
     // MARK: Computed Properties
 
     /// e.g. "MacPro4,1" or "iPhone8,1"

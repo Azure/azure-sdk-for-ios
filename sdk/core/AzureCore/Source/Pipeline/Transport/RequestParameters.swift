@@ -49,9 +49,9 @@ public enum EncodingStrategy {
 }
 
 public struct RequestParameters: Sequence, IteratorProtocol {
-    internal var parameters = [RequestParameter]()
+    var parameters = [RequestParameter]()
 
-    internal var iterator: Array<RequestParameter>.Iterator?
+    var iterator: Array<RequestParameter>.Iterator?
 
     public var count: Int {
         return parameters.count

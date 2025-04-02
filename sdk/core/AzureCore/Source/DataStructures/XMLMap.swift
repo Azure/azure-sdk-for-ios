@@ -85,8 +85,8 @@ public class XMLMap: Sequence, IteratorProtocol {
 
     public typealias Element = (String, XMLMetadata)
 
-    internal var map = [String: XMLMetadata]()
-    internal var mapIterator: Dictionary<String, XMLMetadata>.Iterator?
+    var map = [String: XMLMetadata]()
+    var mapIterator: Dictionary<String, XMLMetadata>.Iterator?
 
     // MARK: Initializers
 
@@ -96,7 +96,7 @@ public class XMLMap: Sequence, IteratorProtocol {
     }
 
     /// Generate XML map for single item types.
-    internal init(withType typeVal: XMLModel.Type, prefix: String? = nil) {
+    init(withType typeVal: XMLModel.Type, prefix: String? = nil) {
         for (key, metadata) in typeVal.xmlMap() {
             let keyPrefix = prefix != nil ? "\(prefix!).\(key)" : key
             switch metadata.jsonType {

@@ -884,7 +884,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = "1.0.0-beta.15";
+				MARKETING_VERSION = "1.0.0-beta.16";
 				PRODUCT_BUNDLE_IDENTIFIER = com.azure.core.AzureCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -914,7 +914,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = "1.0.0-beta.15";
+				MARKETING_VERSION = "1.0.0-beta.16";
 				PRODUCT_BUNDLE_IDENTIFIER = com.azure.core.AzureCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -928,6 +928,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 05AC340FD3A45F007FCB0F95 /* Pods-AzureCoreTests.debug.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -945,6 +946,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D344FB2DAF4D22248D4FF45 /* Pods-AzureCoreTests.release.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

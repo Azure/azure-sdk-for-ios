@@ -33,13 +33,13 @@ class TestClient: PipelineClient {
 
     public let options: TestClientOptions
 
-    internal static let defaultPolicies: [PipelineStage] = [
+    static let defaultPolicies: [PipelineStage] = [
         UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0", telemetryOptions: TelemetryOptions()),
         RetryPolicy(),
         LoggingPolicy()
     ]
 
-    internal static let endpoint = URL(string: "http://www.microsoft.com")!
+    static let endpoint = URL(string: "http://www.microsoft.com")!
 
     // MARK: Initializers
 

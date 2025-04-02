@@ -30,7 +30,7 @@ import XCTest
 // swiftlint:disable force_try identifier_name
 
 class TestPageableClient: PipelineClient, PageableClient {
-    internal func continuationUrl(forRequestUrl requestUrl: URL, withContinuationToken token: String) -> URL? {
+    func continuationUrl(forRequestUrl requestUrl: URL, withContinuationToken token: String) -> URL? {
         return requestUrl.appendingQueryParameters(RequestParameters((.query, "marker", token, .encode)))
     }
 }

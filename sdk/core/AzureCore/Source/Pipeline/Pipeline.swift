@@ -26,12 +26,12 @@
 
 import Foundation
 
-internal class Pipeline {
+class Pipeline {
     // MARK: Properties
 
-    internal var policies: [PipelineStage]
+    var policies: [PipelineStage]
 
-    internal let transport: TransportStage
+    let transport: TransportStage
 
     // MARK: Initializers
 
