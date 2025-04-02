@@ -1,6 +1,9 @@
 # Release History
 
-## 1.0.0-beta.16 (Unreleased)
+## 1.0.0-beta.16 (2025-04-08)
+### Bugs Fixed
+- Fixed compilation error on XCode 16.3 with `Equatable` and `Comparable` protocols.
+
 ### New Features
 - Added async wrappers to PageCollection nextPage and nextItem
 
@@ -34,7 +37,7 @@ Minor update for Swift Package Manager.
 - Added Cocoapods specs for AzureCore, AzureCommunication, AzureCommunicationChat, and AzureCommunicationCalling
   libraries.
 
-## 1.0.0-beta.1 (2020-09-21):
+## 1.0.0-beta.1 (2020-09-21)
 
 Version 1.0.0-beta.1 is a beta of our efforts in creating a client library that is developer-friendly, idiomatic to
 the iOS ecosystem, and as consistent across different languages and platforms as possible. The principles that guide

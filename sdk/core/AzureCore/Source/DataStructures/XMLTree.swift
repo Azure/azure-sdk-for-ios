@@ -28,8 +28,8 @@ import Foundation
 
 // MARK: XML Tree
 
-internal class XMLTree {
-    internal var root = XMLTreeNode(name: "__ROOT__", type: .ignored, parent: nil)
+class XMLTree {
+    var root = XMLTreeNode(name: "__ROOT__", type: .ignored, parent: nil)
 
     var dictionary: [String: Any]? {
         return root.dictionary
@@ -42,7 +42,7 @@ internal class XMLTree {
 
 // MARK: XML Tree Node
 
-internal class XMLTreeNode {
+class XMLTreeNode {
     var dictionary: [String: Any]? {
         var propDict = [String: Any]()
         for (key, metadata) in properties {

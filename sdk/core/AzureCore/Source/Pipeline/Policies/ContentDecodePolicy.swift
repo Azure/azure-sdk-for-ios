@@ -27,24 +27,24 @@
 import Foundation
 import os.log
 
-internal class ContentDecodeXMLParser: NSObject, XMLParserDelegate {
+class ContentDecodeXMLParser: NSObject, XMLParserDelegate {
     // MARK: Properties
 
-    internal var xmlMap: XMLMap?
-    internal var xmlTree: XMLTree?
-    internal var currNode: XMLTreeNode?
-    internal var elementPath = [String]()
-    internal var elementKey: String {
+    var xmlMap: XMLMap?
+    var xmlTree: XMLTree?
+    var currNode: XMLTreeNode?
+    var elementPath = [String]()
+    var elementKey: String {
         return elementPath.joined(separator: ".")
     }
 
-    internal var mapPath = [String]()
-    internal var mapKey: String {
+    var mapPath = [String]()
+    var mapKey: String {
         return mapPath.joined(separator: ".")
     }
 
-    internal var inferStructure = false
-    internal var logger: ClientLogger?
+    var inferStructure = false
+    var logger: ClientLogger?
 
     // MARK: Methods
 
@@ -174,8 +174,8 @@ public class ContentDecodePolicy: PipelineStage {
 
     public var next: PipelineStage?
 
-    internal let jsonRegex = NSRegularExpression("^(application|text)/([0-9a-z+.]+)?json$")
-    internal lazy var xmlParser = ContentDecodeXMLParser()
+    let jsonRegex = NSRegularExpression("^(application|text)/([0-9a-z+.]+)?json$")
+    lazy var xmlParser = ContentDecodeXMLParser()
 
     // MARK: Initializers
 
@@ -238,7 +238,7 @@ public class ContentDecodePolicy: PipelineStage {
 
     // MARK: Internal Methods
 
-    internal func parse(xml data: Data) throws -> AnyObject {
+    func parse(xml data: Data) throws -> AnyObject {
         let parser = XMLParser(data: data)
         parser.delegate = xmlParser
         _ = parser.parse()
@@ -254,7 +254,7 @@ public class ContentDecodePolicy: PipelineStage {
         return try JSONSerialization.jsonObject(with: finalJson, options: []) as AnyObject
     }
 
-    internal func deserialize(
+    func deserialize(
         from response: PipelineResponse,
         contentType: String,
         withKey key: ContextKey

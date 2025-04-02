@@ -61,7 +61,7 @@ public class LoggingPolicy: PipelineStage {
     private static let maxBodyLogSize = 1024 * 16
 
     /// A serial queue used to execute logging, targeting a global queue in order to minimizing excess thread creation.
-    internal static let queue = DispatchQueue(label: "AzureSDKLogging", target: DispatchQueue.global())
+    static let queue = DispatchQueue(label: "AzureSDKLogging", target: DispatchQueue.global())
 
     // MARK: Properties
 

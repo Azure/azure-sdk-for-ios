@@ -57,7 +57,7 @@ public protocol RequestOptions {
 open class PipelineClient {
     // MARK: Properties
 
-    internal var pipeline: Pipeline
+    var pipeline: Pipeline
     public var endpoint: URL
     public var logger: ClientLogger
     public var commonOptions: ClientOptions
@@ -135,7 +135,7 @@ open class PipelineClient {
 
     // MARK: Internal Methods
 
-    internal func logError(withData data: Data?) {
+    func logError(withData data: Data?) {
         guard let data = data else { return }
         guard let json = try? JSONSerialization.jsonObject(with: data) else { return }
         guard let errorDict = json as? [String: Any] else { return }
