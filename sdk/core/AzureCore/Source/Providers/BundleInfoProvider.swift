@@ -37,7 +37,7 @@ public protocol BundleInfoProvider {
 
 // MARK: DeviceBundleInfoProvider
 
-internal struct DeviceBundleInfoProvider: BundleInfoProvider {
+struct DeviceBundleInfoProvider: BundleInfoProvider {
     // MARK: Properties
 
     private let bundle: Bundle

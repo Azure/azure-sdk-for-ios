@@ -88,9 +88,9 @@ public class PipelineContext: Sequence {
         case end
     }
 
-    internal var head: PipelineContextNode
+    var head: PipelineContextNode
 
-    internal var count: Int {
+    var count: Int {
         var count = 0
         var current: PipelineContextNode = head
         while current.value as? Sentinel == nil {
@@ -201,7 +201,7 @@ public class PipelineContext: Sequence {
     public class PipelineContextIterator: IteratorProtocol {
         public typealias Element = PipelineContextNode
 
-        internal var current: PipelineContextNode
+        var current: PipelineContextNode
 
         init(_ node: PipelineContextNode) {
             self.current = node
@@ -227,17 +227,17 @@ extension PipelineContext: Equatable {
 public class PipelineContextNode {
     // MARK: Properties
 
-    internal let parent: PipelineContextNode?
-    internal let key: AnyHashable
-    internal let value: AnyObject?
+    let parent: PipelineContextNode?
+    let key: AnyHashable
+    let value: AnyObject?
 
     // MARK: Initializers
 
-    internal convenience init(key: AnyHashable, value: AnyObject?) {
+    convenience init(key: AnyHashable, value: AnyObject?) {
         self.init(parent: nil, key: key, value: value)
     }
 
-    internal init(parent: PipelineContextNode?, key: AnyHashable, value: AnyObject?) {
+    init(parent: PipelineContextNode?, key: AnyHashable, value: AnyObject?) {
         self.parent = parent
         self.key = key
         self.value = value
@@ -245,11 +245,11 @@ public class PipelineContextNode {
 
     // MARK: Internal Methods
 
-    internal func add(value: AnyObject, forKey key: AnyHashable) -> PipelineContextNode {
+    func add(value: AnyObject, forKey key: AnyHashable) -> PipelineContextNode {
         return PipelineContextNode(parent: self, key: key, value: value)
     }
 
-    internal func value(forKey key: AnyHashable) -> AnyObject? {
+    func value(forKey key: AnyHashable) -> AnyObject? {
         var current: PipelineContextNode? = self
         repeat {
             if key == current?.key {

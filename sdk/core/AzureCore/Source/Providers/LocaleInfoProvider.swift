@@ -35,7 +35,7 @@ public protocol LocaleInfoProvider {
 
 // MARK: DeviceLocaleInfoProvider
 
-internal struct DeviceLocaleInfoProvider: LocaleInfoProvider {
+struct DeviceLocaleInfoProvider: LocaleInfoProvider {
     // MARK: Computed Properties
 
     public var language: String? {

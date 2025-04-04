@@ -58,7 +58,7 @@ public struct PagedCodingKeys {
 
     // MARK: Internal Methods
 
-    internal func items(fromJson json: [String: Any]) -> [Any]? {
+    func items(fromJson json: [String: Any]) -> [Any]? {
         var results: [Any]?
         let components = items.components(separatedBy: ".")
         var current = json
@@ -74,7 +74,7 @@ public struct PagedCodingKeys {
         return results
     }
 
-    internal func continuationToken(fromJson json: [String: Any]) -> String? {
+    func continuationToken(fromJson json: [String: Any]) -> String? {
         var result: String?
         let components = continuationToken.components(separatedBy: ".")
         var current = json
@@ -158,7 +158,7 @@ public class PagedCollection<SingleElement: Codable> {
     private var pageRange: Range<Int>?
 
     /// The continuation token used to fetch the next page of results.
-    internal var continuationToken: String?
+    var continuationToken: String?
 
     /// The headers that accompanied the orignal request. Used as the basis for subsequent paged requests.
     private var requestHeaders: HTTPHeaders!
