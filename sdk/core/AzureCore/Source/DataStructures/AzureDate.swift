@@ -49,7 +49,7 @@ public struct Iso8601Date: AzureDate {
     ]
 
     public static var formatter: DateFormatter {
-        return Self.dateFormat.formatter
+        return dateFormat.formatter
     }
 
     public var value: Date
@@ -116,13 +116,13 @@ public struct Iso8601Date: AzureDate {
 
     // MARK: Equatable
 
-    public static func == (lhs: Iso8601Date, rhs: Iso8601Date) -> Bool {
+    public static func == (lhs: Self, rhs: Self) -> Bool {
         return lhs.value == rhs.value
     }
 
     // MARK: Comparable
 
-    public static func < (lhs: Iso8601Date, rhs: Iso8601Date) -> Bool {
+    public static func < (lhs: Self, rhs: Self) -> Bool {
         return lhs.value < rhs.value
     }
 }
@@ -132,7 +132,7 @@ public struct Rfc1123Date: AzureDate {
     public static var dateFormat: AzureDateFormat = .rfc1123
 
     public static var formatter: DateFormatter {
-        return Self.dateFormat.formatter
+        return dateFormat.formatter
     }
 
     public var value: Date
@@ -181,13 +181,13 @@ public struct Rfc1123Date: AzureDate {
 
     // MARK: Equatable
 
-    public static func == (lhs: Rfc1123Date, rhs: Rfc1123Date) -> Bool {
+    public static func == (lhs: Self, rhs: Self) -> Bool {
         return lhs.value == rhs.value
     }
 
     // MARK: Comparable
 
-    public static func < (lhs: Rfc1123Date, rhs: Rfc1123Date) -> Bool {
+    public static func < (lhs: Self, rhs: Self) -> Bool {
         return lhs.value < rhs.value
     }
 }
@@ -197,7 +197,7 @@ public struct SimpleDate: AzureDate {
     public static var dateFormat: AzureDateFormat = .custom("yyyy-MM-dd")
 
     public static var formatter: DateFormatter {
-        return Self.dateFormat.formatter
+        return dateFormat.formatter
     }
 
     public var value: Date
@@ -245,13 +245,13 @@ public struct SimpleDate: AzureDate {
 
     // MARK: Equatable
 
-    public static func == (lhs: SimpleDate, rhs: SimpleDate) -> Bool {
+    public static func == (lhs: Self, rhs: Self) -> Bool {
         return lhs.value == rhs.value
     }
 
     // MARK: Comparable
 
-    public static func < (lhs: SimpleDate, rhs: SimpleDate) -> Bool {
+    public static func < (lhs: Self, rhs: Self) -> Bool {
         return lhs.value < rhs.value
     }
 }
@@ -308,13 +308,13 @@ public struct UnixTime: Codable, Comparable, RequestStringConvertible {
 
     // MARK: Equatable
 
-    public static func == (lhs: UnixTime, rhs: UnixTime) -> Bool {
+    public static func == (lhs: Self, rhs: Self) -> Bool {
         return lhs.value == rhs.value
     }
 
     // MARK: Comparable
 
-    public static func < (lhs: UnixTime, rhs: UnixTime) -> Bool {
+    public static func < (lhs: Self, rhs: Self) -> Bool {
         return lhs.value < rhs.value
     }
 }
@@ -326,7 +326,7 @@ public struct SimpleTime: Codable, Comparable, RequestStringConvertible {
     public static var dateFormat: AzureDateFormat = .custom("HH:mm:ss")
 
     public static var formatter: DateFormatter {
-        return Self.dateFormat.formatter
+        return dateFormat.formatter
     }
 
     // MARK: RequestStringConvertible
@@ -373,13 +373,13 @@ public struct SimpleTime: Codable, Comparable, RequestStringConvertible {
 
     // MARK: Equatable
 
-    public static func == (lhs: SimpleTime, rhs: SimpleTime) -> Bool {
+    public static func == (lhs: Self, rhs: Self) -> Bool {
         return lhs.value == rhs.value
     }
 
     // MARK: Comparable
 
-    public static func < (lhs: SimpleTime, rhs: SimpleTime) -> Bool {
+    public static func < (lhs: Self, rhs: Self) -> Bool {
         return lhs.value < rhs.value
     }
 }

@@ -28,8 +28,8 @@ import Foundation
 import Security
 
 public class KeychainUtil {
-    internal let keychainErrorDomain = "com.azure.core"
-    internal let keychainSecurityService = "com.azure.core"
+    let keychainErrorDomain = "com.azure.core"
+    let keychainSecurityService = "com.azure.core"
 
     private let contentError = AzureError.client("Invalid keychain content.")
 

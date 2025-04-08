@@ -92,16 +92,16 @@ extension InferredThing: Codable {
 
     convenience init(from decoder: Decoder) throws {
         let root = try decoder.container(keyedBy: CodingKeys.self)
-        self.init(
-            attr: try root.decode(String.self, forKey: .attr),
-            reqString: try root.decode(String.self, forKey: .reqString),
-            reqDouble: try root.decodeDouble(forKey: .reqDouble),
-            reqInt: try root.decodeInt(forKey: .reqInt),
-            reqBool: try root.decodeBool(forKey: .reqBool),
-            optString: try root.decodeIfPresent(String.self, forKey: .optString),
-            optDouble: try root.decodeDoubleIfPresent(forKey: .optDouble),
-            optInt: try root.decodeIntIfPresent(forKey: .optInt),
-            optBool: try root.decodeBoolIfPresent(forKey: .optBool)
+        try self.init(
+            attr: root.decode(String.self, forKey: .attr),
+            reqString: root.decode(String.self, forKey: .reqString),
+            reqDouble: root.decodeDouble(forKey: .reqDouble),
+            reqInt: root.decodeInt(forKey: .reqInt),
+            reqBool: root.decodeBool(forKey: .reqBool),
+            optString: root.decodeIfPresent(String.self, forKey: .optString),
+            optDouble: root.decodeDoubleIfPresent(forKey: .optDouble),
+            optInt: root.decodeIntIfPresent(forKey: .optInt),
+            optBool: root.decodeBoolIfPresent(forKey: .optBool)
         )
     }
 }
@@ -164,16 +164,16 @@ extension MappedThing: Codable {
 
     convenience init(from decoder: Decoder) throws {
         let root = try decoder.container(keyedBy: CodingKeys.self)
-        self.init(
-            attr: try root.decode(String.self, forKey: .attr),
-            reqString: try root.decode(String.self, forKey: .reqString),
-            reqDouble: try root.decodeDouble(forKey: .reqDouble),
-            reqInt: try root.decodeInt(forKey: .reqInt),
-            reqBool: try root.decodeBool(forKey: .reqBool),
-            optString: try root.decodeIfPresent(String.self, forKey: .optString),
-            optDouble: try root.decodeDoubleIfPresent(forKey: .optDouble),
-            optInt: try root.decodeIntIfPresent(forKey: .optInt),
-            optBool: try root.decodeBoolIfPresent(forKey: .optBool)
+        try self.init(
+            attr: root.decode(String.self, forKey: .attr),
+            reqString: root.decode(String.self, forKey: .reqString),
+            reqDouble: root.decodeDouble(forKey: .reqDouble),
+            reqInt: root.decodeInt(forKey: .reqInt),
+            reqBool: root.decodeBool(forKey: .reqBool),
+            optString: root.decodeIfPresent(String.self, forKey: .optString),
+            optDouble: root.decodeDoubleIfPresent(forKey: .optDouble),
+            optInt: root.decodeIntIfPresent(forKey: .optInt),
+            optBool: root.decodeBoolIfPresent(forKey: .optBool)
         )
     }
 }
@@ -193,10 +193,10 @@ final class PagedThing: Codable, XMLModel {
 
     convenience init(from decoder: Decoder) throws {
         let root = try decoder.container(keyedBy: CodingKeys.self)
-        self.init(
-            id: try root.decodeInt(forKey: .id),
-            name: try root.decode(String.self, forKey: .name),
-            value: try root.decodeIfPresent(String.self, forKey: .value)
+        try self.init(
+            id: root.decodeInt(forKey: .id),
+            name: root.decode(String.self, forKey: .name),
+            value: root.decodeIfPresent(String.self, forKey: .value)
         )
     }
 

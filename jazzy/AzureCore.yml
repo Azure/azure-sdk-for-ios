@@ -2,7 +2,7 @@ author: Microsoft
 author_url: https://azure.github.io/azure-sdk/
 github_url: https://github.com/Azure/azure-sdk-for-ios
 module: AzureCore
-module_version: 1.0.0-beta.15
+module_version: 1.0.0-beta.16
 readme: ../sdk/core/AzureCore/README.md
 skip_undocumented: false
 hide_unlisted_documentation: false

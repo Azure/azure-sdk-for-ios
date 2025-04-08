@@ -53,7 +53,7 @@ public class UserAgentPolicy: PipelineStage {
     // <user_language>_<user_region>
     private static let userLocaleInfoFormat = "%@_%@"
 
-    internal let userAgent: String
+    let userAgent: String
 
     // MARK: Initializers
 
