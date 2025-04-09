@@ -1,4 +1,8 @@
 # Release History
+## 2.16.0-beta.1 (2025-04-09)
+### Features Added
+* Added explicit consent APIs
+
 ## 2.15.1 (2025-03-19)
 ### Bugs Fixed
 * Bug fix for PSTN mute/unmute
