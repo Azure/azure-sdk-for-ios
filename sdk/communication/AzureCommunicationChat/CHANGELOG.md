@@ -1,5 +1,8 @@
 # Release History
 
+## 1.3.7 (2025-05-02)
+- Updated AzureCore dependency from 1.0.0-beta.15 to 1.0.0-beta.16
+
 ## 1.3.6 (2024-10-16)
 ### Feature Added
 - Retrieved the real-time notification configuration from chat backend service rather than hardcode it in SDK.
