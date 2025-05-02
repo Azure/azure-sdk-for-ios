@@ -38,7 +38,7 @@ let package = Package(
         .library(name: "AzureCommunicationChat", targets: ["AzureCommunicationChat"])
     ],
     dependencies: [
-        .package(name: "AzureCore", url: "https://github.com/Azure/SwiftPM-AzureCore.git", .exact("1.0.0-beta.15")),
+        .package(name: "AzureCore", url: "https://github.com/Azure/SwiftPM-AzureCore.git", .exact("1.0.0-beta.16")),
         .package(
             name: "AzureCommunicationCommon",
             url: "https://github.com/Azure/SwiftPM-AzureCommunicationCommon.git",
