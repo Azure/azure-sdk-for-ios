@@ -19,7 +19,7 @@
 # Service teams
 
 # PRLabel: %Azure.Core
-/sdk/core/                                          @tjprescott @mpodwysocki
+/sdk/core/                                          @tjprescott
 
 # PRLabel: %Communication
 /sdk/communication/                                 @Azure/azure-sdk-communication-code-reviewers
@@ -28,7 +28,7 @@
 /sdk/communication/AzureCommunicationCommon/        @AikoBB @maximrytych-ms @mjafferi-msft
 
 # PRLabel: %Azure.Identity
-/sdk/identity/                                      @tjprescott @mpodwysocki
+/sdk/identity/                                      @tjprescott
 
 # PRLabel: %EngSys
 /sdk/template/                                      @benbp @weshaggard
