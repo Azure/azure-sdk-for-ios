@@ -157,6 +157,112 @@ class CommunicationIdentifierTest: XCTestCase {
         )
     }
 
+    func test_TeamsExtensionUserIdentifier_VariablesSetProperly() {
+        let expectedUserId = UUID().uuidString
+        let expectedTenantId = UUID().uuidString
+        let expectedResourceId = UUID().uuidString
+        let teamsExtensionUserIdentifier = TeamsExtensionUserIdentifier(
+            userId: expectedUserId,
+            tenantId: expectedTenantId,
+            resourceId: expectedResourceId
+        )
+        XCTAssertEqual(teamsExtensionUserIdentifier.userId, expectedUserId)
+        XCTAssertEqual(teamsExtensionUserIdentifier.tenantId, expectedTenantId)
+        XCTAssertEqual(teamsExtensionUserIdentifier.resourceId, expectedResourceId)
+        XCTAssertEqual(teamsExtensionUserIdentifier.cloudEnvironment, .Public)
+        XCTAssertEqual(
+            teamsExtensionUserIdentifier.rawId,
+            "\(Prefix.AcsUser)\(expectedResourceId)_\(expectedTenantId)_\(expectedUserId)"
+        )
+    }
+
+    func test_TeamsExtensionUserIdentifier_AssertRawIdGeneration() {
+        let userId = UUID().uuidString
+        let tenantId = UUID().uuidString
+        let resourceId = UUID().uuidString
+        var teamsExtensionUserIdentifier = TeamsExtensionUserIdentifier(
+            userId: userId,
+            tenantId: tenantId,
+            resourceId: resourceId,
+            cloudEnvironment: .Dod
+        )
+        XCTAssertEqual(
+            teamsExtensionUserIdentifier.rawId,
+            "\(Prefix.AcsUserDodCloud)\(resourceId)_\(tenantId)_\(userId)"
+        )
+
+        teamsExtensionUserIdentifier = TeamsExtensionUserIdentifier(
+            userId: userId,
+            tenantId: tenantId,
+            resourceId: resourceId,
+            cloudEnvironment: .Gcch
+        )
+        XCTAssertEqual(
+            teamsExtensionUserIdentifier.rawId,
+            "\(Prefix.AcsUserGcchCloud)\(resourceId)_\(tenantId)_\(userId)"
+        )
+    }
+
+    func test_TeamsExtensionUserIdentifier_EqualityCheckingOnlyRawId() {
+        let userId = UUID().uuidString
+        let tenantId = UUID().uuidString
+        let resourceId = UUID().uuidString
+        XCTAssertTrue(
+            TeamsExtensionUserIdentifier(
+                userId: userId,
+                tenantId: tenantId,
+                resourceId: resourceId
+            ) ==
+                TeamsExtensionUserIdentifier(
+                    userId: userId,
+                    tenantId: tenantId,
+                    resourceId: resourceId,
+                )
+        )
+
+        XCTAssertTrue(
+            TeamsExtensionUserIdentifier(
+                userId: userId,
+                tenantId: tenantId,
+                resourceId: resourceId
+            ) ==
+                TeamsExtensionUserIdentifier(
+                    userId: userId,
+                    tenantId: tenantId,
+                    resourceId: resourceId,
+                    cloudEnvironment: .Public
+                )
+        )
+
+        XCTAssertFalse(
+            TeamsExtensionUserIdentifier(
+                userId: userId,
+                tenantId: tenantId,
+                resourceId: resourceId
+            ) ==
+                TeamsExtensionUserIdentifier(
+                    userId: userId,
+                    tenantId: tenantId,
+                    resourceId: resourceId,
+                    cloudEnvironment: .Dod
+                )
+        )
+
+        XCTAssertFalse(
+            TeamsExtensionUserIdentifier(
+                userId: userId,
+                tenantId: tenantId,
+                resourceId: resourceId
+            ) ==
+                TeamsExtensionUserIdentifier(
+                    userId: userId,
+                    tenantId: tenantId,
+                    resourceId: resourceId,
+                    cloudEnvironment: .Gcch
+                )
+        )
+    }
+
     // swiftlint:disable function_body_length
     func test_IfRawIdIsOptional_EqualityCheckingOnlyRawId() {
         XCTAssertFalse(
