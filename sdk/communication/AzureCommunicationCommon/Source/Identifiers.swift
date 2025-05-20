@@ -163,6 +163,11 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
  */
 @objcMembers public class PhoneNumberIdentifier: NSObject, CommunicationIdentifier {
     public let phoneNumber: String
+    /// The asserted Id is set on a phone number that is already in the same call to distinguish from other connections
+    /// made through the same number.
+    public let assertedId: String?
+    /// True if the phone number is anonymous, e.g. when used to represent a hidden caller Id.
+    public let isAnonymous: Bool
     public private(set) var rawId: String
     public var kind: IdentifierKind { return .phoneNumber }
 
@@ -177,6 +182,18 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
             self.rawId = rawId
         } else {
             self.rawId = "4:" + phoneNumber
+        }
+        self.isAnonymous = phoneNumber == "anonymous"
+        let phoneNumberFromRawId = String(self.rawId.dropFirst(Prefix.PhoneNumber.count) ?? "")
+        if !isAnonymous,
+           let lastUnderscoreIndex = phoneNumberFromRawId.lastIndex(of: "_"),
+           lastUnderscoreIndex != phoneNumberFromRawId.startIndex,
+           lastUnderscoreIndex != phoneNumberFromRawId.endIndex
+        {
+            let assertedIdStart = phoneNumberFromRawId.index(after: lastUnderscoreIndex)
+            self.assertedId = String(phoneNumberFromRawId[assertedIdStart...])
+        } else {
+            self.assertedId = nil
         }
     }
 

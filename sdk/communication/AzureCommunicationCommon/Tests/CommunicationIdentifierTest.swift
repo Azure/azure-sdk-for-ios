@@ -52,8 +52,34 @@ class CommunicationIdentifierTest: XCTestCase {
     func test_PhoneNumberIdentifier_IfRawIdIsNull_RawIdIsGeneratedProperly() {
         var phoneNumberIdentifier = PhoneNumberIdentifier(phoneNumber: testPhoneNumber)
         XCTAssertEqual(phoneNumberIdentifier.rawId, testPhoneNumberRawId)
+        XCTAssertEqual(phoneNumberIdentifier.isAnonymous, false)
+        XCTAssertEqual(phoneNumberIdentifier.assertedId, nil)
         phoneNumberIdentifier = PhoneNumberIdentifier(phoneNumber: testPhoneNumberWithoutPlus)
         XCTAssertEqual(phoneNumberIdentifier.rawId, testPhoneNumberRawIdWithoutPlus)
+    }
+
+    func test_PhoneNumberIdentifier_IsAnonymous() {
+        var phoneNumberIdentifier = PhoneNumberIdentifier(phoneNumber: "anonymous")
+        XCTAssertEqual(phoneNumberIdentifier.isAnonymous, true)
+        phoneNumberIdentifier = PhoneNumberIdentifier(phoneNumber: "4:anonymous")
+        XCTAssertEqual(phoneNumberIdentifier.isAnonymous, false)
+        phoneNumberIdentifier = PhoneNumberIdentifier(phoneNumber: "anonymous123")
+        XCTAssertEqual(phoneNumberIdentifier.isAnonymous, false)
+    }
+
+    func test_PhoneNumberIdentifier_AssertedId() {
+        var phoneNumberIdentifier = PhoneNumberIdentifier(phoneNumber: "14255550121.123")
+        XCTAssertEqual(phoneNumberIdentifier.assertedId, nil)
+        phoneNumberIdentifier = PhoneNumberIdentifier(phoneNumber: "14255550121-123")
+        XCTAssertEqual(phoneNumberIdentifier.assertedId, nil)
+        phoneNumberIdentifier = PhoneNumberIdentifier(phoneNumber: "14255550121_123")
+        XCTAssertEqual(phoneNumberIdentifier.assertedId, "123")
+        phoneNumberIdentifier = PhoneNumberIdentifier(phoneNumber: "14255550121", rawId: "4:14255550121_123")
+        XCTAssertEqual(phoneNumberIdentifier.assertedId, "123")
+        phoneNumberIdentifier = PhoneNumberIdentifier(phoneNumber: "14255550121_123_456")
+        XCTAssertEqual(phoneNumberIdentifier.assertedId, "456")
+        phoneNumberIdentifier = PhoneNumberIdentifier(phoneNumber: "14255550121", rawId: "4:14255550121_123_456")
+        XCTAssertEqual(phoneNumberIdentifier.assertedId, "456")
     }
 
     func test_MicrosoftTeamsUserIdentifier_IfRawIdIsNull_RawIdIsGeneratedProperly_AnonymousUserIsFalse() {
