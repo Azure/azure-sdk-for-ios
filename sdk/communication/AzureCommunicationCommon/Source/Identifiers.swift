@@ -120,14 +120,12 @@ private func buildCorrectCommunicationIdentifier(prefix: String, suffix: String)
     var cloud: CommunicationCloudEnvironment = .Public
 
     switch prefix {
-    case Prefix.AcsUser:
-        cloud = .Public
     case Prefix.AcsUserDodCloud:
         cloud = .Dod
     case Prefix.AcsUserGcchCloud:
         cloud = .Gcch
     default:
-        assertionFailure("Invalid prefix \(prefix) for TeamsExtensionUserIdentifier")
+        cloud = .Public
     }
 
     return TeamsExtensionUserIdentifier(
