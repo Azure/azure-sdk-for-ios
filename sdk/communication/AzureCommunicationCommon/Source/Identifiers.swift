@@ -117,16 +117,14 @@ private func buildCorrectCommunicationIdentifier(prefix: String, suffix: String)
     let resourceId = String(segments[0])
     let tenantId = String(segments[1])
     let userId = String(segments[2])
-    var cloud: CommunicationCloudEnvironment = .Public
 
-    switch prefix {
-    case Prefix.AcsUserDodCloud:
-        cloud = .Dod
-    case Prefix.AcsUserGcchCloud:
-        cloud = .Gcch
-    default:
-        cloud = .Public
-    }
+    let cloud: CommunicationCloudEnvironment = {
+        switch prefix {
+        case Prefix.AcsUserDodCloud: return .Dod
+        case Prefix.AcsUserGcchCloud: return .Gcch
+        default: return .Public
+        }
+    }()
 
     return TeamsExtensionUserIdentifier(
         userId: userId,
@@ -212,18 +210,21 @@ private func buildCorrectCommunicationIdentifier(prefix: String, suffix: String)
         } else {
             self.rawId = "4:" + phoneNumber
         }
+        let phoneNumberFromRawId = String(self.rawId.dropFirst(Prefix.PhoneNumber.count))
         self.isAnonymous = phoneNumber == "anonymous"
-        let phoneNumberFromRawId = String(self.rawId.dropFirst(Prefix.PhoneNumber.count) ?? "")
-        if !isAnonymous,
-           let lastUnderscoreIndex = phoneNumberFromRawId.lastIndex(of: "_"),
-           lastUnderscoreIndex != phoneNumberFromRawId.startIndex,
-           lastUnderscoreIndex != phoneNumberFromRawId.endIndex
-        {
-            let assertedIdStart = phoneNumberFromRawId.index(after: lastUnderscoreIndex)
-            self.assertedId = String(phoneNumberFromRawId[assertedIdStart...])
-        } else {
-            self.assertedId = nil
+        self.assertedId = PhoneNumberIdentifier.extractAssertedId(from: phoneNumberFromRawId, isAnonymous: isAnonymous)
+    }
+
+    private static func extractAssertedId(from phoneNumber: String, isAnonymous: Bool) -> String? {
+        guard !isAnonymous,
+              let lastUnderscoreIndex = phoneNumber.lastIndex(of: "_"),
+              lastUnderscoreIndex != phoneNumber.startIndex,
+              lastUnderscoreIndex != phoneNumber.index(before: phoneNumber.endIndex)
+        else {
+            return nil
         }
+        let assertedIdStart = phoneNumber.index(after: lastUnderscoreIndex)
+        return String(phoneNumber[assertedIdStart...])
     }
 
     // swiftlint:disable:next nsobject_prefer_isequal
