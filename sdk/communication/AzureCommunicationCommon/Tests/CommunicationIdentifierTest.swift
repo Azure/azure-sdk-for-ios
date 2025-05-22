@@ -52,8 +52,34 @@ class CommunicationIdentifierTest: XCTestCase {
     func test_PhoneNumberIdentifier_IfRawIdIsNull_RawIdIsGeneratedProperly() {
         var phoneNumberIdentifier = PhoneNumberIdentifier(phoneNumber: testPhoneNumber)
         XCTAssertEqual(phoneNumberIdentifier.rawId, testPhoneNumberRawId)
+        XCTAssertEqual(phoneNumberIdentifier.isAnonymous, false)
+        XCTAssertEqual(phoneNumberIdentifier.assertedId, nil)
         phoneNumberIdentifier = PhoneNumberIdentifier(phoneNumber: testPhoneNumberWithoutPlus)
         XCTAssertEqual(phoneNumberIdentifier.rawId, testPhoneNumberRawIdWithoutPlus)
+    }
+
+    func test_PhoneNumberIdentifier_IsAnonymous() {
+        var phoneNumberIdentifier = PhoneNumberIdentifier(phoneNumber: "anonymous")
+        XCTAssertEqual(phoneNumberIdentifier.isAnonymous, true)
+        phoneNumberIdentifier = PhoneNumberIdentifier(phoneNumber: "4:anonymous")
+        XCTAssertEqual(phoneNumberIdentifier.isAnonymous, false)
+        phoneNumberIdentifier = PhoneNumberIdentifier(phoneNumber: "anonymous123")
+        XCTAssertEqual(phoneNumberIdentifier.isAnonymous, false)
+    }
+
+    func test_PhoneNumberIdentifier_AssertedId() {
+        var phoneNumberIdentifier = PhoneNumberIdentifier(phoneNumber: "14255550121.123")
+        XCTAssertEqual(phoneNumberIdentifier.assertedId, nil)
+        phoneNumberIdentifier = PhoneNumberIdentifier(phoneNumber: "14255550121-123")
+        XCTAssertEqual(phoneNumberIdentifier.assertedId, nil)
+        phoneNumberIdentifier = PhoneNumberIdentifier(phoneNumber: "14255550121_123")
+        XCTAssertEqual(phoneNumberIdentifier.assertedId, "123")
+        phoneNumberIdentifier = PhoneNumberIdentifier(phoneNumber: "14255550121", rawId: "4:14255550121_123")
+        XCTAssertEqual(phoneNumberIdentifier.assertedId, "123")
+        phoneNumberIdentifier = PhoneNumberIdentifier(phoneNumber: "14255550121_123_456")
+        XCTAssertEqual(phoneNumberIdentifier.assertedId, "456")
+        phoneNumberIdentifier = PhoneNumberIdentifier(phoneNumber: "14255550121", rawId: "4:14255550121_123_456")
+        XCTAssertEqual(phoneNumberIdentifier.assertedId, "456")
     }
 
     func test_MicrosoftTeamsUserIdentifier_IfRawIdIsNull_RawIdIsGeneratedProperly_AnonymousUserIsFalse() {
@@ -128,6 +154,112 @@ class CommunicationIdentifierTest: XCTestCase {
             MicrosoftTeamsAppIdentifier(
                 appId: testUserId
             ).cloudEnvironment
+        )
+    }
+
+    func test_TeamsExtensionUserIdentifier_VariablesSetProperly() {
+        let expectedUserId = UUID().uuidString
+        let expectedTenantId = UUID().uuidString
+        let expectedResourceId = UUID().uuidString
+        let teamsExtensionUserIdentifier = TeamsExtensionUserIdentifier(
+            userId: expectedUserId,
+            tenantId: expectedTenantId,
+            resourceId: expectedResourceId
+        )
+        XCTAssertEqual(teamsExtensionUserIdentifier.userId, expectedUserId)
+        XCTAssertEqual(teamsExtensionUserIdentifier.tenantId, expectedTenantId)
+        XCTAssertEqual(teamsExtensionUserIdentifier.resourceId, expectedResourceId)
+        XCTAssertEqual(teamsExtensionUserIdentifier.cloudEnvironment, .Public)
+        XCTAssertEqual(
+            teamsExtensionUserIdentifier.rawId,
+            "\(Prefix.AcsUser)\(expectedResourceId)_\(expectedTenantId)_\(expectedUserId)"
+        )
+    }
+
+    func test_TeamsExtensionUserIdentifier_AssertRawIdGeneration() {
+        let userId = UUID().uuidString
+        let tenantId = UUID().uuidString
+        let resourceId = UUID().uuidString
+        var teamsExtensionUserIdentifier = TeamsExtensionUserIdentifier(
+            userId: userId,
+            tenantId: tenantId,
+            resourceId: resourceId,
+            cloudEnvironment: .Dod
+        )
+        XCTAssertEqual(
+            teamsExtensionUserIdentifier.rawId,
+            "\(Prefix.AcsUserDodCloud)\(resourceId)_\(tenantId)_\(userId)"
+        )
+
+        teamsExtensionUserIdentifier = TeamsExtensionUserIdentifier(
+            userId: userId,
+            tenantId: tenantId,
+            resourceId: resourceId,
+            cloudEnvironment: .Gcch
+        )
+        XCTAssertEqual(
+            teamsExtensionUserIdentifier.rawId,
+            "\(Prefix.AcsUserGcchCloud)\(resourceId)_\(tenantId)_\(userId)"
+        )
+    }
+
+    func test_TeamsExtensionUserIdentifier_EqualityCheckingOnlyRawId() {
+        let userId = UUID().uuidString
+        let tenantId = UUID().uuidString
+        let resourceId = UUID().uuidString
+        XCTAssertTrue(
+            TeamsExtensionUserIdentifier(
+                userId: userId,
+                tenantId: tenantId,
+                resourceId: resourceId
+            ) ==
+                TeamsExtensionUserIdentifier(
+                    userId: userId,
+                    tenantId: tenantId,
+                    resourceId: resourceId
+                )
+        )
+
+        XCTAssertTrue(
+            TeamsExtensionUserIdentifier(
+                userId: userId,
+                tenantId: tenantId,
+                resourceId: resourceId
+            ) ==
+                TeamsExtensionUserIdentifier(
+                    userId: userId,
+                    tenantId: tenantId,
+                    resourceId: resourceId,
+                    cloudEnvironment: .Public
+                )
+        )
+
+        XCTAssertFalse(
+            TeamsExtensionUserIdentifier(
+                userId: userId,
+                tenantId: tenantId,
+                resourceId: resourceId
+            ) ==
+                TeamsExtensionUserIdentifier(
+                    userId: userId,
+                    tenantId: tenantId,
+                    resourceId: resourceId,
+                    cloudEnvironment: .Dod
+                )
+        )
+
+        XCTAssertFalse(
+            TeamsExtensionUserIdentifier(
+                userId: userId,
+                tenantId: tenantId,
+                resourceId: resourceId
+            ) ==
+                TeamsExtensionUserIdentifier(
+                    userId: userId,
+                    tenantId: tenantId,
+                    resourceId: resourceId,
+                    cloudEnvironment: .Gcch
+                )
         )
     }
 
