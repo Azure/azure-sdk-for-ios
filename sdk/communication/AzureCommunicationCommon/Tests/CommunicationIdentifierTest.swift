@@ -216,7 +216,7 @@ class CommunicationIdentifierTest: XCTestCase {
                 TeamsExtensionUserIdentifier(
                     userId: userId,
                     tenantId: tenantId,
-                    resourceId: resourceId,
+                    resourceId: resourceId
                 )
         )
 
