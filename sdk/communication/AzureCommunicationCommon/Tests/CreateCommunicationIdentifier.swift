@@ -247,6 +247,42 @@ class CreateCommunicationIdentifier: XCTestCase {
         }
     }
 
+    func test_createTeamsExtensionUserIdentifier() {
+        let userId = UUID().uuidString
+        let tenantId = UUID().uuidString
+        let resourceId = UUID().uuidString
+        let testCases = [
+            (
+                CommunicationCloudEnvironment.Public,
+                "\(Prefix.AcsUser)\(resourceId)_\(tenantId)_\(userId)"
+            ),
+            (
+                CommunicationCloudEnvironment.Dod,
+                "\(Prefix.AcsUserDodCloud)\(resourceId)_\(tenantId)_\(userId)"
+            ),
+            (
+                CommunicationCloudEnvironment.Gcch,
+                "\(Prefix.AcsUserGcchCloud)\(resourceId)_\(tenantId)_\(userId)"
+            )
+        ]
+
+        testCases.forEach { cloud, rawId in
+
+            let identifier = createCommunicationIdentifier(fromRawId: rawId)
+            switch identifier.kind {
+            case .teamsExtensionUser:
+                guard let identifier = identifier as? TeamsExtensionUserIdentifier else { return }
+                XCTAssertEqual(identifier.rawId, rawId)
+                XCTAssertEqual(identifier.userId, userId)
+                XCTAssertEqual(identifier.resourceId, resourceId)
+                XCTAssertEqual(identifier.tenantId, tenantId)
+                XCTAssertEqual(identifier.cloudEnvironment, cloud)
+            default:
+                XCTFail("test_createTeamsExtensionUserIdentifier created the wrong type")
+            }
+        }
+    }
+
     func test_rawIdStaysTheSameAfterConversionToIdentifierAndBack() {
         assertRoundTrip(
             rawId: "8:acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130"
@@ -279,6 +315,13 @@ class CreateCommunicationIdentifier: XCTestCase {
         assertRoundTrip(rawId: "28:dod-global:45ab2481-1c1c-4005-be24-0ffb879b1130")
         assertRoundTrip(rawId: "28:gcch:45ab2481-1c1c-4005-be24-0ffb879b1130")
         assertRoundTrip(rawId: "28:gcch-global:45ab2481-1c1c-4005-be24-0ffb879b1130")
+
+        let userId = UUID().uuidString
+        let tenantId = UUID().uuidString
+        let resourceId = UUID().uuidString
+        assertRoundTrip(rawId: "\(Prefix.AcsUser)\(resourceId)_\(tenantId)_\(userId)")
+        assertRoundTrip(rawId: "\(Prefix.AcsUserDodCloud)\(resourceId)_\(tenantId)_\(userId)")
+        assertRoundTrip(rawId: "\(Prefix.AcsUserGcchCloud)\(resourceId)_\(tenantId)_\(userId)")
     }
 
     private func assertRoundTrip(rawId: String) {
