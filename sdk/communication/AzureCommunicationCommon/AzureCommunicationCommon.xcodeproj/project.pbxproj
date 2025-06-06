@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0A3A5EC22316DB1E00473FDA /* AzureCommunicationCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5EB82316DB1E00473FDA /* AzureCommunicationCommon.framework */; };
+		1171FFF82DDF0E6B0008BB05 /* Pods_AzureCommunicationCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D532B0F56C67A1E89941A6D6 /* Pods_AzureCommunicationCommon.framework */; };
+		1171FFF92DDF0E6B0008BB05 /* Pods_AzureCommunicationCommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D532B0F56C67A1E89941A6D6 /* Pods_AzureCommunicationCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		11A73D22294B3EF500C910FD /* AutoRefreshOnDemandTokenCredentialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A73D21294B3EF500C910FD /* AutoRefreshOnDemandTokenCredentialTests.swift */; };
 		11A73D24294B3F5B00C910FD /* AutoRefreshProactiveTokenCredentialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A73D23294B3F5B00C910FD /* AutoRefreshProactiveTokenCredentialTests.swift */; };
 		11A73D26294B481800C910FD /* StaticTokenCredentialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A73D25294B481800C910FD /* StaticTokenCredentialTests.swift */; };
@@ -23,9 +25,7 @@
 		882F28D425A632CA009689E3 /* CommunicationTokenRefreshOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882F28D325A632CA009689E3 /* CommunicationTokenRefreshOptions.swift */; };
 		8856CEAC253A376D00044559 /* CommunicationAccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8856CEAB253A376D00044559 /* CommunicationAccessToken.swift */; };
 		88F6458928B3EFE200415333 /* CreateCommunicationIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F6458828B3EFE200415333 /* CreateCommunicationIdentifier.swift */; };
-		C1ABE73016C6539A7175199B /* Pods_AzureCommunicationCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D532B0F56C67A1E89941A6D6 /* Pods_AzureCommunicationCommon.framework */; };
 		CE28995B2826981CCEAD9A96 /* Pods_AzureCommunicationCommonTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65876B73FED970EE674191B8 /* Pods_AzureCommunicationCommonTests.framework */; };
-		D112634825B7969B00F437C6 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		D1A42CF825CCA1C100408C0F /* CommunicationTokenCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A42CF725CCA1C100408C0F /* CommunicationTokenCredential.swift */; };
 		F1540EBD25BF893C0056B087 /* CommunicationCloudEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1540EBC25BF893C0056B087 /* CommunicationCloudEnvironment.swift */; };
 		F1540EC125BFD6910056B087 /* CommunicationIdentifierTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1540EC025BFD6910056B087 /* CommunicationIdentifierTest.swift */; };
@@ -43,6 +43,20 @@
 			remoteInfo = AzureCSComputerVision;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1171FFFA2DDF0E6B0008BB05 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				1171FFF92DDF0E6B0008BB05 /* Pods_AzureCommunicationCommon.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0A3A5EB82316DB1E00473FDA /* AzureCommunicationCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCommunicationCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,7 +104,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C1ABE73016C6539A7175199B /* Pods_AzureCommunicationCommon.framework in Frameworks */,
+				1171FFF82DDF0E6B0008BB05 /* Pods_AzureCommunicationCommon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,6 +244,7 @@
 				0A3A5EB52316DB1E00473FDA /* Frameworks */,
 				0A3A5EB62316DB1E00473FDA /* Resources */,
 				0A4737AB239710D100DE8AC7 /* Format And Lint */,
+				1171FFFA2DDF0E6B0008BB05 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

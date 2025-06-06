@@ -36,6 +36,7 @@ import os.log
     public static let phoneNumber = IdentifierKind(rawValue: "phoneNumber")
     public static let microsoftTeamsUser = IdentifierKind(rawValue: "microsoftTeamsUser")
     public static let microsoftTeamsApp = IdentifierKind(rawValue: "microsoftTeamsApp")
+    public static let teamsExtensionUser = IdentifierKind(rawValue: "teamsExtensionUser")
     public static let unknown = IdentifierKind(rawValue: "unknown")
 
     public init(rawValue: String) {
@@ -97,14 +98,40 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
         return MicrosoftTeamsAppIdentifier(appId: suffix, cloudEnvironment: .Dod)
     case Prefix.TeamsAppGcchCloud:
         return MicrosoftTeamsAppIdentifier(appId: suffix, cloudEnvironment: .Gcch)
+    case Prefix.SpoolUser:
+        return CommunicationUserIdentifier(rawId)
     case Prefix.AcsUser,
-         Prefix.SpoolUser,
          Prefix.AcsUserDodCloud,
          Prefix.AcsUserGcchCloud:
-        return CommunicationUserIdentifier(rawId)
+        return buildCorrectCommunicationIdentifier(prefix: scope, suffix: suffix)
     default:
         return UnknownIdentifier(rawId)
     }
+}
+
+private func buildCorrectCommunicationIdentifier(prefix: String, suffix: String) -> CommunicationIdentifier {
+    let segments = suffix.split(separator: "_")
+    guard segments.count == 3 else {
+        return CommunicationUserIdentifier(prefix + suffix)
+    }
+    let resourceId = String(segments[0])
+    let tenantId = String(segments[1])
+    let userId = String(segments[2])
+
+    let cloud: CommunicationCloudEnvironment = {
+        switch prefix {
+        case Prefix.AcsUserDodCloud: return .Dod
+        case Prefix.AcsUserGcchCloud: return .Gcch
+        default: return .Public
+        }
+    }()
+
+    return TeamsExtensionUserIdentifier(
+        userId: userId,
+        tenantId: tenantId,
+        resourceId: resourceId,
+        cloudEnvironment: cloud
+    )
 }
 
 /**
@@ -163,6 +190,11 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
  */
 @objcMembers public class PhoneNumberIdentifier: NSObject, CommunicationIdentifier {
     public let phoneNumber: String
+    /// The asserted Id is set on a phone number that is already in the same call to distinguish from other connections
+    /// made through the same number.
+    public let assertedId: String?
+    /// True if the phone number is anonymous, e.g. when used to represent a hidden caller Id.
+    public let isAnonymous: Bool
     public private(set) var rawId: String
     public var kind: IdentifierKind { return .phoneNumber }
 
@@ -178,6 +210,21 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
         } else {
             self.rawId = "4:" + phoneNumber
         }
+        let phoneNumberFromRawId = String(self.rawId.dropFirst(Prefix.PhoneNumber.count))
+        self.isAnonymous = phoneNumber == "anonymous"
+        self.assertedId = PhoneNumberIdentifier.extractAssertedId(from: phoneNumberFromRawId, isAnonymous: isAnonymous)
+    }
+
+    private static func extractAssertedId(from phoneNumber: String, isAnonymous: Bool) -> String? {
+        guard !isAnonymous,
+              let lastUnderscoreIndex = phoneNumber.lastIndex(of: "_"),
+              lastUnderscoreIndex != phoneNumber.startIndex,
+              lastUnderscoreIndex != phoneNumber.index(before: phoneNumber.endIndex)
+        else {
+            return nil
+        }
+        let assertedIdStart = phoneNumber.index(after: lastUnderscoreIndex)
+        return String(phoneNumber[assertedIdStart...])
     }
 
     // swiftlint:disable:next nsobject_prefer_isequal
@@ -341,6 +388,80 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
      */
     override public func isEqual(_ object: Any?) -> Bool {
         guard let object = object as? MicrosoftTeamsAppIdentifier else {
+            return false
+        }
+
+        return rawId == object.rawId
+    }
+}
+
+/**
+ Communication identifier for Microsoft Teams Phone user who is using a Communication Services resource to extend their Teams Phone set up.
+ */
+@objcMembers public class TeamsExtensionUserIdentifier: NSObject, CommunicationIdentifier {
+    /// The Id of the Microsoft Teams Extension user, i.e. the Entra ID object Id of the user.
+    public let userId: String
+    /// The tenant Id of the Microsoft Teams Extension user.
+    public let tenantId: String
+    /// The Communication Services resource Id.
+    public let resourceId: String
+    public private(set) var rawId: String
+    public var kind: IdentifierKind { return .teamsExtensionUser }
+    /// The cloud that the identifier belongs to.
+    public let cloudEnvironment: CommunicationCloudEnvironment
+
+    /**
+     Creates a TeamsExtensionUserIdentifier object
+     - Parameter userId: The Id of the Microsoft Teams Extension user, i.e. the Entra ID object Id of the user.
+     - Parameter tenantId: The tenant Id of the Microsoft Teams Extension user.
+     - Parameter resourceId: The Communication Services resource Id
+     - Parameter rawId: The optional raw id of the Microsoft Teams Phone user identifier.
+     - Parameter cloudEnvironment: The cloud that the Microsoft Teams Phone user belongs to.
+                                        A null value translates to the Public cloud.
+     */
+    public init(
+        userId: String,
+        tenantId: String,
+        resourceId: String,
+        rawId: String? = nil,
+        cloudEnvironment: CommunicationCloudEnvironment = .Public
+    ) {
+        self.userId = userId
+        self.tenantId = tenantId
+        self.resourceId = resourceId
+        self.cloudEnvironment = cloudEnvironment
+        if let rawId = rawId {
+            self.rawId = rawId
+        } else {
+            switch cloudEnvironment {
+            case .Dod:
+                self.rawId = "\(Prefix.AcsUserDodCloud)\(resourceId)_\(tenantId)_\(userId)"
+            case .Gcch:
+                self.rawId = "\(Prefix.AcsUserGcchCloud)\(resourceId)_\(tenantId)_\(userId)"
+            default:
+                self.rawId = "\(Prefix.AcsUser)\(resourceId)_\(tenantId)_\(userId)"
+            }
+        }
+    }
+
+    // swiftlint:disable:next nsobject_prefer_isequal
+    /**
+     Returns a Boolean value indicating whether two values are equal.
+        Note: In Objective-C favor isEqual() method
+     - Parameter lhs MicrosoftTeamsUserIdentifier to compare.
+     - Parameter rhs  Another MicrosoftTeamsUserIdentifier to compare.
+     */
+    public static func == (lhs: TeamsExtensionUserIdentifier, rhs: TeamsExtensionUserIdentifier) -> Bool {
+        return lhs.rawId == rhs.rawId
+    }
+
+    /**
+     Returns a Boolean value that indicates whether the receiver is equal to another given object.
+     This will automatically return false if object being compared to is not a TeamsExtensionUserIdentifier.
+     - Parameter object The object with which to compare the receiver.
+     */
+    override public func isEqual(_ object: Any?) -> Bool {
+        guard let object = object as? TeamsExtensionUserIdentifier else {
             return false
         }
 
