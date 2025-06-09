@@ -1,6 +1,6 @@
 # Release History
 
-## 1.3.0 (Unreleased)
+## 1.3.0 (2025-06-09)
 ### Features Added
 - Added support for a new communication identifier `TeamsExtensionUserIdentifier` which maps rawIds with format `8:acs:{resourceId}_{tenantId}_{userId}`.
 - Added `isAnonymous` and `assertedId` properties to `PhoneNumberIdentifier`.

@@ -92,7 +92,7 @@ platform :ios, '12.0'
 use_frameworks!
 
 target 'MyTarget' do
-  pod 'AzureCommunicationCommon', '1.2.0'
+  pod 'AzureCommunicationCommon', '1.3.0'
   ...
 end
 ```
