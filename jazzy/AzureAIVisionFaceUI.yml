@@ -2,5 +2,5 @@ author: Microsoft
 author_url: https://azure.github.io/azure-sdk/
 github_url: https://github.com/Azure-Samples/azure-ai-vision-sdk
 module: AzureAIVisionFaceUI
-ref: docs/ios/AzureAIVisionFaceUI/1.1.0
+ref: docs/ios/AzureAIVisionFaceUI/1.4.0
 output: ../build/jazzy/AzureAIVisionFaceUI
