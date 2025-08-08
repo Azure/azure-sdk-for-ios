@@ -46,8 +46,6 @@ extends:
         compiled: true
         break: true
       policy: M365
-      credscan:
-        toolVersion: 2.3.12.23
       sourceRepositoriesToScan:
         include:
          - ${{ parameters.SDLStageRepositoriesToScan}}
