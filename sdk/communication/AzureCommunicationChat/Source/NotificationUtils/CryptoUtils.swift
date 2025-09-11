@@ -24,8 +24,12 @@
 //
 // --------------------------------------------------------------------------
 import AzureCore
+#if canImport(CommonCrypto)
 import CommonCrypto
+#endif
+#if canImport(CryptoKit)
 import CryptoKit
+#endif
 import Foundation
 
 class CryptoUtils {

@@ -25,7 +25,9 @@
 // --------------------------------------------------------------------------
 
 import Foundation
+#if canImport(os)
 import os.log
+#endif
 
 /**
  The IdentifierKind for a given CommunicationIdentifier.

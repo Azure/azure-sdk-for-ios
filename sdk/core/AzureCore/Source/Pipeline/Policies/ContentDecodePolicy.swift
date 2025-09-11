@@ -25,7 +25,9 @@
 // --------------------------------------------------------------------------
 
 import Foundation
+#if canImport(os)
 import os.log
+#endif
 
 class ContentDecodeXMLParser: NSObject, XMLParserDelegate {
     // MARK: Properties

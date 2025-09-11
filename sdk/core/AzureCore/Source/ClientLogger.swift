@@ -25,7 +25,9 @@
 // --------------------------------------------------------------------------
 
 import Foundation
+#if canImport(os)
 import os.log
+#endif
 
 public enum ClientLogLevel: Int {
     case error, warning, info, debug
@@ -74,11 +76,15 @@ public enum ClientLoggers {
     // MARK: Static Methods
 
     public static func `default`(tag: String, level: ClientLogLevel = .info) -> ClientLogger {
+        #if canImport(os)
         if #available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) {
             return OSLogger(category: tag, level: level)
         } else {
             return NSLogger(tag: tag, level: level)
         }
+        #else
+        return NSLogger(tag: tag, level: level)
+        #endif
     }
 }
 
@@ -146,6 +152,7 @@ public class NSLogger: ClientLogger {
     }
 }
 
+#if canImport(os)
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
 public class OSLogger: ClientLogger {
     // MARK: Properties
@@ -195,3 +202,4 @@ public class OSLogger: ClientLogger {
         }
     }
 }
+#endif

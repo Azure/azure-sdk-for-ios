@@ -27,7 +27,6 @@
 import AzureCore
 import DVR
 import Foundation
-import os
 
 public class DVRSessionTransport: TransportStage {
     // MARK: Properties

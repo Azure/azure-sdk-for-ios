@@ -25,7 +25,9 @@
 // --------------------------------------------------------------------------
 
 import Foundation
+#if canImport(UIKit)
 import UIKit
+#endif
 
 public enum ApplicationUtil {
     // MARK: Static Methods

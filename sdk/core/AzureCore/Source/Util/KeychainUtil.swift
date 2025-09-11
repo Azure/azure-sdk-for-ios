@@ -25,7 +25,9 @@
 // --------------------------------------------------------------------------
 
 import Foundation
+#if canImport(Security)
 import Security
+#endif
 
 public class KeychainUtil {
     let keychainErrorDomain = "com.azure.core"

@@ -24,7 +24,9 @@
 //
 // --------------------------------------------------------------------------
 
+#if canImport(CommonCrypto)
 import CommonCrypto
+#endif
 import Foundation
 
 // MARK: Enumerations
