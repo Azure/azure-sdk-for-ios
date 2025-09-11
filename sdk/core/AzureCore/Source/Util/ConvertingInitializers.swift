@@ -65,13 +65,15 @@ public extension Data {
     init?(hexString: String) {
         self.init(capacity: hexString.count / 2)
         if let regex = try? NSRegularExpression(pattern: "[0-9a-f]{1,2}", options: .caseInsensitive) {
-            regex.enumerateMatches(
+            let matches = regex.matches(
                 in: hexString,
                 range: NSRange(hexString.startIndex..., in: hexString)
-            ) { match, _, _ in
-                let byteString = (hexString as NSString).substring(with: match!.range)
-                let num = UInt8(byteString, radix: 16)!
-                append(num)
+            )
+            for match in matches {
+                let byteString = (hexString as NSString).substring(with: match.range)
+                if let num = UInt8(byteString, radix: 16) {
+                    append(num)
+                }
             }
         }
         guard count > 0 else { return nil }

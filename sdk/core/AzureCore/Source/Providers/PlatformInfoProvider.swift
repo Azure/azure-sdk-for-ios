@@ -35,6 +35,7 @@ public protocol PlatformInfoProvider {
 
 // MARK: DevicePlatformInfoProvider
 
+#if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
 struct DevicePlatformInfoProvider: PlatformInfoProvider {
     // MARK: Computed Properties
 
@@ -104,3 +105,11 @@ private enum Sysctl {
         }
     }
 }
+#else
+// MARK: Fallback PlatformInfoProvider for non-Apple platforms
+
+struct DevicePlatformInfoProvider: PlatformInfoProvider {
+    public var deviceName: String? { return "Unknown" }
+    public var osVersion: String? { return "Unknown" }
+}
+#endif
