@@ -29,6 +29,7 @@ import Foundation
 import Security
 #endif
 
+#if canImport(Security)
 public class KeychainUtil {
     let keychainErrorDomain = "com.azure.core"
     let keychainSecurityService = "com.azure.core"
@@ -112,3 +113,4 @@ public class KeychainUtil {
         return queryDictionary
     }
 }
+#endif

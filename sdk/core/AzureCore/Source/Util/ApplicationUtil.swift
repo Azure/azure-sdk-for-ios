@@ -42,6 +42,7 @@ public enum ApplicationUtil {
     }
 
     /// Simple access to the shared application when not executing within an app extension.
+    #if canImport(UIKit)
     @available(iOSApplicationExtension, unavailable)
     public static var sharedApplication: UIApplication? {
         guard !isExecutingInAppExtension else { return nil }
@@ -81,4 +82,5 @@ public enum ApplicationUtil {
             return root
         }
     }
+    #endif
 }

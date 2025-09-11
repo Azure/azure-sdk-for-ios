@@ -25,6 +25,9 @@
 // --------------------------------------------------------------------------
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 public class URLHTTPResponse: HTTPResponse {
     // MARK: Properties

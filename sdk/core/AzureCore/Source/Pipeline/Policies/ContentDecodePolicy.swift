@@ -28,7 +28,11 @@ import Foundation
 #if canImport(os)
 import os.log
 #endif
+#if canImport(FoundationXML)
+import FoundationXML
+#endif
 
+#if canImport(FoundationXML) || (!os(Linux) && canImport(Foundation))
 class ContentDecodeXMLParser: NSObject, XMLParserDelegate {
     // MARK: Properties
 
@@ -273,3 +277,4 @@ public class ContentDecodePolicy: PipelineStage {
         return nil
     }
 }
+#endif
