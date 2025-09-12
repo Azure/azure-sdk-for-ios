@@ -131,18 +131,6 @@ extension Dictionary: RequestStringConvertible where Key: Encodable, Value: Enco
 
 extension DateComponents: RequestStringConvertible {
     public var requestString: String {
-        #if canImport(Foundation) && !os(Linux)
         return DateComponentsFormatter().string(from: self) ?? "\"\""
-        #else
-        // Fallback for platforms without DateComponentsFormatter
-        var components: [String] = []
-        if let year = year { components.append("Y\(year)") }
-        if let month = month { components.append("M\(month)") }
-        if let day = day { components.append("D\(day)") }
-        if let hour = hour { components.append("H\(hour)") }
-        if let minute = minute { components.append("M\(minute)") }
-        if let second = second { components.append("S\(second)") }
-        return components.isEmpty ? "\"\"" : "P\(components.joined())"
-        #endif
     }
 }

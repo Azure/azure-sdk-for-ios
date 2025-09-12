@@ -25,9 +25,7 @@
 // --------------------------------------------------------------------------
 
 import Foundation
-#if canImport(os)
 import os.log
-#endif
 
 public typealias Continuation<T> = (Result<T, AzureError>) -> Void
 

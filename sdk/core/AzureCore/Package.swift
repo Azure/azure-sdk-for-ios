@@ -44,7 +44,8 @@ let package = Package(
             dependencies: [],
             path: "Source",
             exclude: [
-                "Supporting Files"
+                "Source/Supporting Files",
+                "LICENSE"
             ]
         ),
         // Test targets

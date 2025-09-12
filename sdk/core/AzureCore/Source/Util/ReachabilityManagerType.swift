@@ -26,7 +26,7 @@
 
 import Foundation
 
-#if !os(watchOS) && canImport(SystemConfiguration)
+#if !os(watchOS)
 
     import SystemConfiguration
 

@@ -25,9 +25,7 @@
 // --------------------------------------------------------------------------
 
 import Foundation
-#if canImport(FoundationNetworking)
-import FoundationNetworking
-#endif
+import os
 
 public class URLSessionTransport: TransportStage {
     // MARK: Properties

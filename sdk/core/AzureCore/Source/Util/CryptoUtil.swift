@@ -24,15 +24,12 @@
 //
 // --------------------------------------------------------------------------
 
-#if canImport(CommonCrypto)
 import CommonCrypto
-#endif
 import Foundation
 
 // MARK: Enumerations
 
 /// Crypto HMAC algorithms and digest lengths
-#if canImport(CommonCrypto)
 public enum CryptoAlgorithm {
     case sha1, md5, sha256, sha384, sha512, sha224
 
@@ -165,4 +162,3 @@ public extension Data {
         }
     }
 }
-#endif
