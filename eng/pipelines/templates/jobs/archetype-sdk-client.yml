@@ -201,11 +201,18 @@ jobs:
         displayName: 'Install dependencies'
 
       - script: |
+          xcodebuild -version
+          xcodebuild -showsdks
+          xcrun simctl list runtimes
+          xcrun simctl list devices
+        displayName: Inspect Xcode & Simulators
+
+      - script: |
           xcrun simctl delete unavailable
           set -o pipefail
           xcodebuild -workspace AzureSDK.xcworkspace \
                      -scheme ${{parameters.BuildScheme}} \
-                     -destination "platform=iOS Simulator,OS=$(SimulatorVersion),name=$(SimulatorDevice)" \
+                     -destination "platform=iOS Simulator,OS=$(SimulatorVersion)" \
                      -configuration Debug \
                      -derivedDataPath $(Build.ArtifactStagingDirectory) \
                      -enableCodeCoverage YES \
