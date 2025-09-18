@@ -212,7 +212,7 @@ jobs:
           set -o pipefail
           xcodebuild -workspace AzureSDK.xcworkspace \
                      -scheme ${{parameters.BuildScheme}} \
-                     -destination "platform=iOS Simulator,OS=$(SimulatorVersion)" \
+                     -destination "platform=iOS Simulator,OS=$(SimulatorVersion),name=$(SimulatorDevice)" \
                      -configuration Debug \
                      -derivedDataPath $(Build.ArtifactStagingDirectory) \
                      -enableCodeCoverage YES \
