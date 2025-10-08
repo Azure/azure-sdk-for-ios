@@ -1,7 +1,7 @@
 variables:
   OSVmImage: 'macOS-15'
   DocWardenVersion: '0.7.1'
-  XcodeVersion: '16.2'
-  SimulatorVersion: '18.2'
-  SimulatorDevice: 'iPhone 16 Pro Max'
+  XcodeVersion: '16.4'
+  SimulatorVersion: '18.6'
+  SimulatorDevice: 'iPhone 16 Pro'
   Package.EnableSBOMSigning: true
