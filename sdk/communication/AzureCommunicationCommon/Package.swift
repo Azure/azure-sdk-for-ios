@@ -37,31 +37,12 @@ let package = Package(
     products: [
         .library(name: "AzureCommunicationCommon", targets: ["AzureCommunicationCommon"])
     ],
+
     targets: [
-        // Build targets
-        .target(
+        .binaryTarget(
             name: "AzureCommunicationCommon",
-            dependencies: [],
-            path: "Source",
-            exclude: [
-                "README.md",
-                "Tests",
-                "Source/Supporting Files",
-                "LICENSE"
-            ]
-        ),
-        // Test targets
-        .testTarget(
-            name: "AzureCommunicationCommonTests",
-            dependencies: ["AzureCommunicationCommon"],
-            path: "Tests",
-            exclude: [
-                "Info.plist",
-                "AzureCommunicationCommonTests-Bridging-Header.h",
-                "ObjCCommunicationTokenCredentialTests.m",
-                "ObjCCommunicationTokenCredentialAsyncTests.m",
-                "ObjCTokenParserTests.m"
-            ]
+            url: "https://github.com/Azure/azure-sdk-for-ios/releases/tag/AzureCommunicationCommon_1.3.1",
+            checksum: "cad801c386b33087f4a53efd0ef2aed0dd07aa9c37d842b924ae6ba73e5d89cf"
         )
     ],
     swiftLanguageVersions: [.v5]
