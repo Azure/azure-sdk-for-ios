@@ -1,5 +1,11 @@
 # Release History
 
+## 1.3.1 (2025-10-24)
+### Changes
+- Converted AzureCommunicationCommon to a binary distribution for Swift Package Manager (SPM).
+- Updated SwiftPM manifest to reference the hosted XCFramework zip for version 1.3.1.
+- No new APIs or functional changes compared to 1.3.0.
+
 ## 1.3.0 (2025-06-09)
 ### Features Added
 - Added support for a new communication identifier `TeamsExtensionUserIdentifier` which maps rawIds with format `8:acs:{resourceId}_{tenantId}_{userId}`.
