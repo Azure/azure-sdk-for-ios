@@ -1,5 +1,10 @@
 # Release History
 
+## 1.3.2 (2025-10-31)
+### Changes
+- Fixed Package.swift binary URL format for Swift Package Manager compatibility
+- Binary still references 1.3.1 XCFramework (no code changes)
+
 ## 1.3.1 (2025-10-24)
 ### Changes
 - Converted AzureCommunicationCommon to a binary distribution for Swift Package Manager (SPM).
