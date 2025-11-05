@@ -1,5 +1,12 @@
 # Release History
 
+## 1.3.3 (2025-11-05)
+### Changes
+- Fixed Package.swift binary URL format for Swift Package Manager compatibility
+- Binary still references 1.3.0 XCFramework (no code changes)
+- Updated SwiftPM manifest to reference the hosted XCFramework zip
+- No new APIs or functional changes compared to 1.3.0.
+
 ## 1.3.2 (2025-10-31)
 ### Changes
 - Fixed Package.swift binary URL format for Swift Package Manager compatibility
