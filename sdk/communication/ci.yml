@@ -32,6 +32,10 @@ resources:
     type: github
     name: Azure/SwiftPM-AzureCommunicationChat
     endpoint: Azure
+  - repository: SwiftPM-AzureCommunicationCalling
+    type: github
+    name: Azure/SwiftPM-AzureCommunicationCalling
+    endpoint: Azure
 
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
@@ -41,7 +45,7 @@ extends:
     - name: AzureCommunicationCommon
     - name: AzureCommunicationChat
     - name: AzureCommunicationCalling
-      skipSwiftPackageManager: true
     SDLStageRepositoriesToScan:
       - repository: SwiftPM-AzureCommunicationCommon
       - repository: SwiftPM-AzureCommunicationChat
+      - repository: SwiftPM-AzureCommunicationCalling
