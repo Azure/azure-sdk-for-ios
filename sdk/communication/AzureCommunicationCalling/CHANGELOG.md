@@ -1,4 +1,12 @@
 # Release History
+
+## 2.17.0-beta.2 (2025-11-12)
+### Features Added
+* Converted AzureCommunicationCalling to a binary distribution for Swift Package Manager (SPM).
+* Updated SwiftPM manifest to reference the hosted XCFramework zip for version 2.17.0-beta.2.
+* Added dependency on AzureCommunicationCommon via SPM.
+* No new APIs or functional changes compared to 2.17.0-beta.1.
+  
 ## 2.16.0-beta.1 (2025-04-09)
 ### Features Added
 * Added explicit consent APIs
