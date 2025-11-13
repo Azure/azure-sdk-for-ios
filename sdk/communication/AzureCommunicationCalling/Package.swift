@@ -41,7 +41,7 @@ let package = Package(
         //git dependency
         .package(
             url: "https://github.com/Azure/SwiftPM-AzureCommunicationCommon.git",
-            from: "1.0.0" //uses latest tagged release
+            from: "1.3.3" //still it uses latest tagged release
         )
     ],
     targets: [
