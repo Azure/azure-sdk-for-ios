@@ -28,27 +28,33 @@
 // --------------------------------------------------------------------------
 
 import PackageDescription
-
 let package = Package(
     name: "AzureCommunicationCalling",
     platforms: [
         .iOS(.v12)
     ],
     products: [
-        .library(name: "AzureCommunicationCalling", targets: ["AzureCommunicationCalling"])
-    ],
-    dependencies: [
-        //git dependency
-        .package(
-            url: "https://github.com/Azure/SwiftPM-AzureCommunicationCommon.git",
-            from: "1.3.3" //still it uses latest tagged release
+        // Expose Calling as its own product
+        .library(
+            name: "AzureCommunicationCalling",
+            targets: ["AzureCommunicationCalling"]
+        ),
+        // Expose Common as its own product
+        .library(
+            name: "AzureCommunicationCommon",
+            targets: ["AzureCommunicationCommon"]
         )
     ],
     targets: [
         .binaryTarget(
             name: "AzureCommunicationCalling",
-            url: "https://github.com/Azure/Communication/releases/download/v2.17.0-beta.2/AzureCommunicationCalling-2.17.0-beta.2.zip",
-            checksum: "710f7ef47d60d2412eecccc10a4f24f72fd7d451635d049769e4af8f4942793b"
+            url: "https://github.com/Azure/Communication/releases/download/v2.17.0-beta.3/AzureCommunicationCalling-2.17.0-beta.3.zip",
+            checksum: "249b327eaf8a7e1eaaf6b409a107d87e620417bc130c7e9f3a6e2eefceed845a"
+        ),
+        .binaryTarget(
+            name: "AzureCommunicationCommon",
+            url:"https://github.com/Azure/azure-sdk-for-ios/releases/download/AzureCommunicationCommon_1.3.3/AzureCommunicationCommon_1.3.3.xcframework.zip",
+            checksum: "4694c77d1ef30178197c458195474b78b4e28098c821e0392c420cf5f0762568"
         )
     ]
 )
