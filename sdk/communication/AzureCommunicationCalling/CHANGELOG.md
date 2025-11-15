@@ -1,5 +1,9 @@
 # Release History
 
+## 2.17.0-beta.3 (2025-11-14)
+### Bugs Fixed
+* Change of Package.swift to point to AzureCommunicationCommon package.
+
 ## 2.17.0-beta.2 (2025-11-12)
 ### Features Added
 * Converted AzureCommunicationCalling to a binary distribution for Swift Package Manager (SPM).
