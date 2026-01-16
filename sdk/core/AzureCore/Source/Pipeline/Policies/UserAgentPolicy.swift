@@ -80,6 +80,13 @@ public class UserAgentPolicy: PipelineStage {
             if applicationId.rangeOfCharacter(from: .whitespacesAndNewlines) != nil {
                 applicationId = applicationId.components(separatedBy: .whitespacesAndNewlines).joined()
             }
+
+            // Remove diacritics (accents/umlauts) and convert to ASCII
+            applicationId = applicationId.folding(options: .diacriticInsensitive, locale: .current)
+
+            // Remove non-ASCII characters
+            applicationId = String(applicationId.unicodeScalars.filter { $0.isASCII })
+
             // From the design guidelines, applicationId must not be more than 24 characters in length
             if applicationId.count > 24 {
                 applicationId = String(applicationId.prefix(24))
