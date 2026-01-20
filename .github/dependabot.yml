@@ -1,0 +1,11 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    # Exclude eng/common directory from scanning
+    # Updates for this directory come from the azure-sdk-tools repo
+    exclude-paths:
+      - "eng/common/**"
+    open-pull-requests-limit: 10
