@@ -41,20 +41,7 @@ let package = Package(
         ),
         // Expose Common as its own product
         .library(
-            name: "AzureCommunicationCommon",
-            targets: ["AzureCommunicationCommon"]
-        )
-    ],
-    targets: [
-        .binaryTarget(
-            name: "AzureCommunicationCalling",
-            url: "https://github.com/Azure/Communication/releases/download/v2.17.0-beta.3/AzureCommunicationCalling-2.17.0-beta.3.zip",
-            checksum: "249b327eaf8a7e1eaaf6b409a107d87e620417bc130c7e9f3a6e2eefceed845a"
-        ),
-        .binaryTarget(
-            name: "AzureCommunicationCommon",
-            url:"https://github.com/Azure/azure-sdk-for-ios/releases/download/AzureCommunicationCommon_1.3.3/AzureCommunicationCommon_1.3.3.xcframework.zip",
-            checksum: "4694c77d1ef30178197c458195474b78b4e28098c821e0392c420cf5f0762568"
+            $14694c77d1ef30178197c458195474b78b4e28098c821e0392c420cf5f0762568"
         )
     ]
 )
