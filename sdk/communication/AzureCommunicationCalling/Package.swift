@@ -29,7 +29,32 @@
 
 import PackageDescription
 let package = Package(
-    $113efe3c19d4750c17c72926f9684b57406552caa250c26c49ff00868e6c02443"
+    name: "AzureCommunicationCalling",
+    platforms: [
+        .iOS(.v12)
+    ],
+    products: [
+        // Expose Calling as its own product
+        .library(
+            name: "AzureCommunicationCalling",
+            targets: ["AzureCommunicationCalling"]
+        ),
+        // Expose Common as its own product
+        .library(
+            name: "AzureCommunicationCommon",
+            targets: ["AzureCommunicationCommon"]
+        )
+    ],
+    targets: [
+        .binaryTarget(
+            name: "AzureCommunicationCalling",
+            url: "https://github.com/Azure/Communication/releases/download/v2.18.0/AzureCommunicationCalling-2.18.0.zip",
+            checksum: "13efe3c19d4750c17c72926f9684b57406552caa250c26c49ff00868e6c02443"
+        ),
+        .binaryTarget(
+            name: "AzureCommunicationCommon",
+            url:"https://github.com/Azure/azure-sdk-for-ios/releases/download/AzureCommunicationCommon_1.3.3/AzureCommunicationCommon_1.3.3.xcframework.zip",
+            checksum: "4694c77d1ef30178197c458195474b78b4e28098c821e0392c420cf5f0762568"
         )
     ]
 )
