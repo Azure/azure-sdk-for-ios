@@ -8,106 +8,107 @@ parameters:
     default: []
 
 stages:
-
-  # We generate two interdepdent stages for each artifact listed in the ci.yml file, creates the release
+  # We generate two interdependent stages for each artifact listed in the ci.yml file, creates the release
   # in GitHub. The Release stage publishes to CocoaPods trunk. Both stages require approval since they
   # effectively burn the version number. For testing of packages prior to burning the version number -
   # the Validation step below publishes a package to a "burner" feed which is cleaned up after the
   # pipeline completes.
-  - ${{if and(eq(variables['Build.Reason'], 'Manual'), eq(variables['System.TeamProject'], 'internal'))}}:
-    - ${{ each artifact in parameters.Artifacts }}:
-      - stage: Release_${{artifact.name}}
-        displayName: 'Release: ${{artifact.name}}'
-        dependsOn: ${{parameters.DependsOn}}
-        condition: and(succeeded(), ne(variables['SetDevVersion'], 'true'), ne(variables['Skip.Release'], 'true'), ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-java-pr'))
-        jobs:
-          - deployment: ReleaseGate
-            environment: package-publish
-            pool:
-              name: azsdk-pool
-              image: ubuntu-24.04
-              os: linux
-            templateContext:
-              type: releaseJob
-              isProduction: true
-            strategy:
-              runOnce:
-                deploy:
-                  steps:
-                    - pwsh: |
-                        Write-Host "The ios release job needs local scripts to actually publish, given that it's tagging the code that creates the release. This clashes with 1ES release requirements."
-                        Write-Host "This is a placeholder deployment so that we can use the gate approval feature, while allowing the actual release steps to be jobs instead of deployments."
-                      displayName: "Describe the release gate job."
+- ${{ if and(eq(variables['Build.Reason'], 'Manual'), eq(variables['System.TeamProject'], 'internal')) }}:
+  - ${{ each artifact in parameters.Artifacts }}:
+    - stage: Release_${{ artifact.name }}
+      displayName: 'Release: ${{ artifact.name }}'
+      dependsOn: ${{ parameters.DependsOn }}
+      condition: and(succeeded(), ne(variables['SetDevVersion'], 'true'), ne(variables['Skip.Release'], 'true'), ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-java-pr'))
 
-          - job: TagRepository
-            displayName: "Create release tag"
-            condition: and(succeeded(), ne(variables['Skip.TagRepository'], 'true'))
-            dependsOn: ReleaseGate
-            variables:
-              - template: ../variables/globals.yml
-            pool:
-              name: azsdk-pool
-              image: windows-2022
-              os: windows
-            steps:
-              - checkout: self
-              - template: /eng/common/pipelines/templates/steps/retain-run.yml
-              - template: /eng/common/pipelines/templates/steps/create-tags-and-git-release.yml
-                parameters:
-                  ArtifactLocation: $(System.DefaultWorkingDirectory)/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}
-                  PackageRepository: CocoaPods
-                  ReleaseSha: $(Build.SourceVersion)
-
-        - ${{ if ne(artifact.skipCocoaPods, 'true') }}:
-          - job: PublishPackageToCocoaPodsTrunk
-            displayName: "Publish to CocoaPods Trunk"
-            condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
-            dependsOn: TagRepository
-            variables:
-              - template: ../variables/globals.yml
-            pool:
-              name: Azure Pipelines
-              vmImage: macOS-latest
-              os: macOS
-            steps:
-              - checkout: self
-              - script: |
-                  pod trunk me
-                  pod trunk push $(System.DefaultWorkingDirectory)/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}/${{artifact.name}}.podspec.json --synchronous --use-modular-headers --allow-warnings
-                env:
-                  COCOAPODS_TRUNK_TOKEN: $(azuresdk-cocoapods-trunk-token)
-                displayName: Push ${{artifact.name}} to CocoaPods Trunk
-
-          - ${{if ne(artifact.skipSwiftPackageManager, 'true')}}:
-            - job: PublishPackageToSwiftPackageManagerMirrors
-              displayName: "Publish to SPM Mirrors"
-              condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
-              dependsOn: PublishPackageToCocoaPodsTrunk
-              variables:
-                - template: ../variables/globals.yml
-              pool:
-                name: azsdk-pool
-                image: ubuntu-24.04
-                os: linux
+      jobs:
+      - deployment: ReleaseGate
+        environment: package-publish
+        pool:
+          name: azsdk-pool
+          image: ubuntu-24.04
+          os: linux
+        templateContext:
+          type: releaseJob
+          isProduction: true
+        strategy:
+          runOnce:
+            deploy:
               steps:
-                - checkout: self
-                - checkout: SwiftPM-${{artifact.name}}
-                  persistCredentials: true
-                - task: PowerShell@2
-                  displayName: Publish Swift Package
-                  inputs:
-                    targetType: filePath
-                    filePath: azure-sdk-for-ios/eng/scripts/Publish-SwiftPackage.ps1
-                    arguments: >-
-                      -GitSourcePath $(Pipeline.Workspace)/s/azure-sdk-for-ios/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}
-                      -GitDestinationPath $(Pipeline.Workspace)/s/SwiftPM-${{artifact.name}}
-                    pwsh: true
-                - task: PowerShell@2
-                  displayName: Update Redirect README for mirror repo
-                  inputs:
-                    targetType: filePath
-                    filePath: azure-sdk-for-ios/eng/scripts/Publish-SwiftMirrorRedirectReadme.ps1
-                    arguments: >-
-                      -GitSourcePath $(Pipeline.Workspace)/s/azure-sdk-for-ios
-                      -GitDestinationPath $(Pipeline.Workspace)/s/SwiftPM-${{artifact.name}}
-                    pwsh: true
+              - pwsh: |
+                  Write-Host "The ios release job needs local scripts to actually publish, given that it's tagging the code that creates the release. This clashes with 1ES release requirements."
+                  Write-Host "This is a placeholder deployment so that we can use the gate approval feature, while allowing the actual release steps to be jobs instead of deployments."
+                displayName: "Describe the release gate job."
+
+      - job: TagRepository
+        displayName: "Create release tag"
+        condition: and(succeeded(), ne(variables['Skip.TagRepository'], 'true'))
+        dependsOn: ReleaseGate
+        variables:
+          - template: ../variables/globals.yml
+        pool:
+          name: azsdk-pool
+          image: windows-2022
+          os: windows
+        steps:
+          - checkout: self
+          - template: /eng/common/pipelines/templates/steps/retain-run.yml
+          - template: /eng/common/pipelines/templates/steps/create-tags-and-git-release.yml
+            parameters:
+              ArtifactLocation: $(System.DefaultWorkingDirectory)/sdk/${{ parameters.ServiceDirectory }}/${{ artifact.name }}
+              PackageRepository: CocoaPods
+              ReleaseSha: $(Build.SourceVersion)
+
+      - ${{ if ne(artifact.skipCocoaPods, 'true') }}:
+        - job: PublishPackageToCocoaPodsTrunk
+          displayName: "Publish to CocoaPods Trunk"
+          condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
+          dependsOn: TagRepository
+          variables:
+            - template: ../variables/globals.yml
+          pool:
+            name: Azure Pipelines
+            vmImage: macOS-latest
+            os: macOS
+          steps:
+            - checkout: self
+            - script: |
+                pod trunk me
+                pod trunk push $(System.DefaultWorkingDirectory)/sdk/${{ parameters.ServiceDirectory }}/${{ artifact.name }}/${{ artifact.name }}.podspec.json \
+                --synchronous --use-modular-headers --allow-warnings
+              env:
+                COCOAPODS_TRUNK_TOKEN: $(azuresdk-cocoapods-trunk-token)
+              displayName: Push ${{ artifact.name }} to CocoaPods Trunk
+
+      - ${{ if ne(artifact.skipSwiftPackageManager, 'true') }}:
+        - job: PublishPackageToSwiftPackageManagerMirrors
+          displayName: "Publish to SPM Mirrors"
+          condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
+          dependsOn: PublishPackageToCocoaPodsTrunk
+          variables:
+            - template: ../variables/globals.yml
+          pool:
+            name: azsdk-pool
+            image: ubuntu-24.04
+            os: linux
+          steps:
+            - checkout: self
+            - checkout: SwiftPM-${{ artifact.name }}
+              persistCredentials: true
+            - task: PowerShell@2
+              displayName: Publish Swift Package
+              inputs:
+                targetType: filePath
+                filePath: azure-sdk-for-ios/eng/scripts/Publish-SwiftPackage.ps1
+                arguments: >-
+                  -GitSourcePath $(Pipeline.Workspace)/s/azure-sdk-for-ios/sdk/${{ parameters.ServiceDirectory }}/${{ artifact.name }}
+                  -GitDestinationPath $(Pipeline.Workspace)/s/SwiftPM-${{ artifact.name }}
+              pwsh: true
+            - task: PowerShell@2
+              displayName: Update Redirect README for mirror repo
+              inputs:
+                targetType: filePath
+                filePath: azure-sdk-for-ios/eng/scripts/Publish-SwiftMirrorRedirectReadme.ps1
+                arguments: >-
+                  -GitSourcePath $(Pipeline.Workspace)/s/azure-sdk-for-ios
+                  -GitDestinationPath $(Pipeline.Workspace)/s/SwiftPM-${{ artifact.name }}
+              pwsh: true
