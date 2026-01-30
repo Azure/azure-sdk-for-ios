@@ -58,6 +58,7 @@ stages:
                   PackageRepository: CocoaPods
                   ReleaseSha: $(Build.SourceVersion)
 
+        - ${{ if ne(artifact.skipCocoaPods, 'true') }}:
           - job: PublishPackageToCocoaPodsTrunk
             displayName: "Publish to CocoaPods Trunk"
             condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
