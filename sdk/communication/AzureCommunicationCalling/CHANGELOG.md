@@ -1,5 +1,12 @@
 # Release History
 
+## 2.18.0-beta.1 (2023-10-05)
+
+### Features Added
+* Swift Package Manager (SPM) in new beta release
+
+### Bug Fixes 
+
 ## 2.17.0-beta.3 (2025-11-14)
 ### Bugs Fixed
 * Change of Package.swift to point to AzureCommunicationCommon package.
