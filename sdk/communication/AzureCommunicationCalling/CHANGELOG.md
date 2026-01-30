@@ -1,5 +1,8 @@
 # Release History
 
+## 2.18.0 (2023-10-05)
+### Bug fixes and new improvement
+
 ## 2.18.0-beta.1 (2023-10-05)
 
 ### Features Added
