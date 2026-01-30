@@ -12,6 +12,7 @@
 		0ACE96ED26277B3A00CD5707 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		0ACE96F42627926C00CD5707 /* AzureCommunicationCalling.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCommunicationCalling.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ACE96F72628A71000CD5707 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A7DF5FFC2EC5717F00BC75EA /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -30,6 +31,7 @@
 			children = (
 				0ACE96F52628A6D900CD5707 /* Source */,
 				0ACE96EB26277B3A00CD5707 /* CHANGELOG.md */,
+				A7DF5FFC2EC5717F00BC75EA /* Package.swift */,
 				0ACE96ED26277B3A00CD5707 /* README.md */,
 				0ACE96E926277AC600CD5707 /* AzureCommunicationCalling.podspec.json */,
 				0ACE96F42627926C00CD5707 /* AzureCommunicationCalling.framework */,
@@ -275,7 +277,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = "2.16.0";
+				MARKETING_VERSION = "2.18.0-beta.1";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.AzureCommunicationCalling;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -300,7 +302,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = "2.16.0";
+				MARKETING_VERSION = "2.18.0-beta.1";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.AzureCommunicationCalling;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
