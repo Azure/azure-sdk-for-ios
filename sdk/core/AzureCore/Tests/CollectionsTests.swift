@@ -89,7 +89,7 @@ class CollectionsTests: XCTestCase {
         let requestUrl = URL(string: "www.requestUrl.com")?
             .appendingQueryParameters(RequestParameters((.query, "ref", "123", .encode)))!
         let continuationUrl = client.continuationUrl(forRequestUrl: requestUrl!, withContinuationToken: "testToken")!
-        XCTAssertEqual(continuationUrl.absoluteString, "\(requestUrl!.absoluteString)&marker=testToken")
+        XCTAssertEqual(continuationUrl.absoluteString, "\(String(describing: requestUrl?.absoluteString))&marker=testToken")
     }
 
     /// Test that authors can customize the PagedCodingKeys provided they fit the standard structure.
