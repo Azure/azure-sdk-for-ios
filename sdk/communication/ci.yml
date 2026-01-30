@@ -45,7 +45,7 @@ extends:
     - name: AzureCommunicationCommon
     - name: AzureCommunicationChat
     - name: AzureCommunicationCalling
-      skipCocoaPods: true
+      Skip.PublishPackage: true
     SDLStageRepositoriesToScan:
       - repository: SwiftPM-AzureCommunicationCommon
       - repository: SwiftPM-AzureCommunicationChat
