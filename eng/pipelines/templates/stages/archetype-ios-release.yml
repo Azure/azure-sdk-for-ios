@@ -58,24 +58,25 @@ stages:
                   PackageRepository: CocoaPods
                   ReleaseSha: $(Build.SourceVersion)
 
-          - job: PublishPackageToCocoaPodsTrunk
-            displayName: "Publish to CocoaPods Trunk"
-            condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
-            dependsOn: TagRepository
-            variables:
-              - template: ../variables/globals.yml
-            pool:
-              name: Azure Pipelines
-              vmImage: macOS-latest
-              os: macOS
-            steps:
-              - checkout: self
-              - script: |
-                  pod trunk me
-                  pod trunk push $(System.DefaultWorkingDirectory)/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}/${{artifact.name}}.podspec.json --synchronous --use-modular-headers --allow-warnings
-                env:
-                  COCOAPODS_TRUNK_TOKEN: $(azuresdk-cocoapods-trunk-token)
-                displayName: Push ${{artifact.name}} to CocoaPods Trunk
+          - ${{if ne(artifact.skipCocoaPods, 'true')}}:
+            - job: PublishPackageToCocoaPodsTrunk       
+              displayName: "Publish to CocoaPods Trunk"
+              condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
+              dependsOn: TagRepository
+              variables:
+                - template: ../variables/globals.yml
+              pool:
+                name: Azure Pipelines
+                vmImage: macOS-latest
+                os: macOS
+              steps:
+                - checkout: self
+                - script: |
+                    pod trunk me
+                    pod trunk push $(System.DefaultWorkingDirectory)/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}/${{artifact.name}}.podspec.json --synchronous --use-modular-headers --allow-warnings
+                  env:
+                    COCOAPODS_TRUNK_TOKEN: $(azuresdk-cocoapods-trunk-token)
+                  displayName: Push ${{artifact.name}} to CocoaPods Trunk
 
           - ${{if ne(artifact.skipSwiftPackageManager, 'true')}}:
             - job: PublishPackageToSwiftPackageManagerMirrors
