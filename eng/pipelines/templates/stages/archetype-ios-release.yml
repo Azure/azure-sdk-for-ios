@@ -81,6 +81,7 @@ stages:
           - ${{if ne(artifact.skipSwiftPackageManager, 'true')}}:
             - job: PublishPackageToSwiftPackageManagerMirrors
               displayName: "Publish to SPM Mirrors"
+              condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
               dependsOn: TagRepository
               variables:
                 - template: ../variables/globals.yml
