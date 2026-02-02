@@ -9,9 +9,9 @@
 # /**
 # /AzureSDK.xcworkspace/
 
-###########
-# SDK
-###########
+####################
+# Client Libraries
+####################
 
 # Catch all
 /sdk/                                               @mayurid
