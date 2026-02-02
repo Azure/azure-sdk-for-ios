@@ -9,7 +9,7 @@ parameters:
 
 stages:
 
-  # We generate two interdepdent stages for each artifact listed in the ci.yml file, creates the release
+  # We generate two interdependent stages for each artifact listed in the ci.yml file, creates the release
   # in GitHub. The Release stage publishes to CocoaPods trunk. Both stages require approval since they
   # effectively burn the version number. For testing of packages prior to burning the version number -
   # the Validation step below publishes a package to a "burner" feed which is cleaned up after the
