@@ -13,25 +13,22 @@
 # Client Libraries
 ####################
 
-# Catch all
-/sdk/                                               @mayurid
-
-# Service teams
-
-# PRLabel: %Azure.Core
-/sdk/core/                                          @tjprescott
+/sdk/                                                              @mayurid
 
 # PRLabel: %Communication
-/sdk/communication/                                 @Azure/azure-sdk-communication-code-reviewers
+/sdk/communication/                                                @Azure/azure-sdk-communication-code-reviewers
 
 # PRLabel: %Communication - Common
-/sdk/communication/AzureCommunicationCommon/        @AikoBB @maximrytych-ms @mjafferi-msft
+/sdk/communication/AzureCommunicationCommon/                       @AikoBB @maximrytych-ms @mjafferi-msft
+
+# PRLabel: %Azure.Core
+/sdk/core/                                                         @tjprescott
 
 # PRLabel: %Azure.Identity
-/sdk/identity/                                      @tjprescott
+/sdk/identity/                                                     @tjprescott
 
 # PRLabel: %EngSys
-/sdk/template/                                      @benbp @weshaggard
+/sdk/template/                                                     @benbp @weshaggard
 
 ###########
 # Eng Sys
