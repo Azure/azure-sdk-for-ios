@@ -15,17 +15,17 @@
 
 /sdk/                                                              @mayurid
 
-# PRLabel: %Communication
-/sdk/communication/                                                @Azure/azure-sdk-communication-code-reviewers
-
-# PRLabel: %Communication - Common
-/sdk/communication/AzureCommunicationCommon/                       @AikoBB @maximrytych-ms @mjafferi-msft
-
 # PRLabel: %Azure.Core
 /sdk/core/                                                         @tjprescott
 
 # PRLabel: %Azure.Identity
 /sdk/identity/                                                     @tjprescott
+
+# PRLabel: %Communication
+/sdk/communication/                                                @Azure/azure-sdk-communication-code-reviewers
+
+# PRLabel: %Communication - Common
+/sdk/communication/AzureCommunicationCommon/                       @AikoBB @maximrytych-ms @mjafferi-msft
 
 # PRLabel: %EngSys
 /sdk/template/                                                     @benbp @weshaggard
