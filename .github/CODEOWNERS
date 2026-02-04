@@ -9,29 +9,26 @@
 # /**
 # /AzureSDK.xcworkspace/
 
-###########
-# SDK
-###########
+####################
+# Client Libraries
+####################
 
-# Catch all
-/sdk/                                               @mayurid
-
-# Service teams
+/sdk/                                                              @mayurid
 
 # PRLabel: %Azure.Core
-/sdk/core/                                          @tjprescott
-
-# PRLabel: %Communication
-/sdk/communication/                                 @Azure/azure-sdk-communication-code-reviewers
-
-# PRLabel: %Communication - Common
-/sdk/communication/AzureCommunicationCommon/        @AikoBB @maximrytych-ms @mjafferi-msft
+/sdk/core/                                                         @tjprescott
 
 # PRLabel: %Azure.Identity
-/sdk/identity/                                      @tjprescott
+/sdk/identity/                                                     @tjprescott
+
+# PRLabel: %Communication
+/sdk/communication/                                                @Azure/azure-sdk-communication-code-reviewers
+
+# PRLabel: %Communication - Common
+/sdk/communication/AzureCommunicationCommon/                       @AikoBB @maximrytych-ms @mjafferi-msft
 
 # PRLabel: %EngSys
-/sdk/template/                                      @benbp @weshaggard
+/sdk/template/                                                     @benbp @weshaggard
 
 ###########
 # Eng Sys
