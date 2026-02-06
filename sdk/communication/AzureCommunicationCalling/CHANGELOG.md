@@ -1,5 +1,9 @@
 # Release History
 
+## 2.18.1 (2026-02-05)
+### Bug fixes and new improvements
+
+
 ## 2.18.0 (2023-10-05)
 ### Bug fixes and new improvement
 
