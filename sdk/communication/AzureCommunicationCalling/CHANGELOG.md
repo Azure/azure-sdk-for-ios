@@ -1,5 +1,9 @@
 # Release History
 
+## 2.18.2-beta.1 (2026-03-06)
+### Bug fixes and new improvements
+### Failure to answer incoming call 
+
 ## 2.18.1 (2026-02-05)
 ### Bug fixes and new improvements
 ### Added SPM support 
