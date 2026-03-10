@@ -48,8 +48,8 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "AzureCommunicationCalling",
-            url: "https://github.com/Azure/Communication/releases/download/v2.18.2-beta.1/AzureCommunicationCalling-2.18.2-beta.1.zip",
-            checksum: "fa095c19ab0cd99a9ba2242e0510474087be09a6acc41ee796200af67f65b3e2"
+            url: "https://github.com/Azure/Communication/releases/download/v2.18.2-beta.2/AzureCommunicationCalling-2.18.2-beta.2.zip",
+            checksum: "3f91ce00e49f2b459a4e2c0284ec1259f1b1198003aaa7fa90e180530063667d"
         ),
         .binaryTarget(
             name: "AzureCommunicationCommon",
