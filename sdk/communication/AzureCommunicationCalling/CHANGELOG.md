@@ -1,5 +1,8 @@
 # Release History
 
+## 2.18.2-beta.2 (2026-03-10)
+### Bug fixes on arm64 crash in simulator 
+
 ## 2.18.2-beta.1 (2026-03-06)
 ### Bug fixes and new improvements
 ### Failure to answer incoming call 
