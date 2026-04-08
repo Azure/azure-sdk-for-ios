@@ -103,7 +103,7 @@ public func createCommunicationIdentifier(fromRawId rawId: String) -> Communicat
     case Prefix.AcsUser,
          Prefix.AcsUserDodCloud,
          Prefix.AcsUserGcchCloud:
-        return buildCorrectCommunicationIdentifier(prefix: scope, suffix: suffix)
+        return buildCorrectCommunicationIdentifier(prefix: String(scope), suffix: suffix)
     default:
         return UnknownIdentifier(rawId)
     }
