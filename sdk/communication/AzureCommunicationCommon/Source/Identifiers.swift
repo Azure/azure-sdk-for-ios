@@ -283,7 +283,6 @@ private func buildCorrectCommunicationIdentifier(prefix: String, suffix: String)
         self.userId = userId
         self.isAnonymous = isAnonymous
         self.cloudEnvironment = cloudEnvironment
-        self.cloudEnvironment = cloudEnvironment
         if let rawId = rawId {
             self.rawId = rawId
         } else {
