@@ -261,7 +261,7 @@ private func buildCorrectCommunicationIdentifier(prefix: String, suffix: String)
     public private(set) var rawId: String
     public var kind: IdentifierKind { return .microsoftTeamsUser }
     @available(*, deprecated, renamed: "cloudEnvironment")
-    public let cloudEnviroment: CommunicationCloudEnvironment
+    public var cloudEnviroment: CommunicationCloudEnvironment { return cloudEnvironment }
     public let cloudEnvironment: CommunicationCloudEnvironment
 
     /**
@@ -283,7 +283,7 @@ private func buildCorrectCommunicationIdentifier(prefix: String, suffix: String)
         self.userId = userId
         self.isAnonymous = isAnonymous
         self.cloudEnvironment = cloudEnvironment
-        self.cloudEnviroment = cloudEnvironment
+        self.cloudEnvironment = cloudEnvironment
         if let rawId = rawId {
             self.rawId = rawId
         } else {
