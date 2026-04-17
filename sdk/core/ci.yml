@@ -5,10 +5,6 @@ trigger:
     - main
     - hotfix/*
     - release/*
-  paths:
-    include:
-    - sdk/core/
-    - sdk/eng/
 
 pr:
   branches:
@@ -17,10 +13,6 @@ pr:
     - feature/*
     - hotfix/*
     - release/*
-  paths:
-    include:
-    - sdk/core/
-    - sdk/eng/
 
 resources:
   repositories:
