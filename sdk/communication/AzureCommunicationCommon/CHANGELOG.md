@@ -1,5 +1,8 @@
 # Release History
 
+## 1.3.5 (2025-20-04)
+### No major changes
+
 ## 1.3.3 (2025-11-05)
 ### Changes
 - Fixed Package.swift binary URL format for Swift Package Manager compatibility
