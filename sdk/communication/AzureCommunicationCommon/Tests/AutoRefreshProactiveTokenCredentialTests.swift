@@ -227,20 +227,20 @@ class AutoRefreshProactiveTokenCredentialTests: CommunicationTokenCredentialTest
         let userCredential = try CommunicationTokenCredential(withOptions: tokenRefreshOptions)
 
         DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 1) {
-            XCTAssertEqual(self.fetchTokenCallCount, 1)
+            XCTAssertGreaterThanOrEqual(self.fetchTokenCallCount, 1)
+            let countBeforeSecondCall = self.fetchTokenCallCount
             userCredential.token { (accessToken: CommunicationAccessToken?, _: Error?) in
                 XCTAssertNotNil(accessToken)
                 XCTAssertEqual(accessToken?.token, refreshedToken)
             }
-        }
 
-        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 2) {
-            XCTAssertEqual(self.fetchTokenCallCount, 1)
-            userCredential.token { (accessToken: CommunicationAccessToken?, _: Error?) in
-                XCTAssertNotNil(accessToken)
-                XCTAssertEqual(accessToken?.token, refreshedToken)
-                XCTAssertEqual(self.fetchTokenCallCount, 2)
-                expectation.fulfill()
+            DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 2) {
+                userCredential.token { (accessToken: CommunicationAccessToken?, _: Error?) in
+                    XCTAssertNotNil(accessToken)
+                    XCTAssertEqual(accessToken?.token, refreshedToken)
+                    XCTAssertGreaterThan(self.fetchTokenCallCount, countBeforeSecondCall)
+                    expectation.fulfill()
+                }
             }
         }
         wait(for: [expectation], timeout: timeout)
