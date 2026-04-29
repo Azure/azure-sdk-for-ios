@@ -216,6 +216,7 @@ jobs:
                      -configuration Debug \
                      -derivedDataPath $(Build.ArtifactStagingDirectory) \
                      -enableCodeCoverage YES \
+                     -parallel-testing-enabled NO \
                      test | xcpretty -c
         displayName: 'Build and test libraries'
 
