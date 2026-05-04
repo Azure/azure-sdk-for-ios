@@ -57,6 +57,7 @@ stages:
                   ArtifactLocation: $(System.DefaultWorkingDirectory)/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}
                   PackageRepository: CocoaPods
                   ReleaseSha: $(Build.SourceVersion)
+                  AuthToken: ''
 
           - ${{if ne(artifact.skipCocoaPods, 'true')}}:
             - job: PublishPackageToCocoaPodsTrunk       
