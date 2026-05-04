@@ -1,5 +1,7 @@
 # Release History
 
+## 2.18.3-beta.1 (2026-05-04) 
+
 ## 2.18.2 (2026-03-10)
 ### arm64 crash in simulator 
 
