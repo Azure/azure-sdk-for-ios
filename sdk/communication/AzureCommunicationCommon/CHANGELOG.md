@@ -1,5 +1,9 @@
 # Release History
 
+## 1.3.6 (2026-04-06)
+### Fixed the Package.swift binary URL format for Swift Package Manager compatibility in the 1.3.5 release. The binary still references the 1.3.5 XCFramework with no code changes. 
+### Fixed CFBundleExecutable key Info.plist
+
 ## 1.3.5 (2025-20-04)
 ### No major changes
 

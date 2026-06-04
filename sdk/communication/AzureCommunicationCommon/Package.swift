@@ -40,9 +40,9 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "AzureCommunicationCommon",
-            url:"https://github.com/Azure/azure-sdk-for-ios/releases/download/AzureCommunicationCommon_1.3.5/AzureCommunicationCommon_1.3.5.xcframework.zip",
-            checksum: "5eda764f33867fb57d45d568a793c57fa6f618bc2f935f86247cfcf4fa117371"
-            )
+            url: "https://github.com/Azure/azure-sdk-for-ios/releases/download/AzureCommunicationCommon_1.3.6/AzureCommunicationCommon_1.3.6.xcframework.zip",
+            checksum: "38e9ea6b0762c74eebdf6f98dfcf9c30485e72adc86e11bcf6c2ac949dafc359"
+        )
     ],
     swiftLanguageVersions: [.v5]
 )
