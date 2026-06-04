@@ -34,15 +34,15 @@ let package = Package(
         .iOS(.v12)
     ],
     products: [
-        // Expose Calling as its own product
         .library(
             name: "AzureCommunicationCalling",
             targets: ["AzureCommunicationCalling"]
-        ),
-        // Expose Common as its own product
-        .library(
-            name: "AzureCommunicationCommon",
-            targets: ["AzureCommunicationCommon"]
+        )
+    ],
+    dependencies: [
+        .package(
+            url: "https://github.com/Azure/SwiftPM-AzureCommunicationCommon.git",
+            from: "1.3.6"
         )
     ],
     targets: [
@@ -50,11 +50,6 @@ let package = Package(
             name: "AzureCommunicationCalling",
             url: "https://github.com/Azure/Communication/releases/download/v2.18.3-beta.2/AzureCommunicationCalling-2.18.3-beta.2.zip",
             checksum: "7be1a68176c66d568c54fb6686b8ab416ef0c7ceb87b4db7c7a69146e0301caf"
-        ),
-        .binaryTarget(
-            name: "AzureCommunicationCommon",
-            url:"https://github.com/Azure/azure-sdk-for-ios/releases/download/AzureCommunicationCommon_1.3.5/AzureCommunicationCommon_1.3.5.xcframework.zip",
-            checksum: "5eda764f33867fb57d45d568a793c57fa6f618bc2f935f86247cfcf4fa117371"
         )
     ]
 )

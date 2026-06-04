@@ -35,6 +35,7 @@ jobs:
                      -sdk iphonesimulator \
                      -configuration Release \
                      -archivePath $(Build.ArtifactStagingDirectory)/iphonesimulator/AzureSDK-iphonesimulator.xcarchive \
+                     BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
                      SKIP_INSTALL=NO | xcpretty -c
         displayName: 'Build and archive libraries for release [iphonesimulator]'
 
@@ -52,6 +53,7 @@ jobs:
                      -sdk iphoneos \
                      -configuration Release \
                      -archivePath $(Build.ArtifactStagingDirectory)/iphoneos/AzureSDK-iphoneos.xcarchive \
+                     BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
                      SKIP_INSTALL=NO | xcpretty -c
         displayName: 'Build and archive libraries for release [iphoneos]'
 
