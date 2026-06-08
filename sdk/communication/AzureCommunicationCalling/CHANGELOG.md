@@ -1,5 +1,8 @@
 # Release History
 
+## 2.18.3-beta.3 (2026-05-06)
+###  Bug fixes to support adding with chat sdk  
+
 ## 2.18.3-beta.2 (2026-06-10)
 ### Platform resolution fix  
 
