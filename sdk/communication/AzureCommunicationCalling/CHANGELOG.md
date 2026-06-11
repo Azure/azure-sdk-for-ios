@@ -1,5 +1,8 @@
 # Release History
 
+## 2.18.3-beta.4 (2026-11-06)
+###  Removed the Notices file under xcframework for codesign   
+
 ## 2.18.3-beta.3 (2026-05-06)
 ###  Bug fixes to support adding with chat sdk  
 
