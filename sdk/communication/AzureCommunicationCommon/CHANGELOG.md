@@ -1,5 +1,8 @@
 # Release History
 
+## 1.3.7 (2026-12-06)
+### Addressed the code simulator code signing issue. 
+
 ## 1.3.6 (2026-04-06)
 ### Fixed the Package.swift binary URL format for Swift Package Manager compatibility in the 1.3.5 release. The binary still references the 1.3.5 XCFramework with no code changes. 
 ### Fixed CFBundleExecutable key Info.plist
