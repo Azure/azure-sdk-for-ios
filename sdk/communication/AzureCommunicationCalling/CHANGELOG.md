@@ -1,5 +1,8 @@
 # Release History
 
+## 2.18.3-beta.6 (2026-16-06)
+### Added a codesigning step for xcframework to fix the simulator code signing issue.     
+
 ## 2.18.3-beta.5 (2026-15-06)
 ###  Added a header file of Common SDK     
 
