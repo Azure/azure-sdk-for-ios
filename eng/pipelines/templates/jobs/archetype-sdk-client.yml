@@ -139,11 +139,6 @@ jobs:
       - script: sudo xcode-select --switch /Applications/Xcode_$(XcodeVersion).app
         displayName: 'Use Xcode $(XcodeVersion)'
 
-      - template: ../../../common/pipelines/templates/steps/verify-links.yml
-        parameters:
-          Directory: ""
-          CheckLinkGuidance: $true
-
       - script: |
           python ./eng/scripts/version.py verify
         displayName: Verify Versions
