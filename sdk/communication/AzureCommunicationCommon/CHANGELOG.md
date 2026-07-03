@@ -1,5 +1,8 @@
 # Release History
 
+## 1.3.8 (2026-07-03)
+### Raised the minimum iOS deployment target from 12.0 to 15.0 to support Xcode 27+.
+
 ## 1.3.7 (2026-12-06)
 ### Addressed the code simulator code signing issue. 
 
