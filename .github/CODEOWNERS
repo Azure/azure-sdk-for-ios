@@ -25,7 +25,7 @@
 /sdk/communication/                                                @Azure/azure-sdk-communication-code-reviewers
 
 # PRLabel: %Communication - Common
-/sdk/communication/AzureCommunicationCommon/                       @anjulgarg @Joeleniqs @tsohoni-msft @kasasan_microsoft @JohnRFraser @alvinjiang-msft @jorge-beauregard
+/sdk/communication/AzureCommunicationCommon/                       @anjulgarg @Joeleniqs @tsohoni-msft @JohnRFraser @alvinjiang-msft @jorge-beauregard
 
 # PRLabel: %EngSys
 /sdk/template/                                                     @benbp @weshaggard
