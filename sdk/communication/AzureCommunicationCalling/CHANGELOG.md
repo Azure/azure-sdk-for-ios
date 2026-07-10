@@ -1,5 +1,8 @@
 # Release History
 
+## 2.18.4 (2026-09-07)
+### Change in swift-tools-version, keeping same for common dependency.      
+
 ## 2.18.3 (2026-09-07)
 ### Added Xcode 27 support and update in Common SDK new version.      
 
