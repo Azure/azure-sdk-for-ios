@@ -1,4 +1,4 @@
-// swift-tools-version:6.0
+// swift-tools-version:5.5
 //  The swift-tools-version declares the minimum version of Swift required to build this package.
 //
 // --------------------------------------------------------------------------
@@ -36,7 +36,7 @@ let package = Package(
     products: [
         .library(
             name: "AzureCommunicationCalling",
-            targets: ["AzureCommunicationCalling"]
+            targets: ["AzureCommunicationCallingWrapper"]
         )
     ],
     dependencies: [
@@ -46,10 +46,19 @@ let package = Package(
         )
     ],
     targets: [
+        .target(
+            name: "AzureCommunicationCallingWrapper",
+            dependencies: [
+                "AzureCommunicationCalling",
+                .product(name: "AzureCommunicationCommon", package: "SwiftPM-AzureCommunicationCommon")
+            ],
+            path: "Source/AzureCommunicationCallingWrapper"
+        ),
         .binaryTarget(
             name: "AzureCommunicationCalling",
-            url: "https://github.com/Azure/Communication/releases/download/v2.18.3/AzureCommunicationCalling-2.18.3.zip",
-            checksum: "76a7c1a836afd05295e1e5ffb86dc08038233f4d7a91e52d5b87fe320f76b81d"
+            url: "https://github.com/Azure/Communication/releases/download/v2.18.4/AzureCommunicationCalling-2.18.4.zip",
+            checksum: "7797f57a4be07fe66bb09cd16891f07f2f3795d5d1147043855c2a1cb77e24c1"
         )
     ]
 )
+
