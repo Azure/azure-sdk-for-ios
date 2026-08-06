@@ -153,6 +153,8 @@ class AutoRefreshOnDemandTokenCredentialTests: CommunicationTokenCredentialTests
     }
 
     func test_AsyncRefresh() throws {
+        throw XCTSkip("Temporarily disabled due to https://github.com/Azure/azure-sdk-for-ios/issues/2571.")
+
         let expectation = XCTestExpectation()
 
         let tokenRefreshOptions = CommunicationTokenRefreshOptions(
