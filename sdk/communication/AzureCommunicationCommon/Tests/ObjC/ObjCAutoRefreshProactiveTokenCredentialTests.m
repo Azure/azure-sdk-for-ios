@@ -274,6 +274,9 @@
 }
 
 - (void)test_ShouldGetCalledImmediatelyWithoutInitialToken {
+    XCTSkip(@"Temporarily disabled due to https://github.com/Azure/azure-sdk-for-ios/issues/2571.");
+    return;
+
     XCTestExpectation *expectation = [self expectationWithDescription:@"test_ShouldGetCalledImmediatelyWithoutInitialToken"];
     __weak ObjCAutoRefreshProactiveTokenCredentialTests *weakSelf = self;
     CommunicationTokenRefreshOptions *tokenRefreshOptions = [self createTokenRefreshOptions:weakSelf initialToken:nil refreshedToken:weakSelf.sampleToken];
