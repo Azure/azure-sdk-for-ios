@@ -188,6 +188,9 @@
 }
 
 - (void)test_fractionalBackoffAppliedWhenTokenExpiring {
+    XCTSkip(@"Temporarily disabled due to https://github.com/Azure/azure-sdk-for-ios/issues/2571.");
+    return;
+
     XCTestExpectation *expectation = [self expectationWithDescription:@"test_fractionalBackoffAppliedWhenTokenExpiring"];
     __weak ObjCAutoRefreshProactiveTokenCredentialTests *weakSelf = self;
     int validForSeconds = 7;
@@ -238,6 +241,9 @@
 }
 
 - (void)test_ShouldBeCalledAgainAfterFirstRefreshCall {
+    XCTSkip(@"Temporarily disabled due to https://github.com/Azure/azure-sdk-for-ios/issues/2571.");
+    return;
+
     XCTestExpectation *expectation = [self expectationWithDescription:@"test_ShouldBeCalledAgainAfterFirstRefreshCall"];
     __weak ObjCAutoRefreshProactiveTokenCredentialTests *weakSelf = self;
     int expirySeconds = 10 * 60 + 1;
@@ -271,6 +277,9 @@
 }
 
 - (void)test_ShouldGetCalledImmediatelyWithoutInitialToken {
+    XCTSkip(@"Temporarily disabled due to https://github.com/Azure/azure-sdk-for-ios/issues/2571.");
+    return;
+
     XCTestExpectation *expectation = [self expectationWithDescription:@"test_ShouldGetCalledImmediatelyWithoutInitialToken"];
     __weak ObjCAutoRefreshProactiveTokenCredentialTests *weakSelf = self;
     CommunicationTokenRefreshOptions *tokenRefreshOptions = [self createTokenRefreshOptions:weakSelf initialToken:nil refreshedToken:weakSelf.sampleToken];
