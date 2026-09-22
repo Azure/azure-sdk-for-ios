@@ -1,5 +1,8 @@
 # Release History
 
+## 3.0.0 (2026-09-22)
+### Updated major version to 3.0.0.
+
 ## 2.18.4 (2026-09-07)
 ### Change in swift-tools-version, keeping same for common dependency.      
 

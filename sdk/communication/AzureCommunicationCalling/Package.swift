@@ -56,8 +56,8 @@ let package = Package(
         ),
         .binaryTarget(
             name: "AzureCommunicationCalling",
-            url: "https://github.com/Azure/Communication/releases/download/v2.18.4/AzureCommunicationCalling-2.18.4.zip",
-            checksum: "7797f57a4be07fe66bb09cd16891f07f2f3795d5d1147043855c2a1cb77e24c1"
+            url: "https://github.com/Azure/Communication/releases/download/v3.0.0/AzureCommunicationCalling-3.0.0.zip",
+            checksum: "56e84ebe75b9a12e3906a26c99ca0132c77f6ef57aad41d1d00a1b2b71f0c2a7"
         )
     ]
 )
