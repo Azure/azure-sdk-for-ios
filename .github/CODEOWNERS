@@ -28,14 +28,14 @@
 /sdk/communication/AzureCommunicationCommon/                       @AikoBB @maximrytych-ms @mjafferi-msft
 
 # PRLabel: %EngSys
-/sdk/template/                                                     @benbp @weshaggard
+/sdk/template/                                                     @Azure/azure-sdk-eng
 
 ###########
 # Eng Sys
 ###########
-/eng/                                               @benbp @weshaggard
+/eng/                                               @Azure/azure-sdk-eng
 /eng/common/                                        @Azure/azure-sdk-eng @Azure/azure-sdk-sync-approvers
-/.config/1espt/                                     @benbp @weshaggard
+/.config/1espt/                                     @Azure/azure-sdk-eng
 /.github/workflows/                                 @Azure/azure-sdk-eng
 /.github/CODEOWNERS                                 @tjprescott @Azure/azure-sdk-eng
 /eng/common/pipelines/codeowners-linter.yml         @tjprescott
